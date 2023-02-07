@@ -1,0 +1,20 @@
+dependencies: \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/Runner/GeneratedPluginRegistrant.m \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/Runner/GeneratedPluginRegistrant.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Modules/module.modulemap \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterViewController.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterPluginAppLifeCycleDelegate.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterHeadlessDartRunner.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterEngineGroup.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterEngine.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterDartProject.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterCallbackCache.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterTexture.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterPlatformViews.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterCodecs.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterChannels.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterBinaryMessenger.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterPlugin.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterMacros.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/FlutterAppDelegate.h \
+  /Users/ushihamayuuya/developer/darts_link_project/ios/build/Debug-iphonesimulator/Flutter.framework/Headers/Flutter.h
