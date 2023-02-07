@@ -1,4 +1,4 @@
-import 'package:darts_link_app/models/app_user.dart';
+import 'package:darts_link_project/models/app_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepository {

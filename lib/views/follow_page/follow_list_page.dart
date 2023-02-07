@@ -1,9 +1,7 @@
-import 'package:darts_link_app/components/follow_approve_button.dart';
-import 'package:darts_link_app/components/user_image.dart';
-import 'package:darts_link_app/models/follow.dart';
-import 'package:darts_link_app/repositories/auth_repository.dart';
-import 'package:darts_link_app/repositories/follow_repository.dart';
-import 'package:darts_link_app/views/follow_page/follow_card.dart';
+import 'package:darts_link_project/models/follow.dart';
+import 'package:darts_link_project/repositories/auth_repository.dart';
+import 'package:darts_link_project/repositories/follow_repository.dart';
+import 'package:darts_link_project/views/follow_page/follow_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 

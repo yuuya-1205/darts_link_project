@@ -1,6 +1,8 @@
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/battle_room.dart';
 import 'package:darts_link_project/models/circle.dart';
+import 'package:darts_link_project/repositories/algolia_repository.dart';
+import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/search_page/search_battle_room_page.dart';
 import 'package:darts_link_project/views/search_page/search_circle_page.dart';
 import 'package:darts_link_project/views/search_page/search_house_tornament_page.dart';

@@ -1,9 +1,7 @@
-import 'package:darts_link_app/components/user_image.dart';
-import 'package:darts_link_app/models/post.dart';
-import 'package:darts_link_app/repositories/auth_repository.dart';
-import 'package:darts_link_app/repositories/post_repository.dart';
-import 'package:darts_link_app/theme_data.dart';
-import 'package:darts_link_app/views/time_line_page/time_line_card.dart';
+import 'package:darts_link_project/models/post.dart';
+import 'package:darts_link_project/repositories/auth_repository.dart';
+import 'package:darts_link_project/repositories/post_repository.dart';
+import 'package:darts_link_project/views/time_line_page/time_line_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
