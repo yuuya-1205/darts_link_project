@@ -1,4 +1,5 @@
-import 'package:darts_link_project/top_page.dart';
+import 'package:darts_link_project/views/splash_page.dart';
+import 'package:darts_link_project/views/top_page/top_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const TopPage(),
+      home: const SplashPage(),
     );
   }
 }
