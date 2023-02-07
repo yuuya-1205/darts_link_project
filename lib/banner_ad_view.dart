@@ -32,13 +32,13 @@ class _BannerAdViewState extends State<BannerAdView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initAd();
   }
 
   @override
   Widget build(BuildContext context) {
+    // ignore: sized_box_for_whitespace
     return Container(
       width: 300,
       height: 50,
