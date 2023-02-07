@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "739170789151",
+    "project_id": "dartslinkprojectdevelop",
+    "storage_bucket": "dartslinkprojectdevelop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:739170789151:android:c605d207ec0daf39a1b22a",
+        "android_client_info": {
+          "package_name": "com.example.darts_link_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "739170789151-8jo7gn7iq1tdt4106e0h1nva2cfptrcb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiMR5MiuwoDqbVc5TXxCFjW34ITEkgQcU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "739170789151-8jo7gn7iq1tdt4106e0h1nva2cfptrcb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "739170789151-0ppjl0k5ouq9b4s4h23d7lvsts9m85pg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dartsLinkProject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,6 @@
+version: "Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)"
+options: "aa2f478d573c8801e244d673cc06c0dfe6e7df967ea29ff45970c00be7a8fa09"
+build_start_time: [1675739914, 363868951]
+build_end_time: [1675739916, 590226173]
+inputs:
+  "/Users/ushihamayuuya/developer/darts_link_project/ios/Runner/AppDelegate.swift": [1654880799, 0]
