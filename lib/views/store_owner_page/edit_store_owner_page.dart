@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, override_on_non_overriding_member
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/header_image_url.dart';
@@ -11,26 +11,25 @@ import 'package:darts_link_project/models/tag_type.dart';
 import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/battle_room/battle_room_repository.dart';
-import 'package:darts_link_project/repositories/person_repository.dart';
 import 'package:darts_link_project/repositories/post_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
-import 'package:darts_link_project/views/my_page/my_page.dart';
+import 'package:darts_link_project/repositories/store_owner_repository.dart';
+import 'package:darts_link_project/views/store_owner_page/store_owner_page.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:uuid/uuid.dart';
 
-class EditMyInfoPage extends StatefulWidget {
-  const EditMyInfoPage({Key? key}) : super(key: key);
+class EditStoreOwnerPage extends StatefulWidget {
+  const EditStoreOwnerPage({super.key});
 
   @override
-  State<EditMyInfoPage> createState() => _EditMyInfoPageState();
+  State<EditStoreOwnerPage> createState() => _EditStoreOwnerPageState();
 }
 
-class _EditMyInfoPageState extends State<EditMyInfoPage> {
+class _EditStoreOwnerPageState extends State<EditStoreOwnerPage> {
   final _formKey = GlobalKey<FormState>();
   final _userNameController = TextEditingController();
   final _userIdController = TextEditingController();
@@ -41,7 +40,7 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
 
   @override
   void initState() {
-    _getCurrentUser();
+    _getCurrentStoreOwner();
     // TODO: implement initState
     super.initState();
   }
@@ -56,10 +55,10 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
   int _dartsLiveRating = 1;
   int _phoenixRating = 1;
 
-  Asset? _selectedHeaderImage;
+  List<Asset> _selectedHeaderImages = [];
   Asset? _selectedUserImage;
 
-  String _currentHeaderImageUrl = '';
+  List<String> _currentHeaderImageUrls = [];
   String _currentUserImageUrl = '';
   String _selectedGender = '未設定';
 
@@ -126,7 +125,7 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
         ),
         backgroundColor: Colors.white,
         title: const Text(
-          'プロフィール編集',
+          '店舗情報編集',
           style: TextStyle(
             color: Colors.black,
             fontSize: 14,
@@ -156,48 +155,26 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                       width: double.infinity,
                       child: InkWell(
                         child: HeaderImageUrl(
-                            asset: _selectedHeaderImage,
-                            headerImageUrl: _currentHeaderImageUrl),
+                            asset: _selectedHeaderImages.isEmpty
+                                ? null
+                                : _selectedHeaderImages.first,
+                            headerImageUrl: _currentHeaderImageUrls.isEmpty
+                                ? ''
+                                : _currentHeaderImageUrls.first),
                         onTap: () async {
                           final headerfiles = await MultiImagePicker.pickImages(
-                            maxImages: 1,
+                            maxImages: 6,
                             enableCamera: true,
                           );
                           if (headerfiles != null) {
                             setState(() {
-                              _selectedHeaderImage = headerfiles.first;
+                              _selectedHeaderImages = headerfiles;
                             });
                           }
                         },
                       ),
                     ),
                   ),
-                  // GestureDetector(
-                  //   child: DottedBorder(
-                  //     dashPattern: const [6.0],
-                  //     strokeWidth: 2.0,
-                  //     color: const Color.fromRGBO(247, 63, 150, 1),
-                  //     child: Container(
-                  //       height: 205,
-                  //       width: double.infinity,
-                  //       child: Column(
-                  //         mainAxisAlignment: MainAxisAlignment.center,
-                  //         children: const [
-                  //           Icon(Icons.camera),
-                  //           Text(
-                  //             'タップして写真を選択しましょう',
-                  //             style: TextStyle(
-                  //               color: Color.fromRGBO(247, 63, 150, 1),
-                  //               fontWeight: FontWeight.bold,
-                  //             ),
-                  //           ),
-                  //           Text('＊写真は１枚選択できます'),
-                  //           Text('ファイル形式はjpg/png'),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   Positioned(
                     left: 18,
                     top: 170,
@@ -240,9 +217,9 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
               ),
               Row(
                 children: [
-                  const Text('アカウント名'),
+                  const Text('店舗名'),
                   const SizedBox(
-                    width: 20,
+                    width: 60,
                   ),
                   Flexible(
                     child: InputField(
@@ -278,84 +255,6 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'ユーザー名を入力してください';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Row(
-                children: [
-                  const Text('性別'),
-                  const SizedBox(
-                    width: 75,
-                  ),
-                  Flexible(
-                    child: InputField(
-                      controller: _genderController,
-                      hintText: '選択してください',
-                      keyboardType: TextInputType.text,
-                      obscureText: true,
-                      onTap: () async {
-                        final genders = [
-                          '男性',
-                          '女性',
-                          'その他',
-                        ];
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return SizedBox(
-                              height: MediaQuery.of(context).size.height / 2,
-                              child: Column(children: [
-                                Row(
-                                  children: [
-                                    CupertinoButton(
-                                      child: const Text('もどる'),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    CupertinoButton(
-                                      child: const Text('決定'),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        setState(() {
-                                          _selectedGender;
-                                          _genderController.text =
-                                              _selectedGender;
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  height:
-                                      MediaQuery.of(context).size.height / 3,
-                                  child: CupertinoPicker(
-                                    itemExtent: 40,
-                                    children:
-                                        genders.map((e) => Text(e)).toList(),
-                                    onSelectedItemChanged: (int index) {
-                                      setState(() {
-                                        _selectedGender = genders[index];
-                                      });
-                                    },
-                                  ),
-                                )
-                              ]),
-                            );
-                          },
-                        );
-                      },
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return '選択してください';
                         }
                         return null;
                       },
@@ -496,9 +395,6 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                           },
                         );
                       },
-                      // child: Text(
-                      //   _initalCityArea?.name ?? '選択',
-                      // ),
                     ),
                   )
                 ],
@@ -507,59 +403,98 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                 height: 12,
               ),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('レーティング'),
+                  const Text('住所'),
                   const SizedBox(
-                    width: 25,
+                    width: 70,
                   ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Text('ダーツライブ'),
-                            IconButton(
-                              onPressed: _dartsLiveRating <= 1
-                                  ? null
-                                  : () {
-                                      _decrementCounter();
-                                    },
-                              icon: const Icon(Icons.add),
-                            ),
-                            Text('$_dartsLiveRating'),
-                            IconButton(
-                              onPressed: _dartsLiveRating >= 18
-                                  ? null
-                                  : () {
-                                      _incrementCounter();
-                                    },
-                              icon: const Icon(Icons.add),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Text('フェニックス'),
-                            IconButton(
-                              onPressed: _phoenixRating <= 1
-                                  ? null
-                                  : () {
-                                      _phoenixDecrementCounter();
-                                    },
-                              icon: const Icon(Icons.add),
-                            ),
-                            Text('$_phoenixRating'),
-                            IconButton(
-                              onPressed: () {
-                                _phoenixIncrementCounter();
-                              },
-                              icon: const Icon(Icons.add),
-                            ),
-                          ],
-                        ),
-                      ],
+                  Flexible(
+                    child: InputField(
+                      controller: _userSelfIntroductionController,
+                      hintText: '入力してください',
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                children: [
+                  const Text('電話番号'),
+                  const SizedBox(
+                    width: 46,
+                  ),
+                  Flexible(
+                    child: InputField(
+                      controller: _userSelfIntroductionController,
+                      hintText: '入力してください',
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                children: [
+                  const Text('営業時間'),
+                  const SizedBox(
+                    width: 46,
+                  ),
+                  Flexible(
+                    child: InputField(
+                      controller: _userSelfIntroductionController,
+                      hintText: '入力してください',
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                children: [
+                  const Text('URL'),
+                  const SizedBox(
+                    width: 70,
+                  ),
+                  Flexible(
+                    child: InputField(
+                      controller: _userSelfIntroductionController,
+                      hintText: '入力してください',
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                children: [
+                  Column(
+                    children: const [
+                      Text('ダーツ台'),
+                      Text('設置数'),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 50,
+                  ),
+                  Flexible(
+                    child: InputField(
+                      controller: _userSelfIntroductionController,
+                      hintText: '入力してください',
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
                     ),
                   ),
                 ],
@@ -620,9 +555,9 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
               ),
               Row(
                 children: [
-                  const Text('紹介文'),
+                  const Text('店舗情報'),
                   const SizedBox(
-                    width: 65,
+                    width: 46,
                   ),
                   Flexible(
                     child: InputField(
@@ -644,18 +579,24 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                 onPressed: () async {
                   final uid = FirebaseAuth.instance.currentUser!.uid;
                   final user = FirebaseAuth.instance.currentUser!;
-                  final userName = _userNameController.text;
+                  final storeName = _userNameController.text;
                   final userId = _userIdController.text;
-                  final gender = _genderController.text;
                   final userSelfIntroduction =
                       _userSelfIntroductionController.text;
 
-                  String? headerImageUrl;
-                  if (_selectedHeaderImage != null) {
-                    final path = 'headers/${user.uid}/header.jpeg';
-                    _currentHeaderImageUrl = await StorageRepository()
-                        .saveimage(asset: _selectedHeaderImage!, path: path);
-                  }
+                  final imageFutures = _selectedHeaderImages
+                      .map(
+                        (selectedImage) => _saveImage(selectedImage),
+                      )
+                      .toList();
+                  final imageUrls = await Future.wait(imageFutures);
+
+                  // List<String> headerImageUrls;
+                  // if (_selectedHeaderImages != null) {
+                  //   final path = 'headers/${user.uid}/header.jpeg';
+                  //   _currentHeaderImageUrl = await StorageRepository()
+                  //       .saveimage(asset: _selectedHeaderImages, path: path);
+                  // }
 
                   // プロフィール画像アップロード
                   String? imageUrl;
@@ -664,32 +605,32 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                     _currentUserImageUrl = await StorageRepository()
                         .saveimage(asset: _selectedUserImage!, path: path);
                   }
-                  final person = Person(
+                  final storeOwner = StoreOwner(
                     id: uid,
-                    headerImage: _currentHeaderImageUrl,
+                    headerImages: imageUrls,
                     userImage: _currentUserImageUrl,
-                    userName: userName,
+                    userName: storeName,
                     userId: userId,
-                    gender: _selectedGender,
-                    dartsLiveRating: _dartsLiveRating,
-                    phoenixRating: _phoenixRating,
                     selfIntroduction: userSelfIntroduction,
-                    prefecture: _initalPrefectureArea,
-                    city: _initalCityArea,
                     tag: _selectedTags,
                     createdAt: Timestamp.now(),
                     updatedAt: Timestamp.now(),
+                    address: '',
+                    telephoneNumber: 0,
+                    prefecture: _initalPrefectureArea!,
+                    city: _initalCityArea!,
+                    isApproved: true,
                   );
-                  await PersonRepository.updatePerson(person);
-                  await PostRepository.updateProfile(appUser: person);
-                  await BattleRoomRepository.updateProfile(appUser: person);
+                  await StoreOwnerRepository.updateStoreOwner(storeOwner);
+                  await PostRepository.updateProfile(appUser: storeOwner);
+                  await BattleRoomRepository.updateProfile(appUser: storeOwner);
 
-                  AuthRepository.currentUser = person;
+                  AuthRepository.currentUser = storeOwner;
                   // ignore: use_build_context_synchronously
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: ((context) => const MyPage()),
+                      builder: ((context) => StoreOwnerPage()),
                     ),
                   );
                 },
@@ -724,16 +665,16 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
   }
 
   @override
-  Future<void> _getCurrentUser() async {
+  Future<void> _getCurrentStoreOwner() async {
     if (AuthRepository.currentUser == null ||
-        AuthRepository.currentUser is StoreOwner) {
+        AuthRepository.currentUser is Person) {
       return;
     }
-    final currentUser = AuthRepository.currentUser as Person;
+    final currentUser = AuthRepository.currentUser as StoreOwner;
 
     _userNameController.text = currentUser.userName;
     _userIdController.text = currentUser.userId;
-    _currentHeaderImageUrl = currentUser.headerImage;
+    _currentHeaderImageUrls = currentUser.headerImages;
     _currentUserImageUrl = currentUser.userImage;
     _userIdController.text = currentUser.userId;
     _userSelfIntroductionController.text = currentUser.selfIntroduction;
@@ -741,13 +682,17 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
     _prefController.text = _initalPrefectureArea?.name ?? '未登録';
     _initalCityArea = currentUser.city;
     _cityController.text = _initalCityArea?.name ?? '未登録';
-    _genderController.text = currentUser.gender;
-
-    _dartsLiveRating = currentUser.dartsLiveRating;
-
-    _phoenixRating = currentUser.phoenixRating;
     _selectedTags = currentUser.tag.toList();
 
     setState(() {});
+  }
+
+  Future<String> _saveImage(Asset asset) async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+
+    final randomString = const Uuid().v4();
+    final path = 'posts/$uid/$randomString.jpeg';
+
+    return StorageRepository().saveimage(asset: asset, path: path);
   }
 }

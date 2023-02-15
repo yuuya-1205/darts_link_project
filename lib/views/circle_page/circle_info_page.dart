@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/circle.dart';
 import 'package:darts_link_project/models/circle_join_request.dart';
@@ -183,16 +182,50 @@ class _CircleInfoPageState extends State<CircleInfoPage> {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
-            child: Text(
-              '写真',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                child: Text(
+                  '写真',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Container(
+                    height: 50,
+                    width: 120,
+                    color: Colors.green,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    height: 50,
+                    width: 120,
+                    color: Colors.green,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    height: 50,
+                    width: 120,
+                    color: Colors.green,
+                  ),
+                ],
+              ),
+            ],
           ),
+          const SizedBox(height: 32),
           Center(
             child: FutureBuilder<CircleMemberType>(
               future: getMemberType(),

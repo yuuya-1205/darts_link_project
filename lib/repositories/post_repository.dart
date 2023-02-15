@@ -7,6 +7,8 @@ import 'package:darts_link_project/models/post.dart';
 class PostRepository {
   static final fireStore = FirebaseFirestore.instance;
   static final postCollection = fireStore.collection('posts');
+  static DocumentReference getDocumentRef(String postId) =>
+      postCollection.doc(postId);
 
   static Future<String> addPost(Post post) async {
     final room = await postCollection.add(post.toJson());
@@ -67,6 +69,19 @@ class PostRepository {
         .where('postImage', isNotEqualTo: [])
         .orderBy('postImage')
         .where('posterRef', isEqualTo: circleRef)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snap) => snap.docs
+            .map((doc) => Post.fromJson(doc.data()).copyWith(id: doc.id))
+            .toList());
+  }
+
+  static Stream<List<Post>> storeOwnerPostImageStream(
+      DocumentReference postRef) {
+    return postCollection
+        .where('postImage', isNotEqualTo: [])
+        .orderBy('postImage')
+        .where('posterRef', isEqualTo: postRef)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snap) => snap.docs

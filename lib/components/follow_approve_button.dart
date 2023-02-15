@@ -13,27 +13,29 @@ class FollowApproveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        side: const BorderSide(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        primary: Colors.white,
-        onPrimary: const Color.fromRGBO(247, 63, 150, 1),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(100),
-            topRight: Radius.circular(100),
-            bottomLeft: Radius.circular(100),
-            bottomRight: Radius.circular(100),
+    return SizedBox(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: const Color.fromRGBO(247, 63, 150, 1),
+          backgroundColor: Colors.white,
+          side: const BorderSide(
+            color: Color.fromRGBO(247, 63, 150, 1),
+          ),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(100),
+              topRight: Radius.circular(100),
+              bottomLeft: Radius.circular(100),
+              bottomRight: Radius.circular(100),
+            ),
           ),
         ),
-      ),
-      onPressed: onPressed,
-      child: Text(
-        text!,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
+        onPressed: onPressed,
+        child: Text(
+          text!,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );

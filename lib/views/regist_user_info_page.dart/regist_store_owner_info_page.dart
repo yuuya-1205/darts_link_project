@@ -32,6 +32,9 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
 
   final _formKey = GlobalKey<FormState>();
   final _storeNameController = TextEditingController();
+  final _userIdController = TextEditingController();
+  final _prefController = TextEditingController();
+  final _cityController = TextEditingController();
   final _addressController = TextEditingController();
   final _bussinessHoursController = TextEditingController();
   final _urlController = TextEditingController();
@@ -90,121 +93,138 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                 children: [
                   const Text('都道府県'),
                   const SizedBox(
-                    width: 30,
+                    width: 45,
                   ),
-                  CupertinoButton(
-                    child: Text(
-                      _initalPrefectureArea?.name ?? '選択',
-                    ),
-                    onPressed: () async {
-                      final prefs = await AreaRepository.getPrefsData();
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height / 2,
-                            child: Column(children: [
-                              Row(
-                                children: [
-                                  CupertinoButton(
-                                    child: const Text('もどる'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                  CupertinoButton(
-                                    child: const Text('決定'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
+                  Flexible(
+                    child: InputField(
+                      readOnly: true,
+                      controller: _prefController,
+                      hintText: '選択してください',
+                      onTap: () async {
+                        final prefs = await AreaRepository.getPrefsData();
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height / 2,
+                              child: Column(children: [
+                                Row(
+                                  children: [
+                                    CupertinoButton(
+                                      child: const Text('もどる'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    CupertinoButton(
+                                      child: const Text('決定'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        setState(() {
+                                          _initalPrefectureArea = _selectedPref;
+                                          _prefController.text =
+                                              _initalPrefectureArea?.name ??
+                                                  '未登録';
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  height:
+                                      MediaQuery.of(context).size.height / 3,
+                                  child: CupertinoPicker(
+                                    itemExtent: 40,
+                                    children:
+                                        prefs.map((e) => Text(e.name)).toList(),
+                                    onSelectedItemChanged: (int index) {
                                       setState(() {
-                                        _initalPrefectureArea = _selectedPref;
+                                        _selectedPref = prefs[index];
                                       });
                                     },
                                   ),
-                                ],
-                              ),
-                              SizedBox(
-                                width: double.infinity,
-                                height: MediaQuery.of(context).size.height / 3,
-                                child: CupertinoPicker(
-                                  itemExtent: 40,
-                                  children:
-                                      prefs.map((e) => Text(e.name)).toList(),
-                                  onSelectedItemChanged: (int index) {
-                                    setState(() {
-                                      _selectedPref = prefs[index];
-                                    });
-                                  },
-                                ),
-                              )
-                            ]),
-                          );
-                        },
-                      );
-                    },
+                                )
+                              ]),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   )
                 ],
+              ),
+              const SizedBox(
+                height: 12,
               ),
               Row(
                 children: [
                   const Text('エリア'),
                   const SizedBox(
-                    width: 45,
+                    width: 60,
                   ),
-                  CupertinoButton(
-                    child: Text(
-                      _initalCityArea?.name ?? '選択',
-                    ),
-                    onPressed: () async {
-                      if (_initalPrefectureArea == null) {
-                        return;
-                      }
-                      final citys = await AreaRepository.getCitysData(
-                          _initalPrefectureArea!.code.toString());
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height / 2,
-                            child: Column(children: [
-                              Row(
-                                children: [
-                                  CupertinoButton(
-                                    child: const Text('もどる'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                  CupertinoButton(
-                                    child: const Text('決定'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      setState(() {
-                                        _initalCityArea = _selectedCity;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                width: double.infinity,
-                                height: MediaQuery.of(context).size.height / 3,
-                                child: CupertinoPicker(
-                                  itemExtent: 40,
-                                  children:
-                                      citys.map((e) => Text(e.name)).toList(),
-                                  onSelectedItemChanged: (int index) {
-                                    _selectedCity = citys[index];
-                                  },
+                  Flexible(
+                    child: InputField(
+                      controller: _cityController,
+                      hintText: '選択してください',
+                      readOnly: true,
+                      onTap: () async {
+                        if (_initalPrefectureArea == null) {
+                          return;
+                        }
+                        final citys = await AreaRepository.getCitysData(
+                            _initalPrefectureArea!.code.toString());
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height / 2,
+                              child: Column(children: [
+                                Row(
+                                  children: [
+                                    CupertinoButton(
+                                      child: const Text('もどる'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    CupertinoButton(
+                                      child: const Text('決定'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        setState(() {
+                                          _initalCityArea = _selectedCity;
+                                          _cityController.text =
+                                              _initalCityArea?.name ?? '未登録';
+                                        });
+                                      },
+                                    ),
+                                  ],
                                 ),
-                              )
-                            ]),
-                          );
-                        },
-                      );
-                    },
+                                SizedBox(
+                                  width: double.infinity,
+                                  height:
+                                      MediaQuery.of(context).size.height / 3,
+                                  child: CupertinoPicker(
+                                    itemExtent: 40,
+                                    children:
+                                        citys.map((e) => Text(e.name)).toList(),
+                                    onSelectedItemChanged: (int index) {
+                                      _selectedCity = citys[index];
+                                    },
+                                  ),
+                                )
+                              ]),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   )
                 ],
+              ),
+              const SizedBox(
+                height: 12,
               ),
               Row(
                 children: [
@@ -373,6 +393,7 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                   final uid = FirebaseAuth.instance.currentUser!.uid;
                   final storeName = _storeNameController.text;
                   final address = _addressController.text;
+                  final selfIntroduction = _introductionController.text;
                   if (_initalCityArea == null ||
                       _initalPrefectureArea == null) {
                     return;
@@ -381,12 +402,12 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                   final storeOwner = StoreOwner(
                     id: uid,
                     userName: storeName,
-                    userId: '',
+                    userId: _userIdController.text,
                     address: address,
                     prefecture: _initalPrefectureArea!,
                     city: _initalCityArea!,
                     telephoneNumber: 0,
-                    selfIntroduction: '',
+                    selfIntroduction: selfIntroduction,
                     createdAt: Timestamp.now(),
                     updatedAt: Timestamp.now(),
                   );
@@ -411,5 +432,18 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
         )),
       ),
     );
+  }
+
+  @override
+  Future<void> _getCurrentUser() async {
+    final currentUser = AuthRepository.currentUser;
+
+    if (currentUser == null) {
+      return;
+    }
+
+    _userIdController.text = currentUser.id.substring(2, 8);
+
+    setState(() {});
   }
 }

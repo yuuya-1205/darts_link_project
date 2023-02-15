@@ -14,7 +14,6 @@ abstract class AAppUser {
   String get id;
   String get userName;
   String get userId;
-  String get headerImage;
   String get userImage;
   Pref? get prefecture;
   City? get city;
@@ -24,6 +23,7 @@ abstract class AAppUser {
   List<String> get tag;
   Timestamp get createdAt;
   Timestamp get updatedAt;
+  List<String> get favorites;
 }
 
 @freezed
@@ -42,6 +42,7 @@ class AppUser with _$AppUser implements AAppUser {
     @Freezed(fromJson: true) @Default([]) List<String> tag,
     @TimestampConverter() required Timestamp createdAt,
     @TimestampConverter() required Timestamp updatedAt,
+    @Freezed(fromJson: true) @Default([]) List<String> favorites,
 
     // ここから共通化してないものを入力をする
     @Default('未設定') String gender,
@@ -52,7 +53,7 @@ class AppUser with _$AppUser implements AAppUser {
     required String id,
     required String userName,
     required String userId,
-    @Default('') String headerImage,
+    @Freezed(fromJson: true) @Default([]) List<String> headerImages,
     @Default('') String userImage,
     @PrefNonNullableConverter() required Pref prefecture,
     @CityNonNullableConverter() required City city,
@@ -62,6 +63,8 @@ class AppUser with _$AppUser implements AAppUser {
     @Freezed(fromJson: true) @Default([]) List<String> tag,
     @TimestampConverter() required Timestamp createdAt,
     @TimestampConverter() required Timestamp updatedAt,
+    @Freezed(fromJson: true) @Default([]) List<String> favorites,
+
     // ここから共通化してないものを書く
     required String address,
     required int telephoneNumber,

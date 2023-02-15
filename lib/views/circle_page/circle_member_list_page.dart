@@ -48,6 +48,14 @@ class _CircleMemberListPageState extends State<CircleMemberListPage> {
           ]),
         ),
         backgroundColor: Colors.white,
+        title: const Text(
+          'メンバーリスト',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: StreamBuilder<List<CircleMember>>(
           stream: CircleMemberRepository.circleMemberListStream(
@@ -65,7 +73,7 @@ class _CircleMemberListPageState extends State<CircleMemberListPage> {
             final circleMembers = snapshot.data;
             if (circleMembers!.isEmpty) {
               return const Center(
-                child: Text('まだ、投稿がありません'),
+                child: Text('まだ、メンバーがいません'),
               );
             }
 

@@ -85,7 +85,9 @@ class _UserPageState extends State<UserPage> {
                   width: double.infinity,
                   child: HeaderImageUrl(
                     asset: asset,
-                    headerImageUrl: widget.appUser.headerImage,
+                    headerImageUrl: widget.appUser is Person
+                        ? (widget.appUser as Person).headerImage
+                        : (widget.appUser as StoreOwner).headerImages.first,
                   ),
                 ),
                 Container(

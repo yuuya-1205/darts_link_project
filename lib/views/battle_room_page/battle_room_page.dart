@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:darts_link_project/components/sort_box/area_box.dart';
 import 'package:darts_link_project/components/sort_box/date_time_box.dart';
 import 'package:darts_link_project/components/sort_box/recruit_box.dart';
@@ -17,6 +19,15 @@ class BattleRoomPage extends StatefulWidget {
 }
 
 class _BattleRoomPageState extends State<BattleRoomPage> {
+  final battleRoomCountController = StreamController<int>();
+
+  @override
+  void dispose() {
+    // StreamControllerは必ず開放する
+    battleRoomCountController.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +49,7 @@ class _BattleRoomPageState extends State<BattleRoomPage> {
                 const RecruitBox(),
               ],
             ),
+            const SizedBox(height: 20),
             StreamBuilder<List<BattleRoom>>(
                 stream: BattleRoomRepository.battleRoomStream(),
                 builder: (context, snapshot) {
@@ -55,17 +67,48 @@ class _BattleRoomPageState extends State<BattleRoomPage> {
                       child: Text('まだ、投稿がありません'),
                     );
                   }
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: battleRooms.length,
-                      itemBuilder: (context, index) {
-                        final battleRoom = battleRooms[index];
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                          child: BattleRoomCard(battleRoom: battleRoom),
-                        );
-                      });
-                })
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 17),
+                        child: Row(
+                          children: [
+                            const Text(
+                              '募集中のサークル数',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            const Spacer(),
+                            Text(
+                              '${battleRooms.length}',
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: OriginalTheme.themeData.primaryColor,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '件',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: OriginalTheme.themeData.disabledColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: battleRooms.length,
+                          itemBuilder: (context, index) {
+                            final battleRoom = battleRooms[index];
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                              child: BattleRoomCard(battleRoom: battleRoom),
+                            );
+                          }),
+                    ],
+                  );
+                }),
           ],
         ),
       ),

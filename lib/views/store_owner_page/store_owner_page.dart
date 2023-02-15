@@ -2,38 +2,38 @@ import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
-import 'package:darts_link_project/repositories/person_repository.dart';
+import 'package:darts_link_project/repositories/store_owner_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
-import 'package:darts_link_project/views/my_page/edit_my_info_page.dart';
-import 'package:darts_link_project/views/my_page/my_info_page.dart';
-import 'package:darts_link_project/views/my_page/my_post_image_list.dart';
-import 'package:darts_link_project/views/my_page/my_post_list_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:darts_link_project/views/store_owner_page/edit_store_owner_page.dart';
+import 'package:darts_link_project/views/store_owner_page/store_owner_info_page.dart';
+import 'package:darts_link_project/views/store_owner_page/store_owner_post_image_page.dart';
+import 'package:darts_link_project/views/store_owner_page/store_owner_post_list_page.dart';
+import 'package:darts_link_project/views/time_line_page/create_time_line_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
-class MyPage extends StatefulWidget {
-  const MyPage({
-    Key? key,
-  }) : super(key: key);
+class StoreOwnerPage extends StatefulWidget {
+  const StoreOwnerPage({
+    super.key,
+  });
 
   @override
-  State<MyPage> createState() => _MyPageState();
+  State<StoreOwnerPage> createState() => _StoreOwnerPageState();
 }
 
-class _MyPageState extends State<MyPage> {
-  final user = AuthRepository.currentUser as Person?;
+class _StoreOwnerPageState extends State<StoreOwnerPage> {
+  final user = AuthRepository.currentUser as StoreOwner?;
+
   Asset? asset;
   Map<String, Widget> tabPageMaps = {};
   @override
   void initState() {
     tabPageMaps = {
-      'TOP': const MyInfoPage(),
-      '投稿': const MyPostListPage(),
-      '画像': const MyPostImageList(),
+      'TOP': const StoreOwnerInfoPage(),
+      '投稿': const StoreOwnerPostListPage(),
+      '画像': const StoreOwnerImagePage(),
     };
-
+    // TODO: implement initState
     super.initState();
   }
 
@@ -74,13 +74,14 @@ class _MyPageState extends State<MyPage> {
                     value: "edit",
                     child: GestureDetector(
                       onTap: () async {
-                        final person =
-                            await PersonRepository.fetchPerson(user!.id);
+                        final storeOwner =
+                            await StoreOwnerRepository.fetchStoreOwner(
+                                user!.id);
                         // ignore: use_build_context_synchronously
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: ((context) => const EditMyInfoPage()),
+                            builder: ((context) => const EditStoreOwnerPage()),
                           ),
                         );
                       },
@@ -102,9 +103,10 @@ class _MyPageState extends State<MyPage> {
                   height: 205,
                   width: double.infinity,
                   child: HeaderImageUrl(
-                    asset: asset,
-                    headerImageUrl: user!.headerImage,
-                  ),
+                      asset: asset,
+                      headerImageUrl: user!.headerImages.isEmpty
+                          ? ''
+                          : user!.headerImages.first),
                 ),
                 Container(
                   color: Colors.white.withOpacity(0.5),
@@ -132,7 +134,7 @@ class _MyPageState extends State<MyPage> {
                                 const Text('/'),
                                 Text('フォロワー${user!.followerCount}人'),
                                 const Text('/'),
-                                Text('エリア:${user!.city?.name ?? '未登録'}')
+                                Text('エリア:${user!.city.name}')
                               ],
                             )
                           ],
@@ -157,6 +159,20 @@ class _MyPageState extends State<MyPage> {
               ))
             ],
           ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: OriginalTheme.themeData.primaryColor,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) => const CreateTimeLinePage()),
+            ),
+          );
+        },
+        child: const Icon(
+          Icons.add,
         ),
       ),
     );

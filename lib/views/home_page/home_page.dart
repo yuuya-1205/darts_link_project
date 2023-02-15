@@ -1,3 +1,4 @@
+import 'package:darts_link_project/banner_ad_view.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/battle_room_page/battle_room_page.dart';
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> {
       length: tabPageMaps.length,
       child: Column(
         children: [
-          //const BannerAdView(),
+          const BannerAdView(),
           TabBar(
               indicatorColor: OriginalTheme.themeData.primaryColor,
               labelColor: OriginalTheme.themeData.primaryColor,

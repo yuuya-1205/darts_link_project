@@ -32,7 +32,6 @@ mixin _$AppUser {
   String get id => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
-  String get headerImage => throw _privateConstructorUsedError;
   String get userImage => throw _privateConstructorUsedError;
   @PrefNullableConverter()
   Pref? get prefecture => throw _privateConstructorUsedError;
@@ -47,6 +46,8 @@ mixin _$AppUser {
   Timestamp get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   Timestamp get updatedAt => throw _privateConstructorUsedError;
+  @Freezed(fromJson: true)
+  List<String> get favorites => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -63,6 +64,7 @@ mixin _$AppUser {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String gender,
             int dartsLiveRating,
             int phoenixRating)
@@ -71,7 +73,7 @@ mixin _$AppUser {
             String id,
             String userName,
             String userId,
-            String headerImage,
+            @Freezed(fromJson: true) List<String> headerImages,
             String userImage,
             @PrefNonNullableConverter() Pref prefecture,
             @CityNonNullableConverter() City city,
@@ -81,6 +83,7 @@ mixin _$AppUser {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String address,
             int telephoneNumber,
             bool isApproved)
@@ -103,6 +106,7 @@ mixin _$AppUser {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -111,7 +115,7 @@ mixin _$AppUser {
             String id,
             String userName,
             String userId,
-            String headerImage,
+            @Freezed(fromJson: true) List<String> headerImages,
             String userImage,
             @PrefNonNullableConverter() Pref prefecture,
             @CityNonNullableConverter() City city,
@@ -121,6 +125,7 @@ mixin _$AppUser {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String address,
             int telephoneNumber,
             bool isApproved)?
@@ -143,6 +148,7 @@ mixin _$AppUser {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -151,7 +157,7 @@ mixin _$AppUser {
             String id,
             String userName,
             String userId,
-            String headerImage,
+            @Freezed(fromJson: true) List<String> headerImages,
             String userImage,
             @PrefNonNullableConverter() Pref prefecture,
             @CityNonNullableConverter() City city,
@@ -161,6 +167,7 @@ mixin _$AppUser {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String address,
             int telephoneNumber,
             bool isApproved)?
@@ -201,7 +208,6 @@ abstract class $AppUserCopyWith<$Res> {
       {String id,
       String userName,
       String userId,
-      String headerImage,
       String userImage,
       @PrefNullableConverter() Pref prefecture,
       @CityNullableConverter() City city,
@@ -210,7 +216,8 @@ abstract class $AppUserCopyWith<$Res> {
       int followingCount,
       @Freezed(fromJson: true) List<String> tag,
       @TimestampConverter() Timestamp createdAt,
-      @TimestampConverter() Timestamp updatedAt});
+      @TimestampConverter() Timestamp updatedAt,
+      @Freezed(fromJson: true) List<String> favorites});
 
   $PrefCopyWith<$Res>? get prefecture;
   $CityCopyWith<$Res>? get city;
@@ -232,7 +239,6 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     Object? id = null,
     Object? userName = null,
     Object? userId = null,
-    Object? headerImage = null,
     Object? userImage = null,
     Object? prefecture = null,
     Object? city = null,
@@ -242,6 +248,7 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     Object? tag = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? favorites = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -255,10 +262,6 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      headerImage: null == headerImage
-          ? _value.headerImage
-          : headerImage // ignore: cast_nullable_to_non_nullable
               as String,
       userImage: null == userImage
           ? _value.userImage
@@ -296,6 +299,10 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as Timestamp,
+      favorites: null == favorites
+          ? _value.favorites
+          : favorites // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 
@@ -344,6 +351,7 @@ abstract class _$$PersonCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       @Freezed(fromJson: true) List<String> tag,
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt,
+      @Freezed(fromJson: true) List<String> favorites,
       String gender,
       int dartsLiveRating,
       int phoenixRating});
@@ -376,6 +384,7 @@ class __$$PersonCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res, _$Person>
     Object? tag = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? favorites = null,
     Object? gender = null,
     Object? dartsLiveRating = null,
     Object? phoenixRating = null,
@@ -433,6 +442,10 @@ class __$$PersonCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res, _$Person>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as Timestamp,
+      favorites: null == favorites
+          ? _value._favorites
+          : favorites // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
@@ -466,11 +479,13 @@ class _$Person implements Person {
       @Freezed(fromJson: true) final List<String> tag = const [],
       @TimestampConverter() required this.createdAt,
       @TimestampConverter() required this.updatedAt,
+      @Freezed(fromJson: true) final List<String> favorites = const [],
       this.gender = '未設定',
       this.dartsLiveRating = 1,
       this.phoenixRating = 1,
       final String? $type})
       : _tag = tag,
+        _favorites = favorites,
         $type = $type ?? 'person';
 
   factory _$Person.fromJson(Map<String, dynamic> json) =>
@@ -519,6 +534,16 @@ class _$Person implements Person {
   @override
   @TimestampConverter()
   final Timestamp updatedAt;
+  final List<String> _favorites;
+  @override
+  @JsonKey()
+  @Freezed(fromJson: true)
+  List<String> get favorites {
+    if (_favorites is EqualUnmodifiableListView) return _favorites;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_favorites);
+  }
+
 // ここから共通化してないものを入力をする
   @override
   @JsonKey()
@@ -535,7 +560,7 @@ class _$Person implements Person {
 
   @override
   String toString() {
-    return 'AppUser.person(id: $id, userName: $userName, userId: $userId, headerImage: $headerImage, userImage: $userImage, prefecture: $prefecture, city: $city, selfIntroduction: $selfIntroduction, followerCount: $followerCount, followingCount: $followingCount, tag: $tag, createdAt: $createdAt, updatedAt: $updatedAt, gender: $gender, dartsLiveRating: $dartsLiveRating, phoenixRating: $phoenixRating)';
+    return 'AppUser.person(id: $id, userName: $userName, userId: $userId, headerImage: $headerImage, userImage: $userImage, prefecture: $prefecture, city: $city, selfIntroduction: $selfIntroduction, followerCount: $followerCount, followingCount: $followingCount, tag: $tag, createdAt: $createdAt, updatedAt: $updatedAt, favorites: $favorites, gender: $gender, dartsLiveRating: $dartsLiveRating, phoenixRating: $phoenixRating)';
   }
 
   @override
@@ -565,6 +590,8 @@ class _$Person implements Person {
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
+            const DeepCollectionEquality()
+                .equals(other._favorites, _favorites) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.dartsLiveRating, dartsLiveRating) ||
                 other.dartsLiveRating == dartsLiveRating) &&
@@ -589,6 +616,7 @@ class _$Person implements Person {
       const DeepCollectionEquality().hash(_tag),
       createdAt,
       updatedAt,
+      const DeepCollectionEquality().hash(_favorites),
       gender,
       dartsLiveRating,
       phoenixRating);
@@ -616,6 +644,7 @@ class _$Person implements Person {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String gender,
             int dartsLiveRating,
             int phoenixRating)
@@ -624,7 +653,7 @@ class _$Person implements Person {
             String id,
             String userName,
             String userId,
-            String headerImage,
+            @Freezed(fromJson: true) List<String> headerImages,
             String userImage,
             @PrefNonNullableConverter() Pref prefecture,
             @CityNonNullableConverter() City city,
@@ -634,6 +663,7 @@ class _$Person implements Person {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String address,
             int telephoneNumber,
             bool isApproved)
@@ -653,6 +683,7 @@ class _$Person implements Person {
         tag,
         createdAt,
         updatedAt,
+        favorites,
         gender,
         dartsLiveRating,
         phoenixRating);
@@ -675,6 +706,7 @@ class _$Person implements Person {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -683,7 +715,7 @@ class _$Person implements Person {
             String id,
             String userName,
             String userId,
-            String headerImage,
+            @Freezed(fromJson: true) List<String> headerImages,
             String userImage,
             @PrefNonNullableConverter() Pref prefecture,
             @CityNonNullableConverter() City city,
@@ -693,6 +725,7 @@ class _$Person implements Person {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String address,
             int telephoneNumber,
             bool isApproved)?
@@ -712,6 +745,7 @@ class _$Person implements Person {
         tag,
         createdAt,
         updatedAt,
+        favorites,
         gender,
         dartsLiveRating,
         phoenixRating);
@@ -734,6 +768,7 @@ class _$Person implements Person {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -742,7 +777,7 @@ class _$Person implements Person {
             String id,
             String userName,
             String userId,
-            String headerImage,
+            @Freezed(fromJson: true) List<String> headerImages,
             String userImage,
             @PrefNonNullableConverter() Pref prefecture,
             @CityNonNullableConverter() City city,
@@ -752,6 +787,7 @@ class _$Person implements Person {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String address,
             int telephoneNumber,
             bool isApproved)?
@@ -773,6 +809,7 @@ class _$Person implements Person {
           tag,
           createdAt,
           updatedAt,
+          favorites,
           gender,
           dartsLiveRating,
           phoenixRating);
@@ -834,6 +871,7 @@ abstract class Person implements AppUser {
       @Freezed(fromJson: true) final List<String> tag,
       @TimestampConverter() required final Timestamp createdAt,
       @TimestampConverter() required final Timestamp updatedAt,
+      @Freezed(fromJson: true) final List<String> favorites,
       final String gender,
       final int dartsLiveRating,
       final int phoenixRating}) = _$Person;
@@ -846,7 +884,6 @@ abstract class Person implements AppUser {
   String get userName;
   @override
   String get userId;
-  @override
   String get headerImage;
   @override
   String get userImage;
@@ -870,7 +907,10 @@ abstract class Person implements AppUser {
   Timestamp get createdAt;
   @override
   @TimestampConverter()
-  Timestamp get updatedAt; // ここから共通化してないものを入力をする
+  Timestamp get updatedAt;
+  @override
+  @Freezed(fromJson: true)
+  List<String> get favorites; // ここから共通化してないものを入力をする
   String get gender;
   int get dartsLiveRating;
   int get phoenixRating;
@@ -891,7 +931,7 @@ abstract class _$$StoreOwnerCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       {String id,
       String userName,
       String userId,
-      String headerImage,
+      @Freezed(fromJson: true) List<String> headerImages,
       String userImage,
       @PrefNonNullableConverter() Pref prefecture,
       @CityNonNullableConverter() City city,
@@ -901,6 +941,7 @@ abstract class _$$StoreOwnerCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       @Freezed(fromJson: true) List<String> tag,
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt,
+      @Freezed(fromJson: true) List<String> favorites,
       String address,
       int telephoneNumber,
       bool isApproved});
@@ -925,7 +966,7 @@ class __$$StoreOwnerCopyWithImpl<$Res>
     Object? id = null,
     Object? userName = null,
     Object? userId = null,
-    Object? headerImage = null,
+    Object? headerImages = null,
     Object? userImage = null,
     Object? prefecture = null,
     Object? city = null,
@@ -935,6 +976,7 @@ class __$$StoreOwnerCopyWithImpl<$Res>
     Object? tag = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? favorites = null,
     Object? address = null,
     Object? telephoneNumber = null,
     Object? isApproved = null,
@@ -952,10 +994,10 @@ class __$$StoreOwnerCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      headerImage: null == headerImage
-          ? _value.headerImage
-          : headerImage // ignore: cast_nullable_to_non_nullable
-              as String,
+      headerImages: null == headerImages
+          ? _value._headerImages
+          : headerImages // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       userImage: null == userImage
           ? _value.userImage
           : userImage // ignore: cast_nullable_to_non_nullable
@@ -992,6 +1034,10 @@ class __$$StoreOwnerCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as Timestamp,
+      favorites: null == favorites
+          ? _value._favorites
+          : favorites // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -1031,7 +1077,7 @@ class _$StoreOwner implements StoreOwner {
       {required this.id,
       required this.userName,
       required this.userId,
-      this.headerImage = '',
+      @Freezed(fromJson: true) final List<String> headerImages = const [],
       this.userImage = '',
       @PrefNonNullableConverter() required this.prefecture,
       @CityNonNullableConverter() required this.city,
@@ -1041,11 +1087,14 @@ class _$StoreOwner implements StoreOwner {
       @Freezed(fromJson: true) final List<String> tag = const [],
       @TimestampConverter() required this.createdAt,
       @TimestampConverter() required this.updatedAt,
+      @Freezed(fromJson: true) final List<String> favorites = const [],
       required this.address,
       required this.telephoneNumber,
       this.isApproved = false,
       final String? $type})
-      : _tag = tag,
+      : _headerImages = headerImages,
+        _tag = tag,
+        _favorites = favorites,
         $type = $type ?? 'storeOwner';
 
   factory _$StoreOwner.fromJson(Map<String, dynamic> json) =>
@@ -1057,9 +1106,16 @@ class _$StoreOwner implements StoreOwner {
   final String userName;
   @override
   final String userId;
+  final List<String> _headerImages;
   @override
   @JsonKey()
-  final String headerImage;
+  @Freezed(fromJson: true)
+  List<String> get headerImages {
+    if (_headerImages is EqualUnmodifiableListView) return _headerImages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_headerImages);
+  }
+
   @override
   @JsonKey()
   final String userImage;
@@ -1093,6 +1149,16 @@ class _$StoreOwner implements StoreOwner {
   @override
   @TimestampConverter()
   final Timestamp updatedAt;
+  final List<String> _favorites;
+  @override
+  @JsonKey()
+  @Freezed(fromJson: true)
+  List<String> get favorites {
+    if (_favorites is EqualUnmodifiableListView) return _favorites;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_favorites);
+  }
+
 // ここから共通化してないものを書く
   @override
   final String address;
@@ -1107,7 +1173,7 @@ class _$StoreOwner implements StoreOwner {
 
   @override
   String toString() {
-    return 'AppUser.storeOwner(id: $id, userName: $userName, userId: $userId, headerImage: $headerImage, userImage: $userImage, prefecture: $prefecture, city: $city, selfIntroduction: $selfIntroduction, followerCount: $followerCount, followingCount: $followingCount, tag: $tag, createdAt: $createdAt, updatedAt: $updatedAt, address: $address, telephoneNumber: $telephoneNumber, isApproved: $isApproved)';
+    return 'AppUser.storeOwner(id: $id, userName: $userName, userId: $userId, headerImages: $headerImages, userImage: $userImage, prefecture: $prefecture, city: $city, selfIntroduction: $selfIntroduction, followerCount: $followerCount, followingCount: $followingCount, tag: $tag, createdAt: $createdAt, updatedAt: $updatedAt, favorites: $favorites, address: $address, telephoneNumber: $telephoneNumber, isApproved: $isApproved)';
   }
 
   @override
@@ -1119,8 +1185,8 @@ class _$StoreOwner implements StoreOwner {
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.headerImage, headerImage) ||
-                other.headerImage == headerImage) &&
+            const DeepCollectionEquality()
+                .equals(other._headerImages, _headerImages) &&
             (identical(other.userImage, userImage) ||
                 other.userImage == userImage) &&
             (identical(other.prefecture, prefecture) ||
@@ -1137,6 +1203,8 @@ class _$StoreOwner implements StoreOwner {
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
+            const DeepCollectionEquality()
+                .equals(other._favorites, _favorites) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.telephoneNumber, telephoneNumber) ||
                 other.telephoneNumber == telephoneNumber) &&
@@ -1151,7 +1219,7 @@ class _$StoreOwner implements StoreOwner {
       id,
       userName,
       userId,
-      headerImage,
+      const DeepCollectionEquality().hash(_headerImages),
       userImage,
       prefecture,
       city,
@@ -1161,6 +1229,7 @@ class _$StoreOwner implements StoreOwner {
       const DeepCollectionEquality().hash(_tag),
       createdAt,
       updatedAt,
+      const DeepCollectionEquality().hash(_favorites),
       address,
       telephoneNumber,
       isApproved);
@@ -1188,6 +1257,7 @@ class _$StoreOwner implements StoreOwner {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String gender,
             int dartsLiveRating,
             int phoenixRating)
@@ -1196,7 +1266,7 @@ class _$StoreOwner implements StoreOwner {
             String id,
             String userName,
             String userId,
-            String headerImage,
+            @Freezed(fromJson: true) List<String> headerImages,
             String userImage,
             @PrefNonNullableConverter() Pref prefecture,
             @CityNonNullableConverter() City city,
@@ -1206,6 +1276,7 @@ class _$StoreOwner implements StoreOwner {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String address,
             int telephoneNumber,
             bool isApproved)
@@ -1215,7 +1286,7 @@ class _$StoreOwner implements StoreOwner {
         id,
         userName,
         userId,
-        headerImage,
+        headerImages,
         userImage,
         prefecture,
         city,
@@ -1225,6 +1296,7 @@ class _$StoreOwner implements StoreOwner {
         tag,
         createdAt,
         updatedAt,
+        favorites,
         address,
         telephoneNumber,
         isApproved);
@@ -1247,6 +1319,7 @@ class _$StoreOwner implements StoreOwner {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -1255,7 +1328,7 @@ class _$StoreOwner implements StoreOwner {
             String id,
             String userName,
             String userId,
-            String headerImage,
+            @Freezed(fromJson: true) List<String> headerImages,
             String userImage,
             @PrefNonNullableConverter() Pref prefecture,
             @CityNonNullableConverter() City city,
@@ -1265,6 +1338,7 @@ class _$StoreOwner implements StoreOwner {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String address,
             int telephoneNumber,
             bool isApproved)?
@@ -1274,7 +1348,7 @@ class _$StoreOwner implements StoreOwner {
         id,
         userName,
         userId,
-        headerImage,
+        headerImages,
         userImage,
         prefecture,
         city,
@@ -1284,6 +1358,7 @@ class _$StoreOwner implements StoreOwner {
         tag,
         createdAt,
         updatedAt,
+        favorites,
         address,
         telephoneNumber,
         isApproved);
@@ -1306,6 +1381,7 @@ class _$StoreOwner implements StoreOwner {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -1314,7 +1390,7 @@ class _$StoreOwner implements StoreOwner {
             String id,
             String userName,
             String userId,
-            String headerImage,
+            @Freezed(fromJson: true) List<String> headerImages,
             String userImage,
             @PrefNonNullableConverter() Pref prefecture,
             @CityNonNullableConverter() City city,
@@ -1324,6 +1400,7 @@ class _$StoreOwner implements StoreOwner {
             @Freezed(fromJson: true) List<String> tag,
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
+            @Freezed(fromJson: true) List<String> favorites,
             String address,
             int telephoneNumber,
             bool isApproved)?
@@ -1335,7 +1412,7 @@ class _$StoreOwner implements StoreOwner {
           id,
           userName,
           userId,
-          headerImage,
+          headerImages,
           userImage,
           prefecture,
           city,
@@ -1345,6 +1422,7 @@ class _$StoreOwner implements StoreOwner {
           tag,
           createdAt,
           updatedAt,
+          favorites,
           address,
           telephoneNumber,
           isApproved);
@@ -1396,7 +1474,7 @@ abstract class StoreOwner implements AppUser {
       {required final String id,
       required final String userName,
       required final String userId,
-      final String headerImage,
+      @Freezed(fromJson: true) final List<String> headerImages,
       final String userImage,
       @PrefNonNullableConverter() required final Pref prefecture,
       @CityNonNullableConverter() required final City city,
@@ -1406,6 +1484,7 @@ abstract class StoreOwner implements AppUser {
       @Freezed(fromJson: true) final List<String> tag,
       @TimestampConverter() required final Timestamp createdAt,
       @TimestampConverter() required final Timestamp updatedAt,
+      @Freezed(fromJson: true) final List<String> favorites,
       required final String address,
       required final int telephoneNumber,
       final bool isApproved}) = _$StoreOwner;
@@ -1419,8 +1498,8 @@ abstract class StoreOwner implements AppUser {
   String get userName;
   @override
   String get userId;
-  @override
-  String get headerImage;
+  @Freezed(fromJson: true)
+  List<String> get headerImages;
   @override
   String get userImage;
   @override
@@ -1443,7 +1522,10 @@ abstract class StoreOwner implements AppUser {
   Timestamp get createdAt;
   @override
   @TimestampConverter()
-  Timestamp get updatedAt; // ここから共通化してないものを書く
+  Timestamp get updatedAt;
+  @override
+  @Freezed(fromJson: true)
+  List<String> get favorites; // ここから共通化してないものを書く
   String get address;
   int get telephoneNumber;
   bool get isApproved;

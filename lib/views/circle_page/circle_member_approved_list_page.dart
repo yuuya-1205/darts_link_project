@@ -71,7 +71,7 @@ class _CircleMemberApprovedListPageState
             final circleJoinRequests = snapshot.data;
             if (circleJoinRequests!.isEmpty) {
               return const Center(
-                child: Text('まだ、投稿がありません'),
+                child: Text('まだ、申請者がいません'),
               );
             }
 

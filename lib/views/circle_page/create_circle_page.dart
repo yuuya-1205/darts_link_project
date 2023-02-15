@@ -12,7 +12,6 @@ import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/tag_type.dart';

@@ -30,9 +30,9 @@ class CircleDetailPage extends StatefulWidget {
 }
 
 class _CircleDetailPageState extends State<CircleDetailPage> {
+  String? myUid = AuthRepository.currentUser!.id;
   List<CircleMember> circleMembers = [];
   Future<CircleMemberType> getMemberType() async {
-    String? myUid = AuthRepository.currentUser!.id;
     if (myUid == null) {
       return CircleMemberType.joinable;
     }
@@ -43,7 +43,7 @@ class _CircleDetailPageState extends State<CircleDetailPage> {
       final circleJoinRequest =
           await CircleJoinRequestRepository.fetchCircleJoinRequest(
         circleId: widget.circle.circleId,
-        uid: myUid,
+        uid: myUid!,
       );
       if (circleJoinRequest == null) {
         return CircleMemberType.beforeRequesting;
@@ -82,250 +82,249 @@ class _CircleDetailPageState extends State<CircleDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
+        appBar: AppBar(
+          iconTheme: const IconThemeData(
+            color: Color.fromRGBO(247, 63, 150, 1),
+          ),
+          leadingWidth: 76,
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Row(children: [
+              Container(
+                width: 30,
+                child: const BackButton(),
               ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        actions: [
-          FutureBuilder<CircleMemberType>(
-              future: getMemberType(),
-              builder: (builder, snapshot) {
-                return snapshot.data == CircleMemberType.owner
-                    ? PopupMenuButton(onSelected: (value) {
-                        if (value == '') {
-                          final uid = AuthRepository.currentUser!.id;
-                        }
-                      }, itemBuilder: (context) {
-                        return [
-                          PopupMenuItem(
-                            value: 'edit',
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: ((context) => EditCirclePage(
-                                          circle: widget.circle,
-                                        )),
-                                  ),
-                                );
-                              },
-                              child: const Text('編集'),
-                            ),
-                          ),
-                          PopupMenuItem(
-                            value: 'memberList',
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: ((context) => CircleMemberListPage(
-                                          circle: widget.circle,
-                                        )),
-                                  ),
-                                );
-                              },
-                              child: const Text('メンバーリスト'),
-                            ),
-                          ),
-                          if (widget.circle.isApproved == true)
+              const Text(
+                '戻る',
+                style: TextStyle(
+                  color: Color.fromRGBO(247, 63, 150, 1),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ]),
+          ),
+          backgroundColor: Colors.white,
+          actions: [
+            FutureBuilder<CircleMemberType>(
+                future: getMemberType(),
+                builder: (builder, snapshot) {
+                  return snapshot.data == CircleMemberType.owner
+                      ? PopupMenuButton(onSelected: (value) {
+                          if (value == '') {
+                            final uid = AuthRepository.currentUser!.id;
+                          }
+                        }, itemBuilder: (context) {
+                          return [
                             PopupMenuItem(
-                              value: 'approvedList',
+                              value: 'edit',
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: ((context) => EditCirclePage(
+                                            circle: widget.circle,
+                                          )),
+                                    ),
+                                  );
+                                },
+                                child: const Text('編集'),
+                              ),
+                            ),
+                            PopupMenuItem(
+                              value: 'memberList',
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: ((context) =>
-                                          CircleMemberApprovedListPage(
+                                          CircleMemberListPage(
                                             circle: widget.circle,
                                           )),
                                     ),
                                   );
                                 },
-                                child: const Text('申請リスト'),
+                                child: const Text('メンバーリスト'),
                               ),
                             ),
-                          PopupMenuItem(
-                            value: 'delete',
-                            child: GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (_) {
-                                    return AlertDialog(
-                                      title: Row(
-                                        children: const [
-                                          Icon(
-                                            FeatherIcons.alertTriangle,
-                                            color: Colors.yellow,
-                                          ),
-                                          Text(
-                                            'このイベントを本当に削除しますか？',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ],
+                            if (widget.circle.isApproved == true)
+                              PopupMenuItem(
+                                value: 'approvedList',
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: ((context) =>
+                                            CircleMemberApprovedListPage(
+                                              circle: widget.circle,
+                                            )),
                                       ),
-                                      actions: [
-                                        // ボタン領域
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            FollowApproveButton(
-                                              onPressed: () {
-                                                CircleRepository.deleteCircle(
-                                                    widget.circle);
-                                                Navigator.pop(context);
-                                                DeleteSnackBar.showSnackBar(
-                                                    context);
-                                              },
-                                              text: '削除する',
+                                    );
+                                  },
+                                  child: const Text('申請リスト'),
+                                ),
+                              ),
+                            PopupMenuItem(
+                              value: 'delete',
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) {
+                                      return AlertDialog(
+                                        title: Row(
+                                          children: const [
+                                            Icon(
+                                              FeatherIcons.alertTriangle,
+                                              color: Colors.yellow,
                                             ),
-                                            const SizedBox(
-                                              width: 15,
-                                            ),
-                                            FollowApproveButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              text: 'キャンセル',
+                                            Text(
+                                              'このイベントを本当に削除しますか？',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              child: const Text('削除'),
+                                        actions: [
+                                          // ボタン領域
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              FollowApproveButton(
+                                                onPressed: () {
+                                                  CircleRepository.deleteCircle(
+                                                      widget.circle);
+                                                  Navigator.pop(context);
+                                                  DeleteSnackBar.showSnackBar(
+                                                      context);
+                                                },
+                                                text: '削除する',
+                                              ),
+                                              const SizedBox(
+                                                width: 15,
+                                              ),
+                                              FollowApproveButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                text: 'キャンセル',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: const Text('削除'),
+                              ),
                             ),
+                          ];
+                        })
+                      : Container();
+                }),
+          ],
+        ),
+        body: DefaultTabController(
+          length: tabPageMaps.length,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Column(
+              children: [
+                Stack(alignment: Alignment.bottomLeft, children: [
+                  SizedBox(
+                    height: 205,
+                    width: double.infinity,
+                    child: HeaderImageUrl(
+                      asset: asset,
+                      headerImageUrl: widget.circle.headerImage,
+                    ),
+                  ),
+                  Container(
+                    color: Colors.white.withOpacity(0.5),
+                    child: Row(
+                      children: [
+                        UserImage(
+                            height: 50,
+                            width: 50,
+                            imageUrl: widget.circle.createrImage,
+                            uid: widget.circle.ownerId),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    widget.circle.circleName,
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
+                                  const Spacer(),
+                                  const Icon(FeatherIcons.mail),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: Text(
+                                        'メンバー${widget.circle.numberOfParticipants}人'),
+                                  ),
+                                  const Text('/'),
+                                  Text('エリア:${widget.circle.city}'),
+                                ],
+                              )
+                            ],
                           ),
-                        ];
-                      })
-                    : Container();
-              }),
-        ],
-      ),
-      body: DefaultTabController(
-        length: tabPageMaps.length,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Column(
-            children: [
-              Stack(alignment: Alignment.bottomLeft, children: [
-                SizedBox(
-                  height: 205,
-                  width: double.infinity,
-                  child: HeaderImageUrl(
-                    asset: asset,
-                    headerImageUrl: widget.circle.headerImage,
-                  ),
-                ),
-                Container(
-                  color: Colors.white.withOpacity(0.5),
-                  child: Row(
-                    children: [
-                      UserImage(
-                          height: 50,
-                          width: 50,
-                          imageUrl: widget.circle.createrImage,
-                          uid: widget.circle.ownerId),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  widget.circle.circleName,
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                                const Spacer(),
-                                const Icon(FeatherIcons.mail),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Text(
-                                      'メンバー${widget.circle.numberOfParticipants}人'),
-                                ),
-                                const Text('/'),
-                                Text('エリア:${widget.circle.city}'),
-
-                                // Text(
-                                //     'エリア:${widget.circle.city.name ?? '未登録'}')
-                              ],
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ]),
-              TabBar(
-                  indicatorColor: OriginalTheme.themeData.primaryColor,
-                  labelColor: OriginalTheme.themeData.primaryColor,
-                  unselectedLabelColor: OriginalTheme.themeData.disabledColor,
-                  tabs: tabPageMaps.keys
-                      .map((e) => Tab(
-                            text: e,
-                          ))
-                      .toList()),
-              Expanded(
-                  child: TabBarView(
-                children: tabPageMaps.values.toList(),
-              ))
-            ],
+                        )
+                      ],
+                    ),
+                  )
+                ]),
+                TabBar(
+                    indicatorColor: OriginalTheme.themeData.primaryColor,
+                    labelColor: OriginalTheme.themeData.primaryColor,
+                    unselectedLabelColor: OriginalTheme.themeData.disabledColor,
+                    tabs: tabPageMaps.keys
+                        .map((e) => Tab(
+                              text: e,
+                            ))
+                        .toList()),
+                Expanded(
+                    child: TabBarView(
+                  children: tabPageMaps.values.toList(),
+                ))
+              ],
+            ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: OriginalTheme.themeData.primaryColor,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: ((context) => CreateCircleTimeLinePage(
-                    circle: widget.circle,
-                  )),
-            ),
-          );
-        },
-        child: const Icon(
-          Icons.add,
-        ),
-      ),
-    );
+        floatingActionButton: myUid == widget.circle.ownerId
+            ? FloatingActionButton(
+                backgroundColor: OriginalTheme.themeData.primaryColor,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) => CreateCircleTimeLinePage(
+                            circle: widget.circle,
+                          )),
+                    ),
+                  );
+                },
+                child: const Icon(
+                  Icons.add,
+                ),
+              )
+            : Container());
   }
 }

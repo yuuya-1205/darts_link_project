@@ -6,7 +6,6 @@ part of 'circle_join_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-// ignore: non_constant_identifier_names
 _$_CircleJoinRequest _$$_CircleJoinRequestFromJson(Map<String, dynamic> json) =>
     _$_CircleJoinRequest(
       userName: json['userName'] as String,
@@ -22,7 +21,6 @@ _$_CircleJoinRequest _$$_CircleJoinRequestFromJson(Map<String, dynamic> json) =>
           CircleJoinRequestStatus.requesting,
     );
 
-// ignore: non_constant_identifier_names
 Map<String, dynamic> _$$_CircleJoinRequestToJson(
         _$_CircleJoinRequest instance) =>
     <String, dynamic>{

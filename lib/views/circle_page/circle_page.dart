@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:darts_link_project/components/sort_box/area_box.dart';
 import 'package:darts_link_project/components/sort_box/feature_box.dart';
 import 'package:darts_link_project/components/sort_box/recruit_box.dart';
@@ -16,6 +18,7 @@ class CirclePage extends StatefulWidget {
 }
 
 class _CirclePageState extends State<CirclePage> {
+  final circleCountController = StreamController<int>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +40,7 @@ class _CirclePageState extends State<CirclePage> {
                 const RecruitBox(),
               ],
             ),
+            const SizedBox(height: 20),
             StreamBuilder<List<Circle>>(
                 stream: CircleRepository.circleStream(),
                 builder: (context, snapshot) {
@@ -54,16 +58,47 @@ class _CirclePageState extends State<CirclePage> {
                       child: Text('まだ、投稿がありません'),
                     );
                   }
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: circles.length,
-                      itemBuilder: (context, index) {
-                        final circle = circles[index];
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                          child: CircleCardPage(circle: circle),
-                        );
-                      });
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 17),
+                        child: Row(
+                          children: [
+                            const Text(
+                              '募集中のサークル数',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            const Spacer(),
+                            Text(
+                              '${circles.length}',
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: OriginalTheme.themeData.primaryColor,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '件',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: OriginalTheme.themeData.disabledColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: circles.length,
+                          itemBuilder: (context, index) {
+                            final circle = circles[index];
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                              child: CircleCardPage(circle: circle),
+                            );
+                          }),
+                    ],
+                  );
                 })
           ],
         ),

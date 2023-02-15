@@ -1,4 +1,6 @@
 import 'package:darts_link_project/components/user_image.dart';
+import 'package:darts_link_project/models/app_user.dart';
+import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/darts_function_page/darts_function_page.dart';
@@ -7,6 +9,7 @@ import 'package:darts_link_project/views/home_page/home_page.dart';
 import 'package:darts_link_project/views/my_page/my_page.dart';
 import 'package:darts_link_project/views/search_page/search_page.dart';
 import 'package:darts_link_project/views/splash_page.dart';
+import 'package:darts_link_project/views/store_owner_page/store_owner_page.dart';
 import 'package:darts_link_project/views/thread_page/threads_page.dart';
 import 'package:darts_link_project/views/time_line_page/time_line_page.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +35,8 @@ class _TopPageState extends State<TopPage> {
   @override
   Widget build(BuildContext context) {
     final user = AuthRepository.currentUser;
+    final appUser = AppUserRepository.fetchAppUser(user!.id);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -44,7 +49,7 @@ class _TopPageState extends State<TopPage> {
             onTap: () {
               _scaffoldKey.currentState!.openDrawer();
             },
-            imageUrl: user!.userImage,
+            imageUrl: user.userImage,
             uid: user.id,
           ),
         ),
@@ -176,33 +181,43 @@ class _TopPageState extends State<TopPage> {
             const SizedBox(
               height: 46,
             ),
-            // GestureDetector(
-            //   onTap: () async {
-            //     await Navigator.of(context).push(EditProfilePage.route(false));
-            //     setState(() {
-            //       profile = Profile.currentProfile;
-            //     });
-            //   },
-            //   child: const Text('プロフィール編集'),
-            // ),
-            GestureDetector(
-              onTap: () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: ((context) => const MyPage()),
+            appUser is Person
+                ? GestureDetector(
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => const MyPage()),
+                        ),
+                      );
+                      setState(() {});
+                    },
+                    child: const Text(
+                      'プロフィール',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                : GestureDetector(
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => const StoreOwnerPage()),
+                        ),
+                      );
+                      setState(() {});
+                    },
+                    child: const Text(
+                      '店舗ページ',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                );
-                setState(() {});
-              },
-              child: const Text(
-                'プロフィール',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
             const SizedBox(
               height: 24,
             ),

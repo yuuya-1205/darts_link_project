@@ -2,7 +2,6 @@ import 'package:darts_link_project/models/circle.dart';
 import 'package:darts_link_project/models/post.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 import 'package:darts_link_project/repositories/post_repository.dart';
-import 'package:darts_link_project/views/circle_page/circle_post_image_card.dart';
 import 'package:flutter/material.dart';
 
 class CirclePostImagePage extends StatefulWidget {
@@ -18,6 +17,7 @@ class CirclePostImagePage extends StatefulWidget {
 }
 
 class _CirclePostImagePageState extends State<CirclePostImagePage> {
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     final circleRef = CircleRepository.getDocumentRef(widget.circle.circleId);
@@ -39,15 +39,27 @@ class _CirclePostImagePageState extends State<CirclePostImagePage> {
               child: Text('まだ、投稿がありません'),
             );
           }
-
-          return ListView.builder(
-              itemCount: circlePostImages.length,
-              itemBuilder: (context, index) {
-                final circlePostImage = circlePostImages[index];
-                return CirclePostImageCard(
-                  circlePostImage: circlePostImage,
-                );
-              });
+          List<String> imageUrls = [];
+          for (final post in circlePostImages) {
+            imageUrls.addAll(post.postImage);
+          }
+          return GridView.builder(
+            itemCount: imageUrls.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              // 横1行あたりに表示するWidgetの数
+              crossAxisCount: 3,
+              // Widget間のスペース（左右）
+              mainAxisSpacing: 4,
+              // Widget間のスペース（上下）
+              crossAxisSpacing: 4,
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              return Image(
+                image: NetworkImage(imageUrls[index]),
+                fit: BoxFit.cover,
+              );
+            },
+          );
         });
   }
 }

@@ -25,6 +25,10 @@ _$Person _$$PersonFromJson(Map<String, dynamic> json) => _$Person(
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
       updatedAt:
           const TimestampConverter().fromJson(json['updatedAt'] as Timestamp),
+      favorites: (json['favorites'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       gender: json['gender'] as String? ?? '未設定',
       dartsLiveRating: json['dartsLiveRating'] as int? ?? 1,
       phoenixRating: json['phoenixRating'] as int? ?? 1,
@@ -45,6 +49,7 @@ Map<String, dynamic> _$$PersonToJson(_$Person instance) => <String, dynamic>{
       'tag': instance.tag,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
+      'favorites': instance.favorites,
       'gender': instance.gender,
       'dartsLiveRating': instance.dartsLiveRating,
       'phoenixRating': instance.phoenixRating,
@@ -55,7 +60,10 @@ _$StoreOwner _$$StoreOwnerFromJson(Map<String, dynamic> json) => _$StoreOwner(
       id: json['id'] as String,
       userName: json['userName'] as String,
       userId: json['userId'] as String,
-      headerImage: json['headerImage'] as String? ?? '',
+      headerImages: (json['headerImages'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       userImage: json['userImage'] as String? ?? '',
       prefecture: const PrefNonNullableConverter()
           .fromJson(json['prefecture'] as Map<String, dynamic>),
@@ -70,6 +78,10 @@ _$StoreOwner _$$StoreOwnerFromJson(Map<String, dynamic> json) => _$StoreOwner(
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
       updatedAt:
           const TimestampConverter().fromJson(json['updatedAt'] as Timestamp),
+      favorites: (json['favorites'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       address: json['address'] as String,
       telephoneNumber: json['telephoneNumber'] as int,
       isApproved: json['isApproved'] as bool? ?? false,
@@ -81,7 +93,7 @@ Map<String, dynamic> _$$StoreOwnerToJson(_$StoreOwner instance) =>
       'id': instance.id,
       'userName': instance.userName,
       'userId': instance.userId,
-      'headerImage': instance.headerImage,
+      'headerImages': instance.headerImages,
       'userImage': instance.userImage,
       'prefecture':
           const PrefNonNullableConverter().toJson(instance.prefecture),
@@ -92,6 +104,7 @@ Map<String, dynamic> _$$StoreOwnerToJson(_$StoreOwner instance) =>
       'tag': instance.tag,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
+      'favorites': instance.favorites,
       'address': instance.address,
       'telephoneNumber': instance.telephoneNumber,
       'isApproved': instance.isApproved,
