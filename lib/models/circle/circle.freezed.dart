@@ -30,7 +30,7 @@ mixin _$Circle {
   @Freezed(fromJson: true)
   List<String> get memberUids => throw _privateConstructorUsedError;
   @Freezed(fromJson: true)
-  List<String> get fetures => throw _privateConstructorUsedError;
+  List<String> get features => throw _privateConstructorUsedError;
   String get prefecture => throw _privateConstructorUsedError;
   String get city => throw _privateConstructorUsedError;
   int get capacity => throw _privateConstructorUsedError;
@@ -65,7 +65,7 @@ abstract class $CircleCopyWith<$Res> {
       String headerImage,
       @Freezed(fromJson: true) List<String> imageUrls,
       @Freezed(fromJson: true) List<String> memberUids,
-      @Freezed(fromJson: true) List<String> fetures,
+      @Freezed(fromJson: true) List<String> features,
       String prefecture,
       String city,
       int capacity,
@@ -101,7 +101,7 @@ class _$CircleCopyWithImpl<$Res, $Val extends Circle>
     Object? headerImage = null,
     Object? imageUrls = null,
     Object? memberUids = null,
-    Object? fetures = null,
+    Object? features = null,
     Object? prefecture = null,
     Object? city = null,
     Object? capacity = null,
@@ -145,9 +145,9 @@ class _$CircleCopyWithImpl<$Res, $Val extends Circle>
           ? _value.memberUids
           : memberUids // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      fetures: null == fetures
-          ? _value.fetures
-          : fetures // ignore: cast_nullable_to_non_nullable
+      features: null == features
+          ? _value.features
+          : features // ignore: cast_nullable_to_non_nullable
               as List<String>,
       prefecture: null == prefecture
           ? _value.prefecture
@@ -219,7 +219,7 @@ abstract class _$$_CircleCopyWith<$Res> implements $CircleCopyWith<$Res> {
       String headerImage,
       @Freezed(fromJson: true) List<String> imageUrls,
       @Freezed(fromJson: true) List<String> memberUids,
-      @Freezed(fromJson: true) List<String> fetures,
+      @Freezed(fromJson: true) List<String> features,
       String prefecture,
       String city,
       int capacity,
@@ -252,7 +252,7 @@ class __$$_CircleCopyWithImpl<$Res>
     Object? headerImage = null,
     Object? imageUrls = null,
     Object? memberUids = null,
-    Object? fetures = null,
+    Object? features = null,
     Object? prefecture = null,
     Object? city = null,
     Object? capacity = null,
@@ -296,9 +296,9 @@ class __$$_CircleCopyWithImpl<$Res>
           ? _value._memberUids
           : memberUids // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      fetures: null == fetures
-          ? _value._fetures
-          : fetures // ignore: cast_nullable_to_non_nullable
+      features: null == features
+          ? _value._features
+          : features // ignore: cast_nullable_to_non_nullable
               as List<String>,
       prefecture: null == prefecture
           ? _value.prefecture
@@ -367,7 +367,7 @@ class _$_Circle implements _Circle {
       this.headerImage = '',
       @Freezed(fromJson: true) final List<String> imageUrls = const [],
       @Freezed(fromJson: true) final List<String> memberUids = const [],
-      @Freezed(fromJson: true) final List<String> fetures = const [],
+      @Freezed(fromJson: true) final List<String> features = const [],
       this.prefecture = '未登録',
       this.city = '未登録',
       this.capacity = 0,
@@ -383,7 +383,7 @@ class _$_Circle implements _Circle {
       @TimestampConverter() required this.createdAt})
       : _imageUrls = imageUrls,
         _memberUids = memberUids,
-        _fetures = fetures;
+        _features = features;
 
   factory _$_Circle.fromJson(Map<String, dynamic> json) =>
       _$$_CircleFromJson(json);
@@ -420,14 +420,14 @@ class _$_Circle implements _Circle {
     return EqualUnmodifiableListView(_memberUids);
   }
 
-  final List<String> _fetures;
+  final List<String> _features;
   @override
   @JsonKey()
   @Freezed(fromJson: true)
-  List<String> get fetures {
-    if (_fetures is EqualUnmodifiableListView) return _fetures;
+  List<String> get features {
+    if (_features is EqualUnmodifiableListView) return _features;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_fetures);
+    return EqualUnmodifiableListView(_features);
   }
 
   @override
@@ -468,7 +468,7 @@ class _$_Circle implements _Circle {
 
   @override
   String toString() {
-    return 'Circle(circleId: $circleId, circleName: $circleName, circleDetail: $circleDetail, place: $place, headerImage: $headerImage, imageUrls: $imageUrls, memberUids: $memberUids, fetures: $fetures, prefecture: $prefecture, city: $city, capacity: $capacity, numberOfParticipants: $numberOfParticipants, isApproved: $isApproved, ownerId: $ownerId, createrName: $createrName, createrImage: $createrImage, userId: $userId, followingCount: $followingCount, followerCount: $followerCount, updatedAt: $updatedAt, createdAt: $createdAt)';
+    return 'Circle(circleId: $circleId, circleName: $circleName, circleDetail: $circleDetail, place: $place, headerImage: $headerImage, imageUrls: $imageUrls, memberUids: $memberUids, features: $features, prefecture: $prefecture, city: $city, capacity: $capacity, numberOfParticipants: $numberOfParticipants, isApproved: $isApproved, ownerId: $ownerId, createrName: $createrName, createrImage: $createrImage, userId: $userId, followingCount: $followingCount, followerCount: $followerCount, updatedAt: $updatedAt, createdAt: $createdAt)';
   }
 
   @override
@@ -489,7 +489,7 @@ class _$_Circle implements _Circle {
                 .equals(other._imageUrls, _imageUrls) &&
             const DeepCollectionEquality()
                 .equals(other._memberUids, _memberUids) &&
-            const DeepCollectionEquality().equals(other._fetures, _fetures) &&
+            const DeepCollectionEquality().equals(other._features, _features) &&
             (identical(other.prefecture, prefecture) ||
                 other.prefecture == prefecture) &&
             (identical(other.city, city) || other.city == city) &&
@@ -526,7 +526,7 @@ class _$_Circle implements _Circle {
         headerImage,
         const DeepCollectionEquality().hash(_imageUrls),
         const DeepCollectionEquality().hash(_memberUids),
-        const DeepCollectionEquality().hash(_fetures),
+        const DeepCollectionEquality().hash(_features),
         prefecture,
         city,
         capacity,
@@ -565,7 +565,7 @@ abstract class _Circle implements Circle {
       final String headerImage,
       @Freezed(fromJson: true) final List<String> imageUrls,
       @Freezed(fromJson: true) final List<String> memberUids,
-      @Freezed(fromJson: true) final List<String> fetures,
+      @Freezed(fromJson: true) final List<String> features,
       final String prefecture,
       final String city,
       final int capacity,
@@ -600,7 +600,7 @@ abstract class _Circle implements Circle {
   List<String> get memberUids;
   @override
   @Freezed(fromJson: true)
-  List<String> get fetures;
+  List<String> get features;
   @override
   String get prefecture;
   @override

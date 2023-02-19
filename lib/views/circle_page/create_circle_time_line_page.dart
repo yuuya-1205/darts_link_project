@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:darts_link_project/models/circle.dart';
+import 'package:darts_link_project/models/circle/circle.dart';
 import 'package:darts_link_project/models/post.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';

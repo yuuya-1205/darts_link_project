@@ -1,5 +1,5 @@
-import 'package:darts_link_project/models/circle.dart';
-import 'package:darts_link_project/models/circle_join_request.dart';
+import 'package:darts_link_project/models/circle/circle.dart';
+import 'package:darts_link_project/models/circle/circle_join_request.dart';
 import 'package:darts_link_project/repositories/circle/circle_join_request_repository.dart';
 import 'package:darts_link_project/views/circle_page/circle_join_request_list_card.dart';
 import 'package:flutter/material.dart';

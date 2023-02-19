@@ -1,17 +1,17 @@
 import 'package:darts_link_project/components/user_image.dart';
-import 'package:darts_link_project/models/circle/circle.dart';
+import 'package:darts_link_project/models/house_tornament/house_tornament.dart';
 import 'package:darts_link_project/theme_data.dart';
-import 'package:darts_link_project/views/circle_page/circle_detail_page.dart';
+import 'package:darts_link_project/views/house_tornament_page/house_tornament_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class CircleCardPage extends StatelessWidget {
-  const CircleCardPage({
-    Key? key,
-    required this.circle,
-  }) : super(key: key);
+class HouseTornamentCard extends StatelessWidget {
+  const HouseTornamentCard({
+    super.key,
+    required this.houseTornament,
+  });
 
-  final Circle circle;
+  final HouseTornament houseTornament;
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +19,11 @@ class CircleCardPage extends StatelessWidget {
     DateFormat timeFormat = DateFormat("HH:mm");
     return GestureDetector(
       onTap: () async {
-        // final _profile = await UserRepository.fetchUser(circle.ownerId);
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: ((context) => CircleDetailPage(
-                  circle: circle,
+            builder: ((context) => HouseTornamentDetailPage(
+                  houseTornament: houseTornament,
                 )),
           ),
         );
@@ -36,7 +35,7 @@ class CircleCardPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               border:
                   Border.all(color: const Color.fromRGBO(232, 232, 232, 1))),
-          height: 110,
+          height: 120,
           child: Row(
             children: [
               Padding(
@@ -44,32 +43,48 @@ class CircleCardPage extends StatelessWidget {
                 child: UserImage(
                     height: 64,
                     width: 64,
-                    imageUrl: circle.createrImage,
-                    uid: circle.ownerId),
+                    imageUrl: houseTornament.createrImage,
+                    uid: houseTornament.ownerId),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(6, 14, 0, 14),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      children: [
+                        Text(
+                          dateFormat.format(houseTornament.dateTime.toDate()),
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                        Text(
+                          timeFormat.format(houseTornament.startTime.toDate()),
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                        const Text(
+                          '~',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 8),
                     Text(
-                      circle.circleName,
+                      houseTornament.title,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     const SizedBox(height: 8),
                     Row(
-                      children: const [
-                        Icon(
+                      children: [
+                        const Icon(
                           Icons.location_on_outlined,
                           color: Color.fromRGBO(210, 48, 125, 1),
                         ),
-                        // Text(
-                        //   circle.place,
-                        //   style: const TextStyle(
-                        //       color: Color.fromRGBO(210, 48, 125, 1)),
-                        // ),
+                        Text(
+                          houseTornament.place,
+                          style: const TextStyle(
+                              color: Color.fromRGBO(210, 48, 125, 1)),
+                        ),
                       ],
                     )
                   ],
@@ -82,7 +97,7 @@ class CircleCardPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      '${circle.numberOfParticipants}',
+                      '${houseTornament.numberOfParticipants}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 36,
@@ -90,7 +105,7 @@ class CircleCardPage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '/' '${circle.capacity}人',
+                      '/' '${houseTornament.capacity}人',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,

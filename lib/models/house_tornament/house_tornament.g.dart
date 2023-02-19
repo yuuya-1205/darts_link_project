@@ -8,14 +8,26 @@ part of 'house_tornament.dart';
 
 _$_HouseTornament _$$_HouseTornamentFromJson(Map<String, dynamic> json) =>
     _$_HouseTornament(
-      id: json['id'] as String,
+      houseTornamentId: json['houseTornamentId'] as String,
       title: json['title'] as String,
+      uid: json['uid'] as String,
+      headerImage: json['headerImage'] as String? ?? '',
       place: json['place'] as String? ?? '',
-      fetures: (json['fetures'] as List<dynamic>?)
+      prefecture: const PrefNullableConverter()
+          .fromJson(json['prefecture'] as Map<String, dynamic>?),
+      city: const CityNullableConverter()
+          .fromJson(json['city'] as Map<String, dynamic>?),
+      features: (json['features'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      capacity: json['capacity'] as int? ?? 0,
+      numberOfParticipants: json['numberOfParticipants'] as int? ?? 0,
       dartsModels: (json['dartsModels'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      formats: (json['formats'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
@@ -27,38 +39,45 @@ _$_HouseTornament _$$_HouseTornamentFromJson(Map<String, dynamic> json) =>
           const TimestampConverter().fromJson(json['finishTime'] as Timestamp),
       detail: json['detail'] as String? ?? '',
       isApproved: json['isApproved'] as bool? ?? false,
+      isFinalTornament: json['isFinalTornament'] as bool? ?? false,
       ownerId: json['ownerId'] as String,
       createrName: json['createrName'] as String,
       createrImage: json['createrImage'] as String,
       userId: json['userId'] as String,
+      followingCount: json['followingCount'] as int? ?? 0,
+      followerCount: json['followerCount'] as int? ?? 0,
       createdAt:
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
       updatedAt:
           const TimestampConverter().fromJson(json['updatedAt'] as Timestamp),
-      followingCount: json['followingCount'] as int? ?? 0,
-      followerCount: json['followerCount'] as int? ?? 0,
-      capacity: json['capacity'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$_HouseTornamentToJson(_$_HouseTornament instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'houseTornamentId': instance.houseTornamentId,
       'title': instance.title,
+      'uid': instance.uid,
+      'headerImage': instance.headerImage,
       'place': instance.place,
-      'fetures': instance.fetures,
+      'prefecture': const PrefNullableConverter().toJson(instance.prefecture),
+      'city': const CityNullableConverter().toJson(instance.city),
+      'features': instance.features,
+      'capacity': instance.capacity,
+      'numberOfParticipants': instance.numberOfParticipants,
       'dartsModels': instance.dartsModels,
+      'formats': instance.formats,
       'dateTime': const TimestampConverter().toJson(instance.dateTime),
       'startTime': const TimestampConverter().toJson(instance.startTime),
       'finishTime': const TimestampConverter().toJson(instance.finishTime),
       'detail': instance.detail,
       'isApproved': instance.isApproved,
+      'isFinalTornament': instance.isFinalTornament,
       'ownerId': instance.ownerId,
       'createrName': instance.createrName,
       'createrImage': instance.createrImage,
       'userId': instance.userId,
-      'createdAt': const TimestampConverter().toJson(instance.createdAt),
-      'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
       'followingCount': instance.followingCount,
       'followerCount': instance.followerCount,
-      'capacity': instance.capacity,
+      'createdAt': const TimestampConverter().toJson(instance.createdAt),
+      'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
     };

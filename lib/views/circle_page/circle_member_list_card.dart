@@ -1,6 +1,6 @@
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/user_image.dart';
-import 'package:darts_link_project/models/circle_member.dart';
+import 'package:darts_link_project/models/circle/circle_member.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';

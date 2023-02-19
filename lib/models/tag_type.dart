@@ -100,3 +100,40 @@ enum DartsModelTagType {
     return DartsModelTagType.other;
   }
 }
+
+enum FormatTagType {
+  singles,
+  doubles,
+  trios,
+  galon,
+  other;
+
+  String get label {
+    switch (this) {
+      case FormatTagType.singles:
+        return 'シングルス';
+      case FormatTagType.doubles:
+        return 'ダブルス';
+      case FormatTagType.trios:
+        return 'トリオス';
+      case FormatTagType.galon:
+        return 'ガロン';
+      case FormatTagType.other:
+        return 'その他';
+    }
+  }
+
+  factory FormatTagType.fromLabel(String label) {
+    switch (label) {
+      case 'シングルス':
+        return FormatTagType.singles;
+      case 'ダブルス':
+        return FormatTagType.doubles;
+      case 'トリオス':
+        return FormatTagType.trios;
+      case 'ガロン':
+        return FormatTagType.galon;
+    }
+    return FormatTagType.other;
+  }
+}

@@ -2,42 +2,52 @@
 
 import 'package:darts_link_project/components/delele_snack_bar.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
+import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/components/text_components/original_label.dart';
 import 'package:darts_link_project/components/text_components/original_text.dart';
-import 'package:darts_link_project/models/battle_room.dart';
-import 'package:darts_link_project/models/join_request.dart';
-import 'package:darts_link_project/models/member.dart';
+import 'package:darts_link_project/models/app_user.dart';
+import 'package:darts_link_project/models/house_tornament/house_tornament.dart';
+import 'package:darts_link_project/models/house_tornament/house_tornament_join_request.dart';
+import 'package:darts_link_project/models/house_tornament/house_tornament_member.dart';
 import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
-import 'package:darts_link_project/repositories/battle_room/battle_room_join_request_repository.dart';
-import 'package:darts_link_project/repositories/battle_room/battle_room_member_repository.dart';
-import 'package:darts_link_project/repositories/battle_room/battle_room_repository.dart';
+import 'package:darts_link_project/repositories/house_tornament/house_tornament_join_request.dart';
+import 'package:darts_link_project/repositories/house_tornament/house_tornament_member_repository.dart';
+import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
-import 'package:darts_link_project/views/battle_room_page/edit_battle_room_page.dart';
+import 'package:darts_link_project/views/house_tornament_page/edit_house_tornament_page.dart';
+import 'package:darts_link_project/views/house_tornament_page/house_tornament_page.dart';
+import 'package:darts_link_project/views/top_page/top_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:intl/intl.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 
-class BattleRoomDetailPage extends StatefulWidget {
-  const BattleRoomDetailPage({
-    Key? key,
-    required this.battleRoom,
-  }) : super(key: key);
+class HouseTornamentDetailPage extends StatefulWidget {
+  const HouseTornamentDetailPage({
+    super.key,
+    required this.houseTornament,
+  });
 
-  final BattleRoom battleRoom;
+  final HouseTornament houseTornament;
 
   @override
-  State<BattleRoomDetailPage> createState() => _BattleRoomDetailPageState();
+  State<HouseTornamentDetailPage> createState() =>
+      _HouseTornamentDetailPageState();
 }
 
-class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
-  List<Member> members = [];
+class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
+  final user = AuthRepository.currentUser as StoreOwner;
+  Asset? asset;
+  List<HouseTornamentMember> members = [];
   DateFormat dateFormat = DateFormat("yyyy年MM月dd日");
   DateFormat timeFormat = DateFormat("HH:mm");
+  int count = 0;
   Future<void> fetchMembers() async {
-    members = await BattleRoomMemberRepository.fetchBattleRoomMembers(
-        widget.battleRoom.id);
+    members = (await HouseTornamentMemberRepository.fetchHouseTornamentMembers(
+        widget.houseTornament.houseTornamentId));
+
     setState(() {});
   }
 
@@ -51,9 +61,10 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
       return;
     }
 
-    final member = Member.fromAppUser(appUser);
-    final canCreate = await BattleRoomRepository.canCreateBattleRoomMember(
-        widget.battleRoom.id);
+    final houseTornamentMember = HouseTornamentMember.fromAppUser(appUser);
+    final canCreate =
+        await HouseTornamentRepository.canCreateHouseTornamentMember(
+            widget.houseTornament.houseTornamentId);
 
     if (canCreate == false) {
       showDialog(
@@ -65,10 +76,11 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
           });
       return;
     }
-    await BattleRoomMemberRepository.createBattleRoomMember(
-        battleRoomId: widget.battleRoom.id, member: member);
+    await HouseTornamentMemberRepository.createHouseTornamentMember(
+        houseTornamentId: widget.houseTornament.houseTornamentId,
+        houseTornamentMember: houseTornamentMember);
     await updateNumberOfParticipants();
-    members.add(member);
+    members.add(houseTornamentMember);
 
     setState(() {});
   }
@@ -78,12 +90,14 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
     if (user == null) {
       return;
     }
-    if (widget.battleRoom.isApproved == true) {
-      BattleRoomJoinRequestRepository.deleteBattleRoomJoinRequest(
-          battleRoomId: widget.battleRoom.id, uid: user.id);
+    if (widget.houseTornament.isApproved == true) {
+      HouseTornamentJoinRequestRepository.deleteHouseTornamentJoinRequest(
+          houseTornamentId: widget.houseTornament.houseTornamentId,
+          uid: user.id);
     }
-    await BattleRoomMemberRepository.leaveBattleRoomMember(
-        battleRoomId: widget.battleRoom.id, memberId: user.id);
+    await HouseTornamentMemberRepository.leaveHouseTornamentMember(
+        houseTornamentId: widget.houseTornament.houseTornamentId,
+        memberId: user.id);
     await updateNumberOfParticipants();
     members.removeWhere((member) => member.uid == user.id);
     setState(() {});
@@ -94,9 +108,11 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
     if (user == null) {
       return;
     }
-    final joinRequest = JoinRequest.fromAppUser(user);
-    await BattleRoomJoinRequestRepository.createBattleRoomJoinRequest(
-        battleRoomId: widget.battleRoom.id, joinRequest: joinRequest);
+    final houseTornamentJoinRequest =
+        HouseTornamentJoinRequest.fromAppUser(user);
+    await HouseTornamentJoinRequestRepository.createHouseTornamentJoinRequest(
+        houseTornamentId: widget.houseTornament.houseTornamentId,
+        houseTornamentJoinRequest: houseTornamentJoinRequest);
     setState(() {});
   }
 
@@ -106,8 +122,8 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
       return;
     }
 
-    await BattleRoomJoinRequestRepository.deleteBattleRoomJoinRequest(
-      battleRoomId: widget.battleRoom.id,
+    await HouseTornamentJoinRequestRepository.deleteHouseTornamentJoinRequest(
+      houseTornamentId: widget.houseTornament.houseTornamentId,
       uid: user.id,
     );
     setState(() {});
@@ -115,45 +131,40 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
 
   Future<void> updateNumberOfParticipants() async {
     final memberDocsCount =
-        await BattleRoomMemberRepository.fetchMemberDocsCount(
-            widget.battleRoom.id);
-    await BattleRoomRepository.updateBattleRoom(
-        widget.battleRoom.copyWith(numberOfParticipants: memberDocsCount));
+        await HouseTornamentMemberRepository.fetchHouseTornamentMemberDocsCount(
+            widget.houseTornament.houseTornamentId);
+    await HouseTornamentRepository.updateHouseTornament(
+        widget.houseTornament.copyWith(numberOfParticipants: memberDocsCount));
   }
 
-  Future<BattleRoomMemberType> getMemberType() async {
+  Future<HouseTornamentMemberType> getMemberType() async {
     String? myUid = AuthRepository.currentUser!.id;
+    // ignore: unnecessary_null_comparison
     if (myUid == null) {
-      return BattleRoomMemberType.joinable;
+      return HouseTornamentMemberType.joinable;
     }
-    if (myUid == widget.battleRoom.ownerId) {
-      return BattleRoomMemberType.owner;
+    if (myUid == widget.houseTornament.ownerId) {
+      return HouseTornamentMemberType.owner;
     }
-    if (widget.battleRoom.isApproved == true) {
-      final joinRequest =
-          await BattleRoomJoinRequestRepository.fetchBattleRoomJoinRequest(
-        battleRoomId: widget.battleRoom.id,
+    if (widget.houseTornament.isApproved == true) {
+      final joinRequest = await HouseTornamentJoinRequestRepository
+          .fetchHouseTornamentJoinRequest(
+        houseTornamentId: widget.houseTornament.houseTornamentId,
         uid: myUid,
       );
       if (joinRequest == null) {
-        return BattleRoomMemberType.beforeRequesting;
+        return HouseTornamentMemberType.beforeRequesting;
       }
-      if (joinRequest.status == JoinRequestStatus.requesting) {
-        return BattleRoomMemberType.requesting;
+      if (joinRequest.status == HouseTornamentJoinRequestStatus.requesting) {
+        return HouseTornamentMemberType.requesting;
       }
-      return BattleRoomMemberType.joined;
+      return HouseTornamentMemberType.joined;
     }
     final isJoined = members.map((e) => e.uid).toList().contains(myUid);
     if (isJoined == true) {
-      return BattleRoomMemberType.joined;
+      return HouseTornamentMemberType.joined;
     }
-    return BattleRoomMemberType.joinable;
-  }
-
-  @override
-  void initState() {
-    fetchMembers();
-    super.initState();
+    return HouseTornamentMemberType.joinable;
   }
 
   @override
@@ -186,10 +197,10 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
         ),
         backgroundColor: Colors.white,
         actions: [
-          FutureBuilder<BattleRoomMemberType>(
+          FutureBuilder<HouseTornamentMemberType>(
               future: getMemberType(),
               builder: (builder, snapshot) {
-                return snapshot.data == BattleRoomMemberType.owner
+                return snapshot.data == HouseTornamentMemberType.owner
                     ? PopupMenuButton(onSelected: (value) {
                         if (value == '') {
                           final uid = AuthRepository.currentUser!.id;
@@ -204,7 +215,9 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: ((context) =>
-                                        const EditBattleRoomPage()),
+                                        EditHouseTornamentPage(
+                                            houseTornament:
+                                                widget.houseTornament)),
                                   ),
                                 );
                               },
@@ -219,7 +232,9 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: ((context) =>
-                                        const EditBattleRoomPage()),
+                                        EditHouseTornamentPage(
+                                            houseTornament:
+                                                widget.houseTornament)),
                                   ),
                                 );
                               },
@@ -256,13 +271,14 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                                               MainAxisAlignment.center,
                                           children: [
                                             FollowApproveButton(
-                                              onPressed: () {
-                                                BattleRoomRepository
-                                                    .deleteBattleRoom(
-                                                        widget.battleRoom);
+                                              onPressed: () async {
+                                                await HouseTornamentRepository
+                                                    .deleteHouseTornament(
+                                                        widget.houseTornament);
                                                 Navigator.pop(context);
-                                                DeleteSnackBar.showSnackBar(
-                                                    context);
+
+                                                // DeleteSnackBar.showSnackBar(
+                                                //     context);
                                               },
                                               text: '削除する',
                                             ),
@@ -297,8 +313,17 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(
+                height: 205,
+                width: double.infinity,
+                child: HeaderImageUrl(
+                    asset: asset,
+                    headerImageUrl: widget.houseTornament.headerImage.isEmpty
+                        ? ''
+                        : widget.houseTornament.headerImage),
+              ),
               Text(
-                widget.battleRoom.title,
+                widget.houseTornament.title,
                 style:
                     const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
@@ -327,20 +352,20 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      OriginalText(text: widget.battleRoom.place),
+                      OriginalText(text: widget.houseTornament.place),
                       Row(
                         children: [
                           OriginalText(
-                              text: dateFormat
-                                  .format(widget.battleRoom.dateTime.toDate())),
+                              text: dateFormat.format(
+                                  widget.houseTornament.dateTime.toDate())),
                           OriginalText(
                               text:
-                                  '${timeFormat.format(widget.battleRoom.startTime.toDate())}~${timeFormat.format(widget.battleRoom.finishTime.toDate())}'),
+                                  '${timeFormat.format(widget.houseTornament.startTime.toDate())}~${timeFormat.format(widget.houseTornament.finishTime.toDate())}'),
                         ],
                       ),
-                      OriginalText(text: widget.battleRoom.city),
+                      OriginalText(text: widget.houseTornament.city.toString()),
                       OriginalText(
-                        text: '${widget.battleRoom.capacity}名',
+                        text: '${widget.houseTornament.capacity}名',
                       ),
                     ],
                   )
@@ -368,7 +393,7 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(widget.battleRoom.detail),
+                            Text(widget.houseTornament.detail),
                           ],
                         ),
                       ],
@@ -377,7 +402,7 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                 ),
               ),
               Center(
-                child: FutureBuilder<BattleRoomMemberType>(
+                child: FutureBuilder<HouseTornamentMemberType>(
                   future: getMemberType(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -385,7 +410,7 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                     }
                     return JoinRequestButton(
                       memberType: snapshot.data!,
-                      roomId: widget.battleRoom.id,
+                      roomId: widget.houseTornament.houseTornamentId,
                       joinRoom: joinRoom,
                       leaveRoom: leaveRoom,
                       requestJoinRoom: requestJoinRoom,
@@ -413,7 +438,7 @@ class JoinRequestButton extends StatelessWidget {
     required this.cancelRequestRoom,
   }) : super(key: key);
 
-  final BattleRoomMemberType memberType;
+  final HouseTornamentMemberType memberType;
   final String roomId;
   final Function joinRoom;
   final Function leaveRoom;
@@ -422,9 +447,9 @@ class JoinRequestButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (memberType) {
-      case BattleRoomMemberType.owner:
+      case HouseTornamentMemberType.owner:
         return Container();
-      case BattleRoomMemberType.joined:
+      case HouseTornamentMemberType.joined:
         return OriginalButton(
           onPressed: () async {
             leaveRoom();
@@ -433,7 +458,7 @@ class JoinRequestButton extends StatelessWidget {
           primary: OriginalTheme.themeData.primaryColor,
           onPrimary: Colors.white,
         );
-      case BattleRoomMemberType.joinable:
+      case HouseTornamentMemberType.joinable:
         return OriginalButton(
           onPressed: () async {
             joinRoom();
@@ -442,7 +467,7 @@ class JoinRequestButton extends StatelessWidget {
           primary: OriginalTheme.themeData.primaryColor,
           onPrimary: Colors.white,
         );
-      case BattleRoomMemberType.beforeRequesting:
+      case HouseTornamentMemberType.beforeRequesting:
         return OriginalButton(
           onPressed: () async {
             requestJoinRoom();
@@ -451,7 +476,7 @@ class JoinRequestButton extends StatelessWidget {
           primary: OriginalTheme.themeData.primaryColor,
           onPrimary: Colors.white,
         );
-      case BattleRoomMemberType.requesting:
+      case HouseTornamentMemberType.requesting:
         return OriginalButton(
           onPressed: () async {
             cancelRequestRoom();

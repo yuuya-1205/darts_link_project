@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:darts_link_project/models/circle_member.dart';
+import 'package:darts_link_project/models/circle/circle_member.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 
 class CircleMemberRepository {

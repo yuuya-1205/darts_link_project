@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:darts_link_project/components/original_button.dart';
-import 'package:darts_link_project/models/circle.dart';
-import 'package:darts_link_project/models/circle_join_request.dart';
-import 'package:darts_link_project/models/circle_member.dart';
+import 'package:darts_link_project/models/circle/circle.dart';
+import 'package:darts_link_project/models/circle/circle_join_request.dart';
+import 'package:darts_link_project/models/circle/circle_member.dart';
 import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_join_request_repository.dart';

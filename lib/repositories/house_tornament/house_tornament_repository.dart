@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:darts_link_project/models/house_tornament.dart';
+import 'package:darts_link_project/models/house_tornament/house_tornament.dart';
 
 class HouseTornamentRepository {
   static final fireStore = FirebaseFirestore.instance;
@@ -14,24 +14,40 @@ class HouseTornamentRepository {
     return room.id;
   }
 
-  static Stream<List<HouseTornament>> circleStream() {
+  static Stream<List<HouseTornament>> houseTornamentStream() {
     return houseTornamentsCollection
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snap) => snap.docs
-            .map((doc) =>
-                HouseTornament.fromJson(doc.data()).copyWith(id: doc.id))
+            .map((doc) => HouseTornament.fromJson(doc.data())
+                .copyWith(houseTornamentId: doc.id))
             .toList());
   }
 
   static Future<void> updateHouseTornament(
       HouseTornament houseTornament) async {
     await houseTornamentsCollection
-        .doc(houseTornament.id)
+        .doc(houseTornament.houseTornamentId)
         .set(houseTornament.toJson(), SetOptions(merge: true));
   }
 
-  static Future<void> deleteCircle(HouseTornament houseTornament) async {
-    await houseTornamentsCollection.doc(houseTornament.id).delete();
+  static Future<void> deleteHouseTornament(
+      HouseTornament houseTornament) async {
+    await houseTornamentsCollection
+        .doc(houseTornament.houseTornamentId)
+        .delete();
+  }
+
+  static Future<bool> canCreateHouseTornamentMember(
+      String houseTornamentId) async {
+    final snapshot =
+        await houseTornamentsCollection.doc(houseTornamentId).get();
+    final data = snapshot.data() as Map<String, dynamic>;
+    int capacity = data['capacity'];
+    int numberOfParticipants = data['numberOfParticipants'];
+    if (capacity <= numberOfParticipants) {
+      return false;
+    }
+    return true;
   }
 }

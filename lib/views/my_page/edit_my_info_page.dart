@@ -19,7 +19,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import 'package:multi_image_picker/multi_image_picker.dart';
 
@@ -172,32 +171,6 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                       ),
                     ),
                   ),
-                  // GestureDetector(
-                  //   child: DottedBorder(
-                  //     dashPattern: const [6.0],
-                  //     strokeWidth: 2.0,
-                  //     color: const Color.fromRGBO(247, 63, 150, 1),
-                  //     child: Container(
-                  //       height: 205,
-                  //       width: double.infinity,
-                  //       child: Column(
-                  //         mainAxisAlignment: MainAxisAlignment.center,
-                  //         children: const [
-                  //           Icon(Icons.camera),
-                  //           Text(
-                  //             'タップして写真を選択しましょう',
-                  //             style: TextStyle(
-                  //               color: Color.fromRGBO(247, 63, 150, 1),
-                  //               fontWeight: FontWeight.bold,
-                  //             ),
-                  //           ),
-                  //           Text('＊写真は１枚選択できます'),
-                  //           Text('ファイル形式はjpg/png'),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   Positioned(
                     left: 18,
                     top: 170,

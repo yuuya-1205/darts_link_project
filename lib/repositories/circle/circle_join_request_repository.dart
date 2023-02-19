@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 
-import '../../models/circle_join_request.dart';
+import '../../models/circle/circle_join_request.dart';
 
 class CircleJoinRequestRepository {
   static final fireStore = FirebaseFirestore.instance;

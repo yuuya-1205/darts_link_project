@@ -14,7 +14,7 @@ class Circle with _$Circle {
     @Default('') String headerImage,
     @Freezed(fromJson: true) @Default([]) List<String> imageUrls,
     @Freezed(fromJson: true) @Default([]) List<String> memberUids,
-    @Freezed(fromJson: true) @Default([]) List<String> fetures,
+    @Freezed(fromJson: true) @Default([]) List<String> features,
     @Default('未登録') String prefecture,
     @Default('未登録') String city,
     @Default(0) int capacity,

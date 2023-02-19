@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/input_field.dart';
 import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/app_user.dart';
-import 'package:darts_link_project/models/circle.dart';
+import 'package:darts_link_project/models/circle/circle.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
 import 'package:darts_link_project/models/tag_type.dart';
@@ -502,7 +502,7 @@ class _EditCirclePageState extends State<EditCirclePage> {
                         createrImage: user.userImage,
                         createdAt: Timestamp.now(),
                         updatedAt: Timestamp.now(),
-                        fetures: _selectedFeatures,
+                        features: _selectedFeatures,
                         numberOfParticipants: 0,
                         isApproved: isApproved,
                         circleDetail: circleDetail,
@@ -534,7 +534,7 @@ class _EditCirclePageState extends State<EditCirclePage> {
     _placeController.text = widget.circle.place;
 
     isApproved = widget.circle.isApproved;
-    _selectedFeatures = widget.circle.fetures.toList();
+    _selectedFeatures = widget.circle.features.toList();
     _capacity = widget.circle.capacity;
     _circleDetailController.text = widget.circle.circleDetail;
 

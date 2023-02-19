@@ -20,7 +20,7 @@ _$_Circle _$$_CircleFromJson(Map<String, dynamic> json) => _$_Circle(
               ?.map((e) => e as String)
               .toList() ??
           const [],
-      fetures: (json['fetures'] as List<dynamic>?)
+      features: (json['features'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
@@ -49,7 +49,7 @@ Map<String, dynamic> _$$_CircleToJson(_$_Circle instance) => <String, dynamic>{
       'headerImage': instance.headerImage,
       'imageUrls': instance.imageUrls,
       'memberUids': instance.memberUids,
-      'fetures': instance.fetures,
+      'features': instance.features,
       'prefecture': instance.prefecture,
       'city': instance.city,
       'capacity': instance.capacity,
