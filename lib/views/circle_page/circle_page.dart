@@ -25,18 +25,15 @@ class _CirclePageState extends State<CirclePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(
+              height: 16,
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               // ignore: prefer_const_literals_to_create_immutables
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: AreaBox(),
-                ),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
-                  child: FeatureBox(),
-                ),
+                const AreaBox(),
+                const FeatureBox(),
                 const RecruitBox(),
               ],
             ),

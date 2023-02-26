@@ -29,4 +29,13 @@ class StoreOwnerRepository {
         .map((event) =>
             event.docs.map((e) => StoreOwner.fromJson(e.data())).toList());
   }
+
+  static Stream<List<StoreOwner>> storeOwnerStream() {
+    return storeOwnerCollection
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snap) => snap.docs
+            .map((doc) => StoreOwner.fromJson(doc.data()).copyWith(id: doc.id))
+            .toList());
+  }
 }

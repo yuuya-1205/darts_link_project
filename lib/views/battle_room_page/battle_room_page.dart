@@ -74,7 +74,7 @@ class _BattleRoomPageState extends State<BattleRoomPage> {
                         child: Row(
                           children: [
                             const Text(
-                              '募集中のサークル数',
+                              '募集中の対戦者募集',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             const Spacer(),
