@@ -29,6 +29,20 @@ class TeamRepository {
         );
   }
 
+  static Future<void> updateMatchResult({
+    required String roundRobinId,
+    required String teamId,
+    required String opponentTeamId,
+    required bool isWin,
+    required int winReg,
+  }) async {
+    await getTeamsCollection(roundRobinId).doc(teamId).update({
+      'updatedAt': Timestamp.now(),
+      'isWin.$opponentTeamId': isWin,
+      'winRegs.$opponentTeamId': winReg,
+    });
+  }
+
   static Future<List<Team>> fetchTeams({
     required String roundRobinId,
   }) async {
@@ -48,12 +62,17 @@ class TeamRepository {
   }
 
   static Stream<List<Team>> teamStream({required String roundRobinId}) {
+    print(roundRobinId);
     return getTeamsCollection(roundRobinId)
-        .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((snap) => snap.docs
-            .map((doc) => Team.fromJson(doc.data() as Map<String, dynamic>)
-                .copyWith(id: doc.id))
-            .toList());
+        .map((snap) => snap.docs.map((doc) {
+              final data = doc.data() as Map<String, dynamic>;
+              data.addAll({
+                'id': doc.id,
+              });
+              final team = Team.fromJson(data);
+
+              return team;
+            }).toList());
   }
 }

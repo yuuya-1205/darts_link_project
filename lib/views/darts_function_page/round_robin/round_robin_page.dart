@@ -22,8 +22,12 @@ class _RoundRobinPageState extends State<RoundRobinPage> {
       '試合一覧': RoundRobinMatchListPage(
         roundRobin: widget.roundRobin,
       ),
-      '勝敗表': const RoundRobinWinLoseListPage(),
-      '順位表': const RoundRobinRankListPage(),
+      '勝敗表': RoundRobinWinLoseListPage(
+        roundRobin: widget.roundRobin,
+      ),
+      '順位表': RoundRobinRankListPage(
+        roundRobin: widget.roundRobin,
+      ),
     };
     // TODO: implement initState
     super.initState();

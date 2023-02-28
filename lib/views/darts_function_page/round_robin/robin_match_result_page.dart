@@ -254,21 +254,22 @@ class _RobinMatchResultPageState extends State<RobinMatchResultPage> {
             primary: const Color.fromRGBO(255, 129, 189, 1),
             text: '保存する',
             onPressed: () async {
-              await TeamRepository.updateTeam(
-                  roundRobinId: widget.roundRobin.id,
-                  team: firstTeam.copyWith(updatedAt: Timestamp.now(), isWin: {
-                    widget.teams.first.id: selectedFirstTeamIsWin
-                  }, winRegs: {
-                    widget.teams.first.id: selectedWinRegs[firstTeam.id]!
-                  }));
+              await TeamRepository.updateMatchResult(
+                roundRobinId: widget.roundRobin.id,
+                teamId: firstTeam.id,
+                opponentTeamId: secondTeam.id,
+                isWin: selectedFirstTeamIsWin,
+                winReg: selectedWinRegs[firstTeam.id]!,
+              );
 
-              await TeamRepository.updateTeam(
-                  roundRobinId: widget.roundRobin.id,
-                  team: firstTeam.copyWith(updatedAt: Timestamp.now(), isWin: {
-                    widget.teams.last.id: selectedFirstTeamIsWin
-                  }, winRegs: {
-                    widget.teams.last.id: selectedWinRegs[secondTeam.id]!
-                  }));
+              await TeamRepository.updateMatchResult(
+                roundRobinId: widget.roundRobin.id,
+                teamId: secondTeam.id,
+                opponentTeamId: firstTeam.id,
+                isWin: !selectedFirstTeamIsWin,
+                winReg: selectedWinRegs[secondTeam.id]!,
+              );
+
               Navigator.pop(context);
             },
           )

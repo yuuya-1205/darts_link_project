@@ -15,5 +15,15 @@ class Team with _$Team {
     @TimestampConverter() required Timestamp updatedAt,
   }) = _Team;
 
+  const Team._();
+
   factory Team.fromJson(Map<String, dynamic> json) => _$TeamFromJson(json);
+
+  int get totalWinCount {
+    print(isWin.values);
+    return isWin.values.where((element) => element == true).length;
+  }
+
+  int get totalLoseCount =>
+      isWin.values.where((element) => element == false).length;
 }
