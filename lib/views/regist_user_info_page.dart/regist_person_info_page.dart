@@ -8,11 +8,12 @@ import 'package:darts_link_project/models/pref.dart';
 import 'package:darts_link_project/models/tag_type.dart';
 import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
+import 'package:darts_link_project/repositories/fcm_token_repository.dart';
 import 'package:darts_link_project/repositories/person_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
+import 'package:darts_link_project/services/fcm_service.dart';
 import 'package:darts_link_project/views/top_page/top_page.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -28,7 +29,6 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
   @override
   void initState() {
     _getCurrentUser();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -540,24 +540,17 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
                 onPrimary: Colors.white,
                 text: 'プロフィールを登録する',
                 onPressed: () async {
-                  final uid = FirebaseAuth.instance.currentUser!.uid;
-                  final user = FirebaseAuth.instance.currentUser!;
-                  final userName = _userNameController.text;
-                  final userId = _userIdController.text;
-                  final gender = _genderController.text;
-                  final userDetail = _userSelfIntroductionController.text;
+                  final uid = AuthRepository.currentFirebaseUser?.uid ?? '';
 
-                  String? headerImageUrl;
                   if (_selectedHeaderImage != null) {
-                    final path = 'headers/${user.uid}/header.jpeg';
+                    final path = 'headers/$uid/header.jpeg';
                     _currentHeaderImageUrl = await StorageRepository()
                         .saveimage(asset: _selectedHeaderImage!, path: path);
                   }
 
                   // プロフィール画像アップロード
-                  String? imageUrl;
                   if (_selectedUserImage != null) {
-                    final path = 'users/${user.uid}/user.jpeg';
+                    final path = 'users/$uid/user.jpeg';
                     _currentUserImageUrl = await StorageRepository()
                         .saveimage(asset: _selectedUserImage!, path: path);
                   }
@@ -565,17 +558,24 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
                     id: uid,
                     headerImage: _currentHeaderImageUrl,
                     userImage: _currentUserImageUrl,
-                    userName: userName,
-                    userId: userId,
-                    gender: gender,
+                    userName: _userNameController.text,
+                    userId: _userIdController.text,
+                    gender: _genderController.text,
                     prefecture: _initalPrefectureArea,
                     city: _initalCityArea,
                     tag: _selectedTags,
-                    selfIntroduction: userDetail,
+                    selfIntroduction: _userSelfIntroductionController.text,
                     createdAt: Timestamp.now(),
                     updatedAt: Timestamp.now(),
                   );
-                  await PersonRepository.updatePerson(person);
+                  final token = await FcmService.getToken();
+                  await Future.wait(
+                    [
+                      PersonRepository.updatePerson(person),
+                      FcmTokenRepository.createFcmToken(
+                          PersonRepository.getDocumentRef(uid), token ?? '')
+                    ],
+                  );
 
                   AuthRepository.currentUser = person;
                   // ignore: use_build_context_synchronously
@@ -597,7 +597,6 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
     );
   }
 
-  // ignore: unused_element
   Widget _userImage() {
     if (_selectedUserImage != null) {
       return AssetThumb(
@@ -617,7 +616,6 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
     }
   }
 
-  @override
   Future<void> _getCurrentUser() async {
     final currentUser = AuthRepository.currentUser;
 

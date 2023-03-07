@@ -17,7 +17,8 @@ class StoreOwnerRepository {
     if (!snap.exists) {
       return null;
     }
-    final storeOwner = StoreOwner.fromJson(snap.data() as Map<String, dynamic>);
+    final storeOwner = StoreOwner.fromJson(snap.data() as Map<String, dynamic>)
+        .copyWith(reference: snap.reference);
 
     return storeOwner;
   }
@@ -35,7 +36,10 @@ class StoreOwnerRepository {
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snap) => snap.docs
-            .map((doc) => StoreOwner.fromJson(doc.data()).copyWith(id: doc.id))
+            .map(
+              (doc) => StoreOwner.fromJson(doc.data())
+                  .copyWith(id: doc.id, reference: doc.reference),
+            )
             .toList());
   }
 }

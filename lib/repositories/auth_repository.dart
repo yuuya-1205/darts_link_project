@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepository {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  static User? currentFirebaseUser;
+  static User? get currentFirebaseUser => _firebaseAuth.currentUser;
   static AppUser? currentUser;
 
   static Future<User?> singUp({
@@ -11,15 +11,15 @@ class AuthRepository {
     required String password,
   }) async {
     try {
-      final UserCredential userCredential = await _firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       await _firebaseAuth.currentUser!.sendEmailVerification();
-
-      currentFirebaseUser = userCredential.user;
       return currentFirebaseUser;
     } catch (error) {
-      // ignore: use_rethrow_when_possible
-      throw error;
+      print(error);
+      return null;
     }
   }
 
@@ -27,9 +27,11 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
-    final UserCredential userCredential = await _firebaseAuth
-        .signInWithEmailAndPassword(email: email, password: password);
-    currentFirebaseUser = userCredential.user;
+    print('$email ---- $password');
+    await _firebaseAuth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 
   static Future<dynamic> resetPassword({
