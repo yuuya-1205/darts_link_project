@@ -21,9 +21,15 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        if (const bool.fromEnvironment('dart.vm.product')) {
+          return android;
+        }
+        return androidDev;
       case TargetPlatform.iOS:
-        return ios;
+        if (const bool.fromEnvironment('dart.vm.product')) {
+          return ios;
+        }
+        return iosDev;
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
@@ -53,21 +59,41 @@ class DefaultFirebaseOptions {
     measurementId: 'G-BM7L49QFZX',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
+  static const FirebaseOptions androidDev = FirebaseOptions(
     apiKey: 'AIzaSyAiMR5MiuwoDqbVc5TXxCFjW34ITEkgQcU',
-    appId: '1:739170789151:android:c605d207ec0daf39a1b22a',
+    appId: '1:739170789151:android:d0be5764dbe0e3c2a1b22a',
     messagingSenderId: '739170789151',
     projectId: 'dartslinkprojectdevelop',
     storageBucket: 'dartslinkprojectdevelop.appspot.com',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyCDtPI5K8oyBb46HNpY_AHZULDSSZNsVpM',
+    appId: '1:289323021274:android:ef59c1e685b600887246e3',
+    messagingSenderId: '289323021274',
+    projectId: 'dartslinkproject-343a2',
+    storageBucket: 'dartslinkproject-343a2.appspot.com',
+  );
+
+  static const FirebaseOptions iosDev = FirebaseOptions(
     apiKey: 'AIzaSyBnFsD02KUyQdjaYAtrbTFn2P4eKXrIwjY',
-    appId: '1:739170789151:ios:7a97b6996b7a3814a1b22a',
+    appId: '1:739170789151:ios:c68613546b6b0cfaa1b22a',
     messagingSenderId: '739170789151',
     projectId: 'dartslinkprojectdevelop',
     storageBucket: 'dartslinkprojectdevelop.appspot.com',
-    iosClientId: '739170789151-9ndh1ks85gs55f2ad99jo5ad6a48nbrj.apps.googleusercontent.com',
+    iosClientId:
+        '739170789151-9b92lisfajrcj145t9pkl32ovfnc8ofh.apps.googleusercontent.com',
+    iosBundleId: 'com.darts.link.project.dev',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDz3Tit8mJXqfKSrzSf0VUM1_XOKJICowc',
+    appId: '1:289323021274:ios:7665166d6470cdc57246e3',
+    messagingSenderId: '289323021274',
+    projectId: 'dartslinkproject-343a2',
+    storageBucket: 'dartslinkproject-343a2.appspot.com',
+    iosClientId:
+        '289323021274-2nglii059m2aubnpr50ba7agc3g3oksc.apps.googleusercontent.com',
     iosBundleId: 'com.darts.link.project',
   );
 
@@ -77,7 +103,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '739170789151',
     projectId: 'dartslinkprojectdevelop',
     storageBucket: 'dartslinkprojectdevelop.appspot.com',
-    iosClientId: '739170789151-0ppjl0k5ouq9b4s4h23d7lvsts9m85pg.apps.googleusercontent.com',
+    iosClientId:
+        '739170789151-0ppjl0k5ouq9b4s4h23d7lvsts9m85pg.apps.googleusercontent.com',
     iosBundleId: 'com.example.dartsLinkProject',
   );
 }
