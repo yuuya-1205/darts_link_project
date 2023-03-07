@@ -18,7 +18,6 @@ class AuthRepository {
       await _firebaseAuth.currentUser!.sendEmailVerification();
       return currentFirebaseUser;
     } catch (error) {
-      print(error);
       return null;
     }
   }
@@ -27,7 +26,6 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
-    print('$email ---- $password');
     await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
       password: password,
