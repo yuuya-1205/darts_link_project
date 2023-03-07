@@ -48,6 +48,9 @@ mixin _$AppUser {
   Timestamp get updatedAt => throw _privateConstructorUsedError;
   @Freezed(fromJson: true)
   List<String> get favorites => throw _privateConstructorUsedError;
+  @DocumentReferenceConverter()
+  DocumentReference<Object?>? get reference =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -65,6 +68,7 @@ mixin _$AppUser {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String gender,
             int dartsLiveRating,
             int phoenixRating)
@@ -84,6 +88,7 @@ mixin _$AppUser {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String address,
             int telephoneNumber,
             bool isApproved)
@@ -107,6 +112,7 @@ mixin _$AppUser {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -126,6 +132,7 @@ mixin _$AppUser {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String address,
             int telephoneNumber,
             bool isApproved)?
@@ -149,6 +156,7 @@ mixin _$AppUser {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -168,6 +176,7 @@ mixin _$AppUser {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String address,
             int telephoneNumber,
             bool isApproved)?
@@ -217,7 +226,8 @@ abstract class $AppUserCopyWith<$Res> {
       @Freezed(fromJson: true) List<String> tag,
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt,
-      @Freezed(fromJson: true) List<String> favorites});
+      @Freezed(fromJson: true) List<String> favorites,
+      @DocumentReferenceConverter() DocumentReference<Object?>? reference});
 
   $PrefCopyWith<$Res>? get prefecture;
   $CityCopyWith<$Res>? get city;
@@ -249,6 +259,7 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? favorites = null,
+    Object? reference = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -303,6 +314,10 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
           ? _value.favorites
           : favorites // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      reference: freezed == reference
+          ? _value.reference
+          : reference // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>?,
     ) as $Val);
   }
 
@@ -352,6 +367,7 @@ abstract class _$$PersonCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt,
       @Freezed(fromJson: true) List<String> favorites,
+      @DocumentReferenceConverter() DocumentReference<Object?>? reference,
       String gender,
       int dartsLiveRating,
       int phoenixRating});
@@ -385,6 +401,7 @@ class __$$PersonCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res, _$Person>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? favorites = null,
+    Object? reference = freezed,
     Object? gender = null,
     Object? dartsLiveRating = null,
     Object? phoenixRating = null,
@@ -446,6 +463,10 @@ class __$$PersonCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res, _$Person>
           ? _value._favorites
           : favorites // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      reference: freezed == reference
+          ? _value.reference
+          : reference // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>?,
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
@@ -480,6 +501,7 @@ class _$Person implements Person {
       @TimestampConverter() required this.createdAt,
       @TimestampConverter() required this.updatedAt,
       @Freezed(fromJson: true) final List<String> favorites = const [],
+      @DocumentReferenceConverter() this.reference,
       this.gender = '未設定',
       this.dartsLiveRating = 1,
       this.phoenixRating = 1,
@@ -544,6 +566,9 @@ class _$Person implements Person {
     return EqualUnmodifiableListView(_favorites);
   }
 
+  @override
+  @DocumentReferenceConverter()
+  final DocumentReference<Object?>? reference;
 // ここから共通化してないものを入力をする
   @override
   @JsonKey()
@@ -560,7 +585,7 @@ class _$Person implements Person {
 
   @override
   String toString() {
-    return 'AppUser.person(id: $id, userName: $userName, userId: $userId, headerImage: $headerImage, userImage: $userImage, prefecture: $prefecture, city: $city, selfIntroduction: $selfIntroduction, followerCount: $followerCount, followingCount: $followingCount, tag: $tag, createdAt: $createdAt, updatedAt: $updatedAt, favorites: $favorites, gender: $gender, dartsLiveRating: $dartsLiveRating, phoenixRating: $phoenixRating)';
+    return 'AppUser.person(id: $id, userName: $userName, userId: $userId, headerImage: $headerImage, userImage: $userImage, prefecture: $prefecture, city: $city, selfIntroduction: $selfIntroduction, followerCount: $followerCount, followingCount: $followingCount, tag: $tag, createdAt: $createdAt, updatedAt: $updatedAt, favorites: $favorites, reference: $reference, gender: $gender, dartsLiveRating: $dartsLiveRating, phoenixRating: $phoenixRating)';
   }
 
   @override
@@ -592,6 +617,8 @@ class _$Person implements Person {
                 other.updatedAt == updatedAt) &&
             const DeepCollectionEquality()
                 .equals(other._favorites, _favorites) &&
+            (identical(other.reference, reference) ||
+                other.reference == reference) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.dartsLiveRating, dartsLiveRating) ||
                 other.dartsLiveRating == dartsLiveRating) &&
@@ -617,6 +644,7 @@ class _$Person implements Person {
       createdAt,
       updatedAt,
       const DeepCollectionEquality().hash(_favorites),
+      reference,
       gender,
       dartsLiveRating,
       phoenixRating);
@@ -645,6 +673,7 @@ class _$Person implements Person {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String gender,
             int dartsLiveRating,
             int phoenixRating)
@@ -664,6 +693,7 @@ class _$Person implements Person {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String address,
             int telephoneNumber,
             bool isApproved)
@@ -684,6 +714,7 @@ class _$Person implements Person {
         createdAt,
         updatedAt,
         favorites,
+        reference,
         gender,
         dartsLiveRating,
         phoenixRating);
@@ -707,6 +738,7 @@ class _$Person implements Person {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -726,6 +758,7 @@ class _$Person implements Person {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String address,
             int telephoneNumber,
             bool isApproved)?
@@ -746,6 +779,7 @@ class _$Person implements Person {
         createdAt,
         updatedAt,
         favorites,
+        reference,
         gender,
         dartsLiveRating,
         phoenixRating);
@@ -769,6 +803,7 @@ class _$Person implements Person {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -788,6 +823,7 @@ class _$Person implements Person {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String address,
             int telephoneNumber,
             bool isApproved)?
@@ -810,6 +846,7 @@ class _$Person implements Person {
           createdAt,
           updatedAt,
           favorites,
+          reference,
           gender,
           dartsLiveRating,
           phoenixRating);
@@ -872,6 +909,7 @@ abstract class Person implements AppUser {
       @TimestampConverter() required final Timestamp createdAt,
       @TimestampConverter() required final Timestamp updatedAt,
       @Freezed(fromJson: true) final List<String> favorites,
+      @DocumentReferenceConverter() final DocumentReference<Object?>? reference,
       final String gender,
       final int dartsLiveRating,
       final int phoenixRating}) = _$Person;
@@ -910,7 +948,10 @@ abstract class Person implements AppUser {
   Timestamp get updatedAt;
   @override
   @Freezed(fromJson: true)
-  List<String> get favorites; // ここから共通化してないものを入力をする
+  List<String> get favorites;
+  @override
+  @DocumentReferenceConverter()
+  DocumentReference<Object?>? get reference; // ここから共通化してないものを入力をする
   String get gender;
   int get dartsLiveRating;
   int get phoenixRating;
@@ -942,6 +983,7 @@ abstract class _$$StoreOwnerCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt,
       @Freezed(fromJson: true) List<String> favorites,
+      @DocumentReferenceConverter() DocumentReference<Object?>? reference,
       String address,
       int telephoneNumber,
       bool isApproved});
@@ -977,6 +1019,7 @@ class __$$StoreOwnerCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? favorites = null,
+    Object? reference = freezed,
     Object? address = null,
     Object? telephoneNumber = null,
     Object? isApproved = null,
@@ -1038,6 +1081,10 @@ class __$$StoreOwnerCopyWithImpl<$Res>
           ? _value._favorites
           : favorites // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      reference: freezed == reference
+          ? _value.reference
+          : reference // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>?,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -1088,6 +1135,7 @@ class _$StoreOwner implements StoreOwner {
       @TimestampConverter() required this.createdAt,
       @TimestampConverter() required this.updatedAt,
       @Freezed(fromJson: true) final List<String> favorites = const [],
+      @DocumentReferenceConverter() this.reference,
       required this.address,
       required this.telephoneNumber,
       this.isApproved = false,
@@ -1159,6 +1207,9 @@ class _$StoreOwner implements StoreOwner {
     return EqualUnmodifiableListView(_favorites);
   }
 
+  @override
+  @DocumentReferenceConverter()
+  final DocumentReference<Object?>? reference;
 // ここから共通化してないものを書く
   @override
   final String address;
@@ -1173,7 +1224,7 @@ class _$StoreOwner implements StoreOwner {
 
   @override
   String toString() {
-    return 'AppUser.storeOwner(id: $id, userName: $userName, userId: $userId, headerImages: $headerImages, userImage: $userImage, prefecture: $prefecture, city: $city, selfIntroduction: $selfIntroduction, followerCount: $followerCount, followingCount: $followingCount, tag: $tag, createdAt: $createdAt, updatedAt: $updatedAt, favorites: $favorites, address: $address, telephoneNumber: $telephoneNumber, isApproved: $isApproved)';
+    return 'AppUser.storeOwner(id: $id, userName: $userName, userId: $userId, headerImages: $headerImages, userImage: $userImage, prefecture: $prefecture, city: $city, selfIntroduction: $selfIntroduction, followerCount: $followerCount, followingCount: $followingCount, tag: $tag, createdAt: $createdAt, updatedAt: $updatedAt, favorites: $favorites, reference: $reference, address: $address, telephoneNumber: $telephoneNumber, isApproved: $isApproved)';
   }
 
   @override
@@ -1205,6 +1256,8 @@ class _$StoreOwner implements StoreOwner {
                 other.updatedAt == updatedAt) &&
             const DeepCollectionEquality()
                 .equals(other._favorites, _favorites) &&
+            (identical(other.reference, reference) ||
+                other.reference == reference) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.telephoneNumber, telephoneNumber) ||
                 other.telephoneNumber == telephoneNumber) &&
@@ -1230,6 +1283,7 @@ class _$StoreOwner implements StoreOwner {
       createdAt,
       updatedAt,
       const DeepCollectionEquality().hash(_favorites),
+      reference,
       address,
       telephoneNumber,
       isApproved);
@@ -1258,6 +1312,7 @@ class _$StoreOwner implements StoreOwner {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String gender,
             int dartsLiveRating,
             int phoenixRating)
@@ -1277,6 +1332,7 @@ class _$StoreOwner implements StoreOwner {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String address,
             int telephoneNumber,
             bool isApproved)
@@ -1297,6 +1353,7 @@ class _$StoreOwner implements StoreOwner {
         createdAt,
         updatedAt,
         favorites,
+        reference,
         address,
         telephoneNumber,
         isApproved);
@@ -1320,6 +1377,7 @@ class _$StoreOwner implements StoreOwner {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -1339,6 +1397,7 @@ class _$StoreOwner implements StoreOwner {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String address,
             int telephoneNumber,
             bool isApproved)?
@@ -1359,6 +1418,7 @@ class _$StoreOwner implements StoreOwner {
         createdAt,
         updatedAt,
         favorites,
+        reference,
         address,
         telephoneNumber,
         isApproved);
@@ -1382,6 +1442,7 @@ class _$StoreOwner implements StoreOwner {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -1401,6 +1462,7 @@ class _$StoreOwner implements StoreOwner {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            @DocumentReferenceConverter() DocumentReference<Object?>? reference,
             String address,
             int telephoneNumber,
             bool isApproved)?
@@ -1423,6 +1485,7 @@ class _$StoreOwner implements StoreOwner {
           createdAt,
           updatedAt,
           favorites,
+          reference,
           address,
           telephoneNumber,
           isApproved);
@@ -1485,6 +1548,7 @@ abstract class StoreOwner implements AppUser {
       @TimestampConverter() required final Timestamp createdAt,
       @TimestampConverter() required final Timestamp updatedAt,
       @Freezed(fromJson: true) final List<String> favorites,
+      @DocumentReferenceConverter() final DocumentReference<Object?>? reference,
       required final String address,
       required final int telephoneNumber,
       final bool isApproved}) = _$StoreOwner;
@@ -1525,7 +1589,10 @@ abstract class StoreOwner implements AppUser {
   Timestamp get updatedAt;
   @override
   @Freezed(fromJson: true)
-  List<String> get favorites; // ここから共通化してないものを書く
+  List<String> get favorites;
+  @override
+  @DocumentReferenceConverter()
+  DocumentReference<Object?>? get reference; // ここから共通化してないものを書く
   String get address;
   int get telephoneNumber;
   bool get isApproved;

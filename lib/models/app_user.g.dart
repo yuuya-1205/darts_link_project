@@ -29,6 +29,9 @@ _$Person _$$PersonFromJson(Map<String, dynamic> json) => _$Person(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      reference: _$JsonConverterFromJson<DocumentReference<Object?>,
+              DocumentReference<Object?>>(
+          json['reference'], const DocumentReferenceConverter().fromJson),
       gender: json['gender'] as String? ?? '未設定',
       dartsLiveRating: json['dartsLiveRating'] as int? ?? 1,
       phoenixRating: json['phoenixRating'] as int? ?? 1,
@@ -50,11 +53,26 @@ Map<String, dynamic> _$$PersonToJson(_$Person instance) => <String, dynamic>{
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
       'favorites': instance.favorites,
+      'reference': _$JsonConverterToJson<DocumentReference<Object?>,
+              DocumentReference<Object?>>(
+          instance.reference, const DocumentReferenceConverter().toJson),
       'gender': instance.gender,
       'dartsLiveRating': instance.dartsLiveRating,
       'phoenixRating': instance.phoenixRating,
       'runtimeType': instance.$type,
     };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) =>
+    json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) =>
+    value == null ? null : toJson(value);
 
 _$StoreOwner _$$StoreOwnerFromJson(Map<String, dynamic> json) => _$StoreOwner(
       id: json['id'] as String,
@@ -82,6 +100,9 @@ _$StoreOwner _$$StoreOwnerFromJson(Map<String, dynamic> json) => _$StoreOwner(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      reference: _$JsonConverterFromJson<DocumentReference<Object?>,
+              DocumentReference<Object?>>(
+          json['reference'], const DocumentReferenceConverter().fromJson),
       address: json['address'] as String,
       telephoneNumber: json['telephoneNumber'] as int,
       isApproved: json['isApproved'] as bool? ?? false,
@@ -105,6 +126,9 @@ Map<String, dynamic> _$$StoreOwnerToJson(_$StoreOwner instance) =>
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
       'favorites': instance.favorites,
+      'reference': _$JsonConverterToJson<DocumentReference<Object?>,
+              DocumentReference<Object?>>(
+          instance.reference, const DocumentReferenceConverter().toJson),
       'address': instance.address,
       'telephoneNumber': instance.telephoneNumber,
       'isApproved': instance.isApproved,

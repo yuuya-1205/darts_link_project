@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/converters/city_converter.dart';
+import 'package:darts_link_project/converters/document_reference_converter.dart';
 import 'package:darts_link_project/converters/pref_converter.dart';
 import 'package:darts_link_project/converters/timestamp_converter.dart';
 import 'package:darts_link_project/models/city.dart';
@@ -24,6 +25,7 @@ abstract class AAppUser {
   Timestamp get createdAt;
   Timestamp get updatedAt;
   List<String> get favorites;
+  DocumentReference? get reference;
 }
 
 @freezed
@@ -43,6 +45,7 @@ class AppUser with _$AppUser implements AAppUser {
     @TimestampConverter() required Timestamp createdAt,
     @TimestampConverter() required Timestamp updatedAt,
     @Freezed(fromJson: true) @Default([]) List<String> favorites,
+    @DocumentReferenceConverter() DocumentReference? reference,
 
     // ここから共通化してないものを入力をする
     @Default('未設定') String gender,
@@ -64,6 +67,7 @@ class AppUser with _$AppUser implements AAppUser {
     @TimestampConverter() required Timestamp createdAt,
     @TimestampConverter() required Timestamp updatedAt,
     @Freezed(fromJson: true) @Default([]) List<String> favorites,
+    @DocumentReferenceConverter() DocumentReference? reference,
 
     // ここから共通化してないものを書く
     required String address,
