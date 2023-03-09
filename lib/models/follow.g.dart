@@ -7,7 +7,8 @@ part of 'follow.dart';
 // **************************************************************************
 
 _$_Follow _$$_FollowFromJson(Map<String, dynamic> json) => _$_Follow(
-      followingUid: json['followingUid'] as String,
+      followingRef: const DocumentReferenceConverter()
+          .fromJson(json['followingRef'] as DocumentReference<Object?>),
       userName: json['userName'] as String,
       userId: json['userId'] as String,
       userImage: json['userImage'] as String,
@@ -16,7 +17,8 @@ _$_Follow _$$_FollowFromJson(Map<String, dynamic> json) => _$_Follow(
     );
 
 Map<String, dynamic> _$$_FollowToJson(_$_Follow instance) => <String, dynamic>{
-      'followingUid': instance.followingUid,
+      'followingRef':
+          const DocumentReferenceConverter().toJson(instance.followingRef),
       'userName': instance.userName,
       'userId': instance.userId,
       'userImage': instance.userImage,
