@@ -37,7 +37,7 @@ class _FollowTimeLinePageState extends State<FollowTimeLinePage> {
           }
           final followingUids = follows
               .map(
-                (e) => e.followingUid,
+                (e) => e.followingRef.id,
               )
               .toList();
 

@@ -1,12 +1,12 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:async';
+
 import 'package:darts_link_project/components/back_ground_image.dart';
 import 'package:darts_link_project/components/original_button.dart';
+import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/views/regist_user_info_page.dart/regist_person_info_page.dart';
 import 'package:darts_link_project/views/regist_user_info_page.dart/regist_store_owner_info_page.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class EmailSendCheck extends StatefulWidget {
   // 呼び出し元Widgetから受け取った後、変更をしないためfinalを宣言。
@@ -25,10 +25,10 @@ class EmailSendCheck extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _EmailSendCheckState createState() => _EmailSendCheckState();
+  EmailSendCheckState createState() => EmailSendCheckState();
 }
 
-class _EmailSendCheckState extends State<EmailSendCheck> {
+class EmailSendCheckState extends State<EmailSendCheck> {
   final _auth = FirebaseAuth.instance;
   UserCredential? _result;
   String? _nocheckText;
@@ -42,31 +42,22 @@ class _EmailSendCheckState extends State<EmailSendCheck> {
   }
 
   void timerReading() {
-    Timer.periodic(const Duration(seconds: 1), (Timer timer) async {
-      await FirebaseAuth.instance.currentUser!.reload();
-      FirebaseAuth.instance.currentUser!.emailVerified;
-// emailVerifiedがtrueに変更されたタイミングで毎秒処理を止めています。
-      if (FirebaseAuth.instance.currentUser!.emailVerified == true &&
-          widget.isStoreOwner == false) {
-        timer.cancel();
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const RegistPersonInfoPage(),
-            ));
+    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      final emailVerified =
+          AuthRepository.currentFirebaseUser?.emailVerified ?? false;
+      if (!emailVerified) {
         return;
       }
-      if (FirebaseAuth.instance.currentUser!.emailVerified == true &&
-          widget.isStoreOwner == true) {
-        timer.cancel();
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const RegistStoreOwnerInfoPage(),
-            ));
-      }
+      // emailVerifiedがtrueに変更されたタイミングでタイマーを停止
+      timer.cancel();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => widget.isStoreOwner
+              ? const RegistStoreOwnerInfoPage()
+              : const RegistPersonInfoPage(),
+        ),
+      );
     });
   }
 

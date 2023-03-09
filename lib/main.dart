@@ -1,7 +1,6 @@
 import 'package:darts_link_project/firebase_options.dart';
+import 'package:darts_link_project/services/fcm_service.dart';
 import 'package:darts_link_project/views/splash_page.dart';
-// ignore: unused_import
-import 'package:darts_link_project/views/top_page/top_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,13 +10,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FcmService.requestPermission();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

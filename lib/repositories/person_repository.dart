@@ -18,7 +18,8 @@ class PersonRepository {
     if (!snap.exists) {
       return null;
     }
-    final person = Person.fromJson(snap.data() as Map<String, dynamic>);
+    final person = Person.fromJson(snap.data() as Map<String, dynamic>)
+        .copyWith(reference: snap.reference);
 
     return person;
   }

@@ -20,7 +20,9 @@ Follow _$FollowFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Follow {
-  String get followingUid => throw _privateConstructorUsedError;
+  @DocumentReferenceConverter()
+  DocumentReference<Object?> get followingRef =>
+      throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get userImage => throw _privateConstructorUsedError;
@@ -38,7 +40,7 @@ abstract class $FollowCopyWith<$Res> {
       _$FollowCopyWithImpl<$Res, Follow>;
   @useResult
   $Res call(
-      {String followingUid,
+      {@DocumentReferenceConverter() DocumentReference<Object?> followingRef,
       String userName,
       String userId,
       String userImage,
@@ -58,17 +60,17 @@ class _$FollowCopyWithImpl<$Res, $Val extends Follow>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? followingUid = null,
+    Object? followingRef = null,
     Object? userName = null,
     Object? userId = null,
     Object? userImage = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
-      followingUid: null == followingUid
-          ? _value.followingUid
-          : followingUid // ignore: cast_nullable_to_non_nullable
-              as String,
+      followingRef: null == followingRef
+          ? _value.followingRef
+          : followingRef // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>,
       userName: null == userName
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
@@ -96,7 +98,7 @@ abstract class _$$_FollowCopyWith<$Res> implements $FollowCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String followingUid,
+      {@DocumentReferenceConverter() DocumentReference<Object?> followingRef,
       String userName,
       String userId,
       String userImage,
@@ -113,17 +115,17 @@ class __$$_FollowCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? followingUid = null,
+    Object? followingRef = null,
     Object? userName = null,
     Object? userId = null,
     Object? userImage = null,
     Object? createdAt = null,
   }) {
     return _then(_$_Follow(
-      followingUid: null == followingUid
-          ? _value.followingUid
-          : followingUid // ignore: cast_nullable_to_non_nullable
-              as String,
+      followingRef: null == followingRef
+          ? _value.followingRef
+          : followingRef // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>,
       userName: null == userName
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
@@ -148,7 +150,7 @@ class __$$_FollowCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Follow implements _Follow {
   const _$_Follow(
-      {required this.followingUid,
+      {@DocumentReferenceConverter() required this.followingRef,
       required this.userName,
       required this.userId,
       required this.userImage,
@@ -158,7 +160,8 @@ class _$_Follow implements _Follow {
       _$$_FollowFromJson(json);
 
   @override
-  final String followingUid;
+  @DocumentReferenceConverter()
+  final DocumentReference<Object?> followingRef;
   @override
   final String userName;
   @override
@@ -171,7 +174,7 @@ class _$_Follow implements _Follow {
 
   @override
   String toString() {
-    return 'Follow(followingUid: $followingUid, userName: $userName, userId: $userId, userImage: $userImage, createdAt: $createdAt)';
+    return 'Follow(followingRef: $followingRef, userName: $userName, userId: $userId, userImage: $userImage, createdAt: $createdAt)';
   }
 
   @override
@@ -179,8 +182,8 @@ class _$_Follow implements _Follow {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Follow &&
-            (identical(other.followingUid, followingUid) ||
-                other.followingUid == followingUid) &&
+            (identical(other.followingRef, followingRef) ||
+                other.followingRef == followingRef) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
             (identical(other.userId, userId) || other.userId == userId) &&
@@ -193,7 +196,7 @@ class _$_Follow implements _Follow {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, followingUid, userName, userId, userImage, createdAt);
+      runtimeType, followingRef, userName, userId, userImage, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -211,16 +214,19 @@ class _$_Follow implements _Follow {
 
 abstract class _Follow implements Follow {
   const factory _Follow(
-      {required final String followingUid,
+      {@DocumentReferenceConverter()
+          required final DocumentReference<Object?> followingRef,
       required final String userName,
       required final String userId,
       required final String userImage,
-      @TimestampConverter() required final Timestamp createdAt}) = _$_Follow;
+      @TimestampConverter()
+          required final Timestamp createdAt}) = _$_Follow;
 
   factory _Follow.fromJson(Map<String, dynamic> json) = _$_Follow.fromJson;
 
   @override
-  String get followingUid;
+  @DocumentReferenceConverter()
+  DocumentReference<Object?> get followingRef;
   @override
   String get userName;
   @override

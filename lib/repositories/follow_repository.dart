@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/models/follow.dart';
 import 'package:darts_link_project/repositories/person_repository.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 class FollowRepository {
   static final fireStore = FirebaseFirestore.instance;
@@ -13,7 +12,7 @@ class FollowRepository {
     required Follow follow,
   }) async {
     await getFollowCollection(uid)
-        .doc(follow.followingUid)
+        .doc(follow.followingRef.id)
         .set(follow.toJson(), SetOptions(merge: true));
   }
 
@@ -58,7 +57,7 @@ class FollowRepository {
 
   static Future<List<String>> fetchFollowingUids(String uid) async {
     final follows = await fetchFollows(uid);
-    final followingUids = follows.map((e) => e.followingUid).toList();
+    final followingUids = follows.map((e) => e.followingRef.id).toList();
     return followingUids;
   }
 

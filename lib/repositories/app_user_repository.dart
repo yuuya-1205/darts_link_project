@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/repositories/person_repository.dart';
 import 'package:darts_link_project/repositories/store_owner_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class AppUserRepository {
   static Future<AppUser?> fetchAppUser(String uid) async {
@@ -11,9 +10,7 @@ class AppUserRepository {
       return person;
     }
     final storeOwner = await StoreOwnerRepository.fetchStoreOwner(uid);
-    if (storeOwner != null) {
-      return storeOwner;
-    }
+    return storeOwner;
   }
 
   static DocumentReference getAppUserDocRef(AppUser appUser) {
