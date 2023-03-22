@@ -1,17 +1,16 @@
-// ignore: unnecessary_import
-import 'dart:ui';
 import 'package:darts_link_project/components/back_ground_image.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/input_field.dart';
 import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
+import 'package:darts_link_project/repositories/fcm_token_repository.dart';
 import 'package:darts_link_project/repositories/person_repository.dart';
+import 'package:darts_link_project/services/fcm_service.dart';
 import 'package:darts_link_project/views/auth_page/password_forget_page.dart';
 import 'package:darts_link_project/views/auth_page/register_slider_page.dart';
 import 'package:darts_link_project/views/auth_page/store_slider_page.dart';
 import 'package:darts_link_project/views/top_page/top_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -28,6 +27,40 @@ class _LoginPageState extends State<LoginPage> {
   final user = FirebaseAuth.instance.currentUser;
 
   String errorMassege = '';
+
+  Future<void> authLogin() async {
+    await AuthRepository.signIn(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+  }
+
+  Future<void> fetchPerson(String uid) async {
+    final person = await PersonRepository.fetchPerson(uid);
+    if (person == null) {
+      throw Exception('ユーザーの取得に失敗しました。');
+    }
+    AuthRepository.currentUser = person;
+  }
+
+  Future<void> setFcmToken(String uid) async {
+    final personReference = AuthRepository.currentUser?.reference;
+    if (personReference == null) {
+      return;
+    }
+    final token = await FcmService.getToken() ?? '';
+    final fcmToken = await FcmTokenRepository.fetchFcmToken(uid);
+    if (fcmToken == null) {
+      await FcmTokenRepository.createFcmToken(personReference, token);
+      return;
+    }
+    if (fcmToken.fcmTokens.contains(token)) {
+      return;
+    }
+
+    await FcmTokenRepository.updateFcmToken(uid, token);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,25 +163,15 @@ class _LoginPageState extends State<LoginPage> {
                       if (!_formKey.currentState!.validate()) {
                         return;
                       }
-                      final email = _emailController.text;
-                      final password = _passwordController.text;
-
                       try {
-                        await AuthRepository.signIn(
-                          email: email,
-                          password: password,
-                        );
-                        if (AuthRepository.currentFirebaseUser == null) {
-                          return;
-                        }
-                        final uid = AuthRepository.currentFirebaseUser!.uid;
-
-                        final person = await PersonRepository.fetchPerson(uid);
-                        if (person == null) {
+                        await authLogin();
+                        final uid = AuthRepository.currentFirebaseUser?.uid;
+                        if (uid == null) {
                           return;
                         }
 
-                        AuthRepository.currentUser = person;
+                        await fetchPerson(uid);
+                        await setFcmToken(uid);
 
                         // ignore: use_build_context_synchronously
                         await showDialog(
@@ -173,26 +196,21 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         );
                       } on FirebaseAuthException catch (e) {
-                        if (e.code == 'wrong-password') {
-                          errorMassege = 'パスワードが間違っています';
-                          setState(() {});
-                          return;
+                        switch (e.code) {
+                          case 'wrong-password':
+                            errorMassege = 'パスワードが間違っています';
+                            break;
+                          case 'user-not-found':
+                            errorMassege = 'ユーザーが登録されていません';
+                            break;
+                          case 'invalid-email':
+                            errorMassege = 'メールアドレスを入力してください';
+                            break;
+                          case 'too-many-requests':
+                            errorMassege = 'パスワードを再設定してください';
+                            break;
                         }
-                        if (e.code == 'user-not-found') {
-                          errorMassege = 'ユーザーが登録されていません';
-                          setState(() {});
-                          return;
-                        }
-                        if (e.code == 'invalid-email') {
-                          errorMassege = 'メールアドレスを入力してください';
-                          setState(() {});
-                          return;
-                        }
-                        if (e.code == 'too-many-requests') {
-                          errorMassege = 'パスワードを再設定してください';
-                          setState(() {});
-                          return;
-                        }
+                        setState(() {});
                       }
                     },
                   ),

@@ -6,7 +6,6 @@ import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/views/auth_page/login_page.dart';
 import 'package:darts_link_project/views/auth_page/store_register_application_review_page.dart';
 import 'package:darts_link_project/views/top_page/top_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -39,11 +38,10 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> _checkAuth() async {
-    //  await FirebaseAuth.instance.signOut();
+    // await FirebaseAuth.instance.signOut();
     await Future.delayed(const Duration(seconds: 2));
-    final user = FirebaseAuth.instance.currentUser;
+    final user = AuthRepository.currentFirebaseUser;
     if (user == null) {
-      // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

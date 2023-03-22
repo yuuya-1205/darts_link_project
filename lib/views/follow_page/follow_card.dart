@@ -3,7 +3,6 @@ import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/follow.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class FollowCard extends StatefulWidget {
   const FollowCard({
@@ -31,7 +30,7 @@ class _FollowCardState extends State<FollowCard> {
                 height: 40,
                 width: 40,
                 imageUrl: widget.follow.userImage,
-                uid: widget.follow.followingUid),
+                uid: widget.follow.followingRef.id),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(

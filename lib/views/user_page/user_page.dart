@@ -167,42 +167,46 @@ class _UserPageState extends State<UserPage> {
                                   width: 12,
                                 ),
                                 StreamBuilder<QuerySnapshot>(
-                                    stream: FollowRepository.followingStream(
-                                        followingUid: widget.appUser.id,
-                                        uid: user!.id),
-                                    builder: (context, snapshots) {
-                                      if (snapshots.hasData &&
-                                          snapshots.data!.docs.isNotEmpty) {
-                                        return FollowApproveButton(
-                                          onPressed: () async {
-                                            final user =
-                                                AuthRepository.currentUser;
-                                            await FollowRepository.unFollowing(
-                                                uid: user!.id,
-                                                followingUid:
-                                                    widget.appUser.id);
-                                          },
-                                          text: 'フォロー解除',
-                                        );
-                                      }
-
+                                  stream: FollowRepository.followingStream(
+                                      followingUid: widget.appUser.id,
+                                      uid: user!.id),
+                                  builder: (context, snapshots) {
+                                    if (snapshots.hasData &&
+                                        snapshots.data!.docs.isNotEmpty) {
                                       return FollowApproveButton(
                                         onPressed: () async {
-                                          await FollowRepository.setFollowing(
-                                              follow: Follow(
-                                                  createdAt: Timestamp.now(),
-                                                  followingUid:
-                                                      widget.appUser.id,
-                                                  userId: widget.appUser.userId,
-                                                  userImage:
-                                                      widget.appUser.userImage,
-                                                  userName:
-                                                      widget.appUser.userName),
-                                              uid: user!.id);
+                                          final user =
+                                              AuthRepository.currentUser;
+                                          await FollowRepository.unFollowing(
+                                              uid: user!.id,
+                                              followingUid: widget.appUser.id);
                                         },
-                                        text: 'フォローする',
+                                        text: 'フォロー解除',
                                       );
-                                    }),
+                                    }
+
+                                    return FollowApproveButton(
+                                      onPressed: () async {
+                                        final reference =
+                                            widget.appUser.reference;
+                                        if (reference == null) {
+                                          throw Exception('フォローに失敗しました。');
+                                        }
+                                        await FollowRepository.setFollowing(
+                                            follow: Follow(
+                                                createdAt: Timestamp.now(),
+                                                followingRef: reference,
+                                                userId: widget.appUser.userId,
+                                                userImage:
+                                                    widget.appUser.userImage,
+                                                userName:
+                                                    widget.appUser.userName),
+                                            uid: user!.id);
+                                      },
+                                      text: 'フォローする',
+                                    );
+                                  },
+                                ),
                               ],
                             ),
                             Row(
