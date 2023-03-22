@@ -4,9 +4,12 @@ import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/follow.dart';
+import 'package:darts_link_project/models/thread.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/follow_repository.dart';
+import 'package:darts_link_project/repositories/thread_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/thread_page/thread_chat_page.dart';
 import 'package:darts_link_project/views/user_page/user_image_post_page.dart';
 import 'package:darts_link_project/views/user_page/user_info_page.dart';
 import 'package:darts_link_project/views/user_page/user_post_list_page.dart';
@@ -109,7 +112,57 @@ class _UserPageState extends State<UserPage> {
                                   style: const TextStyle(fontSize: 20),
                                 ),
                                 const Spacer(),
-                                const Icon(FeatherIcons.mail),
+                                IconButton(
+                                  icon: Icon(FeatherIcons.mail),
+                                  onPressed: () async {
+                                    final uids = [user!.id, widget.appUser.id];
+                                    uids.sort();
+                                    final threadId =
+                                        '${uids.first}${uids.last}';
+                                    late final Thread thread;
+                                    final result = await ThreadRepository
+                                        .fetchThreadByMemberIds(threadId);
+
+                                    if (result == null) {
+                                      thread = Thread(
+                                        unReadCount: {
+                                          uids.first: 0,
+                                          uids.last: 0
+                                        },
+                                        id: threadId,
+                                        uids: uids,
+                                        createdAt: Timestamp.now(),
+                                        isReading: false,
+                                        updatedAt: Timestamp.now(),
+                                        memberDetails: {
+                                          user!.id: {
+                                            'name': user!.userName,
+                                            'imageUrl': user!.userImage,
+                                          },
+                                          widget.appUser.id: {
+                                            'name': widget.appUser.userName,
+                                            'imageUrl':
+                                                widget.appUser.userImage,
+                                          }
+                                        },
+                                      );
+                                      await ThreadRepository.createThread(
+                                          thread);
+                                    } else {
+                                      thread = result;
+                                    }
+                                    // ignore: use_build_context_synchronously
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: ((context) => ThreadChatPage(
+                                              isReading: true,
+                                              thread: thread,
+                                            )),
+                                      ),
+                                    );
+                                  },
+                                ),
                                 const SizedBox(
                                   width: 12,
                                 ),

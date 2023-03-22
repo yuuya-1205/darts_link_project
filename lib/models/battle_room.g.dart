@@ -11,8 +11,10 @@ _$_BattleRoom _$$_BattleRoomFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       title: json['title'] as String,
       place: json['place'] as String? ?? '',
-      prefecture: json['prefecture'] as String? ?? '未登録',
-      city: json['city'] as String? ?? '未登録',
+      prefecture: const PrefNullableConverter()
+          .fromJson(json['prefecture'] as Map<String, dynamic>?),
+      city: const CityNullableConverter()
+          .fromJson(json['city'] as Map<String, dynamic>?),
       dateTime:
           const TimestampConverter().fromJson(json['dateTime'] as Timestamp),
       startTime:
@@ -48,8 +50,8 @@ Map<String, dynamic> _$$_BattleRoomToJson(_$_BattleRoom instance) =>
       'id': instance.id,
       'title': instance.title,
       'place': instance.place,
-      'prefecture': instance.prefecture,
-      'city': instance.city,
+      'prefecture': const PrefNullableConverter().toJson(instance.prefecture),
+      'city': const CityNullableConverter().toJson(instance.city),
       'dateTime': const TimestampConverter().toJson(instance.dateTime),
       'startTime': const TimestampConverter().toJson(instance.startTime),
       'finishTime': const TimestampConverter().toJson(instance.finishTime),

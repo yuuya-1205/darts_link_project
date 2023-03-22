@@ -35,6 +35,7 @@ class BattleRoomRepository {
     await battleRoomsCollection.doc(battleRoom.id).update(
           battleRoom.toJson(),
         );
+    print(battleRoom.id);
   }
 
   static Future<void> deleteBattleRoom(BattleRoom battleRoom) async {

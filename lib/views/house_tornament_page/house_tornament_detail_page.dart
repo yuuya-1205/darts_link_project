@@ -38,7 +38,7 @@ class HouseTornamentDetailPage extends StatefulWidget {
 }
 
 class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
-  final user = AuthRepository.currentUser as StoreOwner;
+  final user = AuthRepository.currentUser;
   Asset? asset;
   List<HouseTornamentMember> members = [];
   DateFormat dateFormat = DateFormat("yyyy年MM月dd日");

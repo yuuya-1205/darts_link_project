@@ -48,6 +48,7 @@ mixin _$AppUser {
   Timestamp get updatedAt => throw _privateConstructorUsedError;
   @Freezed(fromJson: true)
   List<String> get favorites => throw _privateConstructorUsedError;
+  bool get isAdmin => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -65,6 +66,7 @@ mixin _$AppUser {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String gender,
             int dartsLiveRating,
             int phoenixRating)
@@ -84,9 +86,11 @@ mixin _$AppUser {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String address,
             int telephoneNumber,
-            bool isApproved)
+            bool isApproved,
+            String dartsBoradCount)
         storeOwner,
   }) =>
       throw _privateConstructorUsedError;
@@ -107,6 +111,7 @@ mixin _$AppUser {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -126,9 +131,11 @@ mixin _$AppUser {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String address,
             int telephoneNumber,
-            bool isApproved)?
+            bool isApproved,
+            String dartsBoradCount)?
         storeOwner,
   }) =>
       throw _privateConstructorUsedError;
@@ -149,6 +156,7 @@ mixin _$AppUser {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -168,9 +176,11 @@ mixin _$AppUser {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String address,
             int telephoneNumber,
-            bool isApproved)?
+            bool isApproved,
+            String dartsBoradCount)?
         storeOwner,
     required TResult orElse(),
   }) =>
@@ -217,7 +227,8 @@ abstract class $AppUserCopyWith<$Res> {
       @Freezed(fromJson: true) List<String> tag,
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt,
-      @Freezed(fromJson: true) List<String> favorites});
+      @Freezed(fromJson: true) List<String> favorites,
+      bool isAdmin});
 
   $PrefCopyWith<$Res>? get prefecture;
   $CityCopyWith<$Res>? get city;
@@ -249,6 +260,7 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? favorites = null,
+    Object? isAdmin = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -303,6 +315,10 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
           ? _value.favorites
           : favorites // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      isAdmin: null == isAdmin
+          ? _value.isAdmin
+          : isAdmin // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -352,6 +368,7 @@ abstract class _$$PersonCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt,
       @Freezed(fromJson: true) List<String> favorites,
+      bool isAdmin,
       String gender,
       int dartsLiveRating,
       int phoenixRating});
@@ -385,6 +402,7 @@ class __$$PersonCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res, _$Person>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? favorites = null,
+    Object? isAdmin = null,
     Object? gender = null,
     Object? dartsLiveRating = null,
     Object? phoenixRating = null,
@@ -446,6 +464,10 @@ class __$$PersonCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res, _$Person>
           ? _value._favorites
           : favorites // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      isAdmin: null == isAdmin
+          ? _value.isAdmin
+          : isAdmin // ignore: cast_nullable_to_non_nullable
+              as bool,
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
@@ -480,6 +502,7 @@ class _$Person implements Person {
       @TimestampConverter() required this.createdAt,
       @TimestampConverter() required this.updatedAt,
       @Freezed(fromJson: true) final List<String> favorites = const [],
+      this.isAdmin = false,
       this.gender = '未設定',
       this.dartsLiveRating = 1,
       this.phoenixRating = 1,
@@ -544,6 +567,9 @@ class _$Person implements Person {
     return EqualUnmodifiableListView(_favorites);
   }
 
+  @override
+  @JsonKey()
+  final bool isAdmin;
 // ここから共通化してないものを入力をする
   @override
   @JsonKey()
@@ -560,7 +586,7 @@ class _$Person implements Person {
 
   @override
   String toString() {
-    return 'AppUser.person(id: $id, userName: $userName, userId: $userId, headerImage: $headerImage, userImage: $userImage, prefecture: $prefecture, city: $city, selfIntroduction: $selfIntroduction, followerCount: $followerCount, followingCount: $followingCount, tag: $tag, createdAt: $createdAt, updatedAt: $updatedAt, favorites: $favorites, gender: $gender, dartsLiveRating: $dartsLiveRating, phoenixRating: $phoenixRating)';
+    return 'AppUser.person(id: $id, userName: $userName, userId: $userId, headerImage: $headerImage, userImage: $userImage, prefecture: $prefecture, city: $city, selfIntroduction: $selfIntroduction, followerCount: $followerCount, followingCount: $followingCount, tag: $tag, createdAt: $createdAt, updatedAt: $updatedAt, favorites: $favorites, isAdmin: $isAdmin, gender: $gender, dartsLiveRating: $dartsLiveRating, phoenixRating: $phoenixRating)';
   }
 
   @override
@@ -592,6 +618,7 @@ class _$Person implements Person {
                 other.updatedAt == updatedAt) &&
             const DeepCollectionEquality()
                 .equals(other._favorites, _favorites) &&
+            (identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.dartsLiveRating, dartsLiveRating) ||
                 other.dartsLiveRating == dartsLiveRating) &&
@@ -617,6 +644,7 @@ class _$Person implements Person {
       createdAt,
       updatedAt,
       const DeepCollectionEquality().hash(_favorites),
+      isAdmin,
       gender,
       dartsLiveRating,
       phoenixRating);
@@ -645,6 +673,7 @@ class _$Person implements Person {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String gender,
             int dartsLiveRating,
             int phoenixRating)
@@ -664,9 +693,11 @@ class _$Person implements Person {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String address,
             int telephoneNumber,
-            bool isApproved)
+            bool isApproved,
+            String dartsBoradCount)
         storeOwner,
   }) {
     return person(
@@ -684,6 +715,7 @@ class _$Person implements Person {
         createdAt,
         updatedAt,
         favorites,
+        isAdmin,
         gender,
         dartsLiveRating,
         phoenixRating);
@@ -707,6 +739,7 @@ class _$Person implements Person {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -726,9 +759,11 @@ class _$Person implements Person {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String address,
             int telephoneNumber,
-            bool isApproved)?
+            bool isApproved,
+            String dartsBoradCount)?
         storeOwner,
   }) {
     return person?.call(
@@ -746,6 +781,7 @@ class _$Person implements Person {
         createdAt,
         updatedAt,
         favorites,
+        isAdmin,
         gender,
         dartsLiveRating,
         phoenixRating);
@@ -769,6 +805,7 @@ class _$Person implements Person {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -788,9 +825,11 @@ class _$Person implements Person {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String address,
             int telephoneNumber,
-            bool isApproved)?
+            bool isApproved,
+            String dartsBoradCount)?
         storeOwner,
     required TResult orElse(),
   }) {
@@ -810,6 +849,7 @@ class _$Person implements Person {
           createdAt,
           updatedAt,
           favorites,
+          isAdmin,
           gender,
           dartsLiveRating,
           phoenixRating);
@@ -872,6 +912,7 @@ abstract class Person implements AppUser {
       @TimestampConverter() required final Timestamp createdAt,
       @TimestampConverter() required final Timestamp updatedAt,
       @Freezed(fromJson: true) final List<String> favorites,
+      final bool isAdmin,
       final String gender,
       final int dartsLiveRating,
       final int phoenixRating}) = _$Person;
@@ -910,7 +951,9 @@ abstract class Person implements AppUser {
   Timestamp get updatedAt;
   @override
   @Freezed(fromJson: true)
-  List<String> get favorites; // ここから共通化してないものを入力をする
+  List<String> get favorites;
+  @override
+  bool get isAdmin; // ここから共通化してないものを入力をする
   String get gender;
   int get dartsLiveRating;
   int get phoenixRating;
@@ -942,9 +985,11 @@ abstract class _$$StoreOwnerCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt,
       @Freezed(fromJson: true) List<String> favorites,
+      bool isAdmin,
       String address,
       int telephoneNumber,
-      bool isApproved});
+      bool isApproved,
+      String dartsBoradCount});
 
   @override
   $PrefCopyWith<$Res> get prefecture;
@@ -977,9 +1022,11 @@ class __$$StoreOwnerCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? favorites = null,
+    Object? isAdmin = null,
     Object? address = null,
     Object? telephoneNumber = null,
     Object? isApproved = null,
+    Object? dartsBoradCount = null,
   }) {
     return _then(_$StoreOwner(
       id: null == id
@@ -1038,6 +1085,10 @@ class __$$StoreOwnerCopyWithImpl<$Res>
           ? _value._favorites
           : favorites // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      isAdmin: null == isAdmin
+          ? _value.isAdmin
+          : isAdmin // ignore: cast_nullable_to_non_nullable
+              as bool,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -1050,6 +1101,10 @@ class __$$StoreOwnerCopyWithImpl<$Res>
           ? _value.isApproved
           : isApproved // ignore: cast_nullable_to_non_nullable
               as bool,
+      dartsBoradCount: null == dartsBoradCount
+          ? _value.dartsBoradCount
+          : dartsBoradCount // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 
@@ -1088,9 +1143,11 @@ class _$StoreOwner implements StoreOwner {
       @TimestampConverter() required this.createdAt,
       @TimestampConverter() required this.updatedAt,
       @Freezed(fromJson: true) final List<String> favorites = const [],
+      this.isAdmin = false,
       required this.address,
       required this.telephoneNumber,
       this.isApproved = false,
+      this.dartsBoradCount = '',
       final String? $type})
       : _headerImages = headerImages,
         _tag = tag,
@@ -1159,6 +1216,9 @@ class _$StoreOwner implements StoreOwner {
     return EqualUnmodifiableListView(_favorites);
   }
 
+  @override
+  @JsonKey()
+  final bool isAdmin;
 // ここから共通化してないものを書く
   @override
   final String address;
@@ -1167,13 +1227,16 @@ class _$StoreOwner implements StoreOwner {
   @override
   @JsonKey()
   final bool isApproved;
+  @override
+  @JsonKey()
+  final String dartsBoradCount;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'AppUser.storeOwner(id: $id, userName: $userName, userId: $userId, headerImages: $headerImages, userImage: $userImage, prefecture: $prefecture, city: $city, selfIntroduction: $selfIntroduction, followerCount: $followerCount, followingCount: $followingCount, tag: $tag, createdAt: $createdAt, updatedAt: $updatedAt, favorites: $favorites, address: $address, telephoneNumber: $telephoneNumber, isApproved: $isApproved)';
+    return 'AppUser.storeOwner(id: $id, userName: $userName, userId: $userId, headerImages: $headerImages, userImage: $userImage, prefecture: $prefecture, city: $city, selfIntroduction: $selfIntroduction, followerCount: $followerCount, followingCount: $followingCount, tag: $tag, createdAt: $createdAt, updatedAt: $updatedAt, favorites: $favorites, isAdmin: $isAdmin, address: $address, telephoneNumber: $telephoneNumber, isApproved: $isApproved, dartsBoradCount: $dartsBoradCount)';
   }
 
   @override
@@ -1205,34 +1268,40 @@ class _$StoreOwner implements StoreOwner {
                 other.updatedAt == updatedAt) &&
             const DeepCollectionEquality()
                 .equals(other._favorites, _favorites) &&
+            (identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.telephoneNumber, telephoneNumber) ||
                 other.telephoneNumber == telephoneNumber) &&
             (identical(other.isApproved, isApproved) ||
-                other.isApproved == isApproved));
+                other.isApproved == isApproved) &&
+            (identical(other.dartsBoradCount, dartsBoradCount) ||
+                other.dartsBoradCount == dartsBoradCount));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      userName,
-      userId,
-      const DeepCollectionEquality().hash(_headerImages),
-      userImage,
-      prefecture,
-      city,
-      selfIntroduction,
-      followerCount,
-      followingCount,
-      const DeepCollectionEquality().hash(_tag),
-      createdAt,
-      updatedAt,
-      const DeepCollectionEquality().hash(_favorites),
-      address,
-      telephoneNumber,
-      isApproved);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        userName,
+        userId,
+        const DeepCollectionEquality().hash(_headerImages),
+        userImage,
+        prefecture,
+        city,
+        selfIntroduction,
+        followerCount,
+        followingCount,
+        const DeepCollectionEquality().hash(_tag),
+        createdAt,
+        updatedAt,
+        const DeepCollectionEquality().hash(_favorites),
+        isAdmin,
+        address,
+        telephoneNumber,
+        isApproved,
+        dartsBoradCount
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -1258,6 +1327,7 @@ class _$StoreOwner implements StoreOwner {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String gender,
             int dartsLiveRating,
             int phoenixRating)
@@ -1277,9 +1347,11 @@ class _$StoreOwner implements StoreOwner {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String address,
             int telephoneNumber,
-            bool isApproved)
+            bool isApproved,
+            String dartsBoradCount)
         storeOwner,
   }) {
     return storeOwner(
@@ -1297,9 +1369,11 @@ class _$StoreOwner implements StoreOwner {
         createdAt,
         updatedAt,
         favorites,
+        isAdmin,
         address,
         telephoneNumber,
-        isApproved);
+        isApproved,
+        dartsBoradCount);
   }
 
   @override
@@ -1320,6 +1394,7 @@ class _$StoreOwner implements StoreOwner {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -1339,9 +1414,11 @@ class _$StoreOwner implements StoreOwner {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String address,
             int telephoneNumber,
-            bool isApproved)?
+            bool isApproved,
+            String dartsBoradCount)?
         storeOwner,
   }) {
     return storeOwner?.call(
@@ -1359,9 +1436,11 @@ class _$StoreOwner implements StoreOwner {
         createdAt,
         updatedAt,
         favorites,
+        isAdmin,
         address,
         telephoneNumber,
-        isApproved);
+        isApproved,
+        dartsBoradCount);
   }
 
   @override
@@ -1382,6 +1461,7 @@ class _$StoreOwner implements StoreOwner {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String gender,
             int dartsLiveRating,
             int phoenixRating)?
@@ -1401,9 +1481,11 @@ class _$StoreOwner implements StoreOwner {
             @TimestampConverter() Timestamp createdAt,
             @TimestampConverter() Timestamp updatedAt,
             @Freezed(fromJson: true) List<String> favorites,
+            bool isAdmin,
             String address,
             int telephoneNumber,
-            bool isApproved)?
+            bool isApproved,
+            String dartsBoradCount)?
         storeOwner,
     required TResult orElse(),
   }) {
@@ -1423,9 +1505,11 @@ class _$StoreOwner implements StoreOwner {
           createdAt,
           updatedAt,
           favorites,
+          isAdmin,
           address,
           telephoneNumber,
-          isApproved);
+          isApproved,
+          dartsBoradCount);
     }
     return orElse();
   }
@@ -1485,9 +1569,11 @@ abstract class StoreOwner implements AppUser {
       @TimestampConverter() required final Timestamp createdAt,
       @TimestampConverter() required final Timestamp updatedAt,
       @Freezed(fromJson: true) final List<String> favorites,
+      final bool isAdmin,
       required final String address,
       required final int telephoneNumber,
-      final bool isApproved}) = _$StoreOwner;
+      final bool isApproved,
+      final String dartsBoradCount}) = _$StoreOwner;
 
   factory StoreOwner.fromJson(Map<String, dynamic> json) =
       _$StoreOwner.fromJson;
@@ -1525,10 +1611,13 @@ abstract class StoreOwner implements AppUser {
   Timestamp get updatedAt;
   @override
   @Freezed(fromJson: true)
-  List<String> get favorites; // ここから共通化してないものを書く
+  List<String> get favorites;
+  @override
+  bool get isAdmin; // ここから共通化してないものを書く
   String get address;
   int get telephoneNumber;
   bool get isApproved;
+  String get dartsBoradCount;
   @override
   @JsonKey(ignore: true)
   _$$StoreOwnerCopyWith<_$StoreOwner> get copyWith =>

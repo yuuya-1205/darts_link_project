@@ -5,6 +5,7 @@ import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/components/text_components/original_label.dart';
 import 'package:darts_link_project/components/text_components/original_text.dart';
+import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/battle_room.dart';
 import 'package:darts_link_project/models/join_request.dart';
 import 'package:darts_link_project/models/member.dart';
@@ -203,8 +204,8 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: ((context) =>
-                                        const EditBattleRoomPage()),
+                                    builder: ((context) => EditBattleRoomPage(
+                                        battleRoom: widget.battleRoom)),
                                   ),
                                 );
                               },
@@ -212,14 +213,14 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                             ),
                           ),
                           PopupMenuItem(
-                            value: 'edit',
+                            value: 'approve',
                             child: GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: ((context) =>
-                                        const EditBattleRoomPage()),
+                                    builder: ((context) => EditBattleRoomPage(
+                                        battleRoom: widget.battleRoom)),
                                   ),
                                 );
                               },
@@ -327,7 +328,10 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      OriginalText(text: widget.battleRoom.place),
+                      OriginalText(
+                          text: widget.battleRoom.place.isEmpty
+                              ? '未登録'
+                              : widget.battleRoom.place),
                       Row(
                         children: [
                           OriginalText(
@@ -338,10 +342,66 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                                   '${timeFormat.format(widget.battleRoom.startTime.toDate())}~${timeFormat.format(widget.battleRoom.finishTime.toDate())}'),
                         ],
                       ),
-                      OriginalText(text: widget.battleRoom.city),
+                      OriginalText(text: widget.battleRoom.city!.name),
                       OriginalText(
                         text: '${widget.battleRoom.capacity}名',
                       ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Wrap(
+                          children: widget.battleRoom.dartsModels
+                              .map((e) => Container(
+                                    margin:
+                                        const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    decoration: BoxDecoration(
+                                        color: const Color.fromRGBO(
+                                            227, 243, 255, 1),
+                                        border: Border.all(
+                                          color: const Color.fromRGBO(
+                                              78, 165, 229, 1),
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(100)),
+                                    child: Text(
+                                      e,
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(78, 165, 229, 1),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ))
+                              .toList()),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Wrap(
+                          children: widget.battleRoom.fetures
+                              .map((e) => Container(
+                                    margin:
+                                        const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    decoration: BoxDecoration(
+                                        color: const Color.fromRGBO(
+                                            242, 246, 217, 1),
+                                        border: Border.all(
+                                          color: const Color.fromRGBO(
+                                              189, 208, 66, 1),
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(100)),
+                                    child: Text(
+                                      e,
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(189, 208, 66, 1),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ))
+                              .toList()),
                     ],
                   )
                 ],
@@ -368,13 +428,75 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(widget.battleRoom.detail),
+                            Text(widget.battleRoom.detail.isEmpty
+                                ? '未登録'
+                                : widget.battleRoom.detail),
                           ],
                         ),
                       ],
                     ),
                   ),
                 ),
+              ),
+              const Text(
+                '主催者',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              Row(
+                children: [
+                  UserImage(
+                      height: 50,
+                      width: 50,
+                      imageUrl: widget.battleRoom.createrImage,
+                      uid: widget.battleRoom.userId),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  // ignore: sized_box_for_whitespace
+                  Container(
+                    width: 250,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              widget.battleRoom.createrName,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              widget.battleRoom.userId,
+                              style: const TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('フォロー${widget.battleRoom.followingCount}人',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                            const Text('/'),
+                            Text('フォロワー${widget.battleRoom.followerCount}人',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  Icon(FeatherIcons.mail,
+                      color: OriginalTheme.themeData.primaryColor),
+                ],
               ),
               Center(
                 child: FutureBuilder<BattleRoomMemberType>(

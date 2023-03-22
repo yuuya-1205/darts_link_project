@@ -39,23 +39,52 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
   final _bussinessHoursController = TextEditingController();
   final _urlController = TextEditingController();
   final _introductionController = TextEditingController();
+  final _dartsBoardCountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text(
-          '店舗情報登録',
-          style: TextStyle(
-            color: Colors.black,
+        iconTheme: const IconThemeData(
+          color: Color.fromRGBO(247, 63, 150, 1),
+        ),
+        leadingWidth: 76,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Row(
+            children: [
+              Container(
+                width: 30,
+                child: const BackButton(),
+              ),
+              const Text(
+                '戻る',
+                style: TextStyle(
+                  color: Color.fromRGBO(247, 63, 150, 1),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ],
           ),
         ),
+        title: const Text(
+          '店舗登録申請',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: SingleChildScrollView(
             child: Form(
+          key: _formKey,
           child: Column(
             children: [
               const SizedBox(
@@ -66,9 +95,12 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text('店舗名'),
+                  const Text(
+                    '店舗名',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(
-                    width: 20,
+                    width: 60,
                   ),
                   Flexible(
                     child: InputField(
@@ -91,7 +123,10 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
               ),
               Row(
                 children: [
-                  const Text('都道府県'),
+                  const Text(
+                    '都道府県',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(
                     width: 45,
                   ),
@@ -159,7 +194,10 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
               ),
               Row(
                 children: [
-                  const Text('エリア'),
+                  const Text(
+                    'エリア',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(
                     width: 60,
                   ),
@@ -231,9 +269,12 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text('住所'),
+                  const Text(
+                    '住所',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(
-                    width: 20,
+                    width: 75,
                   ),
                   Flexible(
                     child: InputField(
@@ -259,9 +300,12 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text('営業時間'),
+                  const Text(
+                    '営業時間',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(
-                    width: 20,
+                    width: 45,
                   ),
                   Flexible(
                     child: InputField(
@@ -287,9 +331,12 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text('URL'),
+                  const Text(
+                    'URL',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(
-                    width: 20,
+                    width: 73,
                   ),
                   Flexible(
                     child: InputField(
@@ -317,16 +364,22 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                   ),
                   Column(
                     children: const [
-                      Text('ダーツ台'),
-                      Text('設置数'),
+                      Text(
+                        'ダーツ台',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '設置数',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ],
                   ),
                   const SizedBox(
-                    width: 20,
+                    width: 45,
                   ),
                   Flexible(
                     child: InputField(
-                      controller: _bussinessHoursController,
+                      controller: _dartsBoardCountController,
                       hintText: '入力してください',
                       keyboardType: TextInputType.emailAddress,
                       obscureText: true,
@@ -348,7 +401,10 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                   SizedBox(
                     height: 20,
                   ),
-                  Text('タグ'),
+                  Text(
+                    'タグ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(
                     width: 20,
                   ),
@@ -362,9 +418,12 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text('店舗詳細'),
+                  const Text(
+                    '店舗詳細',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(
-                    width: 20,
+                    width: 45,
                   ),
                   Flexible(
                     child: InputField(
@@ -390,10 +449,14 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                 onPrimary: Colors.white,
                 text: '店舗申請する',
                 onPressed: () async {
+                  if (!_formKey.currentState!.validate()) {
+                    return;
+                  }
                   final uid = FirebaseAuth.instance.currentUser!.uid;
                   final storeName = _storeNameController.text;
                   final address = _addressController.text;
                   final selfIntroduction = _introductionController.text;
+                  final dartsBoardCount = _dartsBoardCountController.text;
                   if (_initalCityArea == null ||
                       _initalPrefectureArea == null) {
                     return;
@@ -410,6 +473,7 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                     selfIntroduction: selfIntroduction,
                     createdAt: Timestamp.now(),
                     updatedAt: Timestamp.now(),
+                    dartsBoradCount: dartsBoardCount,
                   );
                   await StoreOwnerRepository.updateStoreOwner(storeOwner);
 

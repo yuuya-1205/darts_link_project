@@ -19,7 +19,6 @@ class PersonRepository {
       return null;
     }
     final person = Person.fromJson(snap.data() as Map<String, dynamic>);
-
     return person;
   }
 }

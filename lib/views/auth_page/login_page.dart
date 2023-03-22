@@ -81,6 +81,11 @@ class _LoginPageState extends State<LoginPage> {
                       if (value!.isEmpty) {
                         return 'パスワードを入力してください';
                       }
+                      final regex =
+                          RegExp(r"^(?=.*[A-Z])[a-zA-Z0-9.?/-]{6,24}$");
+                      if (!regex.hasMatch(value)) {
+                        return '大文字含めたアルファベット6文字以上24文字以下のパスワードにしてください';
+                      }
                       return null;
                     },
                     hintText: 'パスワード',
@@ -137,19 +142,13 @@ class _LoginPageState extends State<LoginPage> {
                           return;
                         }
                         final uid = AuthRepository.currentFirebaseUser!.uid;
-                        // final storeOwner =
-                        //     await StoreOwnerRepository.fetchStoreOwner(uid);
 
                         final person = await PersonRepository.fetchPerson(uid);
                         if (person == null) {
                           return;
                         }
-                        // if (storeOwner == null) {
-                        //   return;
-                        // }
-                        AuthRepository.currentUser = person;
 
-                        //   AuthRepository.currentUser = storeOwner;
+                        AuthRepository.currentUser = person;
 
                         // ignore: use_build_context_synchronously
                         await showDialog(
@@ -173,10 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                             builder: ((context) => const TopPage()),
                           ),
                         );
-                        // TODO ログインを実装する。
-                        // TODO 認証後、トップページに移動する。
                       } on FirebaseAuthException catch (e) {
-                        print(e.code);
                         if (e.code == 'wrong-password') {
                           errorMassege = 'パスワードが間違っています';
                           setState(() {});

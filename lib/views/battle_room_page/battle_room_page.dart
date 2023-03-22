@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:darts_link_project/components/sort_box/area_box.dart';
 import 'package:darts_link_project/components/sort_box/date_time_box.dart';
 import 'package:darts_link_project/components/sort_box/recruit_box.dart';
@@ -9,7 +8,6 @@ import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/battle_room_page/battle_room_card.dart';
 import 'package:darts_link_project/views/battle_room_page/create_battle_room_page.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class BattleRoomPage extends StatefulWidget {
   const BattleRoomPage({Key? key}) : super(key: key);

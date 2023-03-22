@@ -29,6 +29,7 @@ _$Person _$$PersonFromJson(Map<String, dynamic> json) => _$Person(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      isAdmin: json['isAdmin'] as bool? ?? false,
       gender: json['gender'] as String? ?? '未設定',
       dartsLiveRating: json['dartsLiveRating'] as int? ?? 1,
       phoenixRating: json['phoenixRating'] as int? ?? 1,
@@ -50,6 +51,7 @@ Map<String, dynamic> _$$PersonToJson(_$Person instance) => <String, dynamic>{
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
       'favorites': instance.favorites,
+      'isAdmin': instance.isAdmin,
       'gender': instance.gender,
       'dartsLiveRating': instance.dartsLiveRating,
       'phoenixRating': instance.phoenixRating,
@@ -82,9 +84,11 @@ _$StoreOwner _$$StoreOwnerFromJson(Map<String, dynamic> json) => _$StoreOwner(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      isAdmin: json['isAdmin'] as bool? ?? false,
       address: json['address'] as String,
       telephoneNumber: json['telephoneNumber'] as int,
       isApproved: json['isApproved'] as bool? ?? false,
+      dartsBoradCount: json['dartsBoradCount'] as String? ?? '',
       $type: json['runtimeType'] as String?,
     );
 
@@ -105,8 +109,10 @@ Map<String, dynamic> _$$StoreOwnerToJson(_$StoreOwner instance) =>
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
       'favorites': instance.favorites,
+      'isAdmin': instance.isAdmin,
       'address': instance.address,
       'telephoneNumber': instance.telephoneNumber,
       'isApproved': instance.isApproved,
+      'dartsBoradCount': instance.dartsBoradCount,
       'runtimeType': instance.$type,
     };

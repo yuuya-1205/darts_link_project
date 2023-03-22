@@ -3,8 +3,6 @@ import 'package:darts_link_project/models/battle_room.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/battle_room_page/battle_room_detail_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 
 class BattleRoomCard extends StatelessWidget {
@@ -75,7 +73,7 @@ class BattleRoomCard extends StatelessWidget {
                           color: Color.fromRGBO(210, 48, 125, 1),
                         ),
                         Text(
-                          battleRoom.place,
+                          battleRoom.place.isEmpty ? '未登録' : battleRoom.place,
                           style: const TextStyle(
                               color: Color.fromRGBO(210, 48, 125, 1)),
                         ),
