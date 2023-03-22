@@ -17,7 +17,7 @@ class _MyPostListPageState extends State<MyPostListPage> {
   Widget build(BuildContext context) {
     final user = AuthRepository.currentUser;
     return StreamBuilder<List<Post>>(
-        stream: PostRepository.myPostStream(),
+        stream: PostRepository.myPostStream(user!.id),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.active) {
             return const Center(
@@ -42,59 +42,6 @@ class _MyPostListPageState extends State<MyPostListPage> {
                 return TimeLineCard(
                   post: post,
                 );
-                // return Column(
-                //   children: [
-                //     Row(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         UserImage(
-                //           width: 50,
-                //           height: 50,
-                //           imageUrl: post.userImage,
-                //           uid: post.createrId,
-                //         ),
-                //         const SizedBox(
-                //           width: 12,
-                //         ),
-                //         Column(
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           children: [
-                //             Row(
-                //               children: [
-                //                 Text(
-                //                   post.userName,
-                //                   style: const TextStyle(
-                //                       fontSize: 16,
-                //                       fontWeight: FontWeight.bold),
-                //                 ),
-                //                 Text(
-                //                   post.userId,
-                //                   style: TextStyle(
-                //                       color: OriginalTheme
-                //                           .themeData.disabledColor),
-                //                 ),
-                //               ],
-                //             ),
-                //             Padding(
-                //               padding: const EdgeInsets.symmetric(vertical: 8),
-                //               child: Text(post.text),
-                //             ),
-                //             Row(
-                //               children: const [
-                //                 Icon(FeatherIcons.umbrella),
-                //                 SizedBox(
-                //                   width: 16,
-                //                 ),
-                //                 Icon(FeatherIcons.umbrella),
-                //                 Text('ここに時間'),
-                //               ],
-                //             ),
-                //           ],
-                //         ),
-                //       ],
-                //     )
-                //   ],
-                // );
               });
         });
   }

@@ -1,6 +1,10 @@
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:darts_link_project/converters/city_converter.dart';
+import 'package:darts_link_project/converters/pref_converter.dart';
 import 'package:darts_link_project/converters/timestamp_converter.dart';
+import 'package:darts_link_project/models/city.dart';
+import 'package:darts_link_project/models/pref.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'battle_room.freezed.dart';
 part 'battle_room.g.dart';
@@ -11,8 +15,8 @@ class BattleRoom with _$BattleRoom {
     required String id,
     required String title,
     @Default('') String place,
-    @Default('未登録') String prefecture,
-    @Default('未登録') String city,
+    @PrefNullableConverter() Pref? prefecture,
+    @CityNullableConverter() City? city,
     @TimestampConverter() required Timestamp dateTime,
     @TimestampConverter() required Timestamp startTime,
     @TimestampConverter() required Timestamp finishTime,

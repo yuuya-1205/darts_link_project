@@ -18,32 +18,39 @@ class _StoreRegisterApplicationReviewPageState
     return Scaffold(
       body: Stack(children: [
         const BackGroundImage(),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/logo2.png'),
-            const SizedBox(
-              height: 70,
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(70.0),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 164,
+                ),
+                Image.asset('assets/images/logo2.png'),
+                const SizedBox(
+                  height: 70,
+                ),
+                const Text(
+                  '申し込み審査中',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                const Text(
+                  '申請しました。',
+                  style: TextStyle(color: Colors.grey),
+                ),
+                const Text(
+                  '現在、審査中です。しばらくお待ちください',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
             ),
-            const Text(
-              '申し込み審査中',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            const Text(
-              '申し込み審査中',
-              style: TextStyle(color: Colors.grey),
-            ),
-            const Text(
-              '現在、審査中です。しばらくお待ちください',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
+          ),
         ),
       ]),
     );

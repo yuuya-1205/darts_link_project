@@ -25,6 +25,7 @@ abstract class AAppUser {
   Timestamp get createdAt;
   Timestamp get updatedAt;
   List<String> get favorites;
+  bool get isAdmin;
   DocumentReference? get reference;
 }
 
@@ -45,6 +46,7 @@ class AppUser with _$AppUser implements AAppUser {
     @TimestampConverter() required Timestamp createdAt,
     @TimestampConverter() required Timestamp updatedAt,
     @Freezed(fromJson: true) @Default([]) List<String> favorites,
+    @Default(false) bool isAdmin,
     @DocumentReferenceConverter() DocumentReference? reference,
 
     // ここから共通化してないものを入力をする
@@ -67,12 +69,14 @@ class AppUser with _$AppUser implements AAppUser {
     @TimestampConverter() required Timestamp createdAt,
     @TimestampConverter() required Timestamp updatedAt,
     @Freezed(fromJson: true) @Default([]) List<String> favorites,
+    @Default(false) bool isAdmin,
     @DocumentReferenceConverter() DocumentReference? reference,
 
     // ここから共通化してないものを書く
     required String address,
     required int telephoneNumber,
     @Default(false) bool isApproved,
+    @Default('') String dartsBoradCount,
   }) = StoreOwner;
   factory AppUser.fromJson(Map<String, dynamic> json) =>
       _$AppUserFromJson(json);

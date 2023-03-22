@@ -29,6 +29,7 @@ _$Person _$$PersonFromJson(Map<String, dynamic> json) => _$Person(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      isAdmin: json['isAdmin'] as bool? ?? false,
       reference: _$JsonConverterFromJson<DocumentReference<Object?>,
               DocumentReference<Object?>>(
           json['reference'], const DocumentReferenceConverter().fromJson),
@@ -53,6 +54,7 @@ Map<String, dynamic> _$$PersonToJson(_$Person instance) => <String, dynamic>{
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
       'favorites': instance.favorites,
+      'isAdmin': instance.isAdmin,
       'reference': _$JsonConverterToJson<DocumentReference<Object?>,
               DocumentReference<Object?>>(
           instance.reference, const DocumentReferenceConverter().toJson),
@@ -100,12 +102,14 @@ _$StoreOwner _$$StoreOwnerFromJson(Map<String, dynamic> json) => _$StoreOwner(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      isAdmin: json['isAdmin'] as bool? ?? false,
       reference: _$JsonConverterFromJson<DocumentReference<Object?>,
               DocumentReference<Object?>>(
           json['reference'], const DocumentReferenceConverter().fromJson),
       address: json['address'] as String,
       telephoneNumber: json['telephoneNumber'] as int,
       isApproved: json['isApproved'] as bool? ?? false,
+      dartsBoradCount: json['dartsBoradCount'] as String? ?? '',
       $type: json['runtimeType'] as String?,
     );
 
@@ -126,11 +130,13 @@ Map<String, dynamic> _$$StoreOwnerToJson(_$StoreOwner instance) =>
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
       'favorites': instance.favorites,
+      'isAdmin': instance.isAdmin,
       'reference': _$JsonConverterToJson<DocumentReference<Object?>,
               DocumentReference<Object?>>(
           instance.reference, const DocumentReferenceConverter().toJson),
       'address': instance.address,
       'telephoneNumber': instance.telephoneNumber,
       'isApproved': instance.isApproved,
+      'dartsBoradCount': instance.dartsBoradCount,
       'runtimeType': instance.$type,
     };

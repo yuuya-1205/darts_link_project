@@ -1,6 +1,7 @@
 import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/app_user.dart';
+import 'package:darts_link_project/models/post.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/person_repository.dart';
 import 'package:darts_link_project/theme_data.dart';

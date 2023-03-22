@@ -402,7 +402,6 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                                 title: const Text('開始時刻を選択してください'),
                                 onConfirm: (Picker picker, List value) {
                                   setState(() {
-                                    print(value);
                                     _selectedStartTime = DateTime(
                                         dateTime.year,
                                         dateTime.month,
@@ -588,14 +587,14 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                                 decoration: BoxDecoration(
                                     color: _selectedDartsModels
                                             .contains(e.label)
-                                        ? const Color.fromRGBO(242, 246, 217, 1)
+                                        ? const Color.fromRGBO(227, 243, 255, 1)
                                         : const Color.fromRGBO(
                                             251, 251, 251, 1),
                                     border: Border.all(
                                       color:
                                           _selectedDartsModels.contains(e.label)
                                               ? const Color.fromRGBO(
-                                                  189, 208, 66, 1)
+                                                  78, 165, 229, 1)
                                               : const Color.fromRGBO(
                                                   217, 217, 217, 1),
                                     ),
@@ -607,7 +606,7 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                                       color:
                                           _selectedDartsModels.contains(e.label)
                                               ? const Color.fromRGBO(
-                                                  189, 208, 66, 1)
+                                                  78, 165, 229, 1)
                                               : const Color.fromRGBO(
                                                   217, 217, 217, 1),
                                       fontSize: 12,
@@ -694,11 +693,18 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                     primary: OriginalTheme.themeData.primaryColor,
                     text: '作成する',
                     onPressed: () async {
+                      if (_selectedPref == null) {
+                        return;
+                      }
                       if (_selectedDateAndTime == null ||
                           _selectedStartTime == null ||
                           _selectedFinishTime == null) {
                         return;
                       }
+                      // if (!_formKey.currentState!.validate()) {
+                      //   return;
+                      // }
+
                       final user = AuthRepository.currentUser;
 
                       final title = _titleController.text;
@@ -708,6 +714,8 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                           id: '',
                           place: place,
                           title: title,
+                          prefecture: _initalPrefectureArea,
+                          city: _initalCityArea,
                           dateTime: Timestamp.fromDate(_selectedDateAndTime!),
                           startTime: Timestamp.fromDate(_selectedStartTime!),
                           finishTime: Timestamp.fromDate(_selectedFinishTime!),

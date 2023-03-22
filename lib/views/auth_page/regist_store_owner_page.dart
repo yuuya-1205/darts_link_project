@@ -22,6 +22,7 @@ class _RegistStoreOwnerPageState extends State<RegistStoreOwnerPage> {
   final user = FirebaseAuth.instance.currentUser;
   String errorMassege = '';
   bool _isChecked = false;
+  int count = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,8 +38,13 @@ class _RegistStoreOwnerPageState extends State<RegistStoreOwnerPage> {
                   const SizedBox(
                     height: 14,
                   ),
-                  const Align(
-                      alignment: Alignment.topLeft, child: BackButton()),
+                  Align(
+                      alignment: Alignment.topLeft,
+                      child: BackButton(
+                        onPressed: () {
+                          Navigator.of(context).popUntil((_) => count++ >= 2);
+                        },
+                      )),
                   const SizedBox(
                     height: 80,
                   ),
@@ -149,7 +155,7 @@ class _RegistStoreOwnerPageState extends State<RegistStoreOwnerPage> {
                   OriginalButton(
                     primary: const Color.fromRGBO(247, 63, 150, 1),
                     onPrimary: Colors.white,
-                    text: '新規登録',
+                    text: '店舗登録',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,

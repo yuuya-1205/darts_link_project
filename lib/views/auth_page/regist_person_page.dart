@@ -22,6 +22,7 @@ class _RegistPersonPageState extends State<RegistPersonPage> {
   final user = FirebaseAuth.instance.currentUser;
   String errorMassege = '';
   bool _isChecked = false;
+  int count = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,8 +38,13 @@ class _RegistPersonPageState extends State<RegistPersonPage> {
                   const SizedBox(
                     height: 14,
                   ),
-                  const Align(
-                      alignment: Alignment.topLeft, child: BackButton()),
+                  Align(
+                      alignment: Alignment.topLeft,
+                      child: BackButton(
+                        onPressed: () {
+                          Navigator.of(context).popUntil((_) => count++ >= 2);
+                        },
+                      )),
                   const SizedBox(
                     height: 80,
                   ),

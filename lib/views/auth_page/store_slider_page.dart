@@ -17,7 +17,12 @@ class _StoreSliderPageState extends State<StoreSliderPage> {
     'assets/images/store_slider_3.png',
     '',
   ];
-  List<String> textList = ["a", "b", 'c', ''];
+  List<String> textList = [
+    "　ダーツライブ、フェニックス、ハードなどなんでもOK！\n 　　　　　　DM機能搭載で直接接客も可能！",
+    "　店舗の混雑状況やデイリーキャンペーンなど\n　　　タイムリーに集客告知が可能に！",
+    "　ハウストーナメント機能を使って\n　全国のダーツプレイヤーに告知！\nさらにダーツ機能でゲーム運営も簡単！",
+    ''
+  ];
 
   int _current = 0;
   @override

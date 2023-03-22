@@ -17,6 +17,7 @@ class StoreOwnerRepository {
     if (!snap.exists) {
       return null;
     }
+
     final storeOwner = StoreOwner.fromJson(snap.data() as Map<String, dynamic>)
         .copyWith(reference: snap.reference);
 
@@ -40,6 +41,15 @@ class StoreOwnerRepository {
               (doc) => StoreOwner.fromJson(doc.data())
                   .copyWith(id: doc.id, reference: doc.reference),
             )
+            .toList());
+  }
+
+  static Stream<List<StoreOwner>> stream() {
+    return storeOwnerCollection
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snap) => snap.docs
+            .map((doc) => StoreOwner.fromJson(doc.data()).copyWith(id: doc.id))
             .toList());
   }
 }

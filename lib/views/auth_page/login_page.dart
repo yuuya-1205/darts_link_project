@@ -114,6 +114,11 @@ class _LoginPageState extends State<LoginPage> {
                       if (value!.isEmpty) {
                         return 'パスワードを入力してください';
                       }
+                      final regex =
+                          RegExp(r"^(?=.*[A-Z])[a-zA-Z0-9.?/-]{6,24}$");
+                      if (!regex.hasMatch(value)) {
+                        return '大文字含めたアルファベット6文字以上24文字以下のパスワードにしてください';
+                      }
                       return null;
                     },
                     hintText: 'パスワード',
@@ -164,6 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                         if (uid == null) {
                           return;
                         }
+
                         await fetchPerson(uid);
                         await setFcmToken(uid);
 
@@ -190,7 +196,6 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         );
                       } on FirebaseAuthException catch (e) {
-                        print(e);
                         switch (e.code) {
                           case 'wrong-password':
                             errorMassege = 'パスワードが間違っています';

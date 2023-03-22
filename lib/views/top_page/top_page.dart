@@ -1,9 +1,14 @@
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/app_user.dart';
+import 'package:darts_link_project/models/post.dart';
 import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/auth_page/store_owner_approve_page.dart';
+import 'package:darts_link_project/views/battle_room_page/create_battle_room_page.dart';
+import 'package:darts_link_project/views/circle_page/circle_list_page.dart';
 import 'package:darts_link_project/views/darts_function_page/darts_function_page.dart';
+import 'package:darts_link_project/views/favorite_store_list_page.dart';
 import 'package:darts_link_project/views/follow_page/follow_page.dart';
 import 'package:darts_link_project/views/home_page/home_page.dart';
 import 'package:darts_link_project/views/my_page/my_page.dart';
@@ -16,7 +21,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class TopPage extends StatefulWidget {
-  const TopPage({Key? key}) : super(key: key);
+  const TopPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<TopPage> createState() => _TopPageState();
@@ -29,13 +36,16 @@ class _TopPageState extends State<TopPage> {
     const TimeLinePage(),
     const SearchPage(),
     const DartsFunctionPage(),
-    const ThreadsPage(),
+    const ThreadsPage(
+      lastchatCount: '',
+      threadId: '',
+      uid: '',
+    ),
   ];
   int _index = 0;
   @override
   Widget build(BuildContext context) {
     final user = AuthRepository.currentUser;
-    final appUser = AppUserRepository.fetchAppUser(user!.id);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -49,7 +59,7 @@ class _TopPageState extends State<TopPage> {
             onTap: () {
               _scaffoldKey.currentState!.openDrawer();
             },
-            imageUrl: user.userImage,
+            imageUrl: user!.userImage,
             uid: user.id,
           ),
         ),
@@ -82,7 +92,12 @@ class _TopPageState extends State<TopPage> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        //  Navigator.of(context).push(ProfilePage.route());
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: ((context) => const EditMyInfoPage()),
+                        //   ),
+                        // );
                       },
                       child: UserImage(
                         width: 50,
@@ -163,17 +178,37 @@ class _TopPageState extends State<TopPage> {
                 const SizedBox(
                   width: 8,
                 ),
-                Text(
-                  '${user.followerCount}',
-                  style: const TextStyle(
-                    fontSize: 12,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: ((context) => const FollowPage()),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    '${user.followerCount}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                    ),
                   ),
                 ),
-                const Text(
-                  'フォロワー',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Color.fromRGBO(176, 176, 176, 1),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: ((context) => const FollowPage()),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'フォロワー',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color.fromRGBO(176, 176, 176, 1),
+                    ),
                   ),
                 ),
               ],
@@ -181,13 +216,34 @@ class _TopPageState extends State<TopPage> {
             const SizedBox(
               height: 46,
             ),
-            appUser is Person
+            if (user.isAdmin == true)
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) => const StoreOwnerApprovePage()),
+                    ),
+                  );
+                },
+                child: const Text(
+                  '店舗申請管理',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            const SizedBox(
+              height: 24,
+            ),
+            user is Person
                 ? GestureDetector(
                     onTap: () async {
                       await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: ((context) => const MyPage()),
+                          builder: ((context) => MyPage()),
                         ),
                       );
                       setState(() {});
@@ -223,7 +279,12 @@ class _TopPageState extends State<TopPage> {
             ),
             GestureDetector(
               onTap: () {
-                //  Navigator.of(context).push(ProfilePage.route());
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: ((context) => const CreateBattleRoomPage()),
+                  ),
+                );
               },
               child: const Text(
                 '対戦者募集',
@@ -238,7 +299,12 @@ class _TopPageState extends State<TopPage> {
             ),
             GestureDetector(
               onTap: () {
-                // Navigator.of(context).push(ProfilePage.route());
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: ((context) => const FavoriteStoreListPage()),
+                  ),
+                );
               },
               child: const Text(
                 'お気に入り店舗リスト',
@@ -253,7 +319,12 @@ class _TopPageState extends State<TopPage> {
             ),
             GestureDetector(
               onTap: () {
-                //   Navigator.of(context).push(CircleListDisplayPage.route());
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: ((context) => const CircleListPage()),
+                  ),
+                );
               },
               child: const Text(
                 'サークル一覧',
