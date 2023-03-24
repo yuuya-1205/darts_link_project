@@ -256,7 +256,7 @@ SPEC CHECKSUMS:
   FirebaseCoreExtension: 318e5ee9ad4092b00423c2bddd51c3f5c3585973
   FirebaseCoreInternal: c7cd505e2136811096b225ac388d6254a2622362
   FirebaseDynamicLinks: 51c81d07bd63155bb56d76b0abdda79c8a3d8d02
-  FirebaseFirestore: ef5e47e1489c03dc978f94e8b43ad5f67a77df8c
+  FirebaseFirestore: f16ed5e8e5b024eff4928bc33605df9526bda650
   FirebaseInstallations: 13dde135fa0524e15bddb133ccc8465c53a1b3f3
   FirebaseMessaging: e345b219fd15d325f0cf2fef28cb8ce00d851b3f
   FirebaseStorage: 0efbff0ac978981866d89804191688ae50d64033

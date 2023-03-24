@@ -425,7 +425,7 @@ class _$_BattleRoom implements _BattleRoom {
       @Freezed(fromJson: true) final List<String> fetures = const [],
       @Freezed(fromJson: true) final List<String> dartsModels = const [],
       this.detail = '',
-      this.numberOfParticipants = 0,
+      this.numberOfParticipants = 1,
       this.isApproved = false,
       required this.ownerId,
       required this.createrName,
@@ -435,7 +435,7 @@ class _$_BattleRoom implements _BattleRoom {
       @TimestampConverter() required this.updatedAt,
       this.followingCount = 0,
       this.followerCount = 0,
-      this.capacity = 0})
+      this.capacity = 1})
       : _fetures = fetures,
         _dartsModels = dartsModels;
 
