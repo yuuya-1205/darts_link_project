@@ -40,7 +40,7 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
   Pref? _initalPrefectureArea;
   City? _selectedCity;
   City? _initalCityArea;
-  int _capacity = 0;
+  int _capacity = 1;
 
   List<Pref> prefs = [];
   dynamic dateTime;

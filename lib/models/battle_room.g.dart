@@ -30,7 +30,7 @@ _$_BattleRoom _$$_BattleRoomFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       detail: json['detail'] as String? ?? '',
-      numberOfParticipants: json['numberOfParticipants'] as int? ?? 0,
+      numberOfParticipants: json['numberOfParticipants'] as int? ?? 1,
       isApproved: json['isApproved'] as bool? ?? false,
       ownerId: json['ownerId'] as String,
       createrName: json['createrName'] as String,
@@ -42,7 +42,7 @@ _$_BattleRoom _$$_BattleRoomFromJson(Map<String, dynamic> json) =>
           const TimestampConverter().fromJson(json['updatedAt'] as Timestamp),
       followingCount: json['followingCount'] as int? ?? 0,
       followerCount: json['followerCount'] as int? ?? 0,
-      capacity: json['capacity'] as int? ?? 0,
+      capacity: json['capacity'] as int? ?? 1,
     );
 
 Map<String, dynamic> _$$_BattleRoomToJson(_$_BattleRoom instance) =>

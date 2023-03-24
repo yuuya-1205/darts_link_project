@@ -23,7 +23,7 @@ class BattleRoom with _$BattleRoom {
     @Freezed(fromJson: true) @Default([]) List<String> fetures,
     @Freezed(fromJson: true) @Default([]) List<String> dartsModels,
     @Default('') String detail,
-    @Default(0) int numberOfParticipants,
+    @Default(1) int numberOfParticipants,
     @Default(false) bool isApproved,
     required String ownerId,
     required String createrName,
@@ -33,7 +33,7 @@ class BattleRoom with _$BattleRoom {
     @TimestampConverter() required Timestamp updatedAt,
     @Default(0) int followingCount,
     @Default(0) int followerCount,
-    @Default(0) int capacity,
+    @Default(1) int capacity,
   }) = _BattleRoom;
 
   factory BattleRoom.fromJson(Map<String, dynamic> json) =>

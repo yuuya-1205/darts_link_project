@@ -16,6 +16,8 @@ import 'package:darts_link_project/repositories/battle_room/battle_room_member_r
 import 'package:darts_link_project/repositories/battle_room/battle_room_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/battle_room_page/edit_battle_room_page.dart';
+import 'package:darts_link_project/views/my_page/my_page.dart';
+import 'package:darts_link_project/views/user_page/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:intl/intl.dart';
@@ -33,6 +35,7 @@ class BattleRoomDetailPage extends StatefulWidget {
 }
 
 class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
+  final user = AuthRepository.currentUser;
   List<Member> members = [];
   DateFormat dateFormat = DateFormat("yyyy年MM月dd日");
   DateFormat timeFormat = DateFormat("HH:mm");
@@ -448,6 +451,28 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
               Row(
                 children: [
                   UserImage(
+                      onTap: () async {
+                        if (widget.battleRoom.ownerId == user!.id) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: ((context) => const MyPage()),
+                            ),
+                          );
+                          return;
+                        }
+                        final appUser = await AppUserRepository.fetchAppUser(
+                            widget.battleRoom.ownerId);
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => UserPage(
+                                  appUser: appUser!,
+                                )),
+                          ),
+                        );
+                      },
                       height: 50,
                       width: 50,
                       imageUrl: widget.battleRoom.createrImage,
@@ -494,8 +519,9 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                     ),
                   ),
                   const Spacer(),
-                  Icon(FeatherIcons.mail,
-                      color: OriginalTheme.themeData.primaryColor),
+                  if (widget.battleRoom.ownerId != user!.id)
+                    Icon(FeatherIcons.mail,
+                        color: OriginalTheme.themeData.primaryColor),
                 ],
               ),
               Center(
