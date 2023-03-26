@@ -1,11 +1,6 @@
-import 'dart:math';
-
-import 'package:darts_link_project/components/robin_text.dart';
 import 'package:darts_link_project/models/round_robin.dart';
 import 'package:darts_link_project/models/team.dart';
 import 'package:darts_link_project/repositories/team_repository.dart';
-import 'package:darts_link_project/views/darts_function_page/round_robin/round_robin_card.dart';
-
 import 'package:flutter/material.dart';
 
 class RoundRobinWinLoseListPage extends StatefulWidget {
@@ -24,74 +19,92 @@ class RoundRobinWinLoseListPage extends StatefulWidget {
 class _RoundRobinWinLoseListPageState extends State<RoundRobinWinLoseListPage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 12,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: const [
-            RobinText(
-              width: 114,
-              text: '順位',
-            ),
-            RobinText(
-              width: 170,
-              text: 'チーム',
-            ),
-            RobinText(
-              width: 65,
-              text: '勝ち数',
-            ),
-            RobinText(
-              width: 65,
-              text: '負け数',
-            ),
-          ],
-        ),
-        Row(
-          children: [],
-        ),
-        StreamBuilder<List<Team>>(
-          stream: TeamRepository.teamStream(roundRobinId: widget.roundRobin.id),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState != ConnectionState.active) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (!snapshot.hasData) {
-              return Container();
-            }
-            final teams = snapshot.data;
-            if (teams!.isEmpty) {
-              return const Center(
-                child: Text('まだ、投稿がありません'),
-              );
-            }
-            teams.forEach((element) {});
-
-            teams.sort(
-              (a, b) => b.totalWinCount.compareTo(a.totalWinCount),
+    return StreamBuilder<List<Team>>(
+        stream: TeamRepository.teamStream(roundRobinId: widget.roundRobin.id),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.active) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData) {
+            return const SizedBox();
+          }
+          final teams = snapshot.data;
+          if (teams!.isEmpty) {
+            return const Center(
+              child: Text('まだ、投稿がありません'),
             );
+          }
 
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: teams.length,
-                  itemBuilder: (context, index) {
-                    final team = teams[index];
-                    return RoundRobinCard(
-                      team: team,
-                      teamCount: index + 1,
-                    );
-                  }),
-            );
-          },
-        ),
-      ],
-    );
+          //todo コードをわかりやすくリファクタリングしたい
+          final crossAxisCount = teams.length + 1;
+          return GridView.count(
+            crossAxisCount: crossAxisCount,
+            children: List.generate(crossAxisCount * crossAxisCount, (index) {
+              if (index % (teams.length + 2) == 0) {
+                return Container(
+                  padding: const EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    color: const Color(0xffFFDCEC),
+                  ),
+                );
+              }
+              if (index <= teams.length) {
+                return Container(
+                  padding: const EdgeInsets.all(5.0),
+                  alignment: Alignment.center,
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.grey)),
+                  child: Text(teams[index - 1].teamName),
+                );
+              }
+              if (index % crossAxisCount == 0) {
+                return Container(
+                  padding: const EdgeInsets.all(5.0),
+                  alignment: Alignment.center,
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.grey)),
+                  child: Text(teams[(index ~/ crossAxisCount) - 1].teamName),
+                );
+              }
+
+              final isWin = teams[(index ~/ crossAxisCount) - 1]
+                  .isWin[teams[(index % crossAxisCount) - 1].id];
+              return Container(
+                padding: const EdgeInsets.all(5.0),
+                width: 200,
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.grey)),
+                child: isWin == null
+                    ? const SizedBox()
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            isWin ? Icons.circle_outlined : Icons.close,
+                            color: const Color(0xffD2307D),
+                          ),
+                          DefaultTextStyle(
+                            style: const TextStyle(
+                              color: Color(0xffD2307D),
+                              fontWeight: FontWeight.bold,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                    '${teams[(index ~/ crossAxisCount) - 1].winRegs[teams[(index % crossAxisCount) - 1].id]}'),
+                                const Text('-'),
+                                Text(
+                                    '${teams[(index % crossAxisCount) - 1].winRegs[teams[(index ~/ crossAxisCount) - 1].id]}'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+              );
+            }),
+          );
+        });
   }
 }

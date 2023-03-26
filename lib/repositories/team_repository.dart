@@ -62,8 +62,8 @@ class TeamRepository {
   }
 
   static Stream<List<Team>> teamStream({required String roundRobinId}) {
-    print(roundRobinId);
     return getTeamsCollection(roundRobinId)
+        .orderBy('teamName')
         .snapshots()
         .map((snap) => snap.docs.map((doc) {
               final data = doc.data() as Map<String, dynamic>;

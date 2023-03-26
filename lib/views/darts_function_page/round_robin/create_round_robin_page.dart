@@ -63,17 +63,16 @@ class _CreateRoundRobinPageState extends State<CreateRoundRobinPage> {
           onTap: () {
             Navigator.pop(context);
           },
-          child: Row(children: [
-            Container(
+          child: Row(children: const [
+            SizedBox(
               width: 30,
-              child: const BackButton(),
+              child: BackButton(),
             ),
-            const Text(
+            Text(
               '戻る',
               style: TextStyle(
                 color: Color.fromRGBO(247, 63, 150, 1),
                 fontWeight: FontWeight.bold,
-                fontSize: 14,
               ),
             ),
           ]),
@@ -143,15 +142,12 @@ class _CreateRoundRobinPageState extends State<CreateRoundRobinPage> {
                     fontWeight: FontWeight.bold,
                   ),
                   onPressed: () async {
-                    final title = _titleController.text;
-
-                    final docRef = AppUserRepository.getAppUserDocRef(user!);
-
                     final roundRobin = RoundRobin(
-                      title: title,
-                      creatorRef: docRef,
+                      title: _titleController.text,
+                      creatorRef: AppUserRepository.getAppUserDocRef(user!),
                       createrName: user!.userName,
                       userId: user!.userId,
+                      teamCounts: teamNameWriteBoxes.length,
                       createdAt: Timestamp.now(),
                       updatedAt: Timestamp.now(),
                     );
