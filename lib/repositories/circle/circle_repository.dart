@@ -34,7 +34,6 @@ class CircleRepository {
   }
 
   static Future<void> updateCircle(Circle circle) async {
-    print(circle.circleDetail);
     await circlesCollection
         .doc(circle.circleId)
         .set(circle.toJson(), SetOptions(merge: true));

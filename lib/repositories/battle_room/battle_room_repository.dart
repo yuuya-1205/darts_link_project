@@ -32,10 +32,10 @@ class BattleRoomRepository {
   }
 
   static Future<void> updateBattleRoom(BattleRoom battleRoom) async {
-    await battleRoomsCollection.doc(battleRoom.id).update(
-          battleRoom.toJson(),
-        );
     print(battleRoom.id);
+    await battleRoomsCollection
+        .doc(battleRoom.id)
+        .set(battleRoom.toJson(), SetOptions(merge: true));
   }
 
   static Future<void> deleteBattleRoom(BattleRoom battleRoom) async {
