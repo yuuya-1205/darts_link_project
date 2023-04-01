@@ -24,8 +24,10 @@ _$_Circle _$$_CircleFromJson(Map<String, dynamic> json) => _$_Circle(
               ?.map((e) => e as String)
               .toList() ??
           const [],
-      prefecture: json['prefecture'] as String? ?? '未登録',
-      city: json['city'] as String? ?? '未登録',
+      prefecture: const PrefNullableConverter()
+          .fromJson(json['prefecture'] as Map<String, dynamic>?),
+      city: const CityNullableConverter()
+          .fromJson(json['city'] as Map<String, dynamic>?),
       capacity: json['capacity'] as int? ?? 0,
       numberOfParticipants: json['numberOfParticipants'] as int? ?? 0,
       isApproved: json['isApproved'] as bool? ?? false,
@@ -50,8 +52,8 @@ Map<String, dynamic> _$$_CircleToJson(_$_Circle instance) => <String, dynamic>{
       'imageUrls': instance.imageUrls,
       'memberUids': instance.memberUids,
       'features': instance.features,
-      'prefecture': instance.prefecture,
-      'city': instance.city,
+      'prefecture': const PrefNullableConverter().toJson(instance.prefecture),
+      'city': const CityNullableConverter().toJson(instance.city),
       'capacity': instance.capacity,
       'numberOfParticipants': instance.numberOfParticipants,
       'isApproved': instance.isApproved,

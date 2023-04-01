@@ -31,8 +31,10 @@ mixin _$Circle {
   List<String> get memberUids => throw _privateConstructorUsedError;
   @Freezed(fromJson: true)
   List<String> get features => throw _privateConstructorUsedError;
-  String get prefecture => throw _privateConstructorUsedError;
-  String get city => throw _privateConstructorUsedError;
+  @PrefNullableConverter()
+  Pref? get prefecture => throw _privateConstructorUsedError;
+  @CityNullableConverter()
+  City? get city => throw _privateConstructorUsedError;
   int get capacity => throw _privateConstructorUsedError;
   int get numberOfParticipants => throw _privateConstructorUsedError;
   bool get isApproved => throw _privateConstructorUsedError;
@@ -66,8 +68,8 @@ abstract class $CircleCopyWith<$Res> {
       @Freezed(fromJson: true) List<String> imageUrls,
       @Freezed(fromJson: true) List<String> memberUids,
       @Freezed(fromJson: true) List<String> features,
-      String prefecture,
-      String city,
+      @PrefNullableConverter() Pref? prefecture,
+      @CityNullableConverter() City? city,
       int capacity,
       int numberOfParticipants,
       bool isApproved,
@@ -79,6 +81,9 @@ abstract class $CircleCopyWith<$Res> {
       int followerCount,
       @TimestampConverter() Timestamp updatedAt,
       @TimestampConverter() Timestamp createdAt});
+
+  $PrefCopyWith<$Res>? get prefecture;
+  $CityCopyWith<$Res>? get city;
 }
 
 /// @nodoc
@@ -102,8 +107,8 @@ class _$CircleCopyWithImpl<$Res, $Val extends Circle>
     Object? imageUrls = null,
     Object? memberUids = null,
     Object? features = null,
-    Object? prefecture = null,
-    Object? city = null,
+    Object? prefecture = freezed,
+    Object? city = freezed,
     Object? capacity = null,
     Object? numberOfParticipants = null,
     Object? isApproved = null,
@@ -149,14 +154,14 @@ class _$CircleCopyWithImpl<$Res, $Val extends Circle>
           ? _value.features
           : features // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      prefecture: null == prefecture
+      prefecture: freezed == prefecture
           ? _value.prefecture
           : prefecture // ignore: cast_nullable_to_non_nullable
-              as String,
-      city: null == city
+              as Pref?,
+      city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
-              as String,
+              as City?,
       capacity: null == capacity
           ? _value.capacity
           : capacity // ignore: cast_nullable_to_non_nullable
@@ -203,6 +208,30 @@ class _$CircleCopyWithImpl<$Res, $Val extends Circle>
               as Timestamp,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PrefCopyWith<$Res>? get prefecture {
+    if (_value.prefecture == null) {
+      return null;
+    }
+
+    return $PrefCopyWith<$Res>(_value.prefecture!, (value) {
+      return _then(_value.copyWith(prefecture: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CityCopyWith<$Res>? get city {
+    if (_value.city == null) {
+      return null;
+    }
+
+    return $CityCopyWith<$Res>(_value.city!, (value) {
+      return _then(_value.copyWith(city: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -220,8 +249,8 @@ abstract class _$$_CircleCopyWith<$Res> implements $CircleCopyWith<$Res> {
       @Freezed(fromJson: true) List<String> imageUrls,
       @Freezed(fromJson: true) List<String> memberUids,
       @Freezed(fromJson: true) List<String> features,
-      String prefecture,
-      String city,
+      @PrefNullableConverter() Pref? prefecture,
+      @CityNullableConverter() City? city,
       int capacity,
       int numberOfParticipants,
       bool isApproved,
@@ -233,6 +262,11 @@ abstract class _$$_CircleCopyWith<$Res> implements $CircleCopyWith<$Res> {
       int followerCount,
       @TimestampConverter() Timestamp updatedAt,
       @TimestampConverter() Timestamp createdAt});
+
+  @override
+  $PrefCopyWith<$Res>? get prefecture;
+  @override
+  $CityCopyWith<$Res>? get city;
 }
 
 /// @nodoc
@@ -253,8 +287,8 @@ class __$$_CircleCopyWithImpl<$Res>
     Object? imageUrls = null,
     Object? memberUids = null,
     Object? features = null,
-    Object? prefecture = null,
-    Object? city = null,
+    Object? prefecture = freezed,
+    Object? city = freezed,
     Object? capacity = null,
     Object? numberOfParticipants = null,
     Object? isApproved = null,
@@ -300,14 +334,14 @@ class __$$_CircleCopyWithImpl<$Res>
           ? _value._features
           : features // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      prefecture: null == prefecture
+      prefecture: freezed == prefecture
           ? _value.prefecture
           : prefecture // ignore: cast_nullable_to_non_nullable
-              as String,
-      city: null == city
+              as Pref?,
+      city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
-              as String,
+              as City?,
       capacity: null == capacity
           ? _value.capacity
           : capacity // ignore: cast_nullable_to_non_nullable
@@ -368,8 +402,8 @@ class _$_Circle implements _Circle {
       @Freezed(fromJson: true) final List<String> imageUrls = const [],
       @Freezed(fromJson: true) final List<String> memberUids = const [],
       @Freezed(fromJson: true) final List<String> features = const [],
-      this.prefecture = '未登録',
-      this.city = '未登録',
+      @PrefNullableConverter() this.prefecture,
+      @CityNullableConverter() this.city,
       this.capacity = 0,
       this.numberOfParticipants = 0,
       this.isApproved = false,
@@ -431,11 +465,11 @@ class _$_Circle implements _Circle {
   }
 
   @override
-  @JsonKey()
-  final String prefecture;
+  @PrefNullableConverter()
+  final Pref? prefecture;
   @override
-  @JsonKey()
-  final String city;
+  @CityNullableConverter()
+  final City? city;
   @override
   @JsonKey()
   final int capacity;
@@ -566,8 +600,8 @@ abstract class _Circle implements Circle {
       @Freezed(fromJson: true) final List<String> imageUrls,
       @Freezed(fromJson: true) final List<String> memberUids,
       @Freezed(fromJson: true) final List<String> features,
-      final String prefecture,
-      final String city,
+      @PrefNullableConverter() final Pref? prefecture,
+      @CityNullableConverter() final City? city,
       final int capacity,
       final int numberOfParticipants,
       final bool isApproved,
@@ -602,9 +636,11 @@ abstract class _Circle implements Circle {
   @Freezed(fromJson: true)
   List<String> get features;
   @override
-  String get prefecture;
+  @PrefNullableConverter()
+  Pref? get prefecture;
   @override
-  String get city;
+  @CityNullableConverter()
+  City? get city;
   @override
   int get capacity;
   @override

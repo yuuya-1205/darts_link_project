@@ -42,10 +42,6 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
   DateFormat dateFormat = DateFormat("yyyy年MM月dd日");
   DateFormat timeFormat = DateFormat("HH:mm");
 
-  DateTime? _selectedDateAndTime;
-  DateTime? _selectedStartTime;
-  DateTime? _selectedFinishTime;
-
   final List<String> _selectedFeatures = [];
 
   bool isApproved = false;
@@ -57,19 +53,19 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
     super.initState();
   }
 
-  _datePicker(BuildContext context) async {
-    final DateTime? datePicked = await showDatePicker(
-        locale: const Locale("ja"),
-        context: context,
-        initialDate: dateTime,
-        firstDate: DateTime(2003),
-        lastDate: DateTime(2025));
-    if (datePicked != null && datePicked != dateTime) {
-      setState(() {
-        _selectedDateAndTime = datePicked;
-      });
-    }
-  }
+  // _datePicker(BuildContext context) async {
+  //   final DateTime? datePicked = await showDatePicker(
+  //       locale: const Locale("ja"),
+  //       context: context,
+  //       initialDate: dateTime,
+  //       firstDate: DateTime(2003),
+  //       lastDate: DateTime(2025));
+  //   if (datePicked != null && datePicked != dateTime) {
+  //     setState(() {
+  //       _selectedDateAndTime = datePicked;
+  //     });
+  //   }
+  // }
 
   void _incrementCounter() {
     setState(() {
@@ -508,6 +504,8 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                       final place = _placeController.text;
                       final circleDetail = _circleDetailController.text;
                       final circle = Circle(
+                        prefecture: _initalPrefectureArea,
+                        city: _initalCityArea,
                         circleId: '',
                         circleName: circleName,
                         place: place,

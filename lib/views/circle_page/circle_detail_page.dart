@@ -281,7 +281,7 @@ class _CircleDetailPageState extends State<CircleDetailPage> {
                                         'メンバー${widget.circle.numberOfParticipants}人'),
                                   ),
                                   const Text('/'),
-                                  Text('エリア:${widget.circle.city}'),
+                                  Text('エリア:${widget.circle.city!.name}'),
                                 ],
                               )
                             ],
