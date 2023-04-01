@@ -494,6 +494,8 @@ class _EditCirclePageState extends State<EditCirclePage> {
                       final place = _placeController.text;
                       final circleDetail = _circleDetailController.text;
                       final circle = Circle(
+                        prefecture: _initalPrefectureArea,
+                        city: _initalCityArea,
                         circleId: widget.circle.circleId,
                         circleName: circleName,
                         place: place,
@@ -532,6 +534,10 @@ class _EditCirclePageState extends State<EditCirclePage> {
   void _getCirclePage() {
     _circleNameController.text = widget.circle.circleName;
     _placeController.text = widget.circle.place;
+    _initalPrefectureArea = widget.circle.prefecture;
+    _prefController.text = _initalPrefectureArea?.name ?? '未登録';
+    _initalCityArea = widget.circle.city;
+    _cityController.text = _initalCityArea?.name ?? '未登録';
 
     isApproved = widget.circle.isApproved;
     _selectedFeatures = widget.circle.features.toList();

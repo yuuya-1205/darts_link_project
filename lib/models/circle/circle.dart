@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:darts_link_project/converters/city_converter.dart';
+import 'package:darts_link_project/converters/pref_converter.dart';
 import 'package:darts_link_project/converters/timestamp_converter.dart';
+import 'package:darts_link_project/models/city.dart';
+import 'package:darts_link_project/models/pref.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'circle.freezed.dart';
 part 'circle.g.dart';
@@ -15,8 +19,8 @@ class Circle with _$Circle {
     @Freezed(fromJson: true) @Default([]) List<String> imageUrls,
     @Freezed(fromJson: true) @Default([]) List<String> memberUids,
     @Freezed(fromJson: true) @Default([]) List<String> features,
-    @Default('未登録') String prefecture,
-    @Default('未登録') String city,
+    @PrefNullableConverter() Pref? prefecture,
+    @CityNullableConverter() City? city,
     @Default(0) int capacity,
     @Default(0) int numberOfParticipants,
     @Default(false) bool isApproved,

@@ -60,16 +60,16 @@ class CircleCardPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Row(
-                      children: const [
-                        Icon(
+                      children: [
+                        const Icon(
                           Icons.location_on_outlined,
                           color: Color.fromRGBO(210, 48, 125, 1),
                         ),
-                        // Text(
-                        //   circle.place,
-                        //   style: const TextStyle(
-                        //       color: Color.fromRGBO(210, 48, 125, 1)),
-                        // ),
+                        Text(
+                          circle.place.isEmpty ? '未登録' : circle.place,
+                          style: const TextStyle(
+                              color: Color.fromRGBO(210, 48, 125, 1)),
+                        ),
                       ],
                     )
                   ],
