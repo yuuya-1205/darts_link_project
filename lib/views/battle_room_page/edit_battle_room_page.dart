@@ -120,7 +120,7 @@ class _EditBattleRoomPageState extends State<EditBattleRoomPage> {
         ),
         backgroundColor: Colors.white,
         title: const Text(
-          '対戦者募集ページ作成',
+          '対戦者募集編集ページ',
           style: TextStyle(
             color: Colors.black,
             fontSize: 14,
@@ -749,7 +749,17 @@ class _EditBattleRoomPageState extends State<EditBattleRoomPage> {
   void _getBattleRoomPage() {
     _titleController.text = widget.battleRoom.title;
     _placeController.text = widget.battleRoom.place;
-
+    _initalPrefectureArea = widget.battleRoom.prefecture;
+    _prefController.text = _initalPrefectureArea?.name ?? '未登録';
+    _initalCityArea = widget.battleRoom.city;
+    _cityController.text = _initalCityArea?.name ?? '未登録';
+    _dateTimeController.text =
+        dateFormat.format(widget.battleRoom.dateTime.toDate());
+    _startTimeController.text =
+        timeFormat.format(widget.battleRoom.startTime.toDate());
+    _finishTimeController.text =
+        timeFormat.format(widget.battleRoom.finishTime.toDate());
+    // dateTime = widget.battleRoom.dateTime;
     _selectedFeatures = widget.battleRoom.fetures.toList();
     _selectedDartsModels = widget.battleRoom.dartsModels.toList();
     _capacity = widget.battleRoom.capacity;

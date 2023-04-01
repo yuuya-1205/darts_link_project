@@ -55,6 +55,15 @@ class BattleRoomMemberRepository {
     return member;
   }
 
+  static Stream<List<Member>> memberStream({required String battleRoomId}) {
+    return getBattleRoomsMemberCollection(battleRoomId)
+        .orderBy('joinedAt', descending: true)
+        .snapshots()
+        .map((snap) => snap.docs
+            .map((doc) => Member.fromJson(doc.data() as Map<String, dynamic>))
+            .toList());
+  }
+
   static Future<int> fetchMemberDocsCount(String battleRoomId) async {
     final query =
         await getBattleRoomsMemberCollection(battleRoomId).count().get();

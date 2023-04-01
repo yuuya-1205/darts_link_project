@@ -15,6 +15,7 @@ import 'package:darts_link_project/repositories/battle_room/battle_room_join_req
 import 'package:darts_link_project/repositories/battle_room/battle_room_member_repository.dart';
 import 'package:darts_link_project/repositories/battle_room/battle_room_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/battle_room_page/battle_room_member_list_page.dart';
 import 'package:darts_link_project/views/battle_room_page/edit_battle_room_page.dart';
 import 'package:darts_link_project/views/my_page/my_page.dart';
 import 'package:darts_link_project/views/user_page/user_page.dart';
@@ -222,8 +223,8 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: ((context) => EditBattleRoomPage(
-                                        battleRoom: widget.battleRoom)),
+                                    builder: ((context) =>
+                                        const BattleRoomMemberListPage()),
                                   ),
                                 );
                               },
