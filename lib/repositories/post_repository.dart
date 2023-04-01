@@ -44,6 +44,16 @@ class PostRepository {
             .toList());
   }
 
+  static Stream<List<Post>> myPostImageStream(String myUid) {
+    return postCollection
+        .orderBy('createdAt', descending: true)
+        .where('createrId', isEqualTo: myUid)
+        .snapshots()
+        .map((snap) => snap.docs
+            .map((doc) => Post.fromJson(doc.data()).copyWith(id: doc.id))
+            .toList());
+  }
+
   static Stream<List<Post>> userPostStream(String uid) {
     return postCollection
         .orderBy('createdAt', descending: true)
@@ -69,18 +79,6 @@ class PostRepository {
         .where('postImage', isNotEqualTo: [])
         .orderBy('postImage')
         .where('posterRef', isEqualTo: circleRef)
-        .orderBy('createdAt', descending: true)
-        .snapshots()
-        .map((snap) => snap.docs
-            .map((doc) => Post.fromJson(doc.data()).copyWith(id: doc.id))
-            .toList());
-  }
-
-  static Stream<List<Post>> myPostImageStream(DocumentReference posterRef) {
-    return postCollection
-        .where('postImage', isNotEqualTo: [])
-        .orderBy('postImage')
-        .where('posterRef', isEqualTo: posterRef)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snap) => snap.docs
