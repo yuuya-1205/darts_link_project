@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:darts_link_project/components/delele_snack_bar.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/header_image_url.dart';
@@ -199,9 +201,11 @@ class _CircleDetailPageState extends State<CircleDetailPage> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               FollowApproveButton(
-                                                onPressed: () {
-                                                  CircleRepository.deleteCircle(
-                                                      widget.circle);
+                                                onPressed: () async {
+                                                  await CircleRepository
+                                                      .deleteCircle(
+                                                          widget.circle);
+
                                                   Navigator.pop(context);
                                                   DeleteSnackBar.showSnackBar(
                                                       context);
