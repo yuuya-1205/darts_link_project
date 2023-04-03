@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/input_field.dart';
 import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/circle/circle.dart';
@@ -9,10 +10,13 @@ import 'package:darts_link_project/models/pref.dart';
 import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
+import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 
 import '../../models/tag_type.dart';
 
@@ -24,6 +28,7 @@ class CreateCirclePage extends StatefulWidget {
 }
 
 class _CreateCirclePageState extends State<CreateCirclePage> {
+  final user = AuthRepository.currentUser;
   final _formKey = GlobalKey<FormState>();
   final _circleNameController = TextEditingController();
   final _placeController = TextEditingController();
@@ -43,6 +48,8 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
   DateFormat timeFormat = DateFormat("HH:mm");
 
   final List<String> _selectedFeatures = [];
+  String _currentHeaderImageUrl = '';
+  Asset? _selectedHeaderImage;
 
   bool isApproved = false;
 
@@ -143,6 +150,31 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
             child: Form(
               child: Column(
                 children: [
+                  DottedBorder(
+                    dashPattern: const [6.0],
+                    strokeWidth: 2.0,
+                    color: const Color.fromRGBO(247, 63, 150, 1),
+                    child: SizedBox(
+                      height: 205,
+                      width: double.infinity,
+                      child: InkWell(
+                        child: HeaderImageUrl(
+                            asset: _selectedHeaderImage,
+                            headerImageUrl: _currentHeaderImageUrl),
+                        onTap: () async {
+                          final headerfiles = await MultiImagePicker.pickImages(
+                            maxImages: 1,
+                            enableCamera: true,
+                          );
+                          if (headerfiles != null) {
+                            setState(() {
+                              _selectedHeaderImage = headerfiles.first;
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                  ),
                   const SizedBox(
                     height: 22,
                   ),
@@ -499,14 +531,23 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                     text: '作成する',
                     onPressed: () async {
                       final user = AuthRepository.currentUser;
-
                       final circleName = _circleNameController.text;
                       final place = _placeController.text;
                       final circleDetail = _circleDetailController.text;
+
+                      String? headerImageUrl;
+                      if (_selectedHeaderImage != null) {
+                        final path = 'headers/${user!.id}/header.jpeg';
+                        _currentHeaderImageUrl = await StorageRepository()
+                            .saveimage(
+                                asset: _selectedHeaderImage!, path: path);
+                      }
+
                       final circle = Circle(
                         prefecture: _initalPrefectureArea,
                         city: _initalCityArea,
                         circleId: '',
+                        headerImage: _currentHeaderImageUrl,
                         circleName: circleName,
                         place: place,
                         ownerId: user!.id,
@@ -524,7 +565,7 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                         capacity: _capacity,
                       );
                       await CircleRepository.createCircle(circle);
-                      // await BattleRoomRepository.createBattleRoom(battleRoom);
+
                       // ignore: use_build_context_synchronously
                       Navigator.pop(context);
                     },
