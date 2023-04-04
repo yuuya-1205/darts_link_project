@@ -2,6 +2,7 @@ import 'package:darts_link_project/components/back_ground_image.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/input_field.dart';
 import 'package:darts_link_project/components/original_button.dart';
+import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/fcm_token_repository.dart';
 import 'package:darts_link_project/repositories/person_repository.dart';
@@ -35,12 +36,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<void> fetchPerson(String uid) async {
-    final person = await PersonRepository.fetchPerson(uid);
-    if (person == null) {
+  Future<void> fetchAppUser(String uid) async {
+    final appUser = await AppUserRepository.fetchAppUser(uid);
+    if (appUser == null) {
       throw Exception('ユーザーの取得に失敗しました。');
     }
-    AuthRepository.currentUser = person;
+    AuthRepository.currentUser = appUser;
   }
 
   Future<void> setFcmToken(String uid) async {
@@ -170,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                           return;
                         }
 
-                        await fetchPerson(uid);
+                        await fetchAppUser(uid);
                         await setFcmToken(uid);
 
                         // ignore: use_build_context_synchronously
