@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:darts_link_project/components/sort_box/area_box.dart';
 import 'package:darts_link_project/components/sort_box/feature_box.dart';
 import 'package:darts_link_project/components/sort_box/recruit_box.dart';
+import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/circle/circle.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
@@ -11,7 +12,9 @@ import 'package:darts_link_project/views/circle_page/create_circle_page.dart';
 import 'package:flutter/material.dart';
 
 class CirclePage extends StatefulWidget {
-  const CirclePage({Key? key}) : super(key: key);
+  const CirclePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CirclePage> createState() => _CirclePageState();
@@ -91,7 +94,9 @@ class _CirclePageState extends State<CirclePage> {
                             final circle = circles[index];
                             return Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                              child: CircleCardPage(circle: circle),
+                              child: CircleCardPage(
+                                circle: circle,
+                              ),
                             );
                           }),
                     ],

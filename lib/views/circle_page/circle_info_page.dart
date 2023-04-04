@@ -8,6 +8,7 @@ import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_join_request_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_member_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
+import 'package:darts_link_project/repositories/thread_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:flutter/material.dart';
 
@@ -35,15 +36,12 @@ class _CircleInfoPageState extends State<CircleInfoPage> {
     if (user == null) {
       return;
     }
-    final appUser = await AppUserRepository.fetchAppUser(user.id);
-    if (appUser == null) {
-      return;
-    }
-    final circleMember = CircleMember.fromAppUser(appUser);
+
+    final circleMember = CircleMember.fromAppUser(user);
     final canCreate = await CircleRepository.canCreateBattleRoomMember(
         widget.circle.circleId);
 
-    if (canCreate == false) {
+    if (!canCreate) {
       showDialog(
           context: context,
           builder: (_) {
@@ -57,6 +55,8 @@ class _CircleInfoPageState extends State<CircleInfoPage> {
         circleId: widget.circle.circleId, circleMember: circleMember);
     await updateNumberOfParticipants();
     circleMembers.add(circleMember);
+
+    await ThreadRepository.joinThread(threadId: widget.circle.circleId);
 
     setState(() {});
   }
@@ -109,14 +109,12 @@ class _CircleInfoPageState extends State<CircleInfoPage> {
   }
 
   Future<CircleMemberType> getMemberType() async {
-    String? myUid = AuthRepository.currentUser!.id;
-    if (myUid == null) {
-      return CircleMemberType.joinable;
-    }
+    String myUid = AuthRepository.currentUser!.id;
+
     if (myUid == widget.circle.ownerId) {
       return CircleMemberType.owner;
     }
-    if (widget.circle.isApproved == true) {
+    if (widget.circle.isApproved) {
       final circleJoinRequest =
           await CircleJoinRequestRepository.fetchCircleJoinRequest(
         circleId: widget.circle.circleId,
@@ -131,7 +129,7 @@ class _CircleInfoPageState extends State<CircleInfoPage> {
       return CircleMemberType.joined;
     }
     final isJoined = circleMembers.map((e) => e.uid).toList().contains(myUid);
-    if (isJoined == true) {
+    if (isJoined) {
       return CircleMemberType.joined;
     }
     return CircleMemberType.joinable;

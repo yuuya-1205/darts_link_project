@@ -1,15 +1,19 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/delele_snack_bar.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/user_image.dart';
+import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/circle/circle.dart';
 import 'package:darts_link_project/models/circle/circle_join_request.dart';
 import 'package:darts_link_project/models/circle/circle_member.dart';
+import 'package:darts_link_project/models/thread.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_join_request_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
+import 'package:darts_link_project/repositories/thread_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/circle_page/circle_info_page.dart';
 import 'package:darts_link_project/views/circle_page/circle_member_approved_list_page.dart';
@@ -18,12 +22,16 @@ import 'package:darts_link_project/views/circle_page/circle_post_image_page.dart
 import 'package:darts_link_project/views/circle_page/circle_post_list_page.dart';
 import 'package:darts_link_project/views/circle_page/create_circle_time_line_page.dart';
 import 'package:darts_link_project/views/circle_page/edit_circle_page.dart';
+import 'package:darts_link_project/views/thread_page/thread_chat_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class CircleDetailPage extends StatefulWidget {
-  const CircleDetailPage({Key? key, required this.circle}) : super(key: key);
+  const CircleDetailPage({
+    Key? key,
+    required this.circle,
+  }) : super(key: key);
 
   final Circle circle;
 
@@ -33,6 +41,7 @@ class CircleDetailPage extends StatefulWidget {
 
 class _CircleDetailPageState extends State<CircleDetailPage> {
   String? myUid = AuthRepository.currentUser!.id;
+  final user = AuthRepository.currentUser;
   List<CircleMember> circleMembers = [];
   Future<CircleMemberType> getMemberType() async {
     if (myUid == null) {
@@ -273,7 +282,59 @@ class _CircleDetailPageState extends State<CircleDetailPage> {
                                     style: const TextStyle(fontSize: 20),
                                   ),
                                   const Spacer(),
-                                  const Icon(FeatherIcons.mail),
+                                  IconButton(
+                                    icon: Icon(FeatherIcons.mail),
+                                    onPressed: () async {
+                                      final uids = [
+                                        widget.circle.ownerId,
+                                        user!.id,
+                                      ];
+                                      uids.sort();
+                                      final threadId = widget.circle.circleId;
+                                      late final Thread thread;
+                                      final result = await ThreadRepository
+                                          .fetchThreadByMemberIds(threadId);
+
+                                      if (result == null) {
+                                        thread = Thread(
+                                          unReadCount: {
+                                            uids.first: 0,
+                                            uids.last: 0
+                                          },
+                                          id: threadId,
+                                          uids: uids,
+                                          createdAt: Timestamp.now(),
+                                          isReading: false,
+                                          updatedAt: Timestamp.now(),
+                                          memberDetails: {
+                                            user!.id: {
+                                              'name': user!.userName,
+                                              'imageUrl': user!.userImage,
+                                            },
+                                            widget.circle.ownerId: {
+                                              'name': widget.circle.createrName,
+                                              'imageUrl':
+                                                  widget.circle.createrImage,
+                                            }
+                                          },
+                                        );
+                                        await ThreadRepository.createThread(
+                                            thread);
+                                      } else {
+                                        thread = result;
+                                      }
+                                      // ignore: use_build_context_synchronously
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: ((context) => ThreadChatPage(
+                                                isReading: true,
+                                                thread: thread,
+                                              )),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                   const SizedBox(
                                     width: 12,
                                   ),

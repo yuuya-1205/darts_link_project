@@ -8,8 +8,8 @@ class CircleRepository {
       circlesCollection.doc(circleId);
 
   static Future<String> createCircle(Circle circle) async {
-    final room = await circlesCollection.add(circle.toJson());
-    return room.id;
+    final result = await circlesCollection.add(circle.toJson());
+    return result.id;
   }
 
   static Stream<List<Circle>> circleStream() {
@@ -22,8 +22,8 @@ class CircleRepository {
             .toList());
   }
 
-  static Future<bool> canCreateBattleRoomMember(String roomId) async {
-    final snapshot = await circlesCollection.doc(roomId).get();
+  static Future<bool> canCreateBattleRoomMember(String circleId) async {
+    final snapshot = await circlesCollection.doc(circleId).get();
     final data = snapshot.data() as Map<String, dynamic>;
     int capacity = data['capacity'];
     int numberOfParticipants = data['numberOfParticipants'];

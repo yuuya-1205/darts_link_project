@@ -7,10 +7,12 @@ import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/circle/circle.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
+import 'package:darts_link_project/models/thread.dart';
 import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
+import 'package:darts_link_project/repositories/thread_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
@@ -564,7 +566,27 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                         followingCount: user.followingCount,
                         capacity: _capacity,
                       );
-                      await CircleRepository.createCircle(circle);
+
+                      final circleId =
+                          await CircleRepository.createCircle(circle);
+
+                      final thread = Thread(
+                        unReadCount: {circle.ownerId: 0},
+                        id: circleId,
+                        uids: [
+                          circle.ownerId,
+                        ],
+                        createdAt: Timestamp.now(),
+                        isReading: false,
+                        updatedAt: Timestamp.now(),
+                        memberDetails: {
+                          circle.ownerId: {
+                            'name': circle.createrName,
+                            'imageUrl': circle.createrImage,
+                          }
+                        },
+                      );
+                      await ThreadRepository.createThread(thread);
 
                       // ignore: use_build_context_synchronously
                       Navigator.pop(context);

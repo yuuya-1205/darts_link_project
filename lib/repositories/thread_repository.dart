@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:darts_link_project/models/circle/circle.dart';
 import 'package:darts_link_project/models/thread.dart';
+import 'package:darts_link_project/repositories/auth_repository.dart';
 
 class ThreadRepository {
   static final fireStore = FirebaseFirestore.instance;
@@ -46,5 +48,20 @@ class ThreadRepository {
     required String threadId,
   }) async {
     await threadsCollection.doc(threadId).update({'unReadCount.$uid': count});
+  }
+
+  static Future<void> joinThread({
+    required String threadId,
+  }) async {
+    final user = AuthRepository.currentUser;
+    await threadsCollection.doc(threadId).update({
+      'updatedAt': Timestamp.now(),
+      'unReadCount.${user!.id}': 0,
+      'memberDetails.${user.id}': {
+        'name': user.userName,
+        'imageUrl': user.userImage,
+      },
+      'uids': FieldValue.arrayUnion([user.id]),
+    });
   }
 }
