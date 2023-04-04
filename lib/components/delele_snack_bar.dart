@@ -6,9 +6,10 @@ class DeleteSnackBar {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Colors.red,
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.of(context).size.height - 100,
-        ),
+        behavior: SnackBarBehavior.floating,
+        // margin: EdgeInsets.only(
+        //   bottom: MediaQuery.of(context).size.height - 100,
+        // ),
         content: Row(
           children: const [
             Icon(
@@ -18,7 +19,6 @@ class DeleteSnackBar {
             Text('削除しました'),
           ],
         ),
-        behavior: SnackBarBehavior.floating,
       ),
     );
   }

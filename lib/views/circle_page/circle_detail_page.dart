@@ -174,7 +174,9 @@ class _CircleDetailPageState extends State<CircleDetailPage> {
                             PopupMenuItem(
                               value: 'delete',
                               child: GestureDetector(
+                                child: const Text('削除'),
                                 onTap: () {
+                                  Navigator.pop(context);
                                   showDialog(
                                     context: context,
                                     builder: (_) {
@@ -206,9 +208,10 @@ class _CircleDetailPageState extends State<CircleDetailPage> {
                                                       .deleteCircle(
                                                           widget.circle);
 
-                                                  Navigator.pop(context);
+                                                  Navigator.popUntil(context,
+                                                      (route) => route.isFirst);
                                                   DeleteSnackBar.showSnackBar(
-                                                      context);
+                                                      builder);
                                                 },
                                                 text: '削除する',
                                               ),
@@ -228,7 +231,6 @@ class _CircleDetailPageState extends State<CircleDetailPage> {
                                     },
                                   );
                                 },
-                                child: const Text('削除'),
                               ),
                             ),
                           ];
