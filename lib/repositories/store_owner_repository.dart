@@ -52,4 +52,16 @@ class StoreOwnerRepository {
             .map((doc) => StoreOwner.fromJson(doc.data()).copyWith(id: doc.id))
             .toList());
   }
+
+  static Future<List<StoreOwner>> fetchStoreOwnersByUserName(
+      String userName) async {
+    final snapshot = await storeOwnerCollection
+        .orderBy('userName')
+        .startAt([userName]).endAt(['$userName\uf8ff']).get();
+    final storeOwners = snapshot.docs
+        .map((e) =>
+            StoreOwner.fromJson(e.data()).copyWith(reference: e.reference))
+        .toList();
+    return storeOwners;
+  }
 }

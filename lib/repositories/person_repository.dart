@@ -24,4 +24,14 @@ class PersonRepository {
 
     return person;
   }
+
+  static Future<List<Person>> fetchPersonsByUserName(String userName) async {
+    final snapshot = await personCollection
+        .orderBy('userName')
+        .startAt([userName]).endAt(['$userName\uf8ff']).get();
+    final persons = snapshot.docs
+        .map((e) => Person.fromJson(e.data()).copyWith(reference: e.reference))
+        .toList();
+    return persons;
+  }
 }

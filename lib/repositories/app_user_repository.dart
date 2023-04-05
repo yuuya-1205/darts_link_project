@@ -19,4 +19,12 @@ class AppUserRepository {
     }
     return StoreOwnerRepository.getDocumentRef(appUser.id);
   }
+
+  static Future<List<AppUser>> fetchAppUsersByUserName(String userName) async {
+    final persons = await PersonRepository.fetchPersonsByUserName(userName);
+    final storeOwners =
+        await StoreOwnerRepository.fetchStoreOwnersByUserName(userName);
+    return [...persons, ...storeOwners]
+      ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+  }
 }
