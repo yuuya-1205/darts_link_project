@@ -56,4 +56,13 @@ class BattleRoomRepository {
       }, SetOptions(merge: true));
     });
   }
+
+  static Future<List<BattleRoom>> fetchBattleRoomsByTitle(String title) async {
+    final snapshot = await battleRoomsCollection
+        .orderBy('title')
+        .startAt([title]).endAt(['$title\uf8ff']).get();
+    return snapshot.docs
+        .map((doc) => BattleRoom.fromJson(doc.data()).copyWith(id: doc.id))
+        .toList();
+  }
 }
