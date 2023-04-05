@@ -50,4 +50,16 @@ class HouseTournamentRepository {
     }
     return true;
   }
+
+  static Future<List<HouseTournament>> fetchHouseTournamentsByTitle(
+      String title) async {
+    final snapshot = await houseTournamentsCollection
+        .orderBy('title')
+        .startAt([title]).endAt(['$title\uf8ff']).get();
+
+    return snapshot.docs
+        .map((e) => HouseTournament.fromJson(e.data())
+            .copyWith(houseTournamentId: e.id))
+        .toList();
+  }
 }
