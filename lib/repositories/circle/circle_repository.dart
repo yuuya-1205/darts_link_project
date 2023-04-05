@@ -43,6 +43,17 @@ class CircleRepository {
     await circlesCollection.doc(circle.circleId).delete();
   }
 
+  static Future<List<Circle>> fetchCirclesByCircleName(
+      String circleName) async {
+    final snapshot = await circlesCollection
+        .orderBy('circleName')
+        .startAt([circleName]).endAt(['$circleName\uf8ff']).get();
+
+    return snapshot.docs
+        .map((doc) => Circle.fromJson(doc.data()).copyWith(circleId: doc.id))
+        .toList();
+  }
+
   // static Future<void> updateProfile({
   //   required AppUser appUser,
   // }) async {
