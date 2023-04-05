@@ -5,12 +5,9 @@ import 'package:darts_link_project/views/house_tornament_page/house_tornament_de
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class HouseTournamentCard extends StatelessWidget {
-  const HouseTournamentCard({
-    super.key,
-    required this.houseTournament,
-  });
-
+class HouseTournamentListItemView extends StatelessWidget {
+  const HouseTournamentListItemView({required this.houseTournament, Key? key})
+      : super(key: key);
   final HouseTournament houseTournament;
 
   @override
