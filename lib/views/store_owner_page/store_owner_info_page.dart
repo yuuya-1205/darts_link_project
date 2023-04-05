@@ -8,7 +8,7 @@ import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/favorite_repository.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
-import 'package:darts_link_project/views/house_tornament_page/house_tornament_card.dart';
+import 'package:darts_link_project/views/components/house_tournament/house_tournament_list_view.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
@@ -150,37 +150,32 @@ class _StoreOwnerInfoPageState extends State<StoreOwnerInfoPage> {
             ),
           ),
           StreamBuilder<List<HouseTournament>>(
-              stream: HouseTournamentRepository.houseTournamentStream(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState != ConnectionState.active) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (!snapshot.hasData) {
-                  return Container();
-                }
-
-                final houseTournaments = snapshot.data;
-                if (houseTournaments!.isEmpty) {
-                  return const Center(
-                    child: Text('まだ、投稿がありません'),
-                  );
-                }
-
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: houseTournaments.length,
-                      itemBuilder: (context, index) {
-                        final houseTournament = houseTournaments[index];
-                        return HouseTournamentCard(
-                          houseTournament: houseTournament,
-                        );
-                      }),
+            stream: HouseTournamentRepository.houseTournamentStream(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.active) {
+                return const Center(
+                  child: CircularProgressIndicator(),
                 );
-              }),
+              }
+              if (!snapshot.hasData) {
+                return Container();
+              }
+
+              final houseTournaments = snapshot.data;
+              if (houseTournaments!.isEmpty) {
+                return const Center(
+                  child: Text('まだ、投稿がありません'),
+                );
+              }
+
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: HouseTournamentListView(
+                  houseTournaments: houseTournaments,
+                ),
+              );
+            },
+          ),
           const SizedBox(height: 32),
           Center(
             child: StreamBuilder<QuerySnapshot>(

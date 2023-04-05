@@ -7,8 +7,8 @@ import 'package:darts_link_project/models/house_tornament/house_tournament.dart'
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/house_tournament/house_tournament_list_view.dart';
 import 'package:darts_link_project/views/house_tornament_page/create_house_tornament_page.dart';
-import 'package:darts_link_project/views/house_tornament_page/house_tornament_card.dart';
 import 'package:flutter/material.dart';
 
 class HouseTournamentPage extends StatefulWidget {
@@ -89,15 +89,9 @@ class _HouseTournamentPageState extends State<HouseTournamentPage> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: houseTournaments.length,
-                            itemBuilder: (context, index) {
-                              final houseTournament = houseTournaments[index];
-                              return HouseTournamentCard(
-                                houseTournament: houseTournament,
-                              );
-                            }),
+                        HouseTournamentListView(
+                          houseTournaments: houseTournaments,
+                        ),
                       ],
                     );
                   }),
