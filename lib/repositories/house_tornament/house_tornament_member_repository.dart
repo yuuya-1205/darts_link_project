@@ -7,7 +7,7 @@ class HouseTornamentMemberRepository {
   static final fireStore = FirebaseFirestore.instance;
   static CollectionReference gethouseTornamentsMemberCollection(
           String houseTornamentId) =>
-      HouseTornamentRepository.houseTornamentsCollection
+      HouseTournamentRepository.houseTournamentsCollection
           .doc(houseTornamentId)
           .collection('houseTornamentMembers');
 

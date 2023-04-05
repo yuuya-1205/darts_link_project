@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'house_tornament.dart';
+part of 'house_tournament.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,13 +14,13 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-HouseTornament _$HouseTornamentFromJson(Map<String, dynamic> json) {
-  return _HouseTornament.fromJson(json);
+HouseTournament _$HouseTournamentFromJson(Map<String, dynamic> json) {
+  return _HouseTournament.fromJson(json);
 }
 
 /// @nodoc
-mixin _$HouseTornament {
-  String get houseTornamentId => throw _privateConstructorUsedError;
+mixin _$HouseTournament {
+  String get houseTournamentId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
   String get headerImage => throw _privateConstructorUsedError;
@@ -45,10 +45,10 @@ mixin _$HouseTornament {
   Timestamp get finishTime => throw _privateConstructorUsedError;
   String get detail => throw _privateConstructorUsedError;
   bool get isApproved => throw _privateConstructorUsedError;
-  bool get isFinalTornament => throw _privateConstructorUsedError;
+  bool get isFinalTournament => throw _privateConstructorUsedError;
   String get ownerId => throw _privateConstructorUsedError;
-  String get createrName => throw _privateConstructorUsedError;
-  String get createrImage => throw _privateConstructorUsedError;
+  String get creatorName => throw _privateConstructorUsedError;
+  String get creatorImage => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   int get followingCount => throw _privateConstructorUsedError;
   int get followerCount => throw _privateConstructorUsedError;
@@ -59,18 +59,18 @@ mixin _$HouseTornament {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $HouseTornamentCopyWith<HouseTornament> get copyWith =>
+  $HouseTournamentCopyWith<HouseTournament> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $HouseTornamentCopyWith<$Res> {
-  factory $HouseTornamentCopyWith(
-          HouseTornament value, $Res Function(HouseTornament) then) =
-      _$HouseTornamentCopyWithImpl<$Res, HouseTornament>;
+abstract class $HouseTournamentCopyWith<$Res> {
+  factory $HouseTournamentCopyWith(
+          HouseTournament value, $Res Function(HouseTournament) then) =
+      _$HouseTournamentCopyWithImpl<$Res, HouseTournament>;
   @useResult
   $Res call(
-      {String houseTornamentId,
+      {String houseTournamentId,
       String title,
       String uid,
       String headerImage,
@@ -87,10 +87,10 @@ abstract class $HouseTornamentCopyWith<$Res> {
       @TimestampConverter() Timestamp finishTime,
       String detail,
       bool isApproved,
-      bool isFinalTornament,
+      bool isFinalTournament,
       String ownerId,
-      String createrName,
-      String createrImage,
+      String creatorName,
+      String creatorImage,
       String userId,
       int followingCount,
       int followerCount,
@@ -102,9 +102,9 @@ abstract class $HouseTornamentCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$HouseTornamentCopyWithImpl<$Res, $Val extends HouseTornament>
-    implements $HouseTornamentCopyWith<$Res> {
-  _$HouseTornamentCopyWithImpl(this._value, this._then);
+class _$HouseTournamentCopyWithImpl<$Res, $Val extends HouseTournament>
+    implements $HouseTournamentCopyWith<$Res> {
+  _$HouseTournamentCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -114,7 +114,7 @@ class _$HouseTornamentCopyWithImpl<$Res, $Val extends HouseTornament>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? houseTornamentId = null,
+    Object? houseTournamentId = null,
     Object? title = null,
     Object? uid = null,
     Object? headerImage = null,
@@ -131,10 +131,10 @@ class _$HouseTornamentCopyWithImpl<$Res, $Val extends HouseTornament>
     Object? finishTime = null,
     Object? detail = null,
     Object? isApproved = null,
-    Object? isFinalTornament = null,
+    Object? isFinalTournament = null,
     Object? ownerId = null,
-    Object? createrName = null,
-    Object? createrImage = null,
+    Object? creatorName = null,
+    Object? creatorImage = null,
     Object? userId = null,
     Object? followingCount = null,
     Object? followerCount = null,
@@ -142,9 +142,9 @@ class _$HouseTornamentCopyWithImpl<$Res, $Val extends HouseTornament>
     Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
-      houseTornamentId: null == houseTornamentId
-          ? _value.houseTornamentId
-          : houseTornamentId // ignore: cast_nullable_to_non_nullable
+      houseTournamentId: null == houseTournamentId
+          ? _value.houseTournamentId
+          : houseTournamentId // ignore: cast_nullable_to_non_nullable
               as String,
       title: null == title
           ? _value.title
@@ -210,21 +210,21 @@ class _$HouseTornamentCopyWithImpl<$Res, $Val extends HouseTornament>
           ? _value.isApproved
           : isApproved // ignore: cast_nullable_to_non_nullable
               as bool,
-      isFinalTornament: null == isFinalTornament
-          ? _value.isFinalTornament
-          : isFinalTornament // ignore: cast_nullable_to_non_nullable
+      isFinalTournament: null == isFinalTournament
+          ? _value.isFinalTournament
+          : isFinalTournament // ignore: cast_nullable_to_non_nullable
               as bool,
       ownerId: null == ownerId
           ? _value.ownerId
           : ownerId // ignore: cast_nullable_to_non_nullable
               as String,
-      createrName: null == createrName
-          ? _value.createrName
-          : createrName // ignore: cast_nullable_to_non_nullable
+      creatorName: null == creatorName
+          ? _value.creatorName
+          : creatorName // ignore: cast_nullable_to_non_nullable
               as String,
-      createrImage: null == createrImage
-          ? _value.createrImage
-          : createrImage // ignore: cast_nullable_to_non_nullable
+      creatorImage: null == creatorImage
+          ? _value.creatorImage
+          : creatorImage // ignore: cast_nullable_to_non_nullable
               as String,
       userId: null == userId
           ? _value.userId
@@ -275,15 +275,15 @@ class _$HouseTornamentCopyWithImpl<$Res, $Val extends HouseTornament>
 }
 
 /// @nodoc
-abstract class _$$_HouseTornamentCopyWith<$Res>
-    implements $HouseTornamentCopyWith<$Res> {
-  factory _$$_HouseTornamentCopyWith(
-          _$_HouseTornament value, $Res Function(_$_HouseTornament) then) =
-      __$$_HouseTornamentCopyWithImpl<$Res>;
+abstract class _$$_HouseTournamentCopyWith<$Res>
+    implements $HouseTournamentCopyWith<$Res> {
+  factory _$$_HouseTournamentCopyWith(
+          _$_HouseTournament value, $Res Function(_$_HouseTournament) then) =
+      __$$_HouseTournamentCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {String houseTornamentId,
+      {String houseTournamentId,
       String title,
       String uid,
       String headerImage,
@@ -300,10 +300,10 @@ abstract class _$$_HouseTornamentCopyWith<$Res>
       @TimestampConverter() Timestamp finishTime,
       String detail,
       bool isApproved,
-      bool isFinalTornament,
+      bool isFinalTournament,
       String ownerId,
-      String createrName,
-      String createrImage,
+      String creatorName,
+      String creatorImage,
       String userId,
       int followingCount,
       int followerCount,
@@ -317,17 +317,17 @@ abstract class _$$_HouseTornamentCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_HouseTornamentCopyWithImpl<$Res>
-    extends _$HouseTornamentCopyWithImpl<$Res, _$_HouseTornament>
-    implements _$$_HouseTornamentCopyWith<$Res> {
-  __$$_HouseTornamentCopyWithImpl(
-      _$_HouseTornament _value, $Res Function(_$_HouseTornament) _then)
+class __$$_HouseTournamentCopyWithImpl<$Res>
+    extends _$HouseTournamentCopyWithImpl<$Res, _$_HouseTournament>
+    implements _$$_HouseTournamentCopyWith<$Res> {
+  __$$_HouseTournamentCopyWithImpl(
+      _$_HouseTournament _value, $Res Function(_$_HouseTournament) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? houseTornamentId = null,
+    Object? houseTournamentId = null,
     Object? title = null,
     Object? uid = null,
     Object? headerImage = null,
@@ -344,20 +344,20 @@ class __$$_HouseTornamentCopyWithImpl<$Res>
     Object? finishTime = null,
     Object? detail = null,
     Object? isApproved = null,
-    Object? isFinalTornament = null,
+    Object? isFinalTournament = null,
     Object? ownerId = null,
-    Object? createrName = null,
-    Object? createrImage = null,
+    Object? creatorName = null,
+    Object? creatorImage = null,
     Object? userId = null,
     Object? followingCount = null,
     Object? followerCount = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(_$_HouseTornament(
-      houseTornamentId: null == houseTornamentId
-          ? _value.houseTornamentId
-          : houseTornamentId // ignore: cast_nullable_to_non_nullable
+    return _then(_$_HouseTournament(
+      houseTournamentId: null == houseTournamentId
+          ? _value.houseTournamentId
+          : houseTournamentId // ignore: cast_nullable_to_non_nullable
               as String,
       title: null == title
           ? _value.title
@@ -423,21 +423,21 @@ class __$$_HouseTornamentCopyWithImpl<$Res>
           ? _value.isApproved
           : isApproved // ignore: cast_nullable_to_non_nullable
               as bool,
-      isFinalTornament: null == isFinalTornament
-          ? _value.isFinalTornament
-          : isFinalTornament // ignore: cast_nullable_to_non_nullable
+      isFinalTournament: null == isFinalTournament
+          ? _value.isFinalTournament
+          : isFinalTournament // ignore: cast_nullable_to_non_nullable
               as bool,
       ownerId: null == ownerId
           ? _value.ownerId
           : ownerId // ignore: cast_nullable_to_non_nullable
               as String,
-      createrName: null == createrName
-          ? _value.createrName
-          : createrName // ignore: cast_nullable_to_non_nullable
+      creatorName: null == creatorName
+          ? _value.creatorName
+          : creatorName // ignore: cast_nullable_to_non_nullable
               as String,
-      createrImage: null == createrImage
-          ? _value.createrImage
-          : createrImage // ignore: cast_nullable_to_non_nullable
+      creatorImage: null == creatorImage
+          ? _value.creatorImage
+          : creatorImage // ignore: cast_nullable_to_non_nullable
               as String,
       userId: null == userId
           ? _value.userId
@@ -465,9 +465,9 @@ class __$$_HouseTornamentCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_HouseTornament implements _HouseTornament {
-  const _$_HouseTornament(
-      {required this.houseTornamentId,
+class _$_HouseTournament implements _HouseTournament {
+  const _$_HouseTournament(
+      {required this.houseTournamentId,
       required this.title,
       required this.uid,
       this.headerImage = '',
@@ -484,10 +484,10 @@ class _$_HouseTornament implements _HouseTornament {
       @TimestampConverter() required this.finishTime,
       this.detail = '',
       this.isApproved = false,
-      this.isFinalTornament = false,
+      this.isFinalTournament = false,
       required this.ownerId,
-      required this.createrName,
-      required this.createrImage,
+      required this.creatorName,
+      required this.creatorImage,
       required this.userId,
       this.followingCount = 0,
       this.followerCount = 0,
@@ -497,11 +497,11 @@ class _$_HouseTornament implements _HouseTornament {
         _dartsModels = dartsModels,
         _formats = formats;
 
-  factory _$_HouseTornament.fromJson(Map<String, dynamic> json) =>
-      _$$_HouseTornamentFromJson(json);
+  factory _$_HouseTournament.fromJson(Map<String, dynamic> json) =>
+      _$$_HouseTournamentFromJson(json);
 
   @override
-  final String houseTornamentId;
+  final String houseTournamentId;
   @override
   final String title;
   @override
@@ -571,13 +571,13 @@ class _$_HouseTornament implements _HouseTornament {
   final bool isApproved;
   @override
   @JsonKey()
-  final bool isFinalTornament;
+  final bool isFinalTournament;
   @override
   final String ownerId;
   @override
-  final String createrName;
+  final String creatorName;
   @override
-  final String createrImage;
+  final String creatorImage;
   @override
   final String userId;
   @override
@@ -595,16 +595,16 @@ class _$_HouseTornament implements _HouseTornament {
 
   @override
   String toString() {
-    return 'HouseTornament(houseTornamentId: $houseTornamentId, title: $title, uid: $uid, headerImage: $headerImage, place: $place, prefecture: $prefecture, city: $city, features: $features, capacity: $capacity, numberOfParticipants: $numberOfParticipants, dartsModels: $dartsModels, formats: $formats, dateTime: $dateTime, startTime: $startTime, finishTime: $finishTime, detail: $detail, isApproved: $isApproved, isFinalTornament: $isFinalTornament, ownerId: $ownerId, createrName: $createrName, createrImage: $createrImage, userId: $userId, followingCount: $followingCount, followerCount: $followerCount, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'HouseTournament(houseTournamentId: $houseTournamentId, title: $title, uid: $uid, headerImage: $headerImage, place: $place, prefecture: $prefecture, city: $city, features: $features, capacity: $capacity, numberOfParticipants: $numberOfParticipants, dartsModels: $dartsModels, formats: $formats, dateTime: $dateTime, startTime: $startTime, finishTime: $finishTime, detail: $detail, isApproved: $isApproved, isFinalTournament: $isFinalTournament, ownerId: $ownerId, creatorName: $creatorName, creatorImage: $creatorImage, userId: $userId, followingCount: $followingCount, followerCount: $followerCount, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_HouseTornament &&
-            (identical(other.houseTornamentId, houseTornamentId) ||
-                other.houseTornamentId == houseTornamentId) &&
+            other is _$_HouseTournament &&
+            (identical(other.houseTournamentId, houseTournamentId) ||
+                other.houseTournamentId == houseTournamentId) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.headerImage, headerImage) ||
@@ -630,13 +630,13 @@ class _$_HouseTornament implements _HouseTornament {
             (identical(other.detail, detail) || other.detail == detail) &&
             (identical(other.isApproved, isApproved) ||
                 other.isApproved == isApproved) &&
-            (identical(other.isFinalTornament, isFinalTornament) ||
-                other.isFinalTornament == isFinalTornament) &&
+            (identical(other.isFinalTournament, isFinalTournament) ||
+                other.isFinalTournament == isFinalTournament) &&
             (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
-            (identical(other.createrName, createrName) ||
-                other.createrName == createrName) &&
-            (identical(other.createrImage, createrImage) ||
-                other.createrImage == createrImage) &&
+            (identical(other.creatorName, creatorName) ||
+                other.creatorName == creatorName) &&
+            (identical(other.creatorImage, creatorImage) ||
+                other.creatorImage == creatorImage) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.followingCount, followingCount) ||
                 other.followingCount == followingCount) &&
@@ -652,7 +652,7 @@ class _$_HouseTornament implements _HouseTornament {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
-        houseTornamentId,
+        houseTournamentId,
         title,
         uid,
         headerImage,
@@ -669,10 +669,10 @@ class _$_HouseTornament implements _HouseTornament {
         finishTime,
         detail,
         isApproved,
-        isFinalTornament,
+        isFinalTournament,
         ownerId,
-        createrName,
-        createrImage,
+        creatorName,
+        creatorImage,
         userId,
         followingCount,
         followerCount,
@@ -683,20 +683,20 @@ class _$_HouseTornament implements _HouseTornament {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HouseTornamentCopyWith<_$_HouseTornament> get copyWith =>
-      __$$_HouseTornamentCopyWithImpl<_$_HouseTornament>(this, _$identity);
+  _$$_HouseTournamentCopyWith<_$_HouseTournament> get copyWith =>
+      __$$_HouseTournamentCopyWithImpl<_$_HouseTournament>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_HouseTornamentToJson(
+    return _$$_HouseTournamentToJson(
       this,
     );
   }
 }
 
-abstract class _HouseTornament implements HouseTornament {
-  const factory _HouseTornament(
-          {required final String houseTornamentId,
+abstract class _HouseTournament implements HouseTournament {
+  const factory _HouseTournament(
+          {required final String houseTournamentId,
           required final String title,
           required final String uid,
           final String headerImage,
@@ -713,22 +713,22 @@ abstract class _HouseTornament implements HouseTornament {
           @TimestampConverter() required final Timestamp finishTime,
           final String detail,
           final bool isApproved,
-          final bool isFinalTornament,
+          final bool isFinalTournament,
           required final String ownerId,
-          required final String createrName,
-          required final String createrImage,
+          required final String creatorName,
+          required final String creatorImage,
           required final String userId,
           final int followingCount,
           final int followerCount,
           @TimestampConverter() required final Timestamp createdAt,
           @TimestampConverter() required final Timestamp updatedAt}) =
-      _$_HouseTornament;
+      _$_HouseTournament;
 
-  factory _HouseTornament.fromJson(Map<String, dynamic> json) =
-      _$_HouseTornament.fromJson;
+  factory _HouseTournament.fromJson(Map<String, dynamic> json) =
+      _$_HouseTournament.fromJson;
 
   @override
-  String get houseTornamentId;
+  String get houseTournamentId;
   @override
   String get title;
   @override
@@ -770,13 +770,13 @@ abstract class _HouseTornament implements HouseTornament {
   @override
   bool get isApproved;
   @override
-  bool get isFinalTornament;
+  bool get isFinalTournament;
   @override
   String get ownerId;
   @override
-  String get createrName;
+  String get creatorName;
   @override
-  String get createrImage;
+  String get creatorImage;
   @override
   String get userId;
   @override
@@ -791,6 +791,6 @@ abstract class _HouseTornament implements HouseTornament {
   Timestamp get updatedAt;
   @override
   @JsonKey(ignore: true)
-  _$$_HouseTornamentCopyWith<_$_HouseTornament> get copyWith =>
+  _$$_HouseTournamentCopyWith<_$_HouseTournament> get copyWith =>
       throw _privateConstructorUsedError;
 }

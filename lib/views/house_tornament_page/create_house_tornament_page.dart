@@ -5,7 +5,7 @@ import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/input_field.dart';
 import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/city.dart';
-import 'package:darts_link_project/models/house_tornament/house_tornament.dart';
+import 'package:darts_link_project/models/house_tornament/house_tournament.dart';
 import 'package:darts_link_project/models/pref.dart';
 import 'package:darts_link_project/models/tag_type.dart';
 import 'package:darts_link_project/repositories/area_repository.dart';
@@ -19,29 +19,29 @@ import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
-class CreateHouseTornamentPage extends StatefulWidget {
-  const CreateHouseTornamentPage({super.key});
+class CreateHouseTournamentPage extends StatefulWidget {
+  const CreateHouseTournamentPage({super.key});
 
   @override
-  State<CreateHouseTornamentPage> createState() =>
-      _CreateHouseTornamentPageState();
+  State<CreateHouseTournamentPage> createState() =>
+      _CreateHouseTournamentPageState();
 }
 
-class _CreateHouseTornamentPageState extends State<CreateHouseTornamentPage> {
+class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
   final _formKey = GlobalKey<FormState>();
-  final _houseTornamentTitleController = TextEditingController();
+  final _houseTournamentTitleController = TextEditingController();
   final _placeController = TextEditingController();
   final _prefController = TextEditingController();
   final _cityController = TextEditingController();
   final _dateTimeController = TextEditingController();
   final _startTimeController = TextEditingController();
   final _finishTimeController = TextEditingController();
-  final _houseTornamentDetailController = TextEditingController();
+  final _houseTournamentDetailController = TextEditingController();
 
   Pref? _selectedPref;
-  Pref? _initalPrefectureArea;
+  Pref? _initialPrefectureArea;
   City? _selectedCity;
-  City? _initalCityArea;
+  City? _initialCityArea;
   int _capacity = 0;
 
   List<Pref> prefs = [];
@@ -53,14 +53,14 @@ class _CreateHouseTornamentPageState extends State<CreateHouseTornamentPage> {
   DateTime? _selectedStartTime;
   DateTime? _selectedFinishTime;
   Asset? _selectedHeaderImage;
-  String _houseTornamentHeaderImageUrl = '';
+  final String _houseTournamentHeaderImageUrl = '';
 
   final List<String> _selectedFeatures = [];
   final List<String> _selectedDartsModels = [];
   final List<String> _selectedFormats = [];
 
   bool isApproved = false;
-  bool isFinalTornament = false;
+  bool isFinalTournament = false;
 
   @override
   void initState() {
@@ -170,17 +170,15 @@ class _CreateHouseTornamentPageState extends State<CreateHouseTornamentPage> {
                       child: InkWell(
                         child: HeaderImageUrl(
                             asset: _selectedHeaderImage,
-                            headerImageUrl: _houseTornamentHeaderImageUrl),
+                            headerImageUrl: _houseTournamentHeaderImageUrl),
                         onTap: () async {
-                          final headerfiles = await MultiImagePicker.pickImages(
+                          final headerFiles = await MultiImagePicker.pickImages(
                             maxImages: 1,
                             enableCamera: true,
                           );
-                          if (headerfiles != null) {
-                            setState(() {
-                              _selectedHeaderImage = headerfiles.first;
-                            });
-                          }
+                          setState(() {
+                            _selectedHeaderImage = headerFiles.first;
+                          });
                         },
                       ),
                     ),
@@ -199,7 +197,7 @@ class _CreateHouseTornamentPageState extends State<CreateHouseTornamentPage> {
                       ),
                       Flexible(
                         child: InputField(
-                          controller: _houseTornamentTitleController,
+                          controller: _houseTournamentTitleController,
                           hintText: '入力してください',
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -275,10 +273,11 @@ class _CreateHouseTornamentPageState extends State<CreateHouseTornamentPage> {
                                           onPressed: () {
                                             Navigator.pop(context);
                                             setState(() {
-                                              _initalPrefectureArea =
+                                              _initialPrefectureArea =
                                                   _selectedPref;
                                               _prefController.text =
-                                                  _initalPrefectureArea?.name ??
+                                                  _initialPrefectureArea
+                                                          ?.name ??
                                                       '未登録';
                                             });
                                           },
@@ -332,11 +331,11 @@ class _CreateHouseTornamentPageState extends State<CreateHouseTornamentPage> {
                             return null;
                           },
                           onTap: () async {
-                            if (_initalPrefectureArea == null) {
+                            if (_initialPrefectureArea == null) {
                               return;
                             }
-                            final citys = await AreaRepository.getCitysData(
-                                _initalPrefectureArea!.code.toString());
+                            final cities = await AreaRepository.getCitysData(
+                                _initialPrefectureArea!.code.toString());
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -357,9 +356,9 @@ class _CreateHouseTornamentPageState extends State<CreateHouseTornamentPage> {
                                           onPressed: () {
                                             Navigator.pop(context);
                                             setState(() {
-                                              _initalCityArea = _selectedCity;
+                                              _initialCityArea = _selectedCity;
                                               _cityController.text =
-                                                  _initalCityArea?.name ??
+                                                  _initialCityArea?.name ??
                                                       '未登録';
                                             });
                                           },
@@ -373,11 +372,11 @@ class _CreateHouseTornamentPageState extends State<CreateHouseTornamentPage> {
                                               3,
                                       child: CupertinoPicker(
                                         itemExtent: 40,
-                                        children: citys
+                                        children: cities
                                             .map((e) => Text(e.name))
                                             .toList(),
                                         onSelectedItemChanged: (int index) {
-                                          _selectedCity = citys[index];
+                                          _selectedCity = cities[index];
                                         },
                                       ),
                                     )
@@ -824,7 +823,7 @@ class _CreateHouseTornamentPageState extends State<CreateHouseTornamentPage> {
                       ),
                       Flexible(
                         child: InputField(
-                          controller: _houseTornamentDetailController,
+                          controller: _houseTournamentDetailController,
                           hintText: '入力してください',
                         ),
                       ),
@@ -840,18 +839,18 @@ class _CreateHouseTornamentPageState extends State<CreateHouseTornamentPage> {
                       }
                       final user = AuthRepository.currentUser;
 
-                      final houseTornamentTitle =
-                          _houseTornamentTitleController.text;
+                      final houseTournamentTitle =
+                          _houseTournamentTitleController.text;
                       final place = _placeController.text;
-                      final houseTornamentDetail =
-                          _houseTornamentDetailController.text;
-                      final houseTornament = HouseTornament(
-                        houseTornamentId: '',
-                        title: houseTornamentTitle,
+                      final houseTournamentDetail =
+                          _houseTournamentDetailController.text;
+                      final houseTournament = HouseTournament(
+                        houseTournamentId: '',
+                        title: houseTournamentTitle,
                         place: place,
                         ownerId: user!.id,
-                        createrName: user.userName,
-                        createrImage: user.userImage,
+                        creatorName: user.userName,
+                        creatorImage: user.userImage,
                         createdAt: Timestamp.now(),
                         updatedAt: Timestamp.now(),
                         formats: _selectedFormats,
@@ -861,16 +860,14 @@ class _CreateHouseTornamentPageState extends State<CreateHouseTornamentPage> {
                         followerCount: user.followerCount,
                         followingCount: user.followingCount,
                         capacity: _capacity,
-                        detail: houseTornamentDetail,
+                        detail: houseTournamentDetail,
                         dateTime: Timestamp.fromDate(_selectedDateAndTime!),
                         startTime: Timestamp.fromDate(_selectedStartTime!),
                         finishTime: Timestamp.fromDate(_selectedFinishTime!),
                         uid: '',
                       );
-                      await HouseTornamentRepository.createHouseTornament(
-                          houseTornament);
-
-                      // ignore: use_build_context_synchronously
+                      await HouseTournamentRepository.createHouseTournament(
+                          houseTournament);
                       Navigator.pop(context);
                     },
                   ),

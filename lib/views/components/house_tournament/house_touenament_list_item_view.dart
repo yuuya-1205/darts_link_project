@@ -1,17 +1,14 @@
 import 'package:darts_link_project/components/user_image.dart';
-import 'package:darts_link_project/models/house_tornament/house_tornament.dart';
+import 'package:darts_link_project/models/house_tornament/house_tournament.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/house_tornament_page/house_tornament_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class HouseTornamentCard extends StatelessWidget {
-  const HouseTornamentCard({
-    super.key,
-    required this.houseTornament,
-  });
-
-  final HouseTornament houseTornament;
+class HouseTournamentListItemView extends StatelessWidget {
+  const HouseTournamentListItemView({required this.houseTournament, Key? key})
+      : super(key: key);
+  final HouseTournament houseTournament;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +19,8 @@ class HouseTornamentCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: ((context) => HouseTornamentDetailPage(
-                  houseTornament: houseTornament,
+            builder: ((context) => HouseTournamentDetailPage(
+                  houseTournament: houseTournament,
                 )),
           ),
         );
@@ -43,8 +40,8 @@ class HouseTornamentCard extends StatelessWidget {
                 child: UserImage(
                     height: 64,
                     width: 64,
-                    imageUrl: houseTornament.createrImage,
-                    uid: houseTornament.ownerId),
+                    imageUrl: houseTournament.creatorImage,
+                    uid: houseTournament.ownerId),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(6, 14, 0, 14),
@@ -54,11 +51,11 @@ class HouseTornamentCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          dateFormat.format(houseTornament.dateTime.toDate()),
+                          dateFormat.format(houseTournament.dateTime.toDate()),
                           style: const TextStyle(color: Colors.grey),
                         ),
                         Text(
-                          timeFormat.format(houseTornament.startTime.toDate()),
+                          timeFormat.format(houseTournament.startTime.toDate()),
                           style: const TextStyle(color: Colors.grey),
                         ),
                         const Text(
@@ -69,7 +66,7 @@ class HouseTornamentCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      houseTornament.title,
+                      houseTournament.title,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 16),
                     ),
@@ -81,7 +78,7 @@ class HouseTornamentCard extends StatelessWidget {
                           color: Color.fromRGBO(210, 48, 125, 1),
                         ),
                         Text(
-                          houseTornament.place,
+                          houseTournament.place,
                           style: const TextStyle(
                               color: Color.fromRGBO(210, 48, 125, 1)),
                         ),
@@ -97,7 +94,7 @@ class HouseTornamentCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      '${houseTornament.numberOfParticipants}',
+                      '${houseTournament.numberOfParticipants}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 36,
@@ -105,7 +102,7 @@ class HouseTornamentCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '/' '${houseTornament.capacity}人',
+                      '/' '${houseTournament.capacity}人',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
