@@ -6,7 +6,7 @@ import 'package:darts_link_project/components/sort_box/recruit_box.dart';
 import 'package:darts_link_project/models/circle/circle.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
-import 'package:darts_link_project/views/circle_page/circle_card_page.dart';
+import 'package:darts_link_project/views/circle_page/components/circle_card_page.dart';
 import 'package:darts_link_project/views/circle_page/create_circle_page.dart';
 import 'package:flutter/material.dart';
 
