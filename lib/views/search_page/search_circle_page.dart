@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class SearchCirclePage extends StatefulWidget {
-  const SearchCirclePage({Key? key}) : super(key: key);
+  const SearchCirclePage({required this.searchWord, Key? key})
+      : super(key: key);
+  final String searchWord;
 
   @override
   State<SearchCirclePage> createState() => _SearchCirclePageState();

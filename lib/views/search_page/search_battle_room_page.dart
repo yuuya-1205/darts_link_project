@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class SearchBattleRoomPage extends StatefulWidget {
-  const SearchBattleRoomPage({Key? key}) : super(key: key);
+  const SearchBattleRoomPage({required this.searchWord, Key? key})
+      : super(key: key);
+  final String searchWord;
 
   @override
   State<SearchBattleRoomPage> createState() => _SearchBattleRoomPageState();

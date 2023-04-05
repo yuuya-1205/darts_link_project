@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-class SearchHouseTornamentPage extends StatefulWidget {
-  const SearchHouseTornamentPage({Key? key}) : super(key: key);
+class SearchHouseTournamentPage extends StatefulWidget {
+  const SearchHouseTournamentPage({required this.searchWord, Key? key})
+      : super(key: key);
+  final String searchWord;
 
   @override
-  State<SearchHouseTornamentPage> createState() =>
-      _SearchHouseTornamentPageState();
+  State<SearchHouseTournamentPage> createState() =>
+      _SearchHouseTournamentPageState();
 }
 
-class _SearchHouseTornamentPageState extends State<SearchHouseTornamentPage> {
+class _SearchHouseTournamentPageState extends State<SearchHouseTournamentPage> {
   @override
   Widget build(BuildContext context) {
     return Column(
