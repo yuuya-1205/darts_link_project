@@ -7,13 +7,14 @@ import 'package:darts_link_project/models/pref.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../converters/pref_converter.dart';
-part 'house_tornament.freezed.dart';
-part 'house_tornament.g.dart';
+
+part 'house_tournament.freezed.dart';
+part 'house_tournament.g.dart';
 
 @freezed
-class HouseTornament with _$HouseTornament {
-  const factory HouseTornament({
-    required String houseTornamentId,
+class HouseTournament with _$HouseTournament {
+  const factory HouseTournament({
+    required String houseTournamentId,
     required String title,
     required String uid,
     @Default('') String headerImage,
@@ -30,29 +31,29 @@ class HouseTornament with _$HouseTornament {
     @TimestampConverter() required Timestamp finishTime,
     @Default('') String detail,
     @Default(false) bool isApproved,
-    @Default(false) bool isFinalTornament,
+    @Default(false) bool isFinalTournament,
     required String ownerId,
-    required String createrName,
-    required String createrImage,
+    required String creatorName,
+    required String creatorImage,
     required String userId,
     @Default(0) int followingCount,
     @Default(0) int followerCount,
     @TimestampConverter() required Timestamp createdAt,
     @TimestampConverter() required Timestamp updatedAt,
-  }) = _HouseTornament;
+  }) = _HouseTournament;
 
-  factory HouseTornament.fromJson(Map<String, dynamic> json) =>
-      _$HouseTornamentFromJson(json);
+  factory HouseTournament.fromJson(Map<String, dynamic> json) =>
+      _$HouseTournamentFromJson(json);
 
-  static HouseTornament fromAlgolia(AlgoliaObjectSnapshot snap) {
-    return HouseTornament(
+  static HouseTournament fromAlgolia(AlgoliaObjectSnapshot snap) {
+    return HouseTournament(
       uid: snap.data['uid'],
       createdAt: snap.data['createdAt'],
-      createrImage: snap.data['createrImage'],
-      createrName: snap.data['createrName'],
+      creatorImage: snap.data['creatorImage'],
+      creatorName: snap.data['creatorName'],
       dateTime: snap.data['dateTime'],
       finishTime: snap.data['finishTime'],
-      houseTornamentId: snap.data['houseTornamentId'],
+      houseTournamentId: snap.data['houseTournamentId'],
       ownerId: snap.data['ownerId'],
       startTime: snap.data['startTime'],
       title: snap.data['title'],

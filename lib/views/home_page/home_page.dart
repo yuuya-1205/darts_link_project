@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   Map<String, Widget> tabPageMaps = {
     '対戦者募集': const BattleRoomPage(),
     'サークル': const CirclePage(),
-    'ハウトー': const HouseTornamentPage(),
+    'ハウトー': const HouseTournamentPage(),
     'ダーツバー': const DartsBarPage(),
   };
   final user = AuthRepository.currentUser;

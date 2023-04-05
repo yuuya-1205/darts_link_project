@@ -3,7 +3,7 @@ import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/favorite.dart';
-import 'package:darts_link_project/models/house_tornament/house_tornament.dart';
+import 'package:darts_link_project/models/house_tornament/house_tournament.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/favorite_repository.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
@@ -23,10 +23,8 @@ class StoreOwnerInfoPage extends StatefulWidget {
 
 class _StoreOwnerInfoPageState extends State<StoreOwnerInfoPage> {
   void _openPhoneApp() {
-    final tel = '08034250591';
-    _launchURL(
-      'tel:' + tel,
-    );
+    const tel = '08034250591';
+    _launchURL('tel:$tel');
   }
 
   Future<void> _launchURL(String url) async {
@@ -68,8 +66,8 @@ class _StoreOwnerInfoPageState extends State<StoreOwnerInfoPage> {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(''),
+                      children: const [
+                        Text(''),
                       ],
                     ),
                   ],
@@ -151,7 +149,7 @@ class _StoreOwnerInfoPageState extends State<StoreOwnerInfoPage> {
               ),
             ),
           ),
-          StreamBuilder<List<HouseTornament>>(
+          StreamBuilder<List<HouseTournament>>(
               stream: HouseTournamentRepository.houseTournamentStream(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState != ConnectionState.active) {
@@ -163,8 +161,8 @@ class _StoreOwnerInfoPageState extends State<StoreOwnerInfoPage> {
                   return Container();
                 }
 
-                final houseTornaments = snapshot.data;
-                if (houseTornaments!.isEmpty) {
+                final houseTournaments = snapshot.data;
+                if (houseTournaments!.isEmpty) {
                   return const Center(
                     child: Text('まだ、投稿がありません'),
                   );
@@ -174,11 +172,11 @@ class _StoreOwnerInfoPageState extends State<StoreOwnerInfoPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: houseTornaments.length,
+                      itemCount: houseTournaments.length,
                       itemBuilder: (context, index) {
-                        final houseTornament = houseTornaments[index];
-                        return HouseTornamentCard(
-                          houseTornament: houseTornament,
+                        final houseTournament = houseTournaments[index];
+                        return HouseTournamentCard(
+                          houseTournament: houseTournament,
                         );
                       }),
                 );

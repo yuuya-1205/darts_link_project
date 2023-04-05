@@ -3,7 +3,7 @@ import 'package:darts_link_project/components/sort_box/date_time_box.dart';
 import 'package:darts_link_project/components/sort_box/event_box.dart';
 import 'package:darts_link_project/components/sort_box/recruit_box.dart';
 import 'package:darts_link_project/models/app_user.dart';
-import 'package:darts_link_project/models/house_tornament/house_tornament.dart';
+import 'package:darts_link_project/models/house_tornament/house_tournament.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
@@ -11,14 +11,14 @@ import 'package:darts_link_project/views/house_tornament_page/create_house_torna
 import 'package:darts_link_project/views/house_tornament_page/house_tornament_card.dart';
 import 'package:flutter/material.dart';
 
-class HouseTornamentPage extends StatefulWidget {
-  const HouseTornamentPage({Key? key}) : super(key: key);
+class HouseTournamentPage extends StatefulWidget {
+  const HouseTournamentPage({Key? key}) : super(key: key);
 
   @override
-  State<HouseTornamentPage> createState() => _HouseTornamentPageState();
+  State<HouseTournamentPage> createState() => _HouseTournamentPageState();
 }
 
-class _HouseTornamentPageState extends State<HouseTornamentPage> {
+class _HouseTournamentPageState extends State<HouseTournamentPage> {
   @override
   Widget build(BuildContext context) {
     final user = AuthRepository.currentUser;
@@ -31,18 +31,17 @@ class _HouseTornamentPageState extends State<HouseTornamentPage> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  const AreaBox(),
-                  const DateTimeBox(),
-                  const RecruitBox(),
-                  const EventBox(),
+                children: const [
+                  AreaBox(),
+                  DateTimeBox(),
+                  RecruitBox(),
+                  EventBox(),
                 ],
               ),
               const SizedBox(
                 height: 16,
               ),
-              StreamBuilder<List<HouseTornament>>(
+              StreamBuilder<List<HouseTournament>>(
                   stream: HouseTournamentRepository.houseTournamentStream(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState != ConnectionState.active) {
@@ -54,8 +53,8 @@ class _HouseTornamentPageState extends State<HouseTornamentPage> {
                       return Container();
                     }
 
-                    final houseTornaments = snapshot.data;
-                    if (houseTornaments!.isEmpty) {
+                    final houseTournaments = snapshot.data;
+                    if (houseTournaments!.isEmpty) {
                       return const Center(
                         child: Text('まだ、投稿がありません'),
                       );
@@ -73,7 +72,7 @@ class _HouseTornamentPageState extends State<HouseTornamentPage> {
                               ),
                               const Spacer(),
                               Text(
-                                '${houseTornaments.length}',
+                                '${houseTournaments.length}',
                                 style: TextStyle(
                                     fontSize: 25,
                                     color: OriginalTheme.themeData.primaryColor,
@@ -92,11 +91,11 @@ class _HouseTornamentPageState extends State<HouseTornamentPage> {
                         const SizedBox(height: 20),
                         ListView.builder(
                             shrinkWrap: true,
-                            itemCount: houseTornaments.length,
+                            itemCount: houseTournaments.length,
                             itemBuilder: (context, index) {
-                              final houseTornament = houseTornaments[index];
-                              return HouseTornamentCard(
-                                houseTornament: houseTornament,
+                              final houseTournament = houseTournaments[index];
+                              return HouseTournamentCard(
+                                houseTournament: houseTournament,
                               );
                             }),
                       ],
@@ -112,7 +111,7 @@ class _HouseTornamentPageState extends State<HouseTornamentPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: ((context) => const CreateHouseTornamentPage()),
+                      builder: ((context) => const CreateHouseTournamentPage()),
                     ),
                   );
                 },
