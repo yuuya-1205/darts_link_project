@@ -249,7 +249,9 @@ class _CircleDetailPageState extends State<CircleDetailPage> {
                     width: double.infinity,
                     child: HeaderImageUrl(
                       asset: asset,
-                      headerImageUrl: widget.circle.headerImage,
+                      headerImageUrl: widget.circle.imageUrls.isEmpty
+                          ? ''
+                          : widget.circle.imageUrls.first,
                     ),
                   ),
                   Container(

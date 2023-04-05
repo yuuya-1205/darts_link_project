@@ -68,8 +68,8 @@ class _StoreOwnerInfoPageState extends State<StoreOwnerInfoPage> {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(''),
+                      children: const [
+                        Text(''),
                       ],
                     ),
                   ],
@@ -267,7 +267,7 @@ class _StoreOwnerInfoPageState extends State<StoreOwnerInfoPage> {
                 text: 'シェアする',
               )
             ],
-          )
+          ),
         ],
       ),
     );

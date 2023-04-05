@@ -198,31 +198,23 @@ class _CircleInfoPageState extends State<CircleInfoPage> {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                children: [
-                  Container(
-                    height: 50,
-                    width: 120,
-                    color: Colors.green,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: 50,
-                    width: 120,
-                    color: Colors.green,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: 50,
-                    width: 120,
-                    color: Colors.green,
-                  ),
-                ],
-              ),
+              if (widget.circle.imageUrls.isNotEmpty)
+                Wrap(
+                    runSpacing: 20,
+                    children: widget.circle.imageUrls
+                        .asMap()
+                        .entries
+                        .map((entry) {
+                          if (entry.key == 0) {
+                            return null;
+                          }
+                          return Container(
+                              width: 120,
+                              height: 50,
+                              child: Image.network(entry.value));
+                        })
+                        .whereType<Widget>()
+                        .toList()),
             ],
           ),
           const SizedBox(height: 32),
