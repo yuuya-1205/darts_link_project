@@ -867,7 +867,7 @@ class _CreateHouseTornamentPageState extends State<CreateHouseTornamentPage> {
                         finishTime: Timestamp.fromDate(_selectedFinishTime!),
                         uid: '',
                       );
-                      await HouseTornamentRepository.createHouseTornament(
+                      await HouseTournamentRepository.createHouseTournament(
                           houseTornament);
 
                       // ignore: use_build_context_synchronously

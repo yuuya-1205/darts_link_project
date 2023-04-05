@@ -1,12 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:darts_link_project/components/delele_snack_bar.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/components/text_components/original_label.dart';
 import 'package:darts_link_project/components/text_components/original_text.dart';
-import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/house_tornament/house_tornament.dart';
 import 'package:darts_link_project/models/house_tornament/house_tornament_join_request.dart';
 import 'package:darts_link_project/models/house_tornament/house_tornament_member.dart';
@@ -17,8 +15,6 @@ import 'package:darts_link_project/repositories/house_tornament/house_tornament_
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/house_tornament_page/edit_house_tornament_page.dart';
-import 'package:darts_link_project/views/house_tornament_page/house_tornament_page.dart';
-import 'package:darts_link_project/views/top_page/top_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:intl/intl.dart';
@@ -63,7 +59,7 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
 
     final houseTornamentMember = HouseTornamentMember.fromAppUser(appUser);
     final canCreate =
-        await HouseTornamentRepository.canCreateHouseTornamentMember(
+        await HouseTournamentRepository.canCreateHouseTournamentMember(
             widget.houseTornament.houseTornamentId);
 
     if (canCreate == false) {
@@ -133,7 +129,7 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
     final memberDocsCount =
         await HouseTornamentMemberRepository.fetchHouseTornamentMemberDocsCount(
             widget.houseTornament.houseTornamentId);
-    await HouseTornamentRepository.updateHouseTornament(
+    await HouseTournamentRepository.updateHouseTournament(
         widget.houseTornament.copyWith(numberOfParticipants: memberDocsCount));
   }
 
@@ -272,8 +268,8 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
                                           children: [
                                             FollowApproveButton(
                                               onPressed: () async {
-                                                await HouseTornamentRepository
-                                                    .deleteHouseTornament(
+                                                await HouseTournamentRepository
+                                                    .deleteHouseTournament(
                                                         widget.houseTornament);
                                                 Navigator.pop(context);
 

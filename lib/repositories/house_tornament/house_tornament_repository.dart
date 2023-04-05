@@ -1,21 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/models/house_tornament/house_tornament.dart';
 
-class HouseTornamentRepository {
+class HouseTournamentRepository {
   static final fireStore = FirebaseFirestore.instance;
-  static final houseTornamentsCollection =
-      fireStore.collection('houseTornaments');
-  static DocumentReference getDocumentRef(String houseTornamentId) =>
-      houseTornamentsCollection.doc(houseTornamentId);
+  static final houseTournamentsCollection =
+      fireStore.collection('houseTournaments');
+  static DocumentReference getDocumentRef(String houseTournamentId) =>
+      houseTournamentsCollection.doc(houseTournamentId);
 
-  static Future<String> createHouseTornament(
-      HouseTornament houseTornament) async {
-    final room = await houseTornamentsCollection.add(houseTornament.toJson());
+  static Future<String> createHouseTournament(
+      HouseTornament houseTournament) async {
+    final room = await houseTournamentsCollection.add(houseTournament.toJson());
     return room.id;
   }
 
-  static Stream<List<HouseTornament>> houseTornamentStream() {
-    return houseTornamentsCollection
+  static Stream<List<HouseTornament>> houseTournamentStream() {
+    return houseTournamentsCollection
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snap) => snap.docs
@@ -24,24 +24,24 @@ class HouseTornamentRepository {
             .toList());
   }
 
-  static Future<void> updateHouseTornament(
-      HouseTornament houseTornament) async {
-    await houseTornamentsCollection
-        .doc(houseTornament.houseTornamentId)
-        .set(houseTornament.toJson(), SetOptions(merge: true));
+  static Future<void> updateHouseTournament(
+      HouseTornament houseTournament) async {
+    await houseTournamentsCollection
+        .doc(houseTournament.houseTornamentId)
+        .set(houseTournament.toJson(), SetOptions(merge: true));
   }
 
-  static Future<void> deleteHouseTornament(
-      HouseTornament houseTornament) async {
-    await houseTornamentsCollection
-        .doc(houseTornament.houseTornamentId)
+  static Future<void> deleteHouseTournament(
+      HouseTornament houseTournament) async {
+    await houseTournamentsCollection
+        .doc(houseTournament.houseTornamentId)
         .delete();
   }
 
-  static Future<bool> canCreateHouseTornamentMember(
-      String houseTornamentId) async {
+  static Future<bool> canCreateHouseTournamentMember(
+      String houseTournamentId) async {
     final snapshot =
-        await houseTornamentsCollection.doc(houseTornamentId).get();
+        await houseTournamentsCollection.doc(houseTournamentId).get();
     final data = snapshot.data() as Map<String, dynamic>;
     int capacity = data['capacity'];
     int numberOfParticipants = data['numberOfParticipants'];

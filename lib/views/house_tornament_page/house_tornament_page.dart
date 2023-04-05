@@ -43,7 +43,7 @@ class _HouseTornamentPageState extends State<HouseTornamentPage> {
                 height: 16,
               ),
               StreamBuilder<List<HouseTornament>>(
-                  stream: HouseTornamentRepository.houseTornamentStream(),
+                  stream: HouseTournamentRepository.houseTournamentStream(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState != ConnectionState.active) {
                       return const Center(
