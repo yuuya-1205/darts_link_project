@@ -13,10 +13,12 @@ import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../models/tag_type.dart';
 
@@ -50,6 +52,8 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
   final List<String> _selectedFeatures = [];
   String _currentHeaderImageUrl = '';
   Asset? _selectedHeaderImage;
+  List<Asset> _selectedHeaderImages = [];
+  List<String> _currentHeaderImageUrls = [];
 
   bool isApproved = false;
 
@@ -159,16 +163,20 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                       width: double.infinity,
                       child: InkWell(
                         child: HeaderImageUrl(
-                            asset: _selectedHeaderImage,
-                            headerImageUrl: _currentHeaderImageUrl),
+                            asset: _selectedHeaderImages.isEmpty
+                                ? null
+                                : _selectedHeaderImages.first,
+                            headerImageUrl: _currentHeaderImageUrls.isEmpty
+                                ? ''
+                                : _currentHeaderImageUrls.first),
                         onTap: () async {
                           final headerfiles = await MultiImagePicker.pickImages(
-                            maxImages: 1,
+                            maxImages: 6,
                             enableCamera: true,
                           );
                           if (headerfiles != null) {
                             setState(() {
-                              _selectedHeaderImage = headerfiles.first;
+                              _selectedHeaderImages = headerfiles;
                             });
                           }
                         },
@@ -534,6 +542,12 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                       final circleName = _circleNameController.text;
                       final place = _placeController.text;
                       final circleDetail = _circleDetailController.text;
+                      final imageFutures = _selectedHeaderImages
+                          .map(
+                            (selectedImage) => _saveImage(selectedImage),
+                          )
+                          .toList();
+                      final imageUrls = await Future.wait(imageFutures);
 
                       String? headerImageUrl;
                       if (_selectedHeaderImage != null) {
@@ -547,7 +561,7 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                         prefecture: _initalPrefectureArea,
                         city: _initalCityArea,
                         circleId: '',
-                        headerImage: _currentHeaderImageUrl,
+                        imageUrls: imageUrls,
                         circleName: circleName,
                         place: place,
                         ownerId: user!.id,
@@ -580,5 +594,14 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
         ),
       ),
     );
+  }
+
+  Future<String> _saveImage(Asset asset) async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+
+    final randomString = const Uuid().v4();
+    final path = 'posts/$uid/$randomString.jpeg';
+
+    return StorageRepository().saveimage(asset: asset, path: path);
   }
 }

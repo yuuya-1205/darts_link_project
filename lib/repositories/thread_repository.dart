@@ -16,6 +16,10 @@ class ThreadRepository {
   }
 
   static Stream<List<Thread>> threadStream({required String uid}) {
+    threadsCollection
+        .where('uids', arrayContains: uid)
+        .orderBy('updatedAt', descending: true)
+        .get();
     return threadsCollection
         .where('uids', arrayContains: uid)
         .orderBy('updatedAt', descending: true)

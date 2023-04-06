@@ -36,6 +36,7 @@ class _ThreadsPageState extends State<ThreadsPage> {
       body: StreamBuilder<List<Thread>>(
         stream: ThreadRepository.threadStream(uid: user!.id),
         builder: (context, snapshot) {
+          print(snapshot.data);
           if (snapshot.connectionState != ConnectionState.active) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -88,28 +89,30 @@ class _ThreadsPageState extends State<ThreadsPage> {
                     },
                     child: Row(
                       children: [
-                        // UserImage(
-                        //     imageUrl: thread.getMemberDetail(user.id,
-                        //         isPartner: true)['imageUrl'],
-                        //     uid: thread.partnerUid(user.id)),
-                        // Column(
-                        //   children: [
-                        //     Text(thread.getMemberDetail(user.id,
-                        //         isPartner: true)['name']),
-                        //     Text(thread.lastChat ?? ''),
-                        //   ],
-                        // ),
+                        UserImage(
+                            height: 50,
+                            width: 50,
+                            imageUrl: thread.getMemberDetail(user.id,
+                                isPartner: true)['imageUrl'],
+                            uid: thread.partnerUid(user.id)),
+                        Column(
+                          children: [
+                            Text(thread.getMemberDetail(user.id,
+                                isPartner: true)['name']),
+                            Text(thread.lastChat ?? ''),
+                          ],
+                        ),
                         const Spacer(),
                         if (thread.unReadCount[user.id] != 0)
-                          // Badge(
-                          //   badgeContent: Text(
-                          //     '${thread.unReadCount[user.id] ?? ""}',
-                          //     style: const TextStyle(color: Colors.white),
-                          //   ),
-                          // ),
-                          Text(
-                            HowLongAgo.since(thread.updatedAt),
+                          Badge(
+                            child: Text(
+                              '${thread.unReadCount[user.id] ?? ""}',
+                              style: const TextStyle(color: Colors.white),
+                            ),
                           ),
+                        Text(
+                          HowLongAgo.since(thread.updatedAt),
+                        ),
                       ],
                     ),
                   ),

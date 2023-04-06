@@ -260,7 +260,7 @@ class _StoreOwnerInfoPageState extends State<StoreOwnerInfoPage> {
                 text: 'シェアする',
               )
             ],
-          )
+          ),
         ],
       ),
     );
