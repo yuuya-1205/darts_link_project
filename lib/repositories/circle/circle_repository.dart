@@ -43,11 +43,30 @@ class CircleRepository {
     await circlesCollection.doc(circle.circleId).delete();
   }
 
-  static Future<List<Circle>> fetchCirclesByCircleName(
-      String circleName) async {
+  static Future<List<Circle>> fetchSearchedCircles(String value) async {
+    final result = await Future.wait(
+        [fetchCirclesByName(value), fetchCirclesByDetail(value)]);
+
+    /// toSetで重複するデータを排除し、更新日順で並び替え
+    final circles = result.expand((element) => element).toSet().toList()
+      ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    return circles;
+  }
+
+  static Future<List<Circle>> fetchCirclesByName(String value) async {
     final snapshot = await circlesCollection
         .orderBy('circleName')
-        .startAt([circleName]).endAt(['$circleName\uf8ff']).get();
+        .startAt([value]).endAt(['$value\uf8ff']).get();
+
+    return snapshot.docs
+        .map((doc) => Circle.fromJson(doc.data()).copyWith(circleId: doc.id))
+        .toList();
+  }
+
+  static Future<List<Circle>> fetchCirclesByDetail(String value) async {
+    final snapshot = await circlesCollection
+        .orderBy('circleDetail')
+        .startAt([value]).endAt(['$value\uf8ff']).get();
 
     return snapshot.docs
         .map((doc) => Circle.fromJson(doc.data()).copyWith(circleId: doc.id))
