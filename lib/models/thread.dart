@@ -17,22 +17,23 @@ class Thread with _$Thread {
     @TimestampConverter() required Timestamp createdAt,
     @TimestampConverter() required Timestamp updatedAt,
   }) = _Thread;
+  const Thread._();
 
-  // String partnerUid(String myUid) {
-  //   final list = uids.where((element) => element != myUid).toList();
-  //   return list.first;
-  // }
+  String partnerUid(String myUid) {
+    final list = uids.where((element) => element != myUid).toList();
+    return list.first;
+  }
 
-  // Map<String, dynamic> getMemberDetail(
-  //   String uid, {
-  //   bool isPartner = false,
-  // }) {
-  //   if (isPartner == true) {
-  //     final partnerUid = this.partnerUid(uid);
-  //     return memberDetails[partnerUid];
-  //   }
-  //   return memberDetails[uid];
-  // }
+  Map<String, dynamic> getMemberDetail(
+    String uid, {
+    bool isPartner = false,
+  }) {
+    if (isPartner == true) {
+      final partnerUid = this.partnerUid(uid);
+      return memberDetails[partnerUid];
+    }
+    return memberDetails[uid];
+  }
 
   factory Thread.fromJson(Map<String, dynamic> json) => _$ThreadFromJson(json);
 }

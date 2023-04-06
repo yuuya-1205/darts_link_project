@@ -189,7 +189,7 @@ class __$$_ThreadCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Thread implements _Thread {
+class _$_Thread extends _Thread {
   const _$_Thread(
       {required this.id,
       required this.isReading,
@@ -206,7 +206,8 @@ class _$_Thread implements _Thread {
           required this.updatedAt})
       : _uids = uids,
         _memberDetails = memberDetails,
-        _unReadCount = unReadCount;
+        _unReadCount = unReadCount,
+        super._();
 
   factory _$_Thread.fromJson(Map<String, dynamic> json) =>
       _$$_ThreadFromJson(json);
@@ -308,7 +309,7 @@ class _$_Thread implements _Thread {
   }
 }
 
-abstract class _Thread implements Thread {
+abstract class _Thread extends Thread {
   const factory _Thread(
       {required final String id,
       required final bool isReading,
@@ -318,6 +319,7 @@ abstract class _Thread implements Thread {
       @Freezed(toJson: true) final Map<String, int> unReadCount,
       @TimestampConverter() required final Timestamp createdAt,
       @TimestampConverter() required final Timestamp updatedAt}) = _$_Thread;
+  const _Thread._() : super._();
 
   factory _Thread.fromJson(Map<String, dynamic> json) = _$_Thread.fromJson;
 
