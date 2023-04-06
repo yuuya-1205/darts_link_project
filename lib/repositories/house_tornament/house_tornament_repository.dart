@@ -51,11 +51,39 @@ class HouseTournamentRepository {
     return true;
   }
 
+  static Future<List<HouseTournament>> fetchSearchedHouseTournaments(
+      String value) async {
+    final result = await Future.wait([
+      fetchHouseTournamentsByTitle(value),
+      fetchHouseTournamentsByDetail(value)
+    ]);
+
+    /// toSetで重複するデータを排除し、更新日順で並び替え
+    final houseTournaments = result
+        .expand((element) => element)
+        .toSet()
+        .toList()
+      ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    return houseTournaments;
+  }
+
   static Future<List<HouseTournament>> fetchHouseTournamentsByTitle(
-      String title) async {
+      String value) async {
     final snapshot = await houseTournamentsCollection
         .orderBy('title')
-        .startAt([title]).endAt(['$title\uf8ff']).get();
+        .startAt([value]).endAt(['$value\uf8ff']).get();
+
+    return snapshot.docs
+        .map((e) => HouseTournament.fromJson(e.data())
+            .copyWith(houseTournamentId: e.id))
+        .toList();
+  }
+
+  static Future<List<HouseTournament>> fetchHouseTournamentsByDetail(
+      String value) async {
+    final snapshot = await houseTournamentsCollection
+        .orderBy('detail')
+        .startAt([value]).endAt(['$value\uf8ff']).get();
 
     return snapshot.docs
         .map((e) => HouseTournament.fromJson(e.data())
