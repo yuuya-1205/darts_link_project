@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/models/house_tornament/house_tornament_join_request.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
-import '../../models/circle/circle_join_request.dart';
 
 class HouseTornamentJoinRequestRepository {
   static final fireStore = FirebaseFirestore.instance;
   static CollectionReference getHouseTornamentJoinRequestCollection(
           String houseTornamentId) =>
-      HouseTornamentRepository.houseTornamentsCollection
+      HouseTournamentRepository.houseTournamentsCollection
           .doc(houseTornamentId)
           .collection('houseTornamentJoinRequests');
 

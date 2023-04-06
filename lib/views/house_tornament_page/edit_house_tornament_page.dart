@@ -5,7 +5,7 @@ import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/input_field.dart';
 import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/city.dart';
-import 'package:darts_link_project/models/house_tornament/house_tornament.dart';
+import 'package:darts_link_project/models/house_tornament/house_tournament.dart';
 import 'package:darts_link_project/models/pref.dart';
 import 'package:darts_link_project/models/tag_type.dart';
 import 'package:darts_link_project/repositories/area_repository.dart';
@@ -19,33 +19,34 @@ import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
-class EditHouseTornamentPage extends StatefulWidget {
-  const EditHouseTornamentPage({
+class EditHouseTournamentPage extends StatefulWidget {
+  const EditHouseTournamentPage({
     super.key,
-    required this.houseTornament,
+    required this.houseTournament,
   });
 
-  final HouseTornament houseTornament;
+  final HouseTournament houseTournament;
 
   @override
-  State<EditHouseTornamentPage> createState() => _EditHouseTornamentPageState();
+  State<EditHouseTournamentPage> createState() =>
+      _EditHouseTournamentPageState();
 }
 
-class _EditHouseTornamentPageState extends State<EditHouseTornamentPage> {
+class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
   final _formKey = GlobalKey<FormState>();
-  final _houseTornamentTitleController = TextEditingController();
+  final _houseTournamentTitleController = TextEditingController();
   final _placeController = TextEditingController();
   final _prefController = TextEditingController();
   final _cityController = TextEditingController();
   final _dateTimeController = TextEditingController();
   final _startTimeController = TextEditingController();
   final _finishTimeController = TextEditingController();
-  final _houseTornamentDetailController = TextEditingController();
+  final _houseTournamentDetailController = TextEditingController();
 
   Pref? _selectedPref;
-  Pref? _initalPrefectureArea;
+  Pref? _initialPrefectureArea;
   City? _selectedCity;
-  City? _initalCityArea;
+  City? _initialCityArea;
   int _capacity = 0;
 
   List<Pref> prefs = [];
@@ -57,17 +58,17 @@ class _EditHouseTornamentPageState extends State<EditHouseTornamentPage> {
   DateTime? _selectedStartTime;
   DateTime? _selectedFinishTime;
   Asset? _selectedHeaderImage;
-  String _houseTornamentHeaderImageUrl = '';
+  String _houseTournamentHeaderImageUrl = '';
 
   final List<String> _selectedFeatures = [];
   final List<String> _selectedDartsModels = [];
 
   bool isApproved = false;
-  bool isFinalTornament = false;
+  bool isFinalTournament = false;
 
   @override
   void initState() {
-    _getHouseTornamentPage();
+    _getHouseTournamentPage();
     dateTime = DateTime.now();
 
     super.initState();
@@ -156,7 +157,7 @@ class _EditHouseTornamentPageState extends State<EditHouseTornamentPage> {
                       child: InkWell(
                         child: HeaderImageUrl(
                             asset: _selectedHeaderImage,
-                            headerImageUrl: _houseTornamentHeaderImageUrl),
+                            headerImageUrl: _houseTournamentHeaderImageUrl),
                         onTap: () async {
                           final headerfiles = await MultiImagePicker.pickImages(
                             maxImages: 1,
@@ -185,7 +186,7 @@ class _EditHouseTornamentPageState extends State<EditHouseTornamentPage> {
                       ),
                       Flexible(
                         child: InputField(
-                          controller: _houseTornamentTitleController,
+                          controller: _houseTournamentTitleController,
                           hintText: '入力してください',
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -261,10 +262,11 @@ class _EditHouseTornamentPageState extends State<EditHouseTornamentPage> {
                                           onPressed: () {
                                             Navigator.pop(context);
                                             setState(() {
-                                              _initalPrefectureArea =
+                                              _initialPrefectureArea =
                                                   _selectedPref;
                                               _prefController.text =
-                                                  _initalPrefectureArea?.name ??
+                                                  _initialPrefectureArea
+                                                          ?.name ??
                                                       '未登録';
                                             });
                                           },
@@ -318,11 +320,11 @@ class _EditHouseTornamentPageState extends State<EditHouseTornamentPage> {
                             return null;
                           },
                           onTap: () async {
-                            if (_initalPrefectureArea == null) {
+                            if (_initialPrefectureArea == null) {
                               return;
                             }
                             final citys = await AreaRepository.getCitysData(
-                                _initalPrefectureArea!.code.toString());
+                                _initialPrefectureArea!.code.toString());
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -343,9 +345,9 @@ class _EditHouseTornamentPageState extends State<EditHouseTornamentPage> {
                                           onPressed: () {
                                             Navigator.pop(context);
                                             setState(() {
-                                              _initalCityArea = _selectedCity;
+                                              _initialCityArea = _selectedCity;
                                               _cityController.text =
-                                                  _initalCityArea?.name ??
+                                                  _initialCityArea?.name ??
                                                       '未登録';
                                             });
                                           },
@@ -687,7 +689,7 @@ class _EditHouseTornamentPageState extends State<EditHouseTornamentPage> {
                       ),
                       Flexible(
                         child: InputField(
-                          controller: _houseTornamentDetailController,
+                          controller: _houseTournamentDetailController,
                           hintText: '入力してください',
                         ),
                       ),
@@ -703,22 +705,22 @@ class _EditHouseTornamentPageState extends State<EditHouseTornamentPage> {
                       }
                       final user = AuthRepository.currentUser;
 
-                      final houseTornamentTitle =
-                          _houseTornamentTitleController.text;
+                      final houseTournamentTitle =
+                          _houseTournamentTitleController.text;
                       final place = _placeController.text;
-                      final houseTornamentDetail =
-                          _houseTornamentDetailController.text;
-                      final houseTornament = HouseTornament(
-                        houseTornamentId:
-                            widget.houseTornament.houseTornamentId,
-                        headerImage: _houseTornamentHeaderImageUrl,
-                        title: houseTornamentTitle,
+                      final houseTournamentDetail =
+                          _houseTournamentDetailController.text;
+                      final houseTournament = HouseTournament(
+                        houseTournamentId:
+                            widget.houseTournament.houseTournamentId,
+                        headerImage: _houseTournamentHeaderImageUrl,
+                        title: houseTournamentTitle,
                         place: place,
-                        prefecture: _initalPrefectureArea,
-                        city: _initalCityArea,
+                        prefecture: _initialPrefectureArea,
+                        city: _initialCityArea,
                         ownerId: user!.id,
-                        createrName: user.userName,
-                        createrImage: user.userImage,
+                        creatorName: user.userName,
+                        creatorImage: user.userImage,
                         createdAt: Timestamp.now(),
                         updatedAt: Timestamp.now(),
                         features: _selectedFeatures,
@@ -727,14 +729,14 @@ class _EditHouseTornamentPageState extends State<EditHouseTornamentPage> {
                         followerCount: user.followerCount,
                         followingCount: user.followingCount,
                         capacity: _capacity,
-                        detail: houseTornamentDetail,
+                        detail: houseTournamentDetail,
                         dateTime: Timestamp.fromDate(_selectedDateAndTime!),
                         startTime: Timestamp.fromDate(_selectedStartTime!),
                         finishTime: Timestamp.fromDate(_selectedFinishTime!),
                         uid: '',
                       );
-                      await HouseTornamentRepository.updateHouseTornament(
-                          houseTornament);
+                      await HouseTournamentRepository.updateHouseTournament(
+                          houseTournament);
 
                       // ignore: use_build_context_synchronously
                       Navigator.pop(context);
@@ -752,19 +754,19 @@ class _EditHouseTornamentPageState extends State<EditHouseTornamentPage> {
     );
   }
 
-  void _getHouseTornamentPage() {
-    _houseTornamentHeaderImageUrl = widget.houseTornament.headerImage;
-    _houseTornamentTitleController.text = widget.houseTornament.title;
-    _placeController.text = widget.houseTornament.place;
-    _initalPrefectureArea = widget.houseTornament.prefecture;
-    _prefController.text = _initalPrefectureArea?.name ?? '未登録';
-    _initalCityArea = widget.houseTornament.city;
-    _cityController.text = _initalCityArea?.name ?? '未登録';
+  void _getHouseTournamentPage() {
+    _houseTournamentHeaderImageUrl = widget.houseTournament.headerImage;
+    _houseTournamentTitleController.text = widget.houseTournament.title;
+    _placeController.text = widget.houseTournament.place;
+    _initialPrefectureArea = widget.houseTournament.prefecture;
+    _prefController.text = _initialPrefectureArea?.name ?? '未登録';
+    _initialCityArea = widget.houseTournament.city;
+    _cityController.text = _initialCityArea?.name ?? '未登録';
     //  _selectedFeatures = widget.houseTornament.features.toList()
-    isApproved = widget.houseTornament.isApproved;
+    isApproved = widget.houseTournament.isApproved;
 
-    _capacity = widget.houseTornament.capacity;
-    _houseTornamentDetailController.text = widget.houseTornament.detail;
+    _capacity = widget.houseTournament.capacity;
+    _houseTournamentDetailController.text = widget.houseTournament.detail;
     // _selectedStartTime = widget.houseTornament.startTime as DateTime?;
     // _selectedDateAndTime = widget.houseTornament.dateTime as DateTime?;
     // _selectedFinishTime = widget.houseTornament.finishTime as DateTime?;

@@ -1,15 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:darts_link_project/components/delele_snack_bar.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/components/text_components/original_label.dart';
 import 'package:darts_link_project/components/text_components/original_text.dart';
-import 'package:darts_link_project/models/app_user.dart';
-import 'package:darts_link_project/models/house_tornament/house_tornament.dart';
 import 'package:darts_link_project/models/house_tornament/house_tornament_join_request.dart';
 import 'package:darts_link_project/models/house_tornament/house_tornament_member.dart';
+import 'package:darts_link_project/models/house_tornament/house_tournament.dart';
 import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_join_request.dart';
@@ -17,27 +15,25 @@ import 'package:darts_link_project/repositories/house_tornament/house_tornament_
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/house_tornament_page/edit_house_tornament_page.dart';
-import 'package:darts_link_project/views/house_tornament_page/house_tornament_page.dart';
-import 'package:darts_link_project/views/top_page/top_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
-class HouseTornamentDetailPage extends StatefulWidget {
-  const HouseTornamentDetailPage({
+class HouseTournamentDetailPage extends StatefulWidget {
+  const HouseTournamentDetailPage({
     super.key,
-    required this.houseTornament,
+    required this.houseTournament,
   });
 
-  final HouseTornament houseTornament;
+  final HouseTournament houseTournament;
 
   @override
-  State<HouseTornamentDetailPage> createState() =>
-      _HouseTornamentDetailPageState();
+  State<HouseTournamentDetailPage> createState() =>
+      _HouseTournamentDetailPageState();
 }
 
-class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
+class _HouseTournamentDetailPageState extends State<HouseTournamentDetailPage> {
   final user = AuthRepository.currentUser;
   Asset? asset;
   List<HouseTornamentMember> members = [];
@@ -46,7 +42,7 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
   int count = 0;
   Future<void> fetchMembers() async {
     members = (await HouseTornamentMemberRepository.fetchHouseTornamentMembers(
-        widget.houseTornament.houseTornamentId));
+        widget.houseTournament.houseTournamentId));
 
     setState(() {});
   }
@@ -61,10 +57,10 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
       return;
     }
 
-    final houseTornamentMember = HouseTornamentMember.fromAppUser(appUser);
+    final houseTournamentMember = HouseTornamentMember.fromAppUser(appUser);
     final canCreate =
-        await HouseTornamentRepository.canCreateHouseTornamentMember(
-            widget.houseTornament.houseTornamentId);
+        await HouseTournamentRepository.canCreateHouseTournamentMember(
+            widget.houseTournament.houseTournamentId);
 
     if (canCreate == false) {
       showDialog(
@@ -77,10 +73,10 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
       return;
     }
     await HouseTornamentMemberRepository.createHouseTornamentMember(
-        houseTornamentId: widget.houseTornament.houseTornamentId,
-        houseTornamentMember: houseTornamentMember);
+        houseTornamentId: widget.houseTournament.houseTournamentId,
+        houseTornamentMember: houseTournamentMember);
     await updateNumberOfParticipants();
-    members.add(houseTornamentMember);
+    members.add(houseTournamentMember);
 
     setState(() {});
   }
@@ -90,13 +86,13 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
     if (user == null) {
       return;
     }
-    if (widget.houseTornament.isApproved == true) {
+    if (widget.houseTournament.isApproved == true) {
       HouseTornamentJoinRequestRepository.deleteHouseTornamentJoinRequest(
-          houseTornamentId: widget.houseTornament.houseTornamentId,
+          houseTornamentId: widget.houseTournament.houseTournamentId,
           uid: user.id);
     }
     await HouseTornamentMemberRepository.leaveHouseTornamentMember(
-        houseTornamentId: widget.houseTornament.houseTornamentId,
+        houseTornamentId: widget.houseTournament.houseTournamentId,
         memberId: user.id);
     await updateNumberOfParticipants();
     members.removeWhere((member) => member.uid == user.id);
@@ -108,11 +104,11 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
     if (user == null) {
       return;
     }
-    final houseTornamentJoinRequest =
+    final houseTournamentJoinRequest =
         HouseTornamentJoinRequest.fromAppUser(user);
     await HouseTornamentJoinRequestRepository.createHouseTornamentJoinRequest(
-        houseTornamentId: widget.houseTornament.houseTornamentId,
-        houseTornamentJoinRequest: houseTornamentJoinRequest);
+        houseTornamentId: widget.houseTournament.houseTournamentId,
+        houseTornamentJoinRequest: houseTournamentJoinRequest);
     setState(() {});
   }
 
@@ -123,7 +119,7 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
     }
 
     await HouseTornamentJoinRequestRepository.deleteHouseTornamentJoinRequest(
-      houseTornamentId: widget.houseTornament.houseTornamentId,
+      houseTornamentId: widget.houseTournament.houseTournamentId,
       uid: user.id,
     );
     setState(() {});
@@ -132,24 +128,20 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
   Future<void> updateNumberOfParticipants() async {
     final memberDocsCount =
         await HouseTornamentMemberRepository.fetchHouseTornamentMemberDocsCount(
-            widget.houseTornament.houseTornamentId);
-    await HouseTornamentRepository.updateHouseTornament(
-        widget.houseTornament.copyWith(numberOfParticipants: memberDocsCount));
+            widget.houseTournament.houseTournamentId);
+    await HouseTournamentRepository.updateHouseTournament(
+        widget.houseTournament.copyWith(numberOfParticipants: memberDocsCount));
   }
 
   Future<HouseTornamentMemberType> getMemberType() async {
-    String? myUid = AuthRepository.currentUser!.id;
-    // ignore: unnecessary_null_comparison
-    if (myUid == null) {
-      return HouseTornamentMemberType.joinable;
-    }
-    if (myUid == widget.houseTornament.ownerId) {
+    final myUid = AuthRepository.currentUser!.id;
+    if (myUid == widget.houseTournament.ownerId) {
       return HouseTornamentMemberType.owner;
     }
-    if (widget.houseTornament.isApproved == true) {
+    if (widget.houseTournament.isApproved == true) {
       final joinRequest = await HouseTornamentJoinRequestRepository
           .fetchHouseTornamentJoinRequest(
-        houseTornamentId: widget.houseTornament.houseTornamentId,
+        houseTornamentId: widget.houseTournament.houseTournamentId,
         uid: myUid,
       );
       if (joinRequest == null) {
@@ -179,13 +171,12 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
           onTap: () {
             Navigator.pop(context);
           },
-          // ignore: prefer_const_literals_to_create_immutables
-          child: Row(children: [
-            const SizedBox(
+          child: Row(children: const [
+            SizedBox(
               width: 30,
               child: BackButton(),
             ),
-            const Text(
+            Text(
               '戻る',
               style: TextStyle(
                 color: Color.fromRGBO(247, 63, 150, 1),
@@ -201,108 +192,107 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
               future: getMemberType(),
               builder: (builder, snapshot) {
                 return snapshot.data == HouseTornamentMemberType.owner
-                    ? PopupMenuButton(onSelected: (value) {
-                        if (value == '') {
-                          final uid = AuthRepository.currentUser!.id;
-                        }
-                      }, itemBuilder: (context) {
-                        return [
-                          PopupMenuItem(
-                            value: 'edit',
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: ((context) =>
-                                        EditHouseTornamentPage(
-                                            houseTornament:
-                                                widget.houseTornament)),
-                                  ),
-                                );
-                              },
-                              child: const Text('編集'),
+                    ? PopupMenuButton(
+                        onSelected: (value) {},
+                        itemBuilder: (context) {
+                          return [
+                            PopupMenuItem(
+                              value: 'edit',
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: ((context) =>
+                                          EditHouseTournamentPage(
+                                              houseTournament:
+                                                  widget.houseTournament)),
+                                    ),
+                                  );
+                                },
+                                child: const Text('編集'),
+                              ),
                             ),
-                          ),
-                          PopupMenuItem(
-                            value: 'edit',
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: ((context) =>
-                                        EditHouseTornamentPage(
-                                            houseTornament:
-                                                widget.houseTornament)),
-                                  ),
-                                );
-                              },
-                              child: const Text('申請/メンバーリスト'),
+                            PopupMenuItem(
+                              value: 'edit',
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: ((context) =>
+                                          EditHouseTournamentPage(
+                                              houseTournament:
+                                                  widget.houseTournament)),
+                                    ),
+                                  );
+                                },
+                                child: const Text('申請/メンバーリスト'),
+                              ),
                             ),
-                          ),
-                          PopupMenuItem(
-                            value: 'delete',
-                            child: GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (_) {
-                                    return AlertDialog(
-                                      title: Row(
-                                        children: const [
-                                          Icon(
-                                            FeatherIcons.alertTriangle,
-                                            color: Colors.yellow,
-                                          ),
-                                          Text(
-                                            'このイベントを本当に削除しますか？',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
+                            PopupMenuItem(
+                              value: 'delete',
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) {
+                                      return AlertDialog(
+                                        title: Row(
+                                          children: const [
+                                            Icon(
+                                              FeatherIcons.alertTriangle,
+                                              color: Colors.yellow,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      actions: [
-                                        // ボタン領域
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            FollowApproveButton(
-                                              onPressed: () async {
-                                                await HouseTornamentRepository
-                                                    .deleteHouseTornament(
-                                                        widget.houseTornament);
-                                                Navigator.pop(context);
-
-                                                // DeleteSnackBar.showSnackBar(
-                                                //     context);
-                                              },
-                                              text: '削除する',
-                                            ),
-                                            const SizedBox(
-                                              width: 15,
-                                            ),
-                                            FollowApproveButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              text: 'キャンセル',
+                                            Text(
+                                              'このイベントを本当に削除しますか？',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              child: const Text('削除'),
+                                        actions: [
+                                          // ボタン領域
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              FollowApproveButton(
+                                                onPressed: () async {
+                                                  await HouseTournamentRepository
+                                                      .deleteHouseTournament(
+                                                          widget
+                                                              .houseTournament);
+                                                  Navigator.pop(context);
+
+                                                  // DeleteSnackBar.showSnackBar(
+                                                  //     context);
+                                                },
+                                                text: '削除する',
+                                              ),
+                                              const SizedBox(
+                                                width: 15,
+                                              ),
+                                              FollowApproveButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                text: 'キャンセル',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: const Text('削除'),
+                              ),
                             ),
-                          ),
-                        ];
-                      })
+                          ];
+                        })
                     : Container();
               }),
         ],
@@ -318,12 +308,12 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
                 width: double.infinity,
                 child: HeaderImageUrl(
                     asset: asset,
-                    headerImageUrl: widget.houseTornament.headerImage.isEmpty
+                    headerImageUrl: widget.houseTournament.headerImage.isEmpty
                         ? ''
-                        : widget.houseTornament.headerImage),
+                        : widget.houseTournament.headerImage),
               ),
               Text(
-                widget.houseTornament.title,
+                widget.houseTournament.title,
                 style:
                     const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
@@ -352,20 +342,21 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      OriginalText(text: widget.houseTornament.place),
+                      OriginalText(text: widget.houseTournament.place),
                       Row(
                         children: [
                           OriginalText(
                               text: dateFormat.format(
-                                  widget.houseTornament.dateTime.toDate())),
+                                  widget.houseTournament.dateTime.toDate())),
                           OriginalText(
                               text:
-                                  '${timeFormat.format(widget.houseTornament.startTime.toDate())}~${timeFormat.format(widget.houseTornament.finishTime.toDate())}'),
+                                  '${timeFormat.format(widget.houseTournament.startTime.toDate())}~${timeFormat.format(widget.houseTournament.finishTime.toDate())}'),
                         ],
                       ),
-                      OriginalText(text: widget.houseTornament.city.toString()),
                       OriginalText(
-                        text: '${widget.houseTornament.capacity}名',
+                          text: widget.houseTournament.city.toString()),
+                      OriginalText(
+                        text: '${widget.houseTournament.capacity}名',
                       ),
                     ],
                   )
@@ -393,7 +384,7 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(widget.houseTornament.detail),
+                            Text(widget.houseTournament.detail),
                           ],
                         ),
                       ],
@@ -410,7 +401,7 @@ class _HouseTornamentDetailPageState extends State<HouseTornamentDetailPage> {
                     }
                     return JoinRequestButton(
                       memberType: snapshot.data!,
-                      roomId: widget.houseTornament.houseTornamentId,
+                      roomId: widget.houseTournament.houseTournamentId,
                       joinRoom: joinRoom,
                       leaveRoom: leaveRoom,
                       requestJoinRoom: requestJoinRoom,

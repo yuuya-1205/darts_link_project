@@ -2,7 +2,7 @@ import 'package:darts_link_project/components/sort_box/area_box.dart';
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/repositories/store_owner_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
-import 'package:darts_link_project/views/darts_bar_page/darts_bar_card.dart';
+import 'package:darts_link_project/views/components/store_owner/store_owner_list_view.dart';
 import 'package:flutter/material.dart';
 
 class DartsBarPage extends StatefulWidget {
@@ -17,19 +17,18 @@ class _DartsBarPageState extends State<DartsBarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-          child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            // ignore: prefer_const_literals_to_create_immutables
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: AreaBox(),
-              ),
-            ],
-          ),
-          StreamBuilder<List<StoreOwner>>(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: AreaBox(),
+                ),
+              ],
+            ),
+            StreamBuilder<List<StoreOwner>>(
               stream: StoreOwnerRepository.storeOwnerStream(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState != ConnectionState.active) {
@@ -76,21 +75,15 @@ class _DartsBarPageState extends State<DartsBarPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: storeOwners.length,
-                          itemBuilder: (context, index) {
-                            final storeOwner = storeOwners[index];
-                            return DartsBarCard(
-                              storeOwner: storeOwner,
-                            );
-                          }),
+                      child: StoreOwnerListView(storeOwners: storeOwners),
                     ),
                   ],
                 );
-              })
-        ],
-      )),
+              },
+            )
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,20 +1,20 @@
-import 'package:darts_link_project/models/circle/circle.dart';
-import 'package:darts_link_project/repositories/circle/circle_repository.dart';
-import 'package:darts_link_project/views/components/circle/circle_list_view.dart';
+import 'package:darts_link_project/models/app_user.dart';
+import 'package:darts_link_project/repositories/person_repository.dart';
 import 'package:darts_link_project/views/components/loading_view.dart';
+import 'package:darts_link_project/views/components/user_list/user_list_view.dart';
 import 'package:flutter/material.dart';
 
-class SearchCirclePage extends StatefulWidget {
-  const SearchCirclePage({required this.searchWord, Key? key})
+class SearchPersonPage extends StatefulWidget {
+  const SearchPersonPage({required this.searchWord, Key? key})
       : super(key: key);
   final String searchWord;
 
   @override
-  State<SearchCirclePage> createState() => _SearchCirclePageState();
+  State<SearchPersonPage> createState() => _SearchPersonPageState();
 }
 
-class _SearchCirclePageState extends State<SearchCirclePage> {
-  List<Circle> _circles = [];
+class _SearchPersonPageState extends State<SearchPersonPage> {
+  List<AppUser> _appUsers = [];
   bool isLoading = true;
 
   void setLoading(bool value) => setState(() => isLoading = value);
@@ -27,9 +27,9 @@ class _SearchCirclePageState extends State<SearchCirclePage> {
     }
     Future(() async {
       final result =
-          await CircleRepository.fetchSearchedCircles(widget.searchWord);
+          await PersonRepository.fetchSearchedPersons(widget.searchWord);
       setState(() {
-        _circles = result;
+        _appUsers = result;
         setLoading(false);
       });
     });
@@ -43,10 +43,10 @@ class _SearchCirclePageState extends State<SearchCirclePage> {
     if (isLoading) {
       return const LoadingView();
     }
-    if (_circles.isEmpty) {
+    if (_appUsers.isEmpty) {
       return const Center(child: Text('検索結果がありません'));
     }
 
-    return CircleListView(circles: _circles);
+    return UserListView(appUsers: _appUsers);
   }
 }

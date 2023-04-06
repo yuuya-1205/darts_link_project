@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'house_tornament.dart';
+part of 'house_tournament.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_HouseTornament _$$_HouseTornamentFromJson(Map<String, dynamic> json) =>
-    _$_HouseTornament(
-      houseTornamentId: json['houseTornamentId'] as String,
+_$_HouseTournament _$$_HouseTournamentFromJson(Map<String, dynamic> json) =>
+    _$_HouseTournament(
+      houseTournamentId: json['houseTournamentId'] as String,
       title: json['title'] as String,
       uid: json['uid'] as String,
       headerImage: json['headerImage'] as String? ?? '',
@@ -39,10 +39,10 @@ _$_HouseTornament _$$_HouseTornamentFromJson(Map<String, dynamic> json) =>
           const TimestampConverter().fromJson(json['finishTime'] as Timestamp),
       detail: json['detail'] as String? ?? '',
       isApproved: json['isApproved'] as bool? ?? false,
-      isFinalTornament: json['isFinalTornament'] as bool? ?? false,
+      isFinalTournament: json['isFinalTournament'] as bool? ?? false,
       ownerId: json['ownerId'] as String,
-      createrName: json['createrName'] as String,
-      createrImage: json['createrImage'] as String,
+      creatorName: json['creatorName'] as String,
+      creatorImage: json['creatorImage'] as String,
       userId: json['userId'] as String,
       followingCount: json['followingCount'] as int? ?? 0,
       followerCount: json['followerCount'] as int? ?? 0,
@@ -52,9 +52,9 @@ _$_HouseTornament _$$_HouseTornamentFromJson(Map<String, dynamic> json) =>
           const TimestampConverter().fromJson(json['updatedAt'] as Timestamp),
     );
 
-Map<String, dynamic> _$$_HouseTornamentToJson(_$_HouseTornament instance) =>
+Map<String, dynamic> _$$_HouseTournamentToJson(_$_HouseTournament instance) =>
     <String, dynamic>{
-      'houseTornamentId': instance.houseTornamentId,
+      'houseTournamentId': instance.houseTournamentId,
       'title': instance.title,
       'uid': instance.uid,
       'headerImage': instance.headerImage,
@@ -71,10 +71,10 @@ Map<String, dynamic> _$$_HouseTornamentToJson(_$_HouseTornament instance) =>
       'finishTime': const TimestampConverter().toJson(instance.finishTime),
       'detail': instance.detail,
       'isApproved': instance.isApproved,
-      'isFinalTornament': instance.isFinalTornament,
+      'isFinalTournament': instance.isFinalTournament,
       'ownerId': instance.ownerId,
-      'createrName': instance.createrName,
-      'createrImage': instance.createrImage,
+      'creatorName': instance.creatorName,
+      'creatorImage': instance.creatorImage,
       'userId': instance.userId,
       'followingCount': instance.followingCount,
       'followerCount': instance.followerCount,

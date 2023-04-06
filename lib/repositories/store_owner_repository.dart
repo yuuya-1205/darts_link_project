@@ -52,4 +52,54 @@ class StoreOwnerRepository {
             .map((doc) => StoreOwner.fromJson(doc.data()).copyWith(id: doc.id))
             .toList());
   }
+
+  static Future<List<StoreOwner>> fetchSearchedStoreOwners(String value) async {
+    final result = await Future.wait(
+      [
+        fetchStoreOwnersByUserName(value),
+        fetchStoreOwnerByUserId(value),
+        fetchStoreOwnerBySelfIntroduction(value),
+      ],
+    );
+
+    /// toSetで重複するデータを排除し、更新日順で並び替え
+    final storeOwners = result.expand((e) => e).toSet().toList()
+      ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    return storeOwners;
+  }
+
+  static Future<List<StoreOwner>> fetchStoreOwnersByUserName(
+      String userName) async {
+    final snapshot = await storeOwnerCollection
+        .orderBy('userName')
+        .startAt([userName]).endAt(['$userName\uf8ff']).get();
+    final storeOwners = snapshot.docs
+        .map((e) =>
+            StoreOwner.fromJson(e.data()).copyWith(reference: e.reference))
+        .toList();
+    return storeOwners;
+  }
+
+  static Future<List<StoreOwner>> fetchStoreOwnerByUserId(String value) async {
+    final snapshot = await storeOwnerCollection
+        .orderBy('userId')
+        .startAt([value]).endAt(['$value\uf8ff']).get();
+    final storeOwner = snapshot.docs
+        .map((e) =>
+            StoreOwner.fromJson(e.data()).copyWith(reference: e.reference))
+        .toList();
+    return storeOwner;
+  }
+
+  static Future<List<StoreOwner>> fetchStoreOwnerBySelfIntroduction(
+      String value) async {
+    final snapshot = await storeOwnerCollection
+        .orderBy('selfIntroduction')
+        .startAt([value]).endAt(['$value\uf8ff']).get();
+    final storeOwner = snapshot.docs
+        .map((e) =>
+            StoreOwner.fromJson(e.data()).copyWith(reference: e.reference))
+        .toList();
+    return storeOwner;
+  }
 }

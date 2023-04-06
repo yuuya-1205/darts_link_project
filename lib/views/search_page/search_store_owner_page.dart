@@ -1,20 +1,20 @@
-import 'package:darts_link_project/models/circle/circle.dart';
-import 'package:darts_link_project/repositories/circle/circle_repository.dart';
-import 'package:darts_link_project/views/components/circle/circle_list_view.dart';
+import 'package:darts_link_project/models/app_user.dart';
+import 'package:darts_link_project/repositories/store_owner_repository.dart';
 import 'package:darts_link_project/views/components/loading_view.dart';
+import 'package:darts_link_project/views/components/store_owner/store_owner_list_view.dart';
 import 'package:flutter/material.dart';
 
-class SearchCirclePage extends StatefulWidget {
-  const SearchCirclePage({required this.searchWord, Key? key})
+class SearchStoreOwnerPage extends StatefulWidget {
+  const SearchStoreOwnerPage({required this.searchWord, Key? key})
       : super(key: key);
   final String searchWord;
 
   @override
-  State<SearchCirclePage> createState() => _SearchCirclePageState();
+  State<SearchStoreOwnerPage> createState() => _SearchStoreOwnerPageState();
 }
 
-class _SearchCirclePageState extends State<SearchCirclePage> {
-  List<Circle> _circles = [];
+class _SearchStoreOwnerPageState extends State<SearchStoreOwnerPage> {
+  List<StoreOwner> storeOwners = [];
   bool isLoading = true;
 
   void setLoading(bool value) => setState(() => isLoading = value);
@@ -26,10 +26,11 @@ class _SearchCirclePageState extends State<SearchCirclePage> {
       return;
     }
     Future(() async {
-      final result =
-          await CircleRepository.fetchSearchedCircles(widget.searchWord);
+      final result = await StoreOwnerRepository.fetchSearchedStoreOwners(
+        widget.searchWord,
+      );
       setState(() {
-        _circles = result;
+        storeOwners = result;
         setLoading(false);
       });
     });
@@ -43,10 +44,11 @@ class _SearchCirclePageState extends State<SearchCirclePage> {
     if (isLoading) {
       return const LoadingView();
     }
-    if (_circles.isEmpty) {
+
+    if (storeOwners.isEmpty) {
       return const Center(child: Text('検索結果がありません'));
     }
 
-    return CircleListView(circles: _circles);
+    return StoreOwnerListView(storeOwners: storeOwners);
   }
 }
