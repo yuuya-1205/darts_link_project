@@ -35,7 +35,7 @@ class PersonRepository {
     );
 
     /// toSetで重複するデータを排除し、更新日順で並び替え
-    final persons = result.expand((e) => e).toList().toSet().toList()
+    final persons = result.expand((e) => e).toSet().toList()
       ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
     return persons;
   }
