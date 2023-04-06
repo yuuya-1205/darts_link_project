@@ -1,8 +1,8 @@
 import 'package:darts_link_project/views/search_page/search_battle_room_page.dart';
 import 'package:darts_link_project/views/search_page/search_circle_page.dart';
 import 'package:darts_link_project/views/search_page/search_house_tornament_page.dart';
+import 'package:darts_link_project/views/search_page/search_person_page.dart';
 import 'package:darts_link_project/views/search_page/search_store_owner_page.dart';
-import 'package:darts_link_project/views/search_page/search_user_page.dart';
 import 'package:flutter/material.dart';
 
 enum SearchTabType {
@@ -20,7 +20,7 @@ enum SearchTabType {
       final key = Key('${tabType.label}: $searchWord');
       switch (tabType) {
         case SearchTabType.persons:
-          return SearchUserPage(key: key, searchWord: searchWord);
+          return SearchPersonPage(key: key, searchWord: searchWord);
         case SearchTabType.battleRooms:
           return SearchBattleRoomPage(key: key, searchWord: searchWord);
         case SearchTabType.circles:

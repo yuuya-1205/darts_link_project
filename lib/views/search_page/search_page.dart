@@ -38,15 +38,19 @@ class _SearchPageState extends State<SearchPage> {
             ),
             //const BannerAdView(),
             TabBar(
-                indicatorColor: OriginalTheme.themeData.primaryColor,
-                labelColor: OriginalTheme.themeData.primaryColor,
-                unselectedLabelColor: OriginalTheme.themeData.disabledColor,
-                labelStyle: const TextStyle(fontSize: 12),
-                tabs: SearchTabType.values
-                    .map((tabType) => Tab(
-                          text: tabType.label,
-                        ))
-                    .toList()),
+              isScrollable: true,
+              indicatorColor: OriginalTheme.themeData.primaryColor,
+              labelColor: OriginalTheme.themeData.primaryColor,
+              unselectedLabelColor: OriginalTheme.themeData.disabledColor,
+              labelStyle: const TextStyle(fontSize: 12),
+              tabs: SearchTabType.values
+                  .map(
+                    (tabType) => Tab(
+                      text: tabType.label,
+                    ),
+                  )
+                  .toList(),
+            ),
             const Divider(height: 0),
             Expanded(
               child: TabBarView(
