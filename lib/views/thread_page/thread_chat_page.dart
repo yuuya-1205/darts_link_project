@@ -30,10 +30,41 @@ class ThreadChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = AuthRepository.currentUser;
+
     return Scaffold(
       appBar: AppBar(
-        ///相手の名前を表示したい。グループの場合、グループ名を表示する。
-        title: Text(user!.userName),
+        iconTheme: const IconThemeData(
+          color: Color.fromRGBO(247, 63, 150, 1),
+        ),
+        leadingWidth: 76,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Row(children: [
+            Container(
+              width: 30,
+              child: const BackButton(),
+            ),
+            const Text(
+              '戻る',
+              style: TextStyle(
+                color: Color.fromRGBO(247, 63, 150, 1),
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+          ]),
+        ),
+        backgroundColor: Colors.white,
+        title: Text(
+          user!.userName,
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -408,8 +439,9 @@ class __ChatBarState extends State<_ChatBar> {
                           //   chat.toMap(),
                           //   SetOptions(merge: true),
                           // );
-                          final Map<String, int> unReadCount =
-                              widget.thread.unReadCount;
+                          final Map<String, int> unReadCount = {
+                            ...widget.thread.unReadCount
+                          };
                           for (final uid in widget.thread.uids) {
                             if (uid != FirebaseAuth.instance.currentUser!.uid) {
                               unReadCount[uid] = unReadCount[uid]! + 1;
