@@ -1,5 +1,5 @@
 import 'package:darts_link_project/models/app_user.dart';
-import 'package:darts_link_project/repositories/app_user_repository.dart';
+import 'package:darts_link_project/repositories/person_repository.dart';
 import 'package:darts_link_project/views/components/user_list/user_list_view.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +22,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
     }
     Future(() async {
       final result =
-          await AppUserRepository.fetchAppUsersByUserName(widget.searchWord);
+          await PersonRepository.fetchSearchedPersons(widget.searchWord);
       setState(() {
         _appUsers = result;
       });
