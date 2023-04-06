@@ -57,10 +57,29 @@ class BattleRoomRepository {
     });
   }
 
-  static Future<List<BattleRoom>> fetchBattleRoomsByTitle(String title) async {
+  static Future<List<BattleRoom>> fetchSearchedBattleRooms(String value) async {
+    final result = await Future.wait(
+        [fetchBattleRoomsByTitle(value), fetchBattleRoomsByDetail(value)]);
+
+    /// toSetで重複するデータを排除し、更新日順で並び替え
+    final battleRooms = result.expand((element) => element).toSet().toList()
+      ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    return battleRooms;
+  }
+
+  static Future<List<BattleRoom>> fetchBattleRoomsByTitle(String value) async {
     final snapshot = await battleRoomsCollection
         .orderBy('title')
-        .startAt([title]).endAt(['$title\uf8ff']).get();
+        .startAt([value]).endAt(['$value\uf8ff']).get();
+    return snapshot.docs
+        .map((doc) => BattleRoom.fromJson(doc.data()).copyWith(id: doc.id))
+        .toList();
+  }
+
+  static Future<List<BattleRoom>> fetchBattleRoomsByDetail(String value) async {
+    final snapshot = await battleRoomsCollection
+        .orderBy('detail')
+        .startAt([value]).endAt(['$value\uf8ff']).get();
     return snapshot.docs
         .map((doc) => BattleRoom.fromJson(doc.data()).copyWith(id: doc.id))
         .toList();

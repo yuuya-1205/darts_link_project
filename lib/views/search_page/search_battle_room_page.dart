@@ -22,8 +22,8 @@ class _SearchBattleRoomPageState extends State<SearchBattleRoomPage> {
       return;
     }
     Future(() async {
-      final result =
-          await BattleRoomRepository.fetchBattleRoomsByTitle(widget.searchWord);
+      final result = await BattleRoomRepository.fetchSearchedBattleRooms(
+          widget.searchWord);
       setState(() {
         _battleRooms = result;
       });
