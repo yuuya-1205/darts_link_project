@@ -1,15 +1,14 @@
 import 'package:darts_link_project/components/back_ground_image.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/input_field.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/fcm_token_repository.dart';
-import 'package:darts_link_project/repositories/person_repository.dart';
 import 'package:darts_link_project/services/fcm_service.dart';
 import 'package:darts_link_project/views/auth_page/password_forget_page.dart';
 import 'package:darts_link_project/views/auth_page/register_slider_page.dart';
 import 'package:darts_link_project/views/auth_page/store_slider_page.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:darts_link_project/views/top_page/top_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -158,8 +157,6 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                     ),
-                    primary: const Color.fromRGBO(247, 63, 150, 1),
-                    onPrimary: Colors.white,
                     onPressed: () async {
                       if (!_formKey.currentState!.validate()) {
                         return;

@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/back_ground_image.dart';
 import 'package:darts_link_project/components/input_field.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/views/auth_page/email_send_check.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -153,8 +152,6 @@ class _RegistPersonPageState extends State<RegistPersonPage> {
                     height: 20,
                   ),
                   OriginalButton(
-                    primary: const Color.fromRGBO(247, 63, 150, 1),
-                    onPrimary: Colors.white,
                     text: '新規登録',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
@@ -307,8 +304,6 @@ class _RegistPersonPageState extends State<RegistPersonPage> {
 本サービスに関して紛争が生じた場合には，当社の本店所在地を管轄する裁判所を専属的合意管轄とします。
 以上'''),
               OriginalButton(
-                  primary: const Color.fromRGBO(247, 63, 150, 1),
-                  onPrimary: Colors.white,
                   text: '同意する',
                   onPressed: () {
                     Navigator.of(context).pop(true);

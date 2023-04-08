@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/back_ground_image.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/views/auth_page/login_page.dart';
 import 'package:darts_link_project/views/auth_page/password_reset_send_mail.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:flutter/material.dart';
 
 class PasswordForgetPage extends StatefulWidget {
@@ -88,8 +88,6 @@ class _PasswordForgetPageState extends State<PasswordForgetPage> {
                     height: 20,
                   ),
                   OriginalButton(
-                    primary: const Color.fromRGBO(247, 63, 150, 1),
-                    onPrimary: Colors.white,
                     text: '送信する',
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold),

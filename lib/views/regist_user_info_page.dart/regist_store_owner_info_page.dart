@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/input_field.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
@@ -10,6 +9,7 @@ import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/store_owner_repository.dart';
 import 'package:darts_link_project/views/auth_page/store_register_application_review_page.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -445,8 +445,6 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                 height: 12,
               ),
               OriginalButton(
-                primary: const Color.fromRGBO(247, 63, 150, 1),
-                onPrimary: Colors.white,
                 text: '店舗申請する',
                 onPressed: () async {
                   if (!_formKey.currentState!.validate()) {

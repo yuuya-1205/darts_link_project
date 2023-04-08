@@ -1,10 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:isolate';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/input_field.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/battle_room.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
@@ -12,7 +9,7 @@ import 'package:darts_link_project/models/tag_type.dart';
 import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/battle_room/battle_room_repository.dart';
-import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
@@ -690,7 +687,6 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                   ),
                   const SizedBox(height: 32),
                   OriginalButton(
-                    primary: OriginalTheme.themeData.primaryColor,
                     text: '作成する',
                     onPressed: () async {
                       if (_selectedPref == null) {

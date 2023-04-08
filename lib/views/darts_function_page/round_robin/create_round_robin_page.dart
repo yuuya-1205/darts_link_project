@@ -113,8 +113,7 @@ class _CreateRoundRobinPageState extends State<CreateRoundRobinPage> {
                 ),
                 ...teamNameWriteBoxes,
                 OriginalButton(
-                  primary: Colors.white,
-                  onPrimary: const Color.fromRGBO(247, 63, 150, 1),
+                  colorType: ButtonColorType.white,
                   text: '追加する',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -124,8 +123,7 @@ class _CreateRoundRobinPageState extends State<CreateRoundRobinPage> {
                   },
                 ),
                 OriginalButton(
-                  primary: Colors.white,
-                  onPrimary: const Color.fromRGBO(247, 63, 150, 1),
+                  colorType: ButtonColorType.white,
                   text: '削除する',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -135,8 +133,6 @@ class _CreateRoundRobinPageState extends State<CreateRoundRobinPage> {
                   },
                 ),
                 OriginalButton(
-                  primary: const Color.fromRGBO(247, 63, 150, 1),
-                  onPrimary: Colors.white,
                   text: '作成する',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,

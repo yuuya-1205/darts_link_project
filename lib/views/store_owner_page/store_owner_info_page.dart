@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/favorite.dart';
 import 'package:darts_link_project/models/house_tornament/house_tournament.dart';
@@ -9,6 +8,7 @@ import 'package:darts_link_project/repositories/favorite_repository.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/components/house_tournament/house_tournament_list_view.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
@@ -184,8 +184,6 @@ class _StoreOwnerInfoPageState extends State<StoreOwnerInfoPage> {
               builder: (context, snapshots) {
                 if (snapshots.hasData && snapshots.data!.docs.isNotEmpty) {
                   return OriginalButton(
-                    primary: OriginalTheme.themeData.primaryColor,
-                    onPrimary: Colors.white,
                     onPressed: () async {
                       await FavoriteRepository.unFavorite(
                           uid: user.id, favoriteId: user.id);
@@ -195,8 +193,6 @@ class _StoreOwnerInfoPageState extends State<StoreOwnerInfoPage> {
                 }
                 return OriginalButton(
                   text: 'お気に入り登録',
-                  primary: OriginalTheme.themeData.primaryColor,
-                  onPrimary: Colors.white,
                   onPressed: () {
                     FavoriteRepository.setFavorite(
                         favoriteId: user.id,

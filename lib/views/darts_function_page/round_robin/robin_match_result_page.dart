@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/components/robin_text.dart';
 import 'package:darts_link_project/models/round_robin.dart';
 import 'package:darts_link_project/models/team.dart';
 import 'package:darts_link_project/repositories/team_repository.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:flutter/material.dart';
 
 class RobinMatchResultPage extends StatefulWidget {
@@ -251,7 +250,6 @@ class _RobinMatchResultPageState extends State<RobinMatchResultPage> {
             height: 40,
           ),
           OriginalButton(
-            primary: const Color.fromRGBO(255, 129, 189, 1),
             text: '保存する',
             onPressed: () async {
               await TeamRepository.updateMatchResult(

@@ -2,7 +2,6 @@
 
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/header_image_url.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/components/text_components/original_label.dart';
 import 'package:darts_link_project/components/text_components/original_text.dart';
 import 'package:darts_link_project/models/house_tornament/house_tornament_join_request.dart';
@@ -14,6 +13,7 @@ import 'package:darts_link_project/repositories/house_tornament/house_tornament_
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_member_repository.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:darts_link_project/views/house_tornament_page/edit_house_tornament_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -446,8 +446,6 @@ class JoinRequestButton extends StatelessWidget {
             leaveRoom();
           },
           text: '参加取り消し',
-          primary: OriginalTheme.themeData.primaryColor,
-          onPrimary: Colors.white,
         );
       case HouseTornamentMemberType.joinable:
         return OriginalButton(
@@ -455,8 +453,6 @@ class JoinRequestButton extends StatelessWidget {
             joinRoom();
           },
           text: '今すぐ参加申し込み',
-          primary: OriginalTheme.themeData.primaryColor,
-          onPrimary: Colors.white,
         );
       case HouseTornamentMemberType.beforeRequesting:
         return OriginalButton(
@@ -464,8 +460,6 @@ class JoinRequestButton extends StatelessWidget {
             requestJoinRoom();
           },
           text: '申し込み申請をする',
-          primary: OriginalTheme.themeData.primaryColor,
-          onPrimary: Colors.white,
         );
       case HouseTornamentMemberType.requesting:
         return OriginalButton(
@@ -473,8 +467,6 @@ class JoinRequestButton extends StatelessWidget {
             cancelRequestRoom();
           },
           text: '申請取り消し',
-          primary: OriginalTheme.themeData.primaryColor,
-          onPrimary: Colors.white,
         );
     }
   }

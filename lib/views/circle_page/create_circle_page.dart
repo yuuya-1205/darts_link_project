@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/input_field.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/circle/circle.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
@@ -11,7 +10,7 @@ import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
-import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -535,7 +534,6 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                   ),
                   const SizedBox(height: 32),
                   OriginalButton(
-                    primary: OriginalTheme.themeData.primaryColor,
                     text: '作成する',
                     onPressed: () async {
                       final user = AuthRepository.currentUser;

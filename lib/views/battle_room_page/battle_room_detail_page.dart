@@ -2,7 +2,6 @@
 
 import 'package:darts_link_project/components/delele_snack_bar.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/components/text_components/original_label.dart';
 import 'package:darts_link_project/components/text_components/original_text.dart';
 import 'package:darts_link_project/components/user_image.dart';
@@ -17,6 +16,7 @@ import 'package:darts_link_project/repositories/battle_room/battle_room_reposito
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/battle_room_page/battle_room_member_list_page.dart';
 import 'package:darts_link_project/views/battle_room_page/edit_battle_room_page.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:darts_link_project/views/my_page/my_page.dart';
 import 'package:darts_link_project/views/user_page/user_page.dart';
 import 'package:flutter/material.dart';
@@ -579,8 +579,6 @@ class JoinRequestButton extends StatelessWidget {
             leaveRoom();
           },
           text: '参加取り消し',
-          primary: OriginalTheme.themeData.primaryColor,
-          onPrimary: Colors.white,
         );
       case BattleRoomMemberType.joinable:
         return OriginalButton(
@@ -588,8 +586,6 @@ class JoinRequestButton extends StatelessWidget {
             joinRoom();
           },
           text: '今すぐ参加申し込み',
-          primary: OriginalTheme.themeData.primaryColor,
-          onPrimary: Colors.white,
         );
       case BattleRoomMemberType.beforeRequesting:
         return OriginalButton(
@@ -597,8 +593,6 @@ class JoinRequestButton extends StatelessWidget {
             requestJoinRoom();
           },
           text: '申し込み申請をする',
-          primary: OriginalTheme.themeData.primaryColor,
-          onPrimary: Colors.white,
         );
       case BattleRoomMemberType.requesting:
         return OriginalButton(
@@ -606,8 +600,6 @@ class JoinRequestButton extends StatelessWidget {
             cancelRequestRoom();
           },
           text: '申請取り消し',
-          primary: OriginalTheme.themeData.primaryColor,
-          onPrimary: Colors.white,
         );
     }
   }
