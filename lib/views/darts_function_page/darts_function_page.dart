@@ -1,4 +1,4 @@
-import 'package:darts_link_project/views/darts_function_page/darts_tornament_page.dart';
+import 'package:darts_link_project/views/darts_function_page/tournament/create_tournament_page.dart';
 import 'package:flutter/material.dart';
 
 class DartsFunctionPage extends StatefulWidget {
@@ -17,7 +17,7 @@ class _DartsFunctionPageState extends State<DartsFunctionPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: ((context) => const DartsTornamentPage()),
+              builder: ((context) => const CreateTournamentPage()),
             ),
           );
         },
