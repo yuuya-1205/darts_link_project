@@ -39,10 +39,10 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
   final _houseTournamentDetailController = TextEditingController();
 
   Pref? _selectedPref;
-  Pref? _initialPrefectureArea;
+  Pref? _initalPrefectureArea;
   City? _selectedCity;
-  City? _initialCityArea;
-  int _capacity = 0;
+  City? _initalCityArea;
+  int _capacity = 1;
 
   List<Pref> prefs = [];
   dynamic dateTime;
@@ -273,11 +273,10 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                                           onPressed: () {
                                             Navigator.pop(context);
                                             setState(() {
-                                              _initialPrefectureArea =
+                                              _initalPrefectureArea =
                                                   _selectedPref;
                                               _prefController.text =
-                                                  _initialPrefectureArea
-                                                          ?.name ??
+                                                  _initalPrefectureArea?.name ??
                                                       '未登録';
                                             });
                                           },
@@ -331,7 +330,7 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                             return null;
                           },
                           onTap: () async {
-                            if (_initialPrefectureArea == null) {
+                            if (_initalPrefectureArea == null) {
                               return;
                             }
                             final cities = AreaRepository
@@ -356,9 +355,9 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                                           onPressed: () {
                                             Navigator.pop(context);
                                             setState(() {
-                                              _initialCityArea = _selectedCity;
+                                              _initalCityArea = _selectedCity;
                                               _cityController.text =
-                                                  _initialCityArea?.name ??
+                                                  _initalCityArea?.name ??
                                                       '未登録';
                                             });
                                           },
@@ -834,7 +833,15 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                     primary: OriginalTheme.themeData.primaryColor,
                     text: '作成する',
                     onPressed: () async {
-                      if (!_formKey.currentState!.validate()) {
+                      // if (!_formKey.currentState!.validate()) {
+                      //   return;
+                      // }
+                      if (_selectedPref == null) {
+                        return;
+                      }
+                      if (_selectedDateAndTime == null ||
+                          _selectedStartTime == null ||
+                          _selectedFinishTime == null) {
                         return;
                       }
                       final user = AuthRepository.currentUser;
@@ -849,12 +856,15 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                         title: houseTournamentTitle,
                         place: place,
                         ownerId: user!.id,
+                        prefecture: _initalPrefectureArea,
+                        city: _initalCityArea,
                         creatorName: user.userName,
                         creatorImage: user.userImage,
                         createdAt: Timestamp.now(),
                         updatedAt: Timestamp.now(),
                         formats: _selectedFormats,
                         features: _selectedFeatures,
+                        dartsModels: _selectedDartsModels,
                         isApproved: isApproved,
                         userId: user.userId,
                         followerCount: user.followerCount,
