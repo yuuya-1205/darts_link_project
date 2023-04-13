@@ -68,7 +68,7 @@ class _SortCircleSelectPageState extends State<SortCircleSelectPage> {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 76,
-        title: const Text('対戦車募集の絞り込み'),
+        title: const Text('サークルの絞り込み'),
         leading: const AppBarBackView(),
       ),
       body: SafeArea(
