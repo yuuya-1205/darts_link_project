@@ -1,3 +1,4 @@
+import 'package:darts_link_project/converters/darts_model_converter.dart';
 import 'package:darts_link_project/converters/feature_tag_type_converter.dart';
 import 'package:darts_link_project/models/tag_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -16,6 +17,9 @@ class SortState with _$SortState {
     @Freezed(fromJson: true)
     @FeatureTagTypeConverter()
         List<FeatureTagType>? features,
+    @Freezed(fromJson: true)
+    @DartsModelTagTypeConverter()
+        List<DartsModelTagType>? dartsModels,
     DateTime? date,
     @Default(false) bool isRecruitment,
   }) = _SortState;

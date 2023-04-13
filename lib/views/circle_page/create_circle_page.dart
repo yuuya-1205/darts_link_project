@@ -12,7 +12,7 @@ import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
-import 'package:darts_link_project/views/components/feature_item_view.dart';
+import 'package:darts_link_project/views/components/selector_container_view.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -426,8 +426,8 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
 
                                     setState(() {});
                                   },
-                                  child: FeatureItemView(
-                                    type: type,
+                                  child: SelectorContainerView(
+                                    label: type.label,
                                     isSelected:
                                         _selectedFeatures.contains(type),
                                   ),

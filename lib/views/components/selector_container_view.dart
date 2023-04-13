@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../models/tag_type.dart';
-
-class FeatureItemView extends StatelessWidget {
-  const FeatureItemView(
-      {Key? key, required this.isSelected, required this.type})
+class SelectorContainerView extends StatelessWidget {
+  const SelectorContainerView(
+      {Key? key, required this.isSelected, required this.label})
       : super(key: key);
   final bool isSelected;
-  final FeatureTagType type;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,7 @@ class FeatureItemView extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(100)),
       child: Text(
-        type.label,
+        label,
         style: TextStyle(
           color: isSelected
               ? const Color.fromRGBO(189, 208, 66, 1)

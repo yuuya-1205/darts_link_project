@@ -1,15 +1,16 @@
-import 'package:darts_link_project/components/sort_box/area_box.dart';
-import 'package:darts_link_project/components/sort_box/date_time_box.dart';
-import 'package:darts_link_project/components/sort_box/event_box.dart';
-import 'package:darts_link_project/components/sort_box/recruit_box.dart';
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/house_tornament/house_tournament.dart';
+import 'package:darts_link_project/models/sort_type.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/components/house_tournament/house_tournament_list_view.dart';
 import 'package:darts_link_project/views/house_tornament_page/create_house_tornament_page.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/sort_state.dart';
+import '../home_page/components/sort_box.dart';
+import '../sort_page/sort_house_tournament_select_page.dart';
 
 class HouseTournamentPage extends StatefulWidget {
   const HouseTournamentPage({Key? key}) : super(key: key);
@@ -19,6 +20,57 @@ class HouseTournamentPage extends StatefulWidget {
 }
 
 class _HouseTournamentPageState extends State<HouseTournamentPage> {
+  SortState? sortState;
+
+  Future<void> navigateSortPage() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const SortHouseTournamentSelectPage()),
+    ) as SortState?;
+    setState(() {
+      sortState = result;
+    });
+  }
+
+  List<HouseTournament> sortHouseTournament(
+      List<HouseTournament> houseTournaments) {
+    if (sortState == null) return houseTournaments;
+    if (sortState!.pref != null) {
+      houseTournaments = houseTournaments.where((element) {
+        return element.prefecture == sortState!.pref;
+      }).toList();
+    }
+    if (sortState!.city != null) {
+      houseTournaments = houseTournaments.where((element) {
+        return element.city == sortState!.city;
+      }).toList();
+    }
+    if (sortState!.date != null) {
+      houseTournaments = houseTournaments.where((element) {
+        return element.dateTime.toDate() == sortState!.date;
+      }).toList();
+    }
+    if (sortState!.isRecruitment) {
+      houseTournaments = houseTournaments.where((element) {
+        return element.capacity > element.numberOfParticipants;
+      }).toList();
+    }
+    if (sortState!.dartsModels != null) {
+      houseTournaments = houseTournaments.where((houseTournament) {
+        var isContains = true;
+        for (var element in sortState!.dartsModels!) {
+          isContains = houseTournament.dartsModels.contains(element);
+          if (!isContains) {
+            break;
+          }
+        }
+        return isContains;
+      }).toList();
+    }
+
+    return houseTournaments;
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = AuthRepository.currentUser;
@@ -30,12 +82,15 @@ class _HouseTournamentPageState extends State<HouseTournamentPage> {
                 height: 16,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
-                  AreaBox(),
-                  DateTimeBox(),
-                  RecruitBox(),
-                  EventBox(),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SortBox(sortType: SortType.area, onTap: navigateSortPage),
+                  const SizedBox(width: 16),
+                  SortBox(sortType: SortType.date, onTap: navigateSortPage),
+                  const SizedBox(width: 16),
+                  SortBox(sortType: SortType.isOpen, onTap: navigateSortPage),
+                  const SizedBox(width: 16),
+                  SortBox(sortType: SortType.genre, onTap: navigateSortPage),
                 ],
               ),
               const SizedBox(
@@ -72,7 +127,7 @@ class _HouseTournamentPageState extends State<HouseTournamentPage> {
                               ),
                               const Spacer(),
                               Text(
-                                '${houseTournaments.length}',
+                                '${sortHouseTournament(houseTournaments).length}',
                                 style: TextStyle(
                                     fontSize: 25,
                                     color: OriginalTheme.themeData.primaryColor,
@@ -90,8 +145,8 @@ class _HouseTournamentPageState extends State<HouseTournamentPage> {
                         ),
                         const SizedBox(height: 20),
                         HouseTournamentListView(
-                          houseTournaments: houseTournaments,
-                        ),
+                            houseTournaments:
+                                sortHouseTournament(houseTournaments)),
                       ],
                     );
                   }),

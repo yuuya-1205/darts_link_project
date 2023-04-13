@@ -25,6 +25,10 @@ mixin _$SortState {
   @Freezed(fromJson: true)
   @FeatureTagTypeConverter()
   List<FeatureTagType>? get features => throw _privateConstructorUsedError;
+  @Freezed(fromJson: true)
+  @DartsModelTagTypeConverter()
+  List<DartsModelTagType>? get dartsModels =>
+      throw _privateConstructorUsedError;
   DateTime? get date => throw _privateConstructorUsedError;
   bool get isRecruitment => throw _privateConstructorUsedError;
 
@@ -45,6 +49,9 @@ abstract class $SortStateCopyWith<$Res> {
       @Freezed(fromJson: true)
       @FeatureTagTypeConverter()
           List<FeatureTagType>? features,
+      @Freezed(fromJson: true)
+      @DartsModelTagTypeConverter()
+          List<DartsModelTagType>? dartsModels,
       DateTime? date,
       bool isRecruitment});
 
@@ -68,6 +75,7 @@ class _$SortStateCopyWithImpl<$Res, $Val extends SortState>
     Object? pref = freezed,
     Object? city = freezed,
     Object? features = freezed,
+    Object? dartsModels = freezed,
     Object? date = freezed,
     Object? isRecruitment = null,
   }) {
@@ -84,6 +92,10 @@ class _$SortStateCopyWithImpl<$Res, $Val extends SortState>
           ? _value.features
           : features // ignore: cast_nullable_to_non_nullable
               as List<FeatureTagType>?,
+      dartsModels: freezed == dartsModels
+          ? _value.dartsModels
+          : dartsModels // ignore: cast_nullable_to_non_nullable
+              as List<DartsModelTagType>?,
       date: freezed == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
@@ -133,6 +145,9 @@ abstract class _$$_SortStateCopyWith<$Res> implements $SortStateCopyWith<$Res> {
       @Freezed(fromJson: true)
       @FeatureTagTypeConverter()
           List<FeatureTagType>? features,
+      @Freezed(fromJson: true)
+      @DartsModelTagTypeConverter()
+          List<DartsModelTagType>? dartsModels,
       DateTime? date,
       bool isRecruitment});
 
@@ -156,6 +171,7 @@ class __$$_SortStateCopyWithImpl<$Res>
     Object? pref = freezed,
     Object? city = freezed,
     Object? features = freezed,
+    Object? dartsModels = freezed,
     Object? date = freezed,
     Object? isRecruitment = null,
   }) {
@@ -172,6 +188,10 @@ class __$$_SortStateCopyWithImpl<$Res>
           ? _value._features
           : features // ignore: cast_nullable_to_non_nullable
               as List<FeatureTagType>?,
+      dartsModels: freezed == dartsModels
+          ? _value._dartsModels
+          : dartsModels // ignore: cast_nullable_to_non_nullable
+              as List<DartsModelTagType>?,
       date: freezed == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
@@ -193,9 +213,13 @@ class _$_SortState implements _SortState {
       @Freezed(fromJson: true)
       @FeatureTagTypeConverter()
           final List<FeatureTagType>? features,
+      @Freezed(fromJson: true)
+      @DartsModelTagTypeConverter()
+          final List<DartsModelTagType>? dartsModels,
       this.date,
       this.isRecruitment = false})
-      : _features = features;
+      : _features = features,
+        _dartsModels = dartsModels;
 
   factory _$_SortState.fromJson(Map<String, dynamic> json) =>
       _$$_SortStateFromJson(json);
@@ -216,6 +240,18 @@ class _$_SortState implements _SortState {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<DartsModelTagType>? _dartsModels;
+  @override
+  @Freezed(fromJson: true)
+  @DartsModelTagTypeConverter()
+  List<DartsModelTagType>? get dartsModels {
+    final value = _dartsModels;
+    if (value == null) return null;
+    if (_dartsModels is EqualUnmodifiableListView) return _dartsModels;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final DateTime? date;
   @override
@@ -224,7 +260,7 @@ class _$_SortState implements _SortState {
 
   @override
   String toString() {
-    return 'SortState(pref: $pref, city: $city, features: $features, date: $date, isRecruitment: $isRecruitment)';
+    return 'SortState(pref: $pref, city: $city, features: $features, dartsModels: $dartsModels, date: $date, isRecruitment: $isRecruitment)';
   }
 
   @override
@@ -235,6 +271,8 @@ class _$_SortState implements _SortState {
             (identical(other.pref, pref) || other.pref == pref) &&
             (identical(other.city, city) || other.city == city) &&
             const DeepCollectionEquality().equals(other._features, _features) &&
+            const DeepCollectionEquality()
+                .equals(other._dartsModels, _dartsModels) &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.isRecruitment, isRecruitment) ||
                 other.isRecruitment == isRecruitment));
@@ -242,8 +280,14 @@ class _$_SortState implements _SortState {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, pref, city,
-      const DeepCollectionEquality().hash(_features), date, isRecruitment);
+  int get hashCode => Object.hash(
+      runtimeType,
+      pref,
+      city,
+      const DeepCollectionEquality().hash(_features),
+      const DeepCollectionEquality().hash(_dartsModels),
+      date,
+      isRecruitment);
 
   @JsonKey(ignore: true)
   @override
@@ -266,6 +310,9 @@ abstract class _SortState implements SortState {
       @Freezed(fromJson: true)
       @FeatureTagTypeConverter()
           final List<FeatureTagType>? features,
+      @Freezed(fromJson: true)
+      @DartsModelTagTypeConverter()
+          final List<DartsModelTagType>? dartsModels,
       final DateTime? date,
       final bool isRecruitment}) = _$_SortState;
 
@@ -280,6 +327,10 @@ abstract class _SortState implements SortState {
   @Freezed(fromJson: true)
   @FeatureTagTypeConverter()
   List<FeatureTagType>? get features;
+  @override
+  @Freezed(fromJson: true)
+  @DartsModelTagTypeConverter()
+  List<DartsModelTagType>? get dartsModels;
   @override
   DateTime? get date;
   @override

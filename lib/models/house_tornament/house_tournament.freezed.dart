@@ -34,7 +34,8 @@ mixin _$HouseTournament {
   int get capacity => throw _privateConstructorUsedError;
   int get numberOfParticipants => throw _privateConstructorUsedError;
   @Freezed(fromJson: true)
-  List<String> get dartsModels => throw _privateConstructorUsedError;
+  @DartsModelTagTypeConverter()
+  List<DartsModelTagType> get dartsModels => throw _privateConstructorUsedError;
   @Freezed(fromJson: true)
   List<String> get formats => throw _privateConstructorUsedError;
   @TimestampConverter()
@@ -75,16 +76,25 @@ abstract class $HouseTournamentCopyWith<$Res> {
       String uid,
       String headerImage,
       String place,
-      @PrefNullableConverter() Pref? prefecture,
-      @CityNullableConverter() City? city,
-      @Freezed(fromJson: true) List<String> features,
+      @PrefNullableConverter()
+          Pref? prefecture,
+      @CityNullableConverter()
+          City? city,
+      @Freezed(fromJson: true)
+          List<String> features,
       int capacity,
       int numberOfParticipants,
-      @Freezed(fromJson: true) List<String> dartsModels,
-      @Freezed(fromJson: true) List<String> formats,
-      @TimestampConverter() Timestamp dateTime,
-      @TimestampConverter() Timestamp startTime,
-      @TimestampConverter() Timestamp finishTime,
+      @Freezed(fromJson: true)
+      @DartsModelTagTypeConverter()
+          List<DartsModelTagType> dartsModels,
+      @Freezed(fromJson: true)
+          List<String> formats,
+      @TimestampConverter()
+          Timestamp dateTime,
+      @TimestampConverter()
+          Timestamp startTime,
+      @TimestampConverter()
+          Timestamp finishTime,
       String detail,
       bool isApproved,
       bool isFinalTournament,
@@ -94,8 +104,10 @@ abstract class $HouseTournamentCopyWith<$Res> {
       String userId,
       int followingCount,
       int followerCount,
-      @TimestampConverter() Timestamp createdAt,
-      @TimestampConverter() Timestamp updatedAt});
+      @TimestampConverter()
+          Timestamp createdAt,
+      @TimestampConverter()
+          Timestamp updatedAt});
 
   $PrefCopyWith<$Res>? get prefecture;
   $CityCopyWith<$Res>? get city;
@@ -185,7 +197,7 @@ class _$HouseTournamentCopyWithImpl<$Res, $Val extends HouseTournament>
       dartsModels: null == dartsModels
           ? _value.dartsModels
           : dartsModels // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<DartsModelTagType>,
       formats: null == formats
           ? _value.formats
           : formats // ignore: cast_nullable_to_non_nullable
@@ -288,16 +300,25 @@ abstract class _$$_HouseTournamentCopyWith<$Res>
       String uid,
       String headerImage,
       String place,
-      @PrefNullableConverter() Pref? prefecture,
-      @CityNullableConverter() City? city,
-      @Freezed(fromJson: true) List<String> features,
+      @PrefNullableConverter()
+          Pref? prefecture,
+      @CityNullableConverter()
+          City? city,
+      @Freezed(fromJson: true)
+          List<String> features,
       int capacity,
       int numberOfParticipants,
-      @Freezed(fromJson: true) List<String> dartsModels,
-      @Freezed(fromJson: true) List<String> formats,
-      @TimestampConverter() Timestamp dateTime,
-      @TimestampConverter() Timestamp startTime,
-      @TimestampConverter() Timestamp finishTime,
+      @Freezed(fromJson: true)
+      @DartsModelTagTypeConverter()
+          List<DartsModelTagType> dartsModels,
+      @Freezed(fromJson: true)
+          List<String> formats,
+      @TimestampConverter()
+          Timestamp dateTime,
+      @TimestampConverter()
+          Timestamp startTime,
+      @TimestampConverter()
+          Timestamp finishTime,
       String detail,
       bool isApproved,
       bool isFinalTournament,
@@ -307,8 +328,10 @@ abstract class _$$_HouseTournamentCopyWith<$Res>
       String userId,
       int followingCount,
       int followerCount,
-      @TimestampConverter() Timestamp createdAt,
-      @TimestampConverter() Timestamp updatedAt});
+      @TimestampConverter()
+          Timestamp createdAt,
+      @TimestampConverter()
+          Timestamp updatedAt});
 
   @override
   $PrefCopyWith<$Res>? get prefecture;
@@ -398,7 +421,7 @@ class __$$_HouseTournamentCopyWithImpl<$Res>
       dartsModels: null == dartsModels
           ? _value._dartsModels
           : dartsModels // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<DartsModelTagType>,
       formats: null == formats
           ? _value._formats
           : formats // ignore: cast_nullable_to_non_nullable
@@ -472,16 +495,25 @@ class _$_HouseTournament implements _HouseTournament {
       required this.uid,
       this.headerImage = '',
       this.place = '',
-      @PrefNullableConverter() this.prefecture,
-      @CityNullableConverter() this.city,
-      @Freezed(fromJson: true) final List<String> features = const [],
+      @PrefNullableConverter()
+          this.prefecture,
+      @CityNullableConverter()
+          this.city,
+      @Freezed(fromJson: true)
+          final List<String> features = const [],
       this.capacity = 0,
       this.numberOfParticipants = 0,
-      @Freezed(fromJson: true) final List<String> dartsModels = const [],
-      @Freezed(fromJson: true) final List<String> formats = const [],
-      @TimestampConverter() required this.dateTime,
-      @TimestampConverter() required this.startTime,
-      @TimestampConverter() required this.finishTime,
+      @Freezed(fromJson: true)
+      @DartsModelTagTypeConverter()
+          final List<DartsModelTagType> dartsModels = const [],
+      @Freezed(fromJson: true)
+          final List<String> formats = const [],
+      @TimestampConverter()
+          required this.dateTime,
+      @TimestampConverter()
+          required this.startTime,
+      @TimestampConverter()
+          required this.finishTime,
       this.detail = '',
       this.isApproved = false,
       this.isFinalTournament = false,
@@ -491,8 +523,10 @@ class _$_HouseTournament implements _HouseTournament {
       required this.userId,
       this.followingCount = 0,
       this.followerCount = 0,
-      @TimestampConverter() required this.createdAt,
-      @TimestampConverter() required this.updatedAt})
+      @TimestampConverter()
+          required this.createdAt,
+      @TimestampConverter()
+          required this.updatedAt})
       : _features = features,
         _dartsModels = dartsModels,
         _formats = formats;
@@ -534,11 +568,12 @@ class _$_HouseTournament implements _HouseTournament {
   @override
   @JsonKey()
   final int numberOfParticipants;
-  final List<String> _dartsModels;
+  final List<DartsModelTagType> _dartsModels;
   @override
   @JsonKey()
   @Freezed(fromJson: true)
-  List<String> get dartsModels {
+  @DartsModelTagTypeConverter()
+  List<DartsModelTagType> get dartsModels {
     if (_dartsModels is EqualUnmodifiableListView) return _dartsModels;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_dartsModels);
@@ -696,33 +731,43 @@ class _$_HouseTournament implements _HouseTournament {
 
 abstract class _HouseTournament implements HouseTournament {
   const factory _HouseTournament(
-          {required final String houseTournamentId,
-          required final String title,
-          required final String uid,
-          final String headerImage,
-          final String place,
-          @PrefNullableConverter() final Pref? prefecture,
-          @CityNullableConverter() final City? city,
-          @Freezed(fromJson: true) final List<String> features,
-          final int capacity,
-          final int numberOfParticipants,
-          @Freezed(fromJson: true) final List<String> dartsModels,
-          @Freezed(fromJson: true) final List<String> formats,
-          @TimestampConverter() required final Timestamp dateTime,
-          @TimestampConverter() required final Timestamp startTime,
-          @TimestampConverter() required final Timestamp finishTime,
-          final String detail,
-          final bool isApproved,
-          final bool isFinalTournament,
-          required final String ownerId,
-          required final String creatorName,
-          required final String creatorImage,
-          required final String userId,
-          final int followingCount,
-          final int followerCount,
-          @TimestampConverter() required final Timestamp createdAt,
-          @TimestampConverter() required final Timestamp updatedAt}) =
-      _$_HouseTournament;
+      {required final String houseTournamentId,
+      required final String title,
+      required final String uid,
+      final String headerImage,
+      final String place,
+      @PrefNullableConverter()
+          final Pref? prefecture,
+      @CityNullableConverter()
+          final City? city,
+      @Freezed(fromJson: true)
+          final List<String> features,
+      final int capacity,
+      final int numberOfParticipants,
+      @Freezed(fromJson: true)
+      @DartsModelTagTypeConverter()
+          final List<DartsModelTagType> dartsModels,
+      @Freezed(fromJson: true)
+          final List<String> formats,
+      @TimestampConverter()
+          required final Timestamp dateTime,
+      @TimestampConverter()
+          required final Timestamp startTime,
+      @TimestampConverter()
+          required final Timestamp finishTime,
+      final String detail,
+      final bool isApproved,
+      final bool isFinalTournament,
+      required final String ownerId,
+      required final String creatorName,
+      required final String creatorImage,
+      required final String userId,
+      final int followingCount,
+      final int followerCount,
+      @TimestampConverter()
+          required final Timestamp createdAt,
+      @TimestampConverter()
+          required final Timestamp updatedAt}) = _$_HouseTournament;
 
   factory _HouseTournament.fromJson(Map<String, dynamic> json) =
       _$_HouseTournament.fromJson;
@@ -752,7 +797,8 @@ abstract class _HouseTournament implements HouseTournament {
   int get numberOfParticipants;
   @override
   @Freezed(fromJson: true)
-  List<String> get dartsModels;
+  @DartsModelTagTypeConverter()
+  List<DartsModelTagType> get dartsModels;
   @override
   @Freezed(fromJson: true)
   List<String> get formats;
