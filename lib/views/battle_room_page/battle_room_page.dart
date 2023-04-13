@@ -103,7 +103,7 @@ class _BattleRoomPageState extends State<BattleRoomPage> {
                           ),
                           const Spacer(),
                           Text(
-                            '${battleRooms.length}',
+                            '${sortBattleRoom(battleRooms).length}',
                             style: TextStyle(
                                 fontSize: 25,
                                 color: OriginalTheme.themeData.primaryColor,
