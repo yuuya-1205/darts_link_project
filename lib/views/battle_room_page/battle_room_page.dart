@@ -8,7 +8,7 @@ import 'package:darts_link_project/views/home_page/components/sort_box.dart';
 import 'package:flutter/material.dart';
 
 import '../components/battle_room/battle_room_list_view.dart';
-import '../sort_page/sort_select_page.dart';
+import '../sort_page/sort_battle_room_select_page.dart';
 
 class BattleRoomPage extends StatefulWidget {
   const BattleRoomPage({Key? key}) : super(key: key);
@@ -49,7 +49,6 @@ class _BattleRoomPageState extends State<BattleRoomPage> {
     }
     if (sortState!.isRecruitment) {
       battleRooms = battleRooms.where((element) {
-        print(element.capacity > element.numberOfParticipants);
         return element.capacity > element.numberOfParticipants;
       }).toList();
     }

@@ -21,7 +21,8 @@ _$_Circle _$$_CircleFromJson(Map<String, dynamic> json) => _$_Circle(
               .toList() ??
           const [],
       features: (json['features'] as List<dynamic>?)
-              ?.map((e) => e as String)
+              ?.map(
+                  (e) => const FeatureTagTypeConverter().fromJson(e as String))
               .toList() ??
           const [],
       prefecture: const PrefNullableConverter()
@@ -51,7 +52,9 @@ Map<String, dynamic> _$$_CircleToJson(_$_Circle instance) => <String, dynamic>{
       'headerImage': instance.headerImage,
       'imageUrls': instance.imageUrls,
       'memberUids': instance.memberUids,
-      'features': instance.features,
+      'features': instance.features
+          .map(const FeatureTagTypeConverter().toJson)
+          .toList(),
       'prefecture': const PrefNullableConverter().toJson(instance.prefecture),
       'city': const CityNullableConverter().toJson(instance.city),
       'capacity': instance.capacity,

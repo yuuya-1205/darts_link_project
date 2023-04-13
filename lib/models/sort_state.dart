@@ -1,3 +1,5 @@
+import 'package:darts_link_project/converters/feature_tag_type_converter.dart';
+import 'package:darts_link_project/models/tag_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'city.dart';
@@ -11,6 +13,9 @@ class SortState with _$SortState {
   const factory SortState({
     Pref? pref,
     City? city,
+    @Freezed(fromJson: true)
+    @FeatureTagTypeConverter()
+        List<FeatureTagType>? features,
     DateTime? date,
     @Default(false) bool isRecruitment,
   }) = _SortState;

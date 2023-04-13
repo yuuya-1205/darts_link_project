@@ -13,6 +13,9 @@ _$_SortState _$$_SortStateFromJson(Map<String, dynamic> json) => _$_SortState(
       city: json['city'] == null
           ? null
           : City.fromJson(json['city'] as Map<String, dynamic>),
+      features: (json['features'] as List<dynamic>?)
+          ?.map((e) => const FeatureTagTypeConverter().fromJson(e as String))
+          .toList(),
       date:
           json['date'] == null ? null : DateTime.parse(json['date'] as String),
       isRecruitment: json['isRecruitment'] as bool? ?? false,
@@ -22,6 +25,9 @@ Map<String, dynamic> _$$_SortStateToJson(_$_SortState instance) =>
     <String, dynamic>{
       'pref': instance.pref,
       'city': instance.city,
+      'features': instance.features
+          ?.map(const FeatureTagTypeConverter().toJson)
+          .toList(),
       'date': instance.date?.toIso8601String(),
       'isRecruitment': instance.isRecruitment,
     };

@@ -65,6 +65,8 @@ enum FeatureTagType {
     switch (label) {
       case '男性限定':
         return FeatureTagType.onlyMale;
+      case 'ガチダーツ':
+        return FeatureTagType.orthodoxDarts;
       case '友達募集':
         return FeatureTagType.friendWanted;
     }

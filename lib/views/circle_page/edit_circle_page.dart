@@ -47,7 +47,7 @@ class _EditCirclePageState extends State<EditCirclePage> {
   DateTime? _selectedStartTime;
   DateTime? _selectedFinishTime;
 
-  List<String> _selectedFeatures = [];
+  List<FeatureTagType> _selectedFeatures = [];
 
   bool isApproved = false;
 
@@ -360,10 +360,10 @@ class _EditCirclePageState extends State<EditCirclePage> {
                           .map(
                             (e) => GestureDetector(
                               onTap: () {
-                                if (_selectedFeatures.contains(e.label)) {
-                                  _selectedFeatures.remove(e.label);
+                                if (_selectedFeatures.contains(e)) {
+                                  _selectedFeatures.remove(e);
                                 } else {
-                                  _selectedFeatures.add(e.label);
+                                  _selectedFeatures.add(e);
                                 }
 
                                 setState(() {});
