@@ -3,8 +3,6 @@ import 'package:darts_link_project/models/circle/circle_member.dart';
 import 'package:darts_link_project/repositories/circle/circle_member_repository.dart';
 import 'package:darts_link_project/views/circle_page/circle_member_list_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class CircleMemberListPage extends StatefulWidget {
   const CircleMemberListPage({

@@ -34,7 +34,7 @@ class HouseTornamentMemberRepository {
         .set(houseTornamentMember.toJson());
   }
 
-  static Future<void> leaveBattleRoomMember({
+  static Future<void> leaveHouseTornametMember({
     required String houseTornamentId,
     required String houseTornamentMemberId,
   }) async {

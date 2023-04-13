@@ -58,7 +58,7 @@ class StoreOwnerListItemView extends StatelessWidget {
                           color: Color.fromRGBO(210, 48, 125, 1),
                         ),
                         Text(
-                          storeOwner.city.toString(),
+                          storeOwner.city.name,
                           style: const TextStyle(
                               color: Color.fromRGBO(210, 48, 125, 1)),
                         ),
