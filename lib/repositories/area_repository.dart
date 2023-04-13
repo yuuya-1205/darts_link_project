@@ -1,10 +1,13 @@
-import 'package:darts_link_project/models/city.dart';
-import 'package:darts_link_project/models/pref.dart';
-import 'package:http/http.dart' as http; //httpリクエスト用
-import 'dart:async'; //非同期処理用
 import 'dart:convert';
 
+import 'package:darts_link_project/models/city.dart';
+import 'package:darts_link_project/models/pref.dart';
+import 'package:http/http.dart' as http;
+
 class AreaRepository {
+  static List<Pref> prefList = [];
+  static Map<int, List<City>> cityMap = {};
+
   static String domain = 'opendata.resas-portal.go.jp';
 
   static Map<String, String> header = {
@@ -29,25 +32,28 @@ class AreaRepository {
             ))
         .toList();
 
+    prefList = prefs;
     return prefs;
   }
 
-  static Future<List<City>> getCitysData(String prefCode) async {
-    http.Response response = await http.get(
-      Uri.https(domain, 'api/v1/cities', {'prefCode': prefCode}),
-      headers: header,
-    );
-    final decodedBody = jsonDecode(response.body);
-    print(decodedBody['result'] is String);
-    final List<dynamic> citysMap = decodedBody['result'];
+  static Future<void> getCitiesData() async {
+    await Future.forEach(prefList, (pref) async {
+      http.Response response = await http.get(
+        Uri.https(domain, 'api/v1/cities', {'prefCode': pref.code.toString()}),
+        headers: header,
+      );
+      final decodedBody = jsonDecode(response.body);
+      final List<dynamic> citiesMap = decodedBody['result'];
 
-    final List<City> citys = citysMap
-        .map((e) => City(
-              code: int.parse(e['cityCode']),
-              name: e['cityName'],
-            ))
-        .toList();
-    print(citys.length);
-    return citys;
+      final List<City> cities = citiesMap
+          .map((e) => City(
+                code: int.parse(e['cityCode']),
+                name: e['cityName'],
+              ))
+          .toList();
+      cityMap[pref.code] = cities;
+    });
+
+    print(cityMap.length);
   }
 }

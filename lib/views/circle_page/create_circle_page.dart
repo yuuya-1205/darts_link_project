@@ -12,6 +12,7 @@ import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/selector_container_view.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,11 +50,11 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
   DateFormat dateFormat = DateFormat("yyyy年MM月dd日");
   DateFormat timeFormat = DateFormat("HH:mm");
 
-  final List<String> _selectedFeatures = [];
+  final List<FeatureTagType> _selectedFeatures = [];
   String _currentHeaderImageUrl = '';
   Asset? _selectedHeaderImage;
   List<Asset> _selectedHeaderImages = [];
-  List<String> _currentHeaderImageUrls = [];
+  final List<String> _currentHeaderImageUrls = [];
 
   bool isApproved = false;
 
@@ -246,7 +247,7 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                           controller: _prefController,
                           hintText: '選択してください',
                           onTap: () async {
-                            final prefs = await AreaRepository.getPrefsData();
+                            final prefs = AreaRepository.prefList;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -321,8 +322,8 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                             if (_initalPrefectureArea == null) {
                               return;
                             }
-                            final citys = await AreaRepository.getCitysData(
-                                _initalPrefectureArea!.code.toString());
+                            final cities = AreaRepository
+                                .cityMap[_initalPrefectureArea!.code]!;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -359,11 +360,11 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                                               3,
                                       child: CupertinoPicker(
                                         itemExtent: 40,
-                                        children: citys
+                                        children: cities
                                             .map((e) => Text(e.name))
                                             .toList(),
                                         onSelectedItemChanged: (int index) {
-                                          _selectedCity = citys[index];
+                                          _selectedCity = cities[index];
                                         },
                                       ),
                                     )
@@ -400,6 +401,7 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                     height: 32,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
                         '特徴',
@@ -408,61 +410,32 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                       const SizedBox(
                         width: 50,
                       ),
-                      ...FeatureTagType.values
-                          .map(
-                            (e) => GestureDetector(
-                              onTap: () {
-                                if (_selectedFeatures.contains(e.label)) {
-                                  _selectedFeatures.remove(e.label);
-                                } else {
-                                  _selectedFeatures.add(e.label);
-                                }
+                      Expanded(
+                        child: Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: FeatureTagType.values
+                              .map(
+                                (type) => GestureDetector(
+                                  onTap: () {
+                                    if (_selectedFeatures.contains(type)) {
+                                      _selectedFeatures.remove(type);
+                                    } else {
+                                      _selectedFeatures.add(type);
+                                    }
 
-                                setState(() {});
-                              },
-                              child: Wrap(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    decoration: BoxDecoration(
-                                        color:
-                                            _selectedFeatures.contains(e.label)
-                                                ? const Color.fromRGBO(
-                                                    242, 246, 217, 1)
-                                                : const Color.fromRGBO(
-                                                    251, 251, 251, 1),
-                                        border: Border.all(
-                                          color: _selectedFeatures
-                                                  .contains(e.label)
-                                              ? const Color.fromRGBO(
-                                                  189, 208, 66, 1)
-                                              : const Color.fromRGBO(
-                                                  217, 217, 217, 1),
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                    child: Center(
-                                      child: Text(
-                                        e.label,
-                                        style: TextStyle(
-                                          color: _selectedFeatures
-                                                  .contains(e.label)
-                                              ? const Color.fromRGBO(
-                                                  189, 208, 66, 1)
-                                              : const Color.fromRGBO(
-                                                  217, 217, 217, 1),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
+                                    setState(() {});
+                                  },
+                                  child: SelectorContainerView(
+                                    label: type.label,
+                                    isSelected:
+                                        _selectedFeatures.contains(type),
                                   ),
-                                ],
-                              ),
-                            ),
-                          )
-                          .toList(),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(

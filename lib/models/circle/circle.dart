@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/converters/city_converter.dart';
+import 'package:darts_link_project/converters/feature_tag_type_converter.dart';
 import 'package:darts_link_project/converters/pref_converter.dart';
 import 'package:darts_link_project/converters/timestamp_converter.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
+import 'package:darts_link_project/models/tag_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'circle.freezed.dart';
 part 'circle.g.dart';
 
@@ -18,7 +21,10 @@ class Circle with _$Circle {
     @Default('') String headerImage,
     @Freezed(fromJson: true) @Default([]) List<String> imageUrls,
     @Freezed(fromJson: true) @Default([]) List<String> memberUids,
-    @Freezed(fromJson: true) @Default([]) List<String> features,
+    @Freezed(fromJson: true)
+    @FeatureTagTypeConverter()
+    @Default([])
+        List<FeatureTagType> features,
     @PrefNullableConverter() Pref? prefecture,
     @CityNullableConverter() City? city,
     @Default(0) int capacity,

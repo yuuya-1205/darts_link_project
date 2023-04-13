@@ -252,7 +252,7 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                             return null;
                           },
                           onTap: () async {
-                            final prefs = await AreaRepository.getPrefsData();
+                            final prefs = AreaRepository.prefList;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -333,8 +333,8 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                             if (_initalPrefectureArea == null) {
                               return;
                             }
-                            final cities = await AreaRepository.getCitysData(
-                                _initalPrefectureArea!.code.toString());
+                            final cities = AreaRepository
+                                .cityMap[_initialPrefectureArea!.code]!;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {

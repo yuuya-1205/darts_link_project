@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/input_field.dart';
 import 'package:darts_link_project/components/original_button.dart';
-import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/circle/circle.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
@@ -48,7 +47,7 @@ class _EditCirclePageState extends State<EditCirclePage> {
   DateTime? _selectedStartTime;
   DateTime? _selectedFinishTime;
 
-  List<String> _selectedFeatures = [];
+  List<FeatureTagType> _selectedFeatures = [];
 
   bool isApproved = false;
 
@@ -195,8 +194,7 @@ class _EditCirclePageState extends State<EditCirclePage> {
                           controller: _prefController,
                           hintText: '選択してください',
                           onTap: () async {
-                            final prefs = await AreaRepository.getPrefsData();
-                            // ignore: use_build_context_synchronously
+                            final prefs = AreaRepository.prefList;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -271,8 +269,8 @@ class _EditCirclePageState extends State<EditCirclePage> {
                             if (_initalPrefectureArea == null) {
                               return;
                             }
-                            final citys = await AreaRepository.getCitysData(
-                                _initalPrefectureArea!.code.toString());
+                            final cities = AreaRepository
+                                .cityMap[_initalPrefectureArea!.code]!;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -309,11 +307,11 @@ class _EditCirclePageState extends State<EditCirclePage> {
                                               3,
                                       child: CupertinoPicker(
                                         itemExtent: 40,
-                                        children: citys
+                                        children: cities
                                             .map((e) => Text(e.name))
                                             .toList(),
                                         onSelectedItemChanged: (int index) {
-                                          _selectedCity = citys[index];
+                                          _selectedCity = cities[index];
                                         },
                                       ),
                                     )
@@ -362,10 +360,10 @@ class _EditCirclePageState extends State<EditCirclePage> {
                           .map(
                             (e) => GestureDetector(
                               onTap: () {
-                                if (_selectedFeatures.contains(e.label)) {
-                                  _selectedFeatures.remove(e.label);
+                                if (_selectedFeatures.contains(e)) {
+                                  _selectedFeatures.remove(e);
                                 } else {
-                                  _selectedFeatures.add(e.label);
+                                  _selectedFeatures.add(e);
                                 }
 
                                 setState(() {});

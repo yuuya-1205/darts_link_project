@@ -6,7 +6,9 @@ import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../converters/darts_model_converter.dart';
 import '../../converters/pref_converter.dart';
+import '../tag_type.dart';
 
 part 'house_tournament.freezed.dart';
 part 'house_tournament.g.dart';
@@ -24,7 +26,10 @@ class HouseTournament with _$HouseTournament {
     @Freezed(fromJson: true) @Default([]) List<String> features,
     @Default(0) int capacity,
     @Default(0) int numberOfParticipants,
-    @Freezed(fromJson: true) @Default([]) List<String> dartsModels,
+    @Freezed(fromJson: true)
+    @DartsModelTagTypeConverter()
+    @Default([])
+        List<DartsModelTagType> dartsModels,
     @Freezed(fromJson: true) @Default([]) List<String> formats,
     @TimestampConverter() required Timestamp dateTime,
     @TimestampConverter() required Timestamp startTime,
