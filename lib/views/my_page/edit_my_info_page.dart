@@ -19,7 +19,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class EditMyInfoPage extends StatefulWidget {
@@ -351,7 +350,7 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                       controller: _prefController,
                       hintText: '選択してください',
                       onTap: () async {
-                        final prefs = await AreaRepository.getPrefsData();
+                        final prefs = AreaRepository.prefList;
                         showModalBottomSheet(
                           context: context,
                           builder: (BuildContext context) {
@@ -422,8 +421,8 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                         if (_initalPrefectureArea == null) {
                           return;
                         }
-                        final citys = await AreaRepository.getCitysData(
-                            _initalPrefectureArea!.code.toString());
+                        final cities = AreaRepository
+                            .cityMap[_initalPrefectureArea!.code]!;
                         showModalBottomSheet(
                           context: context,
                           builder: (BuildContext context) {
@@ -457,10 +456,11 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                                       MediaQuery.of(context).size.height / 3,
                                   child: CupertinoPicker(
                                     itemExtent: 40,
-                                    children:
-                                        citys.map((e) => Text(e.name)).toList(),
+                                    children: cities
+                                        .map((e) => Text(e.name))
+                                        .toList(),
                                     onSelectedItemChanged: (int index) {
-                                      _selectedCity = citys[index];
+                                      _selectedCity = cities[index];
                                     },
                                   ),
                                 )

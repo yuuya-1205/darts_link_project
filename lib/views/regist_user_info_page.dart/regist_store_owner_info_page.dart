@@ -136,7 +136,7 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                       controller: _prefController,
                       hintText: '選択してください',
                       onTap: () async {
-                        final prefs = await AreaRepository.getPrefsData();
+                        final prefs = AreaRepository.prefList;
                         showModalBottomSheet(
                           context: context,
                           builder: (BuildContext context) {
@@ -210,8 +210,8 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                         if (_initalPrefectureArea == null) {
                           return;
                         }
-                        final citys = await AreaRepository.getCitysData(
-                            _initalPrefectureArea!.code.toString());
+                        final cities = AreaRepository
+                            .cityMap[_initalPrefectureArea!.code]!;
                         showModalBottomSheet(
                           context: context,
                           builder: (BuildContext context) {
@@ -245,10 +245,11 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                                       MediaQuery.of(context).size.height / 3,
                                   child: CupertinoPicker(
                                     itemExtent: 40,
-                                    children:
-                                        citys.map((e) => Text(e.name)).toList(),
+                                    children: cities
+                                        .map((e) => Text(e.name))
+                                        .toList(),
                                     onSelectedItemChanged: (int index) {
-                                      _selectedCity = citys[index];
+                                      _selectedCity = cities[index];
                                     },
                                   ),
                                 )

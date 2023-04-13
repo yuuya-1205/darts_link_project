@@ -1,10 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:isolate';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/input_field.dart';
 import 'package:darts_link_project/components/original_button.dart';
+import 'package:darts_link_project/extensions/build_context_extension.dart';
 import 'package:darts_link_project/models/battle_room.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
@@ -213,60 +212,19 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                           readOnly: true,
                           controller: _prefController,
                           hintText: '選択してください',
-                          onTap: () async {
-                            final prefs = await AreaRepository.getPrefsData();
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height / 2,
-                                  child: Column(children: [
-                                    Row(
-                                      children: [
-                                        CupertinoButton(
-                                          child: const Text('もどる'),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                        CupertinoButton(
-                                          child: const Text('決定'),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            setState(() {
-                                              _initalPrefectureArea =
-                                                  _selectedPref;
-                                              _prefController.text =
-                                                  _initalPrefectureArea?.name ??
-                                                      '未登録';
-                                            });
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: double.infinity,
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              3,
-                                      child: CupertinoPicker(
-                                        itemExtent: 40,
-                                        children: prefs
-                                            .map((e) => Text(e.name))
-                                            .toList(),
-                                        onSelectedItemChanged: (int index) {
-                                          setState(() {
-                                            _selectedPref = prefs[index];
-                                          });
-                                        },
-                                      ),
-                                    )
-                                  ]),
-                                );
-                              },
-                            );
-                          },
+                          onTap: () => context.showAreaSelectorPicker(
+                            onSubmitted: () {
+                              Navigator.pop(context);
+                              setState(() {
+                                _initalPrefectureArea = _selectedPref;
+                                _prefController.text =
+                                    _initalPrefectureArea?.name ?? '未登録';
+                              });
+                            },
+                            onSelectedItemChanged: (Pref pref) {
+                              setState(() => _selectedPref = pref);
+                            },
+                          ),
                         ),
                       )
                     ],
@@ -289,8 +247,8 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                             if (_initalPrefectureArea == null) {
                               return;
                             }
-                            final citys = await AreaRepository.getCitysData(
-                                _initalPrefectureArea!.code.toString());
+                            final cities = AreaRepository
+                                .cityMap[_initalPrefectureArea!.code]!;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -327,11 +285,11 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                                               3,
                                       child: CupertinoPicker(
                                         itemExtent: 40,
-                                        children: citys
+                                        children: cities
                                             .map((e) => Text(e.name))
                                             .toList(),
                                         onSelectedItemChanged: (int index) {
-                                          _selectedCity = citys[index];
+                                          _selectedCity = cities[index];
                                         },
                                       ),
                                     )

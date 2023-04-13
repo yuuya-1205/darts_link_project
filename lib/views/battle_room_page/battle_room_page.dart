@@ -1,14 +1,14 @@
-import 'dart:async';
-
-import 'package:darts_link_project/components/sort_box/area_box.dart';
-import 'package:darts_link_project/components/sort_box/date_time_box.dart';
-import 'package:darts_link_project/components/sort_box/recruit_box.dart';
 import 'package:darts_link_project/models/battle_room.dart';
+import 'package:darts_link_project/models/sort_state.dart';
+import 'package:darts_link_project/models/sort_type.dart';
 import 'package:darts_link_project/repositories/battle_room/battle_room_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
-import 'package:darts_link_project/views/battle_room_page/components/battle_room_card.dart';
 import 'package:darts_link_project/views/battle_room_page/create_battle_room_page.dart';
+import 'package:darts_link_project/views/home_page/components/sort_box.dart';
 import 'package:flutter/material.dart';
+
+import '../components/battle_room/battle_room_list_view.dart';
+import '../sort_page/sort_select_page.dart';
 
 class BattleRoomPage extends StatefulWidget {
   const BattleRoomPage({Key? key}) : super(key: key);
@@ -18,13 +18,42 @@ class BattleRoomPage extends StatefulWidget {
 }
 
 class _BattleRoomPageState extends State<BattleRoomPage> {
-  final battleRoomCountController = StreamController<int>();
+  SortState? sortState;
 
-  @override
-  void dispose() {
-    // StreamControllerは必ず開放する
-    battleRoomCountController.close();
-    super.dispose();
+  Future<void> navigateSortPage() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const SortBattleRoomSelectPage()),
+    ) as SortState?;
+    setState(() {
+      sortState = result;
+    });
+  }
+
+  List<BattleRoom> sortBattleRoom(List<BattleRoom> battleRooms) {
+    if (sortState == null) return battleRooms;
+    if (sortState!.pref != null) {
+      battleRooms = battleRooms.where((element) {
+        return element.prefecture == sortState!.pref;
+      }).toList();
+    }
+    if (sortState!.city != null) {
+      battleRooms = battleRooms.where((element) {
+        return element.city == sortState!.city;
+      }).toList();
+    }
+    if (sortState!.date != null) {
+      battleRooms = battleRooms.where((element) {
+        return element.dateTime.toDate() == sortState!.date;
+      }).toList();
+    }
+    if (sortState!.isRecruitment) {
+      battleRooms = battleRooms.where((element) {
+        print(element.capacity > element.numberOfParticipants);
+        return element.capacity > element.numberOfParticipants;
+      }).toList();
+    }
+    return battleRooms;
   }
 
   @override
@@ -33,81 +62,72 @@ class _BattleRoomPageState extends State<BattleRoomPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: AreaBox(),
-                ),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
-                  child: DateTimeBox(),
-                ),
-                const RecruitBox(),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SortBox(sortType: SortType.area, onTap: navigateSortPage),
+                  const SizedBox(width: 16),
+                  SortBox(sortType: SortType.date, onTap: navigateSortPage),
+                  const SizedBox(width: 16),
+                  SortBox(sortType: SortType.isOpen, onTap: navigateSortPage),
+                ],
+              ),
             ),
-            const SizedBox(height: 20),
             StreamBuilder<List<BattleRoom>>(
-                stream: BattleRoomRepository.battleRoomStream(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState != ConnectionState.active) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (!snapshot.hasData) {
-                    return Container();
-                  }
-                  final battleRooms = snapshot.data;
-                  if (battleRooms!.isEmpty) {
-                    return const Center(
-                      child: Text('まだ、投稿がありません'),
-                    );
-                  }
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 17),
-                        child: Row(
-                          children: [
-                            const Text(
-                              '募集中の対戦者募集',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            const Spacer(),
-                            Text(
-                              '${battleRooms.length}',
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  color: OriginalTheme.themeData.primaryColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              '件',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: OriginalTheme.themeData.disabledColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: battleRooms.length,
-                          itemBuilder: (context, index) {
-                            final battleRoom = battleRooms[index];
-                            return Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                              child: BattleRoomCard(battleRoom: battleRoom),
-                            );
-                          }),
-                    ],
+              stream: BattleRoomRepository.battleRoomStream(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.active) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
-                }),
+                }
+                if (!snapshot.hasData) {
+                  return Container();
+                }
+                final battleRooms = snapshot.data;
+                if (battleRooms!.isEmpty) {
+                  return const Center(
+                    child: Text('まだ、投稿がありません'),
+                  );
+                }
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 17),
+                      child: Row(
+                        children: [
+                          const Text(
+                            '募集中の対戦者募集',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          const Spacer(),
+                          Text(
+                            '${battleRooms.length}',
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: OriginalTheme.themeData.primaryColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            '件',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: OriginalTheme.themeData.disabledColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    BattleRoomListView(
+                      battleRooms: sortBattleRoom(battleRooms),
+                    ),
+                  ],
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -121,9 +141,7 @@ class _BattleRoomPageState extends State<BattleRoomPage> {
             ),
           );
         },
-        child: const Icon(
-          Icons.add,
-        ),
+        child: const Icon(Icons.add),
       ),
     );
   }

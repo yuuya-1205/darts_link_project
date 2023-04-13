@@ -241,7 +241,7 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
                             return null;
                           },
                           onTap: () async {
-                            final prefs = await AreaRepository.getPrefsData();
+                            final prefs = AreaRepository.prefList;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -323,8 +323,8 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
                             if (_initialPrefectureArea == null) {
                               return;
                             }
-                            final citys = await AreaRepository.getCitysData(
-                                _initialPrefectureArea!.code.toString());
+                            final cities = AreaRepository
+                                .cityMap[_initialPrefectureArea!.code]!;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -361,11 +361,11 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
                                               3,
                                       child: CupertinoPicker(
                                         itemExtent: 40,
-                                        children: citys
+                                        children: cities
                                             .map((e) => Text(e.name))
                                             .toList(),
                                         onSelectedItemChanged: (int index) {
-                                          _selectedCity = citys[index];
+                                          _selectedCity = cities[index];
                                         },
                                       ),
                                     )

@@ -1,12 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/constants.dart';
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/thread_repository.dart';
 import 'package:darts_link_project/views/thread_page/thread_chat_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 import '../../models/thread.dart';
 
@@ -99,7 +96,7 @@ class _ThreadsPageState extends State<ThreadsPage> {
                           children: [
                             Text(thread.getMemberDetail(user.id,
                                 isPartner: true)['name']),
-                            Text(thread.lastChat ?? ''),
+                            Text(thread.lastChat),
                           ],
                         ),
                         const Spacer(),
