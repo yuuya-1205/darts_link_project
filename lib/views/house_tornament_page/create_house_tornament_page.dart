@@ -39,7 +39,7 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
   final _houseTournamentDetailController = TextEditingController();
 
   Pref? _selectedPref;
-  Pref? _initalPrefectureArea;
+  Pref? _initialPrefectureArea;
   City? _selectedCity;
   City? _initalCityArea;
   int _capacity = 1;
@@ -56,7 +56,7 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
   final String _houseTournamentHeaderImageUrl = '';
 
   final List<String> _selectedFeatures = [];
-  final List<String> _selectedDartsModels = [];
+  final List<DartsModelTagType> _selectedDartsModels = [];
   final List<String> _selectedFormats = [];
 
   bool isApproved = false;
@@ -273,10 +273,11 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                                           onPressed: () {
                                             Navigator.pop(context);
                                             setState(() {
-                                              _initalPrefectureArea =
+                                              _initialPrefectureArea =
                                                   _selectedPref;
                                               _prefController.text =
-                                                  _initalPrefectureArea?.name ??
+                                                  _initialPrefectureArea
+                                                          ?.name ??
                                                       '未登録';
                                             });
                                           },
@@ -330,7 +331,7 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                             return null;
                           },
                           onTap: () async {
-                            if (_initalPrefectureArea == null) {
+                            if (_initialPrefectureArea == null) {
                               return;
                             }
                             final cities = AreaRepository
@@ -473,10 +474,10 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                           .map(
                             (e) => GestureDetector(
                               onTap: () {
-                                if (_selectedDartsModels.contains(e.label)) {
-                                  _selectedDartsModels.remove(e.label);
+                                if (_selectedDartsModels.contains(e)) {
+                                  _selectedDartsModels.remove(e);
                                 } else {
-                                  _selectedDartsModels.add(e.label);
+                                  _selectedDartsModels.add(e);
                                 }
 
                                 setState(() {});
@@ -485,30 +486,27 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8),
                                 decoration: BoxDecoration(
-                                    color: _selectedDartsModels
-                                            .contains(e.label)
+                                    color: _selectedDartsModels.contains(e)
                                         ? const Color.fromRGBO(227, 243, 255, 1)
                                         : const Color.fromRGBO(
                                             251, 251, 251, 1),
                                     border: Border.all(
-                                      color:
-                                          _selectedDartsModels.contains(e.label)
-                                              ? const Color.fromRGBO(
-                                                  78, 165, 229, 1)
-                                              : const Color.fromRGBO(
-                                                  217, 217, 217, 1),
+                                      color: _selectedDartsModels.contains(e)
+                                          ? const Color.fromRGBO(
+                                              78, 165, 229, 1)
+                                          : const Color.fromRGBO(
+                                              217, 217, 217, 1),
                                     ),
                                     borderRadius: BorderRadius.circular(100)),
                                 child: Center(
                                   child: Text(
                                     e.label,
                                     style: TextStyle(
-                                      color:
-                                          _selectedDartsModels.contains(e.label)
-                                              ? const Color.fromRGBO(
-                                                  78, 165, 229, 1)
-                                              : const Color.fromRGBO(
-                                                  217, 217, 217, 1),
+                                      color: _selectedDartsModels.contains(e)
+                                          ? const Color.fromRGBO(
+                                              78, 165, 229, 1)
+                                          : const Color.fromRGBO(
+                                              217, 217, 217, 1),
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -856,7 +854,7 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                         title: houseTournamentTitle,
                         place: place,
                         ownerId: user!.id,
-                        prefecture: _initalPrefectureArea,
+                        prefecture: _initialPrefectureArea,
                         city: _initalCityArea,
                         creatorName: user.userName,
                         creatorImage: user.userImage,

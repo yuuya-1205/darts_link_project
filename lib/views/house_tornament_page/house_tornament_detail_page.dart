@@ -381,7 +381,7 @@ class _HouseTournamentDetailPageState extends State<HouseTournamentDetailPage> {
                                         borderRadius:
                                             BorderRadius.circular(100)),
                                     child: Text(
-                                      e,
+                                      e.label,
                                       style: const TextStyle(
                                         color: Color.fromRGBO(78, 165, 229, 1),
                                         fontWeight: FontWeight.bold,

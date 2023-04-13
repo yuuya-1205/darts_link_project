@@ -61,7 +61,7 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
   String _houseTournamentHeaderImageUrl = '';
 
   List<String> _selectedFeatures = [];
-  List<String> _selectedDartsModels = [];
+  List<DartsModelTagType> _selectedDartsModels = [];
 
   bool isApproved = false;
   bool isFinalTournament = false;
