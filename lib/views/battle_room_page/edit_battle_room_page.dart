@@ -213,7 +213,7 @@ class _EditBattleRoomPageState extends State<EditBattleRoomPage> {
                           controller: _prefController,
                           hintText: '選択してください',
                           onTap: () async {
-                            final prefs = await AreaRepository.getPrefsData();
+                            final prefs = AreaRepository.prefList;
                             // ignore: use_build_context_synchronously
                             showModalBottomSheet(
                               context: context,
@@ -289,9 +289,8 @@ class _EditBattleRoomPageState extends State<EditBattleRoomPage> {
                             if (_initalPrefectureArea == null) {
                               return;
                             }
-                            final citys = await AreaRepository.getCitysData(
-                                _initalPrefectureArea!.code.toString());
-                            // ignore: use_build_context_synchronously
+                            final cities = AreaRepository
+                                .cityMap[_initalPrefectureArea!.code]!;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -328,11 +327,11 @@ class _EditBattleRoomPageState extends State<EditBattleRoomPage> {
                                               3,
                                       child: CupertinoPicker(
                                         itemExtent: 40,
-                                        children: citys
+                                        children: cities
                                             .map((e) => Text(e.name))
                                             .toList(),
                                         onSelectedItemChanged: (int index) {
-                                          _selectedCity = citys[index];
+                                          _selectedCity = cities[index];
                                         },
                                       ),
                                     )

@@ -290,8 +290,7 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
                       _initalPrefectureArea?.name ?? '選択',
                     ),
                     onPressed: () async {
-                      final prefs = await AreaRepository.getPrefsData();
-                      // ignore: use_build_context_synchronously
+                      final prefs = AreaRepository.prefList;
                       showModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
@@ -353,9 +352,8 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
                       if (_initalPrefectureArea == null) {
                         return;
                       }
-                      final citys = await AreaRepository.getCitysData(
-                          _initalPrefectureArea!.code.toString());
-                      // ignore: use_build_context_synchronously
+                      final cities =
+                          AreaRepository.cityMap[_initalPrefectureArea!.code]!;
                       showModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
@@ -387,9 +385,9 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
                                 child: CupertinoPicker(
                                   itemExtent: 40,
                                   children:
-                                      citys.map((e) => Text(e.name)).toList(),
+                                      cities.map((e) => Text(e.name)).toList(),
                                   onSelectedItemChanged: (int index) {
-                                    _selectedCity = citys[index];
+                                    _selectedCity = cities[index];
                                   },
                                 ),
                               )

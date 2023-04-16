@@ -15,6 +15,7 @@ import 'package:darts_link_project/repositories/house_tornament/house_tornament_
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:darts_link_project/views/house_tornament_page/edit_house_tornament_page.dart';
+import 'package:darts_link_project/views/house_tornament_page/house_tornament_approve_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:intl/intl.dart';
@@ -214,14 +215,14 @@ class _HouseTournamentDetailPageState extends State<HouseTournamentDetailPage> {
                               ),
                             ),
                             PopupMenuItem(
-                              value: 'edit',
+                              value: 'approved',
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: ((context) =>
-                                          EditHouseTournamentPage(
+                                          HouseTornamentApprovePage(
                                               houseTournament:
                                                   widget.houseTournament)),
                                     ),
@@ -342,7 +343,10 @@ class _HouseTournamentDetailPageState extends State<HouseTournamentDetailPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      OriginalText(text: widget.houseTournament.place),
+                      OriginalText(
+                          text: widget.houseTournament.place.isEmpty
+                              ? '未登録'
+                              : widget.houseTournament.place),
                       Row(
                         children: [
                           OriginalText(
@@ -353,11 +357,66 @@ class _HouseTournamentDetailPageState extends State<HouseTournamentDetailPage> {
                                   '${timeFormat.format(widget.houseTournament.startTime.toDate())}~${timeFormat.format(widget.houseTournament.finishTime.toDate())}'),
                         ],
                       ),
-                      OriginalText(
-                          text: widget.houseTournament.city.toString()),
+                      OriginalText(text: widget.houseTournament.city!.name),
                       OriginalText(
                         text: '${widget.houseTournament.capacity}名',
                       ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Wrap(
+                          children: widget.houseTournament.dartsModels
+                              .map((e) => Container(
+                                    margin:
+                                        const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    decoration: BoxDecoration(
+                                        color: const Color.fromRGBO(
+                                            227, 243, 255, 1),
+                                        border: Border.all(
+                                          color: const Color.fromRGBO(
+                                              78, 165, 229, 1),
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(100)),
+                                    child: Text(
+                                      e.label,
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(78, 165, 229, 1),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ))
+                              .toList()),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Wrap(
+                          children: widget.houseTournament.features
+                              .map((e) => Container(
+                                    margin:
+                                        const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    decoration: BoxDecoration(
+                                        color: const Color.fromRGBO(
+                                            242, 246, 217, 1),
+                                        border: Border.all(
+                                          color: const Color.fromRGBO(
+                                              189, 208, 66, 1),
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(100)),
+                                    child: Text(
+                                      e,
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(189, 208, 66, 1),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ))
+                              .toList()),
                     ],
                   )
                 ],

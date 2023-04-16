@@ -29,6 +29,7 @@ dependencies:
   json_annotation: ^4.7.0
   flutter_feather_icons: ^2.0.0+1
   uuid: ^3.0.7
+  http: any
   intl: ^0.17.0
   flutter_picker: ^2.0.1
   algolia: ^1.1.2

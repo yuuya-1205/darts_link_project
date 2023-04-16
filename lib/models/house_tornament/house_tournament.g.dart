@@ -24,7 +24,8 @@ _$_HouseTournament _$$_HouseTournamentFromJson(Map<String, dynamic> json) =>
       capacity: json['capacity'] as int? ?? 0,
       numberOfParticipants: json['numberOfParticipants'] as int? ?? 0,
       dartsModels: (json['dartsModels'] as List<dynamic>?)
-              ?.map((e) => e as String)
+              ?.map((e) =>
+                  const DartsModelTagTypeConverter().fromJson(e as String))
               .toList() ??
           const [],
       formats: (json['formats'] as List<dynamic>?)
@@ -64,7 +65,9 @@ Map<String, dynamic> _$$_HouseTournamentToJson(_$_HouseTournament instance) =>
       'features': instance.features,
       'capacity': instance.capacity,
       'numberOfParticipants': instance.numberOfParticipants,
-      'dartsModels': instance.dartsModels,
+      'dartsModels': instance.dartsModels
+          .map(const DartsModelTagTypeConverter().toJson)
+          .toList(),
       'formats': instance.formats,
       'dateTime': const TimestampConverter().toJson(instance.dateTime),
       'startTime': const TimestampConverter().toJson(instance.startTime),

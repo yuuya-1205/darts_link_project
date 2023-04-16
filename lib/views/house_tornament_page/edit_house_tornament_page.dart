@@ -59,8 +59,8 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
   Asset? _selectedHeaderImage;
   String _houseTournamentHeaderImageUrl = '';
 
-  final List<String> _selectedFeatures = [];
-  final List<String> _selectedDartsModels = [];
+  List<String> _selectedFeatures = [];
+  List<DartsModelTagType> _selectedDartsModels = [];
 
   bool isApproved = false;
   bool isFinalTournament = false;
@@ -240,7 +240,7 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
                             return null;
                           },
                           onTap: () async {
-                            final prefs = await AreaRepository.getPrefsData();
+                            final prefs = AreaRepository.prefList;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -322,8 +322,8 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
                             if (_initialPrefectureArea == null) {
                               return;
                             }
-                            final citys = await AreaRepository.getCitysData(
-                                _initialPrefectureArea!.code.toString());
+                            final cities = AreaRepository
+                                .cityMap[_initialPrefectureArea!.code]!;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -360,11 +360,11 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
                                               3,
                                       child: CupertinoPicker(
                                         itemExtent: 40,
-                                        children: citys
+                                        children: cities
                                             .map((e) => Text(e.name))
                                             .toList(),
                                         onSelectedItemChanged: (int index) {
-                                          _selectedCity = citys[index];
+                                          _selectedCity = cities[index];
                                         },
                                       ),
                                     )
@@ -698,9 +698,9 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
                   OriginalButton(
                     text: '変更する',
                     onPressed: () async {
-                      if (!_formKey.currentState!.validate()) {
-                        return;
-                      }
+                      // if (!_formKey.currentState!.validate()) {
+                      //   return;
+                      // }
                       final user = AuthRepository.currentUser;
 
                       final houseTournamentTitle =
@@ -760,14 +760,17 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
     _prefController.text = _initialPrefectureArea?.name ?? '未登録';
     _initialCityArea = widget.houseTournament.city;
     _cityController.text = _initialCityArea?.name ?? '未登録';
-    //  _selectedFeatures = widget.houseTornament.features.toList()
     isApproved = widget.houseTournament.isApproved;
-
     _capacity = widget.houseTournament.capacity;
     _houseTournamentDetailController.text = widget.houseTournament.detail;
-    // _selectedStartTime = widget.houseTornament.startTime as DateTime?;
-    // _selectedDateAndTime = widget.houseTornament.dateTime as DateTime?;
-    // _selectedFinishTime = widget.houseTornament.finishTime as DateTime?;
+    _dateTimeController.text =
+        dateFormat.format(widget.houseTournament.dateTime.toDate());
+    _startTimeController.text =
+        timeFormat.format(widget.houseTournament.startTime.toDate());
+    _finishTimeController.text =
+        timeFormat.format(widget.houseTournament.finishTime.toDate());
+    _selectedFeatures = widget.houseTournament.features.toList();
+    _selectedDartsModels = widget.houseTournament.dartsModels.toList();
 
     setState(() {});
   }

@@ -30,7 +30,8 @@ mixin _$Circle {
   @Freezed(fromJson: true)
   List<String> get memberUids => throw _privateConstructorUsedError;
   @Freezed(fromJson: true)
-  List<String> get features => throw _privateConstructorUsedError;
+  @FeatureTagTypeConverter()
+  List<FeatureTagType> get features => throw _privateConstructorUsedError;
   @PrefNullableConverter()
   Pref? get prefecture => throw _privateConstructorUsedError;
   @CityNullableConverter()
@@ -65,11 +66,17 @@ abstract class $CircleCopyWith<$Res> {
       String circleDetail,
       String place,
       String headerImage,
-      @Freezed(fromJson: true) List<String> imageUrls,
-      @Freezed(fromJson: true) List<String> memberUids,
-      @Freezed(fromJson: true) List<String> features,
-      @PrefNullableConverter() Pref? prefecture,
-      @CityNullableConverter() City? city,
+      @Freezed(fromJson: true)
+          List<String> imageUrls,
+      @Freezed(fromJson: true)
+          List<String> memberUids,
+      @Freezed(fromJson: true)
+      @FeatureTagTypeConverter()
+          List<FeatureTagType> features,
+      @PrefNullableConverter()
+          Pref? prefecture,
+      @CityNullableConverter()
+          City? city,
       int capacity,
       int numberOfParticipants,
       bool isApproved,
@@ -79,8 +86,10 @@ abstract class $CircleCopyWith<$Res> {
       String userId,
       int followingCount,
       int followerCount,
-      @TimestampConverter() Timestamp updatedAt,
-      @TimestampConverter() Timestamp createdAt});
+      @TimestampConverter()
+          Timestamp updatedAt,
+      @TimestampConverter()
+          Timestamp createdAt});
 
   $PrefCopyWith<$Res>? get prefecture;
   $CityCopyWith<$Res>? get city;
@@ -153,7 +162,7 @@ class _$CircleCopyWithImpl<$Res, $Val extends Circle>
       features: null == features
           ? _value.features
           : features // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<FeatureTagType>,
       prefecture: freezed == prefecture
           ? _value.prefecture
           : prefecture // ignore: cast_nullable_to_non_nullable
@@ -246,11 +255,17 @@ abstract class _$$_CircleCopyWith<$Res> implements $CircleCopyWith<$Res> {
       String circleDetail,
       String place,
       String headerImage,
-      @Freezed(fromJson: true) List<String> imageUrls,
-      @Freezed(fromJson: true) List<String> memberUids,
-      @Freezed(fromJson: true) List<String> features,
-      @PrefNullableConverter() Pref? prefecture,
-      @CityNullableConverter() City? city,
+      @Freezed(fromJson: true)
+          List<String> imageUrls,
+      @Freezed(fromJson: true)
+          List<String> memberUids,
+      @Freezed(fromJson: true)
+      @FeatureTagTypeConverter()
+          List<FeatureTagType> features,
+      @PrefNullableConverter()
+          Pref? prefecture,
+      @CityNullableConverter()
+          City? city,
       int capacity,
       int numberOfParticipants,
       bool isApproved,
@@ -260,8 +275,10 @@ abstract class _$$_CircleCopyWith<$Res> implements $CircleCopyWith<$Res> {
       String userId,
       int followingCount,
       int followerCount,
-      @TimestampConverter() Timestamp updatedAt,
-      @TimestampConverter() Timestamp createdAt});
+      @TimestampConverter()
+          Timestamp updatedAt,
+      @TimestampConverter()
+          Timestamp createdAt});
 
   @override
   $PrefCopyWith<$Res>? get prefecture;
@@ -333,7 +350,7 @@ class __$$_CircleCopyWithImpl<$Res>
       features: null == features
           ? _value._features
           : features // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<FeatureTagType>,
       prefecture: freezed == prefecture
           ? _value.prefecture
           : prefecture // ignore: cast_nullable_to_non_nullable
@@ -399,11 +416,17 @@ class _$_Circle implements _Circle {
       required this.circleDetail,
       this.place = '',
       this.headerImage = '',
-      @Freezed(fromJson: true) final List<String> imageUrls = const [],
-      @Freezed(fromJson: true) final List<String> memberUids = const [],
-      @Freezed(fromJson: true) final List<String> features = const [],
-      @PrefNullableConverter() this.prefecture,
-      @CityNullableConverter() this.city,
+      @Freezed(fromJson: true)
+          final List<String> imageUrls = const [],
+      @Freezed(fromJson: true)
+          final List<String> memberUids = const [],
+      @Freezed(fromJson: true)
+      @FeatureTagTypeConverter()
+          final List<FeatureTagType> features = const [],
+      @PrefNullableConverter()
+          this.prefecture,
+      @CityNullableConverter()
+          this.city,
       this.capacity = 0,
       this.numberOfParticipants = 0,
       this.isApproved = false,
@@ -413,8 +436,10 @@ class _$_Circle implements _Circle {
       required this.userId,
       this.followingCount = 0,
       this.followerCount = 0,
-      @TimestampConverter() required this.updatedAt,
-      @TimestampConverter() required this.createdAt})
+      @TimestampConverter()
+          required this.updatedAt,
+      @TimestampConverter()
+          required this.createdAt})
       : _imageUrls = imageUrls,
         _memberUids = memberUids,
         _features = features;
@@ -454,11 +479,12 @@ class _$_Circle implements _Circle {
     return EqualUnmodifiableListView(_memberUids);
   }
 
-  final List<String> _features;
+  final List<FeatureTagType> _features;
   @override
   @JsonKey()
   @Freezed(fromJson: true)
-  List<String> get features {
+  @FeatureTagTypeConverter()
+  List<FeatureTagType> get features {
     if (_features is EqualUnmodifiableListView) return _features;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_features);
@@ -597,11 +623,17 @@ abstract class _Circle implements Circle {
       required final String circleDetail,
       final String place,
       final String headerImage,
-      @Freezed(fromJson: true) final List<String> imageUrls,
-      @Freezed(fromJson: true) final List<String> memberUids,
-      @Freezed(fromJson: true) final List<String> features,
-      @PrefNullableConverter() final Pref? prefecture,
-      @CityNullableConverter() final City? city,
+      @Freezed(fromJson: true)
+          final List<String> imageUrls,
+      @Freezed(fromJson: true)
+          final List<String> memberUids,
+      @Freezed(fromJson: true)
+      @FeatureTagTypeConverter()
+          final List<FeatureTagType> features,
+      @PrefNullableConverter()
+          final Pref? prefecture,
+      @CityNullableConverter()
+          final City? city,
       final int capacity,
       final int numberOfParticipants,
       final bool isApproved,
@@ -611,8 +643,10 @@ abstract class _Circle implements Circle {
       required final String userId,
       final int followingCount,
       final int followerCount,
-      @TimestampConverter() required final Timestamp updatedAt,
-      @TimestampConverter() required final Timestamp createdAt}) = _$_Circle;
+      @TimestampConverter()
+          required final Timestamp updatedAt,
+      @TimestampConverter()
+          required final Timestamp createdAt}) = _$_Circle;
 
   factory _Circle.fromJson(Map<String, dynamic> json) = _$_Circle.fromJson;
 
@@ -634,7 +668,8 @@ abstract class _Circle implements Circle {
   List<String> get memberUids;
   @override
   @Freezed(fromJson: true)
-  List<String> get features;
+  @FeatureTagTypeConverter()
+  List<FeatureTagType> get features;
   @override
   @PrefNullableConverter()
   Pref? get prefecture;
