@@ -16,6 +16,7 @@ import 'package:darts_link_project/repositories/battle_room/battle_room_member_r
 import 'package:darts_link_project/repositories/battle_room/battle_room_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/battle_room_page/battle_room_member_list_page.dart';
+import 'package:darts_link_project/views/battle_room_page/components/battle_room_member_approved_list_page.dart';
 import 'package:darts_link_project/views/battle_room_page/edit_battle_room_page.dart';
 import 'package:darts_link_project/views/my_page/my_page.dart';
 import 'package:darts_link_project/views/user_page/user_page.dart';
@@ -217,20 +218,40 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                             ),
                           ),
                           PopupMenuItem(
-                            value: 'approve',
+                            value: 'memberList',
                             child: GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: ((context) =>
-                                        const BattleRoomMemberListPage()),
+                                        BattleRoomMemberListPage(
+                                          battleRoom: widget.battleRoom,
+                                        )),
                                   ),
                                 );
                               },
-                              child: const Text('申請/メンバーリスト'),
+                              child: const Text('メンバーリスト'),
                             ),
                           ),
+                          if (widget.battleRoom.isApproved == true)
+                            PopupMenuItem(
+                              value: 'approvedList',
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: ((context) =>
+                                          BattleRoomMemberApprovedListPage(
+                                            battleRoom: widget.battleRoom,
+                                          )),
+                                    ),
+                                  );
+                                },
+                                child: const Text('申請リスト'),
+                              ),
+                            ),
                           PopupMenuItem(
                             value: 'delete',
                             child: GestureDetector(
@@ -524,6 +545,9 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                     Icon(FeatherIcons.mail,
                         color: OriginalTheme.themeData.primaryColor),
                 ],
+              ),
+              const SizedBox(
+                height: 10,
               ),
               Center(
                 child: FutureBuilder<BattleRoomMemberType>(

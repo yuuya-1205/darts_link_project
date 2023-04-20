@@ -45,6 +45,16 @@ class BattleRoomJoinRequestRepository {
     return joinRequest;
   }
 
+  static Stream<List<JoinRequest>> battleRoomJoinRequestListStream({
+    required String battleRoomId,
+  }) {
+    return getBattleRoomJoinRequestCollection(battleRoomId).snapshots().map(
+        (snap) => snap.docs
+            .map((doc) =>
+                JoinRequest.fromJson(doc.data() as Map<String, dynamic>))
+            .toList());
+  }
+
   static Future<void> deleteBattleRoomJoinRequest({
     required String battleRoomId,
     required String uid,
