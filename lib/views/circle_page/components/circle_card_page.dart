@@ -19,7 +19,6 @@ class CircleCardPage extends StatelessWidget {
     DateFormat timeFormat = DateFormat("HH:mm");
     return GestureDetector(
       onTap: () async {
-        // final _profile = await UserRepository.fetchUser(circle.ownerId);
         Navigator.push(
           context,
           MaterialPageRoute(

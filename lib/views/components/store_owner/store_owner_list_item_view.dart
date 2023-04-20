@@ -1,5 +1,6 @@
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/app_user.dart';
+import 'package:darts_link_project/views/darts_bar_page/darts_bar_detail_page.dart';
 import 'package:flutter/material.dart';
 
 class StoreOwnerListItemView extends StatelessWidget {
@@ -13,14 +14,14 @@ class StoreOwnerListItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: ((context) => BattleRoomDetailPage(
-        //           battleRoom: battleRoom,
-        //         )),
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: ((context) => DartsBarDetailPage(
+                  storeOwner: storeOwner,
+                )),
+          ),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 17.0),
@@ -29,7 +30,7 @@ class StoreOwnerListItemView extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               border:
                   Border.all(color: const Color.fromRGBO(232, 232, 232, 1))),
-          height: 120,
+          height: 110,
           child: Row(
             children: [
               Padding(
@@ -38,13 +39,14 @@ class StoreOwnerListItemView extends StatelessWidget {
                     height: 64,
                     width: 64,
                     imageUrl: storeOwner.userImage,
-                    uid: storeOwner.id),
+                    uid: storeOwner.userId),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(6, 14, 0, 14),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 8),
                     Text(
                       storeOwner.userName,
                       style: const TextStyle(
@@ -58,7 +60,9 @@ class StoreOwnerListItemView extends StatelessWidget {
                           color: Color.fromRGBO(210, 48, 125, 1),
                         ),
                         Text(
-                          storeOwner.city.name,
+                          storeOwner.city.name.isEmpty
+                              ? '未登録'
+                              : storeOwner.city.name,
                           style: const TextStyle(
                               color: Color.fromRGBO(210, 48, 125, 1)),
                         ),
