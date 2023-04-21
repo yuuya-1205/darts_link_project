@@ -71,7 +71,10 @@ class _BattleRoomMemberListPageState extends State<BattleRoomMemberListPage> {
                 itemCount: battleRoomMembers.length,
                 itemBuilder: (context, index) {
                   final battleRoomMember = battleRoomMembers[index];
-                  return BattleRoomMemberListCard(member: battleRoomMember);
+                  return BattleRoomMemberListCard(
+                    member: battleRoomMember,
+                    battleRoom: widget.battleRoom,
+                  );
                 });
           }),
     );

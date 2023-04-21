@@ -48,7 +48,9 @@ class BattleRoomMemberRepository {
         userName: appUser.userName,
         userId: appUser.userId,
         userImage: appUser.userImage,
-        joinedAt: Timestamp.now());
+        joinedAt: Timestamp.now(),
+        followerCount: appUser.followerCount,
+        followingCount: appUser.followerCount);
     await getBattleRoomsMemberCollection(battleRoomId)
         .doc()
         .set(member.toJson(), SetOptions(merge: true));

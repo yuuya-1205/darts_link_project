@@ -11,6 +11,8 @@ _$_Member _$$_MemberFromJson(Map<String, dynamic> json) => _$_Member(
       userName: json['userName'] as String,
       userId: json['userId'] as String,
       userImage: json['userImage'] as String,
+      followerCount: json['followerCount'] as int,
+      followingCount: json['followingCount'] as int,
       joinedAt:
           const TimestampConverter().fromJson(json['joinedAt'] as Timestamp),
     );
@@ -20,5 +22,7 @@ Map<String, dynamic> _$$_MemberToJson(_$_Member instance) => <String, dynamic>{
       'userName': instance.userName,
       'userId': instance.userId,
       'userImage': instance.userImage,
+      'followerCount': instance.followerCount,
+      'followingCount': instance.followingCount,
       'joinedAt': const TimestampConverter().toJson(instance.joinedAt),
     };

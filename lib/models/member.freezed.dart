@@ -24,6 +24,8 @@ mixin _$Member {
   String get userName => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get userImage => throw _privateConstructorUsedError;
+  int get followerCount => throw _privateConstructorUsedError;
+  int get followingCount => throw _privateConstructorUsedError;
   @TimestampConverter()
   Timestamp get joinedAt => throw _privateConstructorUsedError;
 
@@ -42,6 +44,8 @@ abstract class $MemberCopyWith<$Res> {
       String userName,
       String userId,
       String userImage,
+      int followerCount,
+      int followingCount,
       @TimestampConverter() Timestamp joinedAt});
 }
 
@@ -62,6 +66,8 @@ class _$MemberCopyWithImpl<$Res, $Val extends Member>
     Object? userName = null,
     Object? userId = null,
     Object? userImage = null,
+    Object? followerCount = null,
+    Object? followingCount = null,
     Object? joinedAt = null,
   }) {
     return _then(_value.copyWith(
@@ -81,6 +87,14 @@ class _$MemberCopyWithImpl<$Res, $Val extends Member>
           ? _value.userImage
           : userImage // ignore: cast_nullable_to_non_nullable
               as String,
+      followerCount: null == followerCount
+          ? _value.followerCount
+          : followerCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      followingCount: null == followingCount
+          ? _value.followingCount
+          : followingCount // ignore: cast_nullable_to_non_nullable
+              as int,
       joinedAt: null == joinedAt
           ? _value.joinedAt
           : joinedAt // ignore: cast_nullable_to_non_nullable
@@ -100,6 +114,8 @@ abstract class _$$_MemberCopyWith<$Res> implements $MemberCopyWith<$Res> {
       String userName,
       String userId,
       String userImage,
+      int followerCount,
+      int followingCount,
       @TimestampConverter() Timestamp joinedAt});
 }
 
@@ -117,6 +133,8 @@ class __$$_MemberCopyWithImpl<$Res>
     Object? userName = null,
     Object? userId = null,
     Object? userImage = null,
+    Object? followerCount = null,
+    Object? followingCount = null,
     Object? joinedAt = null,
   }) {
     return _then(_$_Member(
@@ -136,6 +154,14 @@ class __$$_MemberCopyWithImpl<$Res>
           ? _value.userImage
           : userImage // ignore: cast_nullable_to_non_nullable
               as String,
+      followerCount: null == followerCount
+          ? _value.followerCount
+          : followerCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      followingCount: null == followingCount
+          ? _value.followingCount
+          : followingCount // ignore: cast_nullable_to_non_nullable
+              as int,
       joinedAt: null == joinedAt
           ? _value.joinedAt
           : joinedAt // ignore: cast_nullable_to_non_nullable
@@ -152,6 +178,8 @@ class _$_Member implements _Member {
       required this.userName,
       required this.userId,
       required this.userImage,
+      required this.followerCount,
+      required this.followingCount,
       @TimestampConverter() required this.joinedAt});
 
   factory _$_Member.fromJson(Map<String, dynamic> json) =>
@@ -166,12 +194,16 @@ class _$_Member implements _Member {
   @override
   final String userImage;
   @override
+  final int followerCount;
+  @override
+  final int followingCount;
+  @override
   @TimestampConverter()
   final Timestamp joinedAt;
 
   @override
   String toString() {
-    return 'Member(uid: $uid, userName: $userName, userId: $userId, userImage: $userImage, joinedAt: $joinedAt)';
+    return 'Member(uid: $uid, userName: $userName, userId: $userId, userImage: $userImage, followerCount: $followerCount, followingCount: $followingCount, joinedAt: $joinedAt)';
   }
 
   @override
@@ -185,14 +217,18 @@ class _$_Member implements _Member {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.userImage, userImage) ||
                 other.userImage == userImage) &&
+            (identical(other.followerCount, followerCount) ||
+                other.followerCount == followerCount) &&
+            (identical(other.followingCount, followingCount) ||
+                other.followingCount == followingCount) &&
             (identical(other.joinedAt, joinedAt) ||
                 other.joinedAt == joinedAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, uid, userName, userId, userImage, joinedAt);
+  int get hashCode => Object.hash(runtimeType, uid, userName, userId, userImage,
+      followerCount, followingCount, joinedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -214,6 +250,8 @@ abstract class _Member implements Member {
       required final String userName,
       required final String userId,
       required final String userImage,
+      required final int followerCount,
+      required final int followingCount,
       @TimestampConverter() required final Timestamp joinedAt}) = _$_Member;
 
   factory _Member.fromJson(Map<String, dynamic> json) = _$_Member.fromJson;
@@ -226,6 +264,10 @@ abstract class _Member implements Member {
   String get userId;
   @override
   String get userImage;
+  @override
+  int get followerCount;
+  @override
+  int get followingCount;
   @override
   @TimestampConverter()
   Timestamp get joinedAt;
