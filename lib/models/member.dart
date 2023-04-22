@@ -20,6 +20,8 @@ class Member with _$Member {
     required String userName,
     required String userId,
     required String userImage,
+    required int followerCount,
+    required int followingCount,
     @TimestampConverter() required Timestamp joinedAt,
   }) = _Member;
 
@@ -32,6 +34,8 @@ class Member with _$Member {
       userImage: appUser.userImage,
       userName: appUser.userName,
       joinedAt: Timestamp.now(),
+      followerCount: appUser.followerCount,
+      followingCount: appUser.followingCount,
     );
   }
 }
