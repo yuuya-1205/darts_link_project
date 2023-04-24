@@ -2,6 +2,7 @@ import 'package:darts_link_project/components/constants.dart';
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/thread_repository.dart';
+import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/thread_page/thread_chat_page.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,6 @@ class _ThreadsPageState extends State<ThreadsPage> {
       body: StreamBuilder<List<Thread>>(
         stream: ThreadRepository.threadStream(uid: user!.id),
         builder: (context, snapshot) {
-          print(snapshot.data);
           if (snapshot.connectionState != ConnectionState.active) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -65,50 +65,66 @@ class _ThreadsPageState extends State<ThreadsPage> {
               } else {
                 chatId = thread.id;
               }
-
-              return Card(
+              return GestureDetector(
+                onTap: () async {
+                  await ThreadRepository.updateBadge(
+                      uid: user.id, threadId: thread.id);
+                  // ignore: use_build_context_synchronously
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) => ThreadChatPage(
+                            isReading: false,
+                            thread: thread,
+                          )),
+                    ),
+                  );
+                },
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () async {
-                      await ThreadRepository.updateBadge(
-                          uid: user.id, threadId: thread.id);
-                      // ignore: use_build_context_synchronously
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: ((context) => ThreadChatPage(
-                                isReading: false,
-                                thread: thread,
-                              )),
-                        ),
-                      );
-                    },
-                    child: Row(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                            color: const Color.fromRGBO(232, 232, 232, 1))),
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        UserImage(
-                            height: 50,
-                            width: 50,
-                            imageUrl: thread.getMemberDetail(user.id,
-                                isPartner: true)['imageUrl'],
-                            uid: thread.partnerUid(user.id)),
-                        Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(thread.getMemberDetail(user.id,
-                                isPartner: true)['name']),
-                            Text(thread.lastChat),
-                          ],
-                        ),
-                        const Spacer(),
-                        if (thread.unReadCount[user.id] != 0)
-                          Badge(
-                            child: Text(
-                              '${thread.unReadCount[user.id] ?? ""}',
-                              style: const TextStyle(color: Colors.white),
+                            UserImage(
+                                height: 50,
+                                width: 50,
+                                imageUrl: thread.getMemberDetail(user.id,
+                                    isPartner: true)['imageUrl'],
+                                uid: thread.partnerUid(user.id)),
+                            const SizedBox(
+                              width: 8,
                             ),
-                          ),
-                        Text(
-                          HowLongAgo.since(thread.updatedAt),
+                            Column(
+                              children: [
+                                Text(thread.getMemberDetail(user.id,
+                                    isPartner: true)['name']),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Text(thread.lastChat),
+                              ],
+                            ),
+                            const Spacer(),
+                            if (thread.unReadCount[user.id] != 0)
+                              Badge(
+                                child: Text(
+                                  '${thread.unReadCount[user.id] ?? ""}',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            Text(
+                              HowLongAgo.since(thread.updatedAt),
+                            )
+                          ],
                         ),
                       ],
                     ),

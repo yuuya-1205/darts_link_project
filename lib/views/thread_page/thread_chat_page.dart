@@ -57,13 +57,26 @@ class ThreadChatPage extends StatelessWidget {
           ]),
         ),
         backgroundColor: Colors.white,
-        title: Text(
-          user!.userName,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
+        title: Row(
+          children: [
+            UserImage(
+                height: 40,
+                width: 40,
+                imageUrl: thread.getMemberDetail(user!.id,
+                    isPartner: true)['imageUrl'],
+                uid: thread.partnerUid(user.id)),
+            const SizedBox(
+              width: 12,
+            ),
+            Text(
+              thread.getMemberDetail(user.id, isPartner: true)['name'],
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
       body: Column(
@@ -431,14 +444,7 @@ class __ChatBarState extends State<_ChatBar> {
                           );
 
                           await ThreadChatRepository.createChat(chat: chat);
-                          // final firestore = FirebaseFirestore.instance;
-                          // final chatId = firestore.collection('chats').doc().id;
-                          // final batch = FirebaseFirestore.instance.batch();
-                          // batch.set(
-                          //   firestore.collection('chats').doc(chatId),
-                          //   chat.toMap(),
-                          //   SetOptions(merge: true),
-                          // );
+
                           final Map<String, int> unReadCount = {
                             ...widget.thread.unReadCount
                           };
