@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/user_image.dart';
+import 'package:darts_link_project/models/app_user.dart';
+import 'package:darts_link_project/models/follow.dart';
 import 'package:darts_link_project/models/post_like.dart';
+import 'package:darts_link_project/repositories/auth_repository.dart';
+import 'package:darts_link_project/repositories/follow_repository.dart';
 import 'package:darts_link_project/repositories/post_likes_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +23,7 @@ class LikedListPage extends StatefulWidget {
 }
 
 class _LikedListPageState extends State<LikedListPage> {
+  final user = AuthRepository.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,6 +90,8 @@ class _LikedListPageState extends State<LikedListPage> {
                     Row(
                       children: [
                         UserImage(
+                          height: 50,
+                          width: 50,
                           imageUrl: postLike.userImage,
                           uid: postLike.uid,
                         ),
@@ -109,10 +117,52 @@ class _LikedListPageState extends State<LikedListPage> {
                           ],
                         ),
                         const Spacer(),
-                        FollowApproveButton(
-                          onPressed: () {},
-                          text: 'フォロー',
-                        )
+                        StreamBuilder<QuerySnapshot>(
+                          stream: FollowRepository.followingStream(
+                              reference: postLike.reference!, uid: user!.id),
+                          builder: (context, snapshots) {
+                            if (postLike.reference == user!.reference) {
+                              return Container();
+                            }
+                            if (snapshots.hasData &&
+                                snapshots.data!.docs.isNotEmpty) {
+                              return FollowApproveButton(
+                                onPressed: () async {
+                                  final user = AuthRepository.currentUser;
+                                  await FollowRepository.unFollowing(
+                                      uid: user!.id,
+                                      followingUid: postLike.uid);
+                                },
+                                text: 'フォロー解除',
+                              );
+                            }
+
+                            return FollowApproveButton(
+                              onPressed: () async {
+                                final reference = postLike.reference;
+                                if (reference == null) {
+                                  throw Exception('フォローに失敗しました。');
+                                }
+                                await FollowRepository.setFollowing(
+                                    follow: Follow(
+                                        createdAt: Timestamp.now(),
+                                        followingRef: reference,
+                                        userId: postLike.userId,
+                                        userImage: postLike.userImage,
+                                        userName: postLike.userName),
+                                    uid: user!.id);
+                                print(postLike.uid);
+                              },
+                              text: 'フォローする',
+                            );
+                          },
+                        ),
+                        // FollowApproveButton(
+                        //   onPressed: () {
+
+                        //   },
+                        //   text: 'フォロー',
+                        // )
                       ],
                     )
                   ],

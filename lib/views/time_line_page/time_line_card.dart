@@ -223,6 +223,7 @@ class _TimeLineCardState extends State<TimeLineCard> {
                                   await PostLikesRepository.setLikes(
                                     postId: widget.post.id,
                                     postLike: PostLike(
+                                      reference: user!.reference,
                                       userName: user!.userName,
                                       uid: user!.id,
                                       userId: user!.userId,

@@ -227,6 +227,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                         postId: widget.post.id,
                                         postLike: PostLike(
                                           userName: user!.userName,
+                                          reference: user!.reference,
                                           uid: user!.id,
                                           userId: user!.userId,
                                           userImage: user!.userImage,

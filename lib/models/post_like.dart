@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:darts_link_project/converters/document_reference_converter.dart';
 import 'package:darts_link_project/converters/timestamp_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'post_like.freezed.dart';
@@ -11,6 +12,7 @@ class PostLike with _$PostLike {
     required String uid,
     required String userId,
     required String userImage,
+    @DocumentReferenceConverter() DocumentReference? reference,
     @TimestampConverter() required Timestamp createdAt,
   }) = _PostLike;
 

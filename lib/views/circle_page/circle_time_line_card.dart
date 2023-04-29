@@ -228,6 +228,7 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                                       uid: user.id,
                                       userId: user.userId,
                                       userImage: user.userImage,
+                                      reference: user.reference,
                                       createdAt: Timestamp.now(),
                                     ),
                                   );
