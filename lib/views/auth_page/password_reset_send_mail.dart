@@ -1,6 +1,6 @@
 import 'package:darts_link_project/components/back_ground_image.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/views/auth_page/login_page.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:flutter/material.dart';
 
 class PasswordResetSendMail extends StatefulWidget {
@@ -58,8 +58,6 @@ class _PasswordResetSendMailState extends State<PasswordResetSendMail> {
                 height: 72,
               ),
               OriginalButton(
-                primary: const Color.fromRGBO(247, 63, 150, 1),
-                onPrimary: Colors.white,
                 text: 'ログインページへ',
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

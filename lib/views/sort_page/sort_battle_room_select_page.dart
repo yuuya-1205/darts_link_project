@@ -1,10 +1,10 @@
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
 import 'package:darts_link_project/models/sort_state.dart';
 import 'package:darts_link_project/views/components/app_bar_back_view.dart';
 import 'package:flutter/material.dart';
 
+import '../components/original_button.dart';
 import 'components/area_selector_view.dart';
 import 'components/date_selector_view.dart';
 import 'components/recruitment_selector_view.dart';

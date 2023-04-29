@@ -3,8 +3,8 @@
 import 'dart:async';
 
 import 'package:darts_link_project/components/back_ground_image.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:darts_link_project/views/regist_user_info_page.dart/regist_person_info_page.dart';
 import 'package:darts_link_project/views/regist_user_info_page.dart/regist_store_owner_info_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -109,8 +109,6 @@ class EmailSendCheckState extends State<EmailSendCheck> {
                   child: SizedBox(
                     width: 200,
                     child: OriginalButton(
-                      primary: const Color.fromRGBO(247, 63, 150, 1),
-                      onPrimary: Colors.white,
                       text: '確認メールを再送信',
                       onPressed: () async {
                         _result = await _auth.signInWithEmailAndPassword(

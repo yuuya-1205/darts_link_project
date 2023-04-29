@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/input_field.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
@@ -14,6 +13,7 @@ import 'package:darts_link_project/repositories/battle_room/battle_room_reposito
 import 'package:darts_link_project/repositories/person_repository.dart';
 import 'package:darts_link_project/repositories/post_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:darts_link_project/views/my_page/my_page.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -611,8 +611,6 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                 height: 30,
               ),
               OriginalButton(
-                primary: const Color.fromRGBO(247, 63, 150, 1),
-                onPrimary: Colors.white,
                 text: 'プロフィールを変更する',
                 onPressed: () async {
                   final uid = FirebaseAuth.instance.currentUser!.uid;

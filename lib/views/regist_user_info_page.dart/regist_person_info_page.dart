@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/input_field.dart';
-import 'package:darts_link_project/components/original_button.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
@@ -534,8 +534,6 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
                 height: 30,
               ),
               OriginalButton(
-                primary: const Color.fromRGBO(247, 63, 150, 1),
-                onPrimary: Colors.white,
                 text: 'プロフィールを登録する',
                 onPressed: () async {
                   final uid = AuthRepository.currentFirebaseUser?.uid ?? '';

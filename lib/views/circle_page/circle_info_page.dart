@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/circle/circle.dart';
 import 'package:darts_link_project/models/circle/circle_join_request.dart';
 import 'package:darts_link_project/models/circle/circle_member.dart';
@@ -9,6 +8,7 @@ import 'package:darts_link_project/repositories/circle/circle_join_request_repos
 import 'package:darts_link_project/repositories/circle/circle_member_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:flutter/material.dart';
 
 class CircleInfoPage extends StatefulWidget {
@@ -270,8 +270,6 @@ class JoinRequestButton extends StatelessWidget {
             leaveRoom();
           },
           text: 'グループを抜ける',
-          primary: OriginalTheme.themeData.primaryColor,
-          onPrimary: Colors.white,
         );
       case CircleMemberType.joinable:
         return OriginalButton(
@@ -279,8 +277,6 @@ class JoinRequestButton extends StatelessWidget {
             joinRoom();
           },
           text: 'グループに参加する',
-          primary: OriginalTheme.themeData.primaryColor,
-          onPrimary: Colors.white,
         );
       case CircleMemberType.beforeRequesting:
         return OriginalButton(
@@ -288,8 +284,6 @@ class JoinRequestButton extends StatelessWidget {
             requestJoinRoom();
           },
           text: 'グループ参加申請をする',
-          primary: OriginalTheme.themeData.primaryColor,
-          onPrimary: Colors.white,
         );
       case CircleMemberType.requesting:
         return OriginalButton(
@@ -297,8 +291,6 @@ class JoinRequestButton extends StatelessWidget {
             cancelRequestRoom();
           },
           text: 'グループ参加申請取り消す',
-          primary: OriginalTheme.themeData.primaryColor,
-          onPrimary: Colors.white,
         );
     }
   }

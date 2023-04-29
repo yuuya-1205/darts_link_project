@@ -2,14 +2,18 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/input_field.dart';
-import 'package:darts_link_project/components/original_button.dart';
+import 'package:darts_link_project/models/button_color_type.dart';
 import 'package:darts_link_project/models/round_robin.dart';
 import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/round_robin_repoisitory.dart';
 import 'package:darts_link_project/repositories/team_repository.dart';
+import 'package:darts_link_project/views/components/app_bar_back_view.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:darts_link_project/views/darts_function_page/round_robin/round_robin_page.dart';
 import 'package:flutter/material.dart';
+
+import '../../../utils/const.dart';
 
 class CreateRoundRobinPage extends StatefulWidget {
   const CreateRoundRobinPage({Key? key}) : super(key: key);
@@ -44,48 +48,13 @@ class _CreateRoundRobinPageState extends State<CreateRoundRobinPage> {
     });
   }
 
-  final alphabetList = List.generate(
-    26,
-    (int index) => String.fromCharCode(
-      index + 'A'.codeUnits[0],
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(44, 14, 28, 1),
-        ),
         leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: const [
-            SizedBox(
-              width: 30,
-              child: BackButton(),
-            ),
-            Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        title: const Text(
-          'ラウンドロビン作成',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        leading: const AppBarBackView(),
+        title: const Text('ラウンドロビン作成'),
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -113,8 +82,7 @@ class _CreateRoundRobinPageState extends State<CreateRoundRobinPage> {
                 ),
                 ...teamNameWriteBoxes,
                 OriginalButton(
-                  primary: Colors.white,
-                  onPrimary: const Color.fromRGBO(247, 63, 150, 1),
+                  colorType: ButtonColorType.white,
                   text: '追加する',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -124,8 +92,7 @@ class _CreateRoundRobinPageState extends State<CreateRoundRobinPage> {
                   },
                 ),
                 OriginalButton(
-                  primary: Colors.white,
-                  onPrimary: const Color.fromRGBO(247, 63, 150, 1),
+                  colorType: ButtonColorType.white,
                   text: '削除する',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -135,8 +102,6 @@ class _CreateRoundRobinPageState extends State<CreateRoundRobinPage> {
                   },
                 ),
                 OriginalButton(
-                  primary: const Color.fromRGBO(247, 63, 150, 1),
-                  onPrimary: Colors.white,
                   text: '作成する',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,

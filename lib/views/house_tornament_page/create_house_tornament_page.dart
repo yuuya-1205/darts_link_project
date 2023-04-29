@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/input_field.dart';
-import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/house_tornament/house_tournament.dart';
 import 'package:darts_link_project/models/pref.dart';
@@ -11,7 +10,7 @@ import 'package:darts_link_project/models/tag_type.dart';
 import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
-import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/original_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -828,7 +827,6 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                   ),
                   const SizedBox(height: 32),
                   OriginalButton(
-                    primary: OriginalTheme.themeData.primaryColor,
                     text: '作成する',
                     onPressed: () async {
                       // if (!_formKey.currentState!.validate()) {
