@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:darts_link_project/components/back_ground_image.dart';
@@ -42,9 +44,12 @@ class EmailSendCheckState extends State<EmailSendCheck> {
   }
 
   void timerReading() {
-    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+    Timer.periodic(const Duration(seconds: 1), (Timer timer) async {
+      await AuthRepository.currentFirebaseUser?.reload();
       final emailVerified =
           AuthRepository.currentFirebaseUser?.emailVerified ?? false;
+      print(emailVerified);
+      print(AuthRepository.currentFirebaseUser);
       if (!emailVerified) {
         return;
       }
