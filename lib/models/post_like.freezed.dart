@@ -24,6 +24,9 @@ mixin _$PostLike {
   String get uid => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get userImage => throw _privateConstructorUsedError;
+  @DocumentReferenceConverter()
+  DocumentReference<Object?>? get reference =>
+      throw _privateConstructorUsedError;
   @TimestampConverter()
   Timestamp get createdAt => throw _privateConstructorUsedError;
 
@@ -43,6 +46,7 @@ abstract class $PostLikeCopyWith<$Res> {
       String uid,
       String userId,
       String userImage,
+      @DocumentReferenceConverter() DocumentReference<Object?>? reference,
       @TimestampConverter() Timestamp createdAt});
 }
 
@@ -63,6 +67,7 @@ class _$PostLikeCopyWithImpl<$Res, $Val extends PostLike>
     Object? uid = null,
     Object? userId = null,
     Object? userImage = null,
+    Object? reference = freezed,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
@@ -82,6 +87,10 @@ class _$PostLikeCopyWithImpl<$Res, $Val extends PostLike>
           ? _value.userImage
           : userImage // ignore: cast_nullable_to_non_nullable
               as String,
+      reference: freezed == reference
+          ? _value.reference
+          : reference // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -102,6 +111,7 @@ abstract class _$$_PostLikeCopyWith<$Res> implements $PostLikeCopyWith<$Res> {
       String uid,
       String userId,
       String userImage,
+      @DocumentReferenceConverter() DocumentReference<Object?>? reference,
       @TimestampConverter() Timestamp createdAt});
 }
 
@@ -120,6 +130,7 @@ class __$$_PostLikeCopyWithImpl<$Res>
     Object? uid = null,
     Object? userId = null,
     Object? userImage = null,
+    Object? reference = freezed,
     Object? createdAt = null,
   }) {
     return _then(_$_PostLike(
@@ -139,6 +150,10 @@ class __$$_PostLikeCopyWithImpl<$Res>
           ? _value.userImage
           : userImage // ignore: cast_nullable_to_non_nullable
               as String,
+      reference: freezed == reference
+          ? _value.reference
+          : reference // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -155,6 +170,7 @@ class _$_PostLike implements _PostLike {
       required this.uid,
       required this.userId,
       required this.userImage,
+      @DocumentReferenceConverter() this.reference,
       @TimestampConverter() required this.createdAt});
 
   factory _$_PostLike.fromJson(Map<String, dynamic> json) =>
@@ -169,12 +185,15 @@ class _$_PostLike implements _PostLike {
   @override
   final String userImage;
   @override
+  @DocumentReferenceConverter()
+  final DocumentReference<Object?>? reference;
+  @override
   @TimestampConverter()
   final Timestamp createdAt;
 
   @override
   String toString() {
-    return 'PostLike(userName: $userName, uid: $uid, userId: $userId, userImage: $userImage, createdAt: $createdAt)';
+    return 'PostLike(userName: $userName, uid: $uid, userId: $userId, userImage: $userImage, reference: $reference, createdAt: $createdAt)';
   }
 
   @override
@@ -188,14 +207,16 @@ class _$_PostLike implements _PostLike {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.userImage, userImage) ||
                 other.userImage == userImage) &&
+            (identical(other.reference, reference) ||
+                other.reference == reference) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, userName, uid, userId, userImage, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType, userName, uid, userId, userImage, reference, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -217,6 +238,7 @@ abstract class _PostLike implements PostLike {
       required final String uid,
       required final String userId,
       required final String userImage,
+      @DocumentReferenceConverter() final DocumentReference<Object?>? reference,
       @TimestampConverter() required final Timestamp createdAt}) = _$_PostLike;
 
   factory _PostLike.fromJson(Map<String, dynamic> json) = _$_PostLike.fromJson;
@@ -229,6 +251,9 @@ abstract class _PostLike implements PostLike {
   String get userId;
   @override
   String get userImage;
+  @override
+  @DocumentReferenceConverter()
+  DocumentReference<Object?>? get reference;
   @override
   @TimestampConverter()
   Timestamp get createdAt;

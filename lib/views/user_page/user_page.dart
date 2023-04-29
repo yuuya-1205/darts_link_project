@@ -168,7 +168,7 @@ class _UserPageState extends State<UserPage> {
                                 ),
                                 StreamBuilder<QuerySnapshot>(
                                   stream: FollowRepository.followingStream(
-                                      followingUid: widget.appUser.id,
+                                      reference: widget.appUser.reference!,
                                       uid: user!.id),
                                   builder: (context, snapshots) {
                                     if (snapshots.hasData &&

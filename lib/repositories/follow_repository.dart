@@ -25,10 +25,10 @@ class FollowRepository {
 
   static Stream<QuerySnapshot> followingStream({
     required String uid,
-    required String followingUid,
+    required DocumentReference reference,
   }) {
     return getFollowCollection(uid)
-        .where('followingUid', isEqualTo: followingUid)
+        .where('followingRef', isEqualTo: reference)
         .snapshots();
   }
 
