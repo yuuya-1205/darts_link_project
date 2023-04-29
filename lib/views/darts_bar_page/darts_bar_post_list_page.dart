@@ -17,9 +17,8 @@ class DartsBarPostList extends StatefulWidget {
 class _DartsBarPostListState extends State<DartsBarPostList> {
   @override
   Widget build(BuildContext context) {
-    final user = AuthRepository.currentUser;
     return StreamBuilder<List<Post>>(
-        stream: PostRepository.userPostStream(user!.id),
+        stream: PostRepository.userPostStream(widget.storeOwner.id),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.active) {
             return const Center(

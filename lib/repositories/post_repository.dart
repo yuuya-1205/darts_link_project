@@ -87,11 +87,11 @@ class PostRepository {
   }
 
   static Stream<List<Post>> storeOwnerPostImageStream(
-      DocumentReference postRef) {
+      DocumentReference posterRef) {
     return postCollection
         .where('postImage', isNotEqualTo: [])
         .orderBy('postImage')
-        .where('posterRef', isEqualTo: postRef)
+        .where('posterRef', isEqualTo: posterRef)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snap) => snap.docs

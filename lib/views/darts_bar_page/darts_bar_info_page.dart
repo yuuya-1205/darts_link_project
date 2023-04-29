@@ -35,7 +35,6 @@ class _DartsBarInfoPageState extends State<DartsBarInfoPage> {
     }
   }
 
-  final user = AuthRepository.currentUser as StoreOwner;
   final FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
   @override
@@ -121,10 +120,10 @@ class _DartsBarInfoPageState extends State<DartsBarInfoPage> {
               const SizedBox(
                 height: 10,
               ),
-              if (user.headerImages.isNotEmpty)
+              if (widget.storeOwner.headerImages.isNotEmpty)
                 Wrap(
                     runSpacing: 20,
-                    children: user.headerImages
+                    children: widget.storeOwner.headerImages
                         .asMap()
                         .entries
                         .map((entry) {
@@ -182,7 +181,7 @@ class _DartsBarInfoPageState extends State<DartsBarInfoPage> {
           Center(
             child: StreamBuilder<QuerySnapshot>(
               stream: FavoriteRepository.favoriteStream(
-                  uid: user.id, favoriteId: user.id),
+                  uid: widget.storeOwner.id, favoriteId: widget.storeOwner.id),
               builder: (context, snapshots) {
                 if (snapshots.hasData && snapshots.data!.docs.isNotEmpty) {
                   return OriginalButton(
@@ -190,7 +189,8 @@ class _DartsBarInfoPageState extends State<DartsBarInfoPage> {
                     onPrimary: Colors.white,
                     onPressed: () async {
                       await FavoriteRepository.unFavorite(
-                          uid: user.id, favoriteId: user.id);
+                          uid: widget.storeOwner.id,
+                          favoriteId: widget.storeOwner.id);
                     },
                     text: 'お気に入り解除',
                   );
@@ -201,14 +201,16 @@ class _DartsBarInfoPageState extends State<DartsBarInfoPage> {
                   onPrimary: Colors.white,
                   onPressed: () {
                     FavoriteRepository.setFavorite(
-                        favoriteId: user.id,
-                        favorite: Favorite(
-                            dartsBarId: '',
-                            favoriteId: user.id,
-                            joinedAt: Timestamp.now(),
-                            userId: user.userId,
-                            userImage: user.userImage,
-                            userName: user.userName));
+                      favoriteId: widget.storeOwner.id,
+                      favorite: Favorite(
+                        dartsBarId: '',
+                        favoriteId: widget.storeOwner.id,
+                        joinedAt: Timestamp.now(),
+                        userId: widget.storeOwner.id,
+                        userImage: widget.storeOwner.userImage,
+                        userName: widget.storeOwner.userName,
+                      ),
+                    );
                   },
                 );
               },
@@ -251,13 +253,14 @@ class _DartsBarInfoPageState extends State<DartsBarInfoPage> {
                       title: 'ダーツリンク',
                       description:
                           'This link works whether app is installed or not!',
-                      imageUrl: Uri.parse(user.userImage),
+                      imageUrl: Uri.parse(widget.storeOwner.userImage),
                     ),
                   );
 
                   final dynamicUrl = await dynamicLinks.buildLink(parameters);
 
-                  Share.share('${user.userName} ${dynamicUrl.toString()}');
+                  Share.share(
+                      '${widget.storeOwner.userName} ${dynamicUrl.toString()}');
                 },
                 text: 'シェアする',
               )
