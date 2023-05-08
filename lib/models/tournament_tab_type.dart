@@ -2,6 +2,8 @@ import 'package:darts_link_project/views/darts_function_page/tournament/tornamen
 import 'package:darts_link_project/views/darts_function_page/tournament/tournament_match_list_page.dart';
 import 'package:flutter/material.dart';
 
+import 'tournament.dart';
+
 enum TournamentTabType {
   matchList('試合一覧'),
   tournamentBracket('トーナメント表');
@@ -9,12 +11,12 @@ enum TournamentTabType {
   const TournamentTabType(this.title);
   final String title;
 
-  Widget navigatePage() {
+  Widget navigatePage(Tournament tournament) {
     switch (this) {
       case TournamentTabType.matchList:
-        return const TournamentMatchListPage();
+        return TournamentMatchListPage(tournament: tournament);
       case TournamentTabType.tournamentBracket:
-        return const TournamentBracketPage();
+        return TournamentBracketPage(tournament: tournament);
     }
   }
 }

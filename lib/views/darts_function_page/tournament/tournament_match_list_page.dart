@@ -1,9 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/models/team.dart';
+import 'package:darts_link_project/models/tournament.dart';
+import 'package:darts_link_project/repositories/team_repository.dart';
 import 'package:flutter/material.dart';
 
 class TournamentMatchListPage extends StatefulWidget {
-  const TournamentMatchListPage({super.key});
+  const TournamentMatchListPage({super.key, required this.tournament});
+  final Tournament tournament;
 
   @override
   State<TournamentMatchListPage> createState() =>
@@ -11,40 +13,34 @@ class TournamentMatchListPage extends StatefulWidget {
 }
 
 class _TournamentMatchListPageState extends State<TournamentMatchListPage> {
+  List<Team> teams = [];
+  List<List<List<Team>>> matches = [];
+
   @override
   void initState() {
     createMatch();
     super.initState();
   }
 
-  List<Team> teams = [
-    Team(
-      id: 'a',
-      teamName: 'A',
-      updatedAt: Timestamp.now(),
-      createdAt: Timestamp.now(),
-    ),
-    Team(
-      id: 'b',
-      teamName: 'B',
-      createdAt: Timestamp.now(),
-      updatedAt: Timestamp.now(),
-    )
-  ];
-
-  List<List<Team>> matchs = [];
+  Future<void> fetchTeams() async {
+    teams = await TeamRepository.fetchTeams(
+        tournamentId: widget.tournament.reference?.id);
+  }
 
   Future<void> createMatch() async {
+    await fetchTeams();
     teams.asMap().forEach(
       (key, value) {
         for (int i = key; i < teams.length - 1; i++) {
-          matchs.add(
-            [value, teams[i + 1]],
+          matches.add(
+            [
+              [value, teams[i + 1]]
+            ],
           );
         }
       },
     );
-    matchs.shuffle();
+    matches.shuffle();
     setState(() {});
   }
 
@@ -52,8 +48,8 @@ class _TournamentMatchListPageState extends State<TournamentMatchListPage> {
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.all(8),
-      itemCount: matchs.length,
-      itemBuilder: (context, index) {
+      itemCount: matches.length,
+      itemBuilder: (context, i) {
         return Column(
           children: [
             Container(
@@ -63,7 +59,7 @@ class _TournamentMatchListPageState extends State<TournamentMatchListPage> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 5, 0, 5),
                 child: Text(
-                  '第${index + 1}試合',
+                  '第${i + 1}試合',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -71,41 +67,34 @@ class _TournamentMatchListPageState extends State<TournamentMatchListPage> {
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: ((context) => RobinMatchResultPage(
-                //           roundRobin: widget.roundRobin,
-                //           teams: matchs[index],
-                //           round: index + 1,
-                //         )),
-                //   ),
-                // );
-              },
-              child: Container(
-                height: 67,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      matchs[index].first.teamName,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const Text(
-                      'VS',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      matchs[index].last.teamName,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: matches[i].length,
+              itemBuilder: (_, j) => GestureDetector(
+                onTap: () {},
+                child: Container(
+                  height: 67,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        matches[i][j].first.teamName,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const Text(
+                        'VS',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        matches[i][j].last.teamName,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

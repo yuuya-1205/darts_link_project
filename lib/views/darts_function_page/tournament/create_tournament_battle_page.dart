@@ -1,4 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:darts_link_project/components/input_field.dart';
 import 'package:darts_link_project/models/button_color_type.dart';
+import 'package:darts_link_project/models/tournament.dart';
+import 'package:darts_link_project/repositories/app_user_repository.dart';
+import 'package:darts_link_project/repositories/auth_repository.dart';
+import 'package:darts_link_project/repositories/team_repository.dart';
+import 'package:darts_link_project/repositories/tournament_repository.dart';
 import 'package:darts_link_project/utils/const.dart';
 import 'package:darts_link_project/views/components/app_bar_back_view.dart';
 import 'package:darts_link_project/views/components/original_button.dart';
@@ -15,6 +22,8 @@ class CreateTournamentBattlePage extends StatefulWidget {
 
 class _CreateTournamentBattlePageState
     extends State<CreateTournamentBattlePage> {
+  final user = AuthRepository.currentUser;
+  final _titleController = TextEditingController();
   List<TextEditingController> controllers = [
     TextEditingController(text: 'Aチーム'),
     TextEditingController(text: 'Bチーム'),
@@ -31,14 +40,34 @@ class _CreateTournamentBattlePageState
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Row(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+              child: Column(
                 children: [
-                  const SizedBox(width: 12),
-                  const Text('参加チーム'),
-                  const Spacer(),
-                  Text('${controllers.length}組'),
-                  const SizedBox(width: 12),
+                  Row(
+                    children: [
+                      const SizedBox(width: 80, child: Text('タイトル')),
+                      Flexible(
+                        child: InputField(
+                          controller: _titleController,
+                          hintText: '入力してください',
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return '場所を入力してください';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('参加チーム'),
+                      Text('${controllers.length}組'),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -95,15 +124,35 @@ class _CreateTournamentBattlePageState
                   OriginalButton(
                     text: '作成する',
                     onPressed: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: ((context) => TournamentBracketPage(
-                                teamName:
-                                    controllers.map((e) => e.text).toList(),
-                              )),
-                        ),
+                      if (user == null) {
+                        return;
+                      }
+                      final tournament = Tournament(
+                        title: _titleController.text,
+                        creatorRef: AppUserRepository.getAppUserDocRef(user!),
+                        creatorName: user!.userName,
+                        teamCounts: controllers.length,
+                        createdAt: Timestamp.now(),
+                        updatedAt: Timestamp.now(),
                       );
+                      final tournamentId =
+                          await TournamentRepository.addTournament(tournament);
+                      await Future.forEach(
+                          controllers,
+                          (element) => TeamRepository.createTeam(
+                              tournamentId: tournamentId,
+                              teamName: element.text));
+                      if (mounted) {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => TournamentBracketPage(
+                                  tournament: tournament.copyWith(
+                                      reference: TournamentRepository
+                                          .getTournamentDocument(
+                                              tournamentId))))),
+                        );
+                      }
                     },
                   ),
                 ],

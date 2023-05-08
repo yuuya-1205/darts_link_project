@@ -5,6 +5,8 @@ final alphabetList = List.generate(
   ),
 );
 
+final List<int> winRegValues = List.generate(9, (index) => index);
+
 const verticalRotatedMap = {
   ' ': '　',
   '↑': '→',

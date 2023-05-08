@@ -3,22 +3,23 @@ import 'package:darts_link_project/converters/document_reference_converter.dart'
 import 'package:darts_link_project/converters/timestamp_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'round_robin.freezed.dart';
-part 'round_robin.g.dart';
+part 'tournament.freezed.dart';
+part 'tournament.g.dart';
 
 @freezed
-class RoundRobin with _$RoundRobin {
-  const factory RoundRobin({
+class Tournament with _$Tournament {
+  const factory Tournament({
     @Default('未設定') String title,
-    @Default('') String id,
     @DocumentReferenceConverter() required DocumentReference creatorRef,
-    required String createrName,
-    required String userId,
-    @Default(1) int teamCounts,
+    required String creatorName,
+    @Default(2) int teamCounts,
     @TimestampConverter() required Timestamp createdAt,
     @TimestampConverter() required Timestamp updatedAt,
-  }) = _RoundRobin;
 
-  factory RoundRobin.fromJson(Map<String, dynamic> json) =>
-      _$RoundRobinFromJson(json);
+    ///クライアントで使用するデータ
+    @DocumentReferenceConverter() DocumentReference? reference,
+  }) = _Tournament;
+
+  factory Tournament.fromJson(Map<String, dynamic> json) =>
+      _$TournamentFromJson(json);
 }
