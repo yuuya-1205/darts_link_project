@@ -107,7 +107,15 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  InputField(
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      fillColor: Colors.white,
+                      filled: true,
+                      isDense: true,
+                      contentPadding: EdgeInsets.all(12),
+                      hintText: 'パスワード',
+                    ),
                     obscureText: true,
                     keyboardType: TextInputType.text,
                     controller: _passwordController,
@@ -122,7 +130,6 @@ class _LoginPageState extends State<LoginPage> {
                       }
                       return null;
                     },
-                    hintText: 'パスワード',
                   ),
                   const SizedBox(
                     height: 7,
@@ -174,6 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                         await fetchAppUser(uid);
                         await setFcmToken(uid);
 
+                        ///TODO　DialogのUIを綺麗にする。
                         // ignore: use_build_context_synchronously
                         await showDialog(
                           context: context,
