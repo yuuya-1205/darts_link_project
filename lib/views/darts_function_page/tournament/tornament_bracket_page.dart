@@ -16,18 +16,37 @@ class TournamentBracketPage extends StatefulWidget {
 }
 
 class _TournamentBracketPageState extends State<TournamentBracketPage> {
-  List<List<Team>> tournaments = [];
+  List<List<Team?>> tournaments = [];
+  String cacheName = '';
 
   Future<void> fetchTeams() async {
     final teams = (await TeamRepository.fetchTeams(
         tournamentId: widget.tournament.reference?.id))
       ..shuffle();
     tournaments = [teams];
+    tournaments.add(List.generate(teams.length ~/ 2, (index) => null));
+    if (teams.length % 2 == 1) {
+      tournaments[1].insert(0, teams.first);
+    }
+
     setState(() {});
   }
 
   void setResult(Team team) {
-    tournaments.add([team]);
+    print(tournaments);
+    for (final entry in tournaments.asMap().entries) {
+      print(entry.value);
+      if (entry.value.length % 2 == 0 &&
+          entry.value.where((e) => e?.id == team.id).isNotEmpty) {
+        final index =
+            entry.value.indexWhere((element) => element?.id == team.id);
+        if (tournaments[entry.key + 1].isEmpty) {
+          continue;
+        }
+        tournaments[entry.key + 1][index ~/ 2] = team;
+      }
+    }
+    // tournaments.add([team]);
     setState(() {});
   }
 
@@ -51,16 +70,20 @@ class _TournamentBracketPageState extends State<TournamentBracketPage> {
         leading: const AppBarBackView(),
         title: const Text('トーナメント表'),
       ),
-      body: Bracket.TournamentBracket<Team>(
-        hadderBuilder: (context, index, count) => Text("第${index + 1}試合"),
-        containt: tournaments,
-        onSameTeam: (team1, team2) {
-          print(team1 == team2);
-          return team1 == team2;
+      body: Bracket.TournamentBracket<Team?>(
+        hadderBuilder: (context, index, count) {
+          print(count);
+          if (tournaments.length < count) {
+            tournaments.add([]);
+          }
+          print(tournaments);
+          return Text("第${index + 1}試合");
         },
-        teamNameBuilder: (Team t) {
+        containt: tournaments.map((e) => e.whereType<Team>().toList()).toList(),
+        onSameTeam: (team1, team2) => team1 == team2,
+        teamNameBuilder: (Team? t) {
           return BracketText(
-            text: t.teamName,
+            text: t?.teamName ?? 'null',
             textStyle: const TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold),
           );
@@ -68,14 +91,14 @@ class _TournamentBracketPageState extends State<TournamentBracketPage> {
         winnerConnectorColor: Colors.red,
         teamContainerDecoration: BracketBoxDecroction(color: Colors.grey),
         onLineIconPress: ((team1, team2, tapDownDetails) async {
-          print(tapDownDetails.localPosition);
           print(tapDownDetails.globalPosition);
+          print(tapDownDetails.localPosition);
+          if (team1 == null || team2 == null) {
+            return;
+          }
           await showDialog(
               context: context,
               builder: (context) {
-                if (team1 == null || team2 == null) {
-                  return const SizedBox();
-                }
                 final teams = [team1, team2];
                 final Map<String, int> selectedWinRegs = {
                   team1.id: 0,
