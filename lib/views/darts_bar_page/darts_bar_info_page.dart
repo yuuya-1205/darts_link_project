@@ -2,10 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/app_user.dart';
-import 'package:darts_link_project/models/favorite.dart';
 import 'package:darts_link_project/models/house_tornament/house_tournament.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
-import 'package:darts_link_project/repositories/favorite_repository.dart';
+import 'package:darts_link_project/repositories/favorite_store_owner_repository.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/components/house_tournament/house_tournament_list_view.dart';
@@ -24,6 +23,7 @@ class DartsBarInfoPage extends StatefulWidget {
 }
 
 class _DartsBarInfoPageState extends State<DartsBarInfoPage> {
+  final user = AuthRepository.currentUser;
   void _openPhoneApp() {
     const tel = '08034250591';
     _launchURL('tel:$tel');
@@ -39,6 +39,9 @@ class _DartsBarInfoPageState extends State<DartsBarInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (user == null) {
+      throw Exception('ログインしていません');
+    }
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,18 +182,17 @@ class _DartsBarInfoPageState extends State<DartsBarInfoPage> {
           ),
           const SizedBox(height: 32),
           Center(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FavoriteRepository.favoriteStream(
-                  uid: widget.storeOwner.id, favoriteId: widget.storeOwner.id),
+            child: StreamBuilder<DocumentSnapshot>(
+              stream: FavoriteStoreOwnerRepository.favoriteStream(
+                  myUid: user!.id, storeOwnerId: widget.storeOwner.id),
               builder: (context, snapshots) {
-                if (snapshots.hasData && snapshots.data!.docs.isNotEmpty) {
+                if (snapshots.hasData && snapshots.data!.exists) {
                   return OriginalButton(
                     primary: OriginalTheme.themeData.primaryColor,
                     onPrimary: Colors.white,
                     onPressed: () async {
-                      await FavoriteRepository.unFavorite(
-                          uid: widget.storeOwner.id,
-                          favoriteId: widget.storeOwner.id);
+                      await FavoriteStoreOwnerRepository.unFavorite(
+                          myUid: user!.id, storeOwnerId: widget.storeOwner.id);
                     },
                     text: 'お気に入り解除',
                   );
@@ -200,16 +202,9 @@ class _DartsBarInfoPageState extends State<DartsBarInfoPage> {
                   primary: OriginalTheme.themeData.primaryColor,
                   onPrimary: Colors.white,
                   onPressed: () {
-                    FavoriteRepository.setFavorite(
-                      favoriteId: widget.storeOwner.id,
-                      favorite: Favorite(
-                        dartsBarId: '',
-                        favoriteId: widget.storeOwner.id,
-                        joinedAt: Timestamp.now(),
-                        userId: widget.storeOwner.id,
-                        userImage: widget.storeOwner.userImage,
-                        userName: widget.storeOwner.userName,
-                      ),
+                    FavoriteStoreOwnerRepository.setFavorite(
+                      myUid: user!.id,
+                      storeOwner: widget.storeOwner,
                     );
                   },
                 );

@@ -4,8 +4,8 @@ import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/store_owner_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/darts_bar_page/darts_bar_info_page.dart';
 import 'package:darts_link_project/views/store_owner_page/edit_store_owner_page.dart';
-import 'package:darts_link_project/views/store_owner_page/store_owner_info_page.dart';
 import 'package:darts_link_project/views/store_owner_page/store_owner_post_image_page.dart';
 import 'package:darts_link_project/views/store_owner_page/store_owner_post_list_page.dart';
 import 'package:darts_link_project/views/time_line_page/create_time_line_page.dart';
@@ -29,7 +29,7 @@ class _StoreOwnerPageState extends State<StoreOwnerPage> {
   @override
   void initState() {
     tabPageMaps = {
-      'TOP': const StoreOwnerInfoPage(),
+      'TOP': DartsBarInfoPage(storeOwner: user!),
       '投稿': const StoreOwnerPostListPage(),
       '画像': const StoreOwnerImagePage(),
     };
@@ -39,6 +39,9 @@ class _StoreOwnerPageState extends State<StoreOwnerPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (user == null) {
+      throw Exception('ログインしていません');
+    }
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
