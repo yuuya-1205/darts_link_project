@@ -41,9 +41,7 @@ class _TopPageState extends State<TopPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        elevation: 0,
-        shadowColor: Colors.white10,
-        backgroundColor: Colors.white10,
+        elevation: 1,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: UserImage(

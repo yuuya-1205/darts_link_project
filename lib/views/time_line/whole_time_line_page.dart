@@ -25,7 +25,7 @@ class _WholeTimeLinePageState extends State<WholeTimeLinePage> {
             );
           }
           if (!snapshot.hasData) {
-            return Container();
+            return const Center(child: Text('まだ、投稿がありません'));
           }
           final posts = snapshot.data;
           if (posts!.isEmpty) {
