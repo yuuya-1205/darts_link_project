@@ -3,7 +3,7 @@ import 'package:darts_link_project/views/auth_page/login_page.dart';
 import 'package:darts_link_project/views/auth_page/store_owner_approve_page.dart';
 import 'package:darts_link_project/views/battle_room_page/create_battle_room_page.dart';
 import 'package:darts_link_project/views/circle_page/circle_list_page.dart';
-import 'package:darts_link_project/views/favorite_store_list_page.dart';
+import 'package:darts_link_project/views/favorite_store/favorite_store_list_page.dart';
 import 'package:darts_link_project/views/my_page/my_page.dart';
 import 'package:darts_link_project/views/store_owner_page/store_owner_page.dart';
 import 'package:flutter/material.dart';

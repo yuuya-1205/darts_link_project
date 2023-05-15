@@ -15,7 +15,11 @@ class FavoriteStoreOwnerRepository {
             fromFirestore: (snapshot, _) =>
                 FavoriteStoreOwner.fromJson(snapshot.data() ?? {})
                     .copyWith(id: snapshot.id),
-            toFirestore: (value, _) => value?.toJson().remove('id') ?? {},
+            toFirestore: (value, _) {
+              final data = value?.toJson();
+              data?.remove('id');
+              return data ?? {};
+            },
           );
 
   static Future<void> setFavorite({
@@ -33,8 +37,10 @@ class FavoriteStoreOwnerRepository {
         SetOptions(merge: true));
   }
 
-  static Future<void> unFavorite(
-      {required String myUid, required String storeOwnerId}) async {
+  static Future<void> unFavorite({
+    required String myUid,
+    required String storeOwnerId,
+  }) async {
     await getFavoriteCollection(myUid).doc(storeOwnerId).delete();
   }
 

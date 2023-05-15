@@ -6,7 +6,7 @@ import 'package:darts_link_project/views/components/loading_view.dart';
 import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:flutter/material.dart';
 
-import '../repositories/favorite_store_owner_repository.dart';
+import '../../repositories/favorite_store_owner_repository.dart';
 
 class FavoriteStoreListPage extends StatefulWidget {
   const FavoriteStoreListPage({super.key});
@@ -52,7 +52,10 @@ class _FavoriteStoreListPageState extends State<FavoriteStoreListPage> {
                 name: favoriteStoreOwner.userName,
                 trailing: OriginalButton(
                   text: 'お気に入り解除',
-                  onPressed: () {},
+                  onPressed: () => FavoriteStoreOwnerRepository.unFavorite(
+                    myUid: currentUser!.id,
+                    storeOwnerId: favoriteStoreOwner.id,
+                  ),
                 ),
               );
             },
