@@ -18,6 +18,7 @@ import 'package:darts_link_project/views/circle_page/circle_post_image_page.dart
 import 'package:darts_link_project/views/circle_page/circle_post_list_page.dart';
 import 'package:darts_link_project/views/circle_page/create_circle_time_line_page.dart';
 import 'package:darts_link_project/views/circle_page/edit_circle_page.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -84,155 +85,129 @@ class _CircleDetailPageState extends State<CircleDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Color.fromRGBO(247, 63, 150, 1),
-          ),
-          leadingWidth: 76,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Row(children: [
-              Container(
-                width: 30,
-                child: const BackButton(),
-              ),
-              const Text(
-                '戻る',
-                style: TextStyle(
-                  color: Color.fromRGBO(247, 63, 150, 1),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ]),
-          ),
-          backgroundColor: Colors.white,
+        appBar: OriginalAppBer(
           actions: [
             FutureBuilder<CircleMemberType>(
                 future: getMemberType(),
                 builder: (builder, snapshot) {
                   return snapshot.data == CircleMemberType.owner
-                      ? PopupMenuButton(onSelected: (value) {
-                          if (value == '') {
-                            final uid = AuthRepository.currentUser!.id;
-                          }
-                        }, itemBuilder: (context) {
-                          return [
-                            PopupMenuItem(
-                              value: 'edit',
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: ((context) => EditCirclePage(
-                                            circle: widget.circle,
-                                          )),
-                                    ),
-                                  );
-                                },
-                                child: const Text('編集'),
-                              ),
-                            ),
-                            PopupMenuItem(
-                              value: 'memberList',
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: ((context) =>
-                                          CircleMemberListPage(
-                                            circle: widget.circle,
-                                          )),
-                                    ),
-                                  );
-                                },
-                                child: const Text('メンバーリスト'),
-                              ),
-                            ),
-                            if (widget.circle.isApproved == true)
+                      ? PopupMenuButton(
+                          onSelected: (value) {},
+                          itemBuilder: (context) {
+                            return [
                               PopupMenuItem(
-                                value: 'approvedList',
+                                value: 'edit',
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: ((context) => EditCirclePage(
+                                              circle: widget.circle,
+                                            )),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text('編集'),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 'memberList',
                                 child: GestureDetector(
                                   onTap: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: ((context) =>
-                                            CircleMemberApprovedListPage(
+                                            CircleMemberListPage(
                                               circle: widget.circle,
                                             )),
                                       ),
                                     );
                                   },
-                                  child: const Text('申請リスト'),
+                                  child: const Text('メンバーリスト'),
                                 ),
                               ),
-                            PopupMenuItem(
-                              value: 'delete',
-                              child: GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (_) {
-                                      return AlertDialog(
-                                        title: Row(
-                                          children: const [
-                                            Icon(
-                                              FeatherIcons.alertTriangle,
-                                              color: Colors.yellow,
-                                            ),
-                                            Text(
-                                              'このイベントを本当に削除しますか？',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ],
+                              if (widget.circle.isApproved == true)
+                                PopupMenuItem(
+                                  value: 'approvedList',
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: ((context) =>
+                                              CircleMemberApprovedListPage(
+                                                circle: widget.circle,
+                                              )),
                                         ),
-                                        actions: [
-                                          // ボタン領域
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              FollowApproveButton(
-                                                onPressed: () async {
-                                                  await CircleRepository
-                                                      .deleteCircle(
-                                                          widget.circle);
-
-                                                  Navigator.pop(context);
-                                                  DeleteSnackBar.showSnackBar(
-                                                      context);
-                                                },
-                                                text: '削除する',
+                                      );
+                                    },
+                                    child: const Text('申請リスト'),
+                                  ),
+                                ),
+                              PopupMenuItem(
+                                value: 'delete',
+                                child: GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (_) {
+                                        return AlertDialog(
+                                          title: Row(
+                                            children: const [
+                                              Icon(
+                                                FeatherIcons.alertTriangle,
+                                                color: Colors.yellow,
                                               ),
-                                              const SizedBox(
-                                                width: 15,
-                                              ),
-                                              FollowApproveButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                text: 'キャンセル',
+                                              Text(
+                                                'このイベントを本当に削除しますか？',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14,
+                                                ),
                                               ),
                                             ],
                                           ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                child: const Text('削除'),
+                                          actions: [
+                                            // ボタン領域
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                FollowApproveButton(
+                                                  onPressed: () async {
+                                                    await CircleRepository
+                                                        .deleteCircle(
+                                                            widget.circle);
+
+                                                    Navigator.pop(context);
+                                                    DeleteSnackBar.showSnackBar(
+                                                        context);
+                                                  },
+                                                  text: '削除する',
+                                                ),
+                                                const SizedBox(
+                                                  width: 15,
+                                                ),
+                                                FollowApproveButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  text: 'キャンセル',
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: const Text('削除'),
+                                ),
                               ),
-                            ),
-                          ];
-                        })
+                            ];
+                          })
                       : Container();
                 }),
           ],

@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 import 'app_bar_back_view.dart';
 
 class OriginalAppBer extends StatelessWidget implements PreferredSizeWidget {
-  const OriginalAppBer({Key? key, required this.title}) : super(key: key);
+  const OriginalAppBer({
+    Key? key,
+    this.title = '',
+    this.actions,
+  }) : super(key: key);
   final String title;
+  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +18,7 @@ class OriginalAppBer extends StatelessWidget implements PreferredSizeWidget {
       title: Text(title),
       leading: const AppBarBackView(),
       elevation: 1,
+      actions: actions,
     );
   }
 

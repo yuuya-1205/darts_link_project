@@ -315,7 +315,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                 ),
               ),
               child: StreamBuilder<List<Comment>>(
-                  stream: CommntRepository.streamComment(widget.post.id),
+                  stream: CommentRepository.streamComment(widget.post.id),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState != ConnectionState.active) {
                       return const Center(

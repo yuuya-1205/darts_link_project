@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/converters/timestamp_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'team.freezed.dart';
 part 'team.g.dart';
 
@@ -20,7 +21,6 @@ class Team with _$Team {
   factory Team.fromJson(Map<String, dynamic> json) => _$TeamFromJson(json);
 
   int get totalWinCount {
-    print(isWin.values);
     return isWin.values.where((element) => element == true).length;
   }
 

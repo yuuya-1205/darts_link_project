@@ -133,7 +133,7 @@ class _DartsBarInfoPageState extends State<DartsBarInfoPage> {
                           if (entry.key == 0) {
                             return null;
                           }
-                          return Container(
+                          return SizedBox(
                               width: 120,
                               height: 50,
                               child: Image.network(entry.value));

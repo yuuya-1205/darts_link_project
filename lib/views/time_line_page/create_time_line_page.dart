@@ -5,6 +5,7 @@ import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/post_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/views/app_bar_action_button.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -26,45 +27,15 @@ class _CreateTimeLinePageState extends State<CreateTimeLinePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        title: const Text(
-          'タイムライン作成',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      appBar: OriginalAppBer(
+        title: 'タイムライン作成',
         actions: [
           AppbarActionButton(
             onPressed: () async {
               if (!_formKey.currentState!.validate()) {
                 return;
               }
+              final navigator = Navigator.of(context);
               final imageFutures = _selectedimages
                   .map(
                     (selectedimage) => _saveimage(selectedimage),
@@ -89,7 +60,7 @@ class _CreateTimeLinePageState extends State<CreateTimeLinePage> {
                   userImage: user.userImage,
                   posterRef: docRef);
               PostRepository.addPost(post);
-              Navigator.of(context).pop();
+              navigator.pop();
             },
             label: '投稿',
             isActive: _postController.text.isNotEmpty,
@@ -144,7 +115,7 @@ class _CreateTimeLinePageState extends State<CreateTimeLinePage> {
                                 right: -4,
                                 child: IconButton(
                                   color: Colors.white,
-                                  icon: Icon(Icons.close),
+                                  icon: const Icon(Icons.close),
                                   onPressed: () {
                                     setState(() {
                                       _selectedimages.removeAt(index);
@@ -164,11 +135,9 @@ class _CreateTimeLinePageState extends State<CreateTimeLinePage> {
                       maxImages: 6,
                       enableCamera: true,
                     );
-                    if (imagefiles != null) {
-                      setState(() {
-                        _selectedimages = imagefiles;
-                      });
-                    }
+                    setState(() {
+                      _selectedimages = imagefiles;
+                    });
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -197,6 +166,6 @@ class _CreateTimeLinePageState extends State<CreateTimeLinePage> {
     final randomString = const Uuid().v4();
     final path = 'posts/$uid/$randomString.jpeg';
 
-    return StorageRepository().saveimage(asset: asset, path: path);
+    return StorageRepository().saveImage(asset: asset, path: path);
   }
 }

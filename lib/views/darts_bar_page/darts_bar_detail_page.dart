@@ -3,6 +3,7 @@ import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:darts_link_project/views/darts_bar_page/darts_bar_info_page.dart';
 import 'package:darts_link_project/views/darts_bar_page/darts_bar_post_image.dart';
 import 'package:darts_link_project/views/darts_bar_page/darts_bar_post_list_page.dart';
@@ -43,147 +44,123 @@ class _DartsBarDetailPageState extends State<DartsBarDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        // actions: [
-        //   FutureBuilder<CircleMemberType>(
-        //       future: getMemberType(),
-        //       builder: (builder, snapshot) {
-        //         return snapshot.data == CircleMemberType.owner
-        //             ? PopupMenuButton(onSelected: (value) {
-        //                 if (value == '') {
-        //                   final uid = AuthRepository.currentUser!.id;
-        //                 }
-        //               }, itemBuilder: (context) {
-        //                 return [
-        //                   PopupMenuItem(
-        //                     value: 'edit',
-        //                     child: GestureDetector(
-        //                       onTap: () {
-        //                         Navigator.push(
-        //                           context,
-        //                           MaterialPageRoute(
-        //                             builder: ((context) => EditDartsBarPage(
-        //                                   storeOwner: widget.storeOwner,
-        //                                 )),
-        //                           ),
-        //                         );
-        //                       },
-        //                       child: const Text('編集'),
-        //                     ),
-        //                   ),
-        //                   PopupMenuItem(
-        //                     value: 'memberList',
-        //                     child: GestureDetector(
-        //                       onTap: () {
-        //                         Navigator.push(
-        //                             context,
-        //                             MaterialPageRoute(
-        //                               builder: ((context) => EditDartsBarPage(
-        //                                     storeOwner: widget.storeOwner,
-        //                                   )),
-        //                             ));
-        //                       },
-        //                       child: const Text('メンバーリスト'),
-        //                     ),
-        //                   ),
-        //                   if (widget.storeOwner.isApproved == true)
-        //                     PopupMenuItem(
-        //                       value: 'approvedList',
-        //                       child: GestureDetector(
-        //                         onTap: () {},
-        //                         child: const Text('申請リスト'),
-        //                       ),
-        //                     ),
-        //                   PopupMenuItem(
-        //                     value: 'delete',
-        //                     child: GestureDetector(
-        //                       onTap: () {
-        //                         showDialog(
-        //                           context: context,
-        //                           builder: (_) {
-        //                             return AlertDialog(
-        //                               title: Row(
-        //                                 children: const [
-        //                                   Icon(
-        //                                     FeatherIcons.alertTriangle,
-        //                                     color: Colors.yellow,
-        //                                   ),
-        //                                   Text(
-        //                                     'このイベントを本当に削除しますか？',
-        //                                     style: TextStyle(
-        //                                       fontWeight: FontWeight.bold,
-        //                                       fontSize: 14,
-        //                                     ),
-        //                                   ),
-        //                                 ],
-        //                               ),
-        //                               actions: [
-        //                                 // ボタン領域
-        //                                 Row(
-        //                                   mainAxisAlignment:
-        //                                       MainAxisAlignment.center,
-        //                                   children: [
-        //                                     FollowApproveButton(
-        //                                       onPressed: () async {
-        //                                         // await CircleRepository
-        //                                         //     .deleteCircle(
-        //                                         //         widget.circle);
+      appBar: const OriginalAppBer(
+          // actions: [
+          //   FutureBuilder<CircleMemberType>(
+          //       future: getMemberType(),
+          //       builder: (builder, snapshot) {
+          //         return snapshot.data == CircleMemberType.owner
+          //             ? PopupMenuButton(onSelected: (value) {
+          //                 if (value == '') {
+          //                   final uid = AuthRepository.currentUser!.id;
+          //                 }
+          //               }, itemBuilder: (context) {
+          //                 return [
+          //                   PopupMenuItem(
+          //                     value: 'edit',
+          //                     child: GestureDetector(
+          //                       onTap: () {
+          //                         Navigator.push(
+          //                           context,
+          //                           MaterialPageRoute(
+          //                             builder: ((context) => EditDartsBarPage(
+          //                                   storeOwner: widget.storeOwner,
+          //                                 )),
+          //                           ),
+          //                         );
+          //                       },
+          //                       child: const Text('編集'),
+          //                     ),
+          //                   ),
+          //                   PopupMenuItem(
+          //                     value: 'memberList',
+          //                     child: GestureDetector(
+          //                       onTap: () {
+          //                         Navigator.push(
+          //                             context,
+          //                             MaterialPageRoute(
+          //                               builder: ((context) => EditDartsBarPage(
+          //                                     storeOwner: widget.storeOwner,
+          //                                   )),
+          //                             ));
+          //                       },
+          //                       child: const Text('メンバーリスト'),
+          //                     ),
+          //                   ),
+          //                   if (widget.storeOwner.isApproved == true)
+          //                     PopupMenuItem(
+          //                       value: 'approvedList',
+          //                       child: GestureDetector(
+          //                         onTap: () {},
+          //                         child: const Text('申請リスト'),
+          //                       ),
+          //                     ),
+          //                   PopupMenuItem(
+          //                     value: 'delete',
+          //                     child: GestureDetector(
+          //                       onTap: () {
+          //                         showDialog(
+          //                           context: context,
+          //                           builder: (_) {
+          //                             return AlertDialog(
+          //                               title: Row(
+          //                                 children: const [
+          //                                   Icon(
+          //                                     FeatherIcons.alertTriangle,
+          //                                     color: Colors.yellow,
+          //                                   ),
+          //                                   Text(
+          //                                     'このイベントを本当に削除しますか？',
+          //                                     style: TextStyle(
+          //                                       fontWeight: FontWeight.bold,
+          //                                       fontSize: 14,
+          //                                     ),
+          //                                   ),
+          //                                 ],
+          //                               ),
+          //                               actions: [
+          //                                 // ボタン領域
+          //                                 Row(
+          //                                   mainAxisAlignment:
+          //                                       MainAxisAlignment.center,
+          //                                   children: [
+          //                                     FollowApproveButton(
+          //                                       onPressed: () async {
+          //                                         // await CircleRepository
+          //                                         //     .deleteCircle(
+          //                                         //         widget.circle);
 
-        //                                         // Navigator.pop(context);
-        //                                         // DeleteSnackBar.showSnackBar(
-        //                                         //     context);
-        //                                       },
-        //                                       text: '削除する',
-        //                                     ),
-        //                                     const SizedBox(
-        //                                       width: 15,
-        //                                     ),
-        //                                     FollowApproveButton(
-        //                                       onPressed: () {
-        //                                         Navigator.pop(context);
-        //                                       },
-        //                                       text: 'キャンセル',
-        //                                     ),
-        //                                   ],
-        //                                 ),
-        //                               ],
-        //                             );
-        //                           },
-        //                         );
-        //                       },
-        //                       child: const Text('削除'),
-        //                     ),
-        //                   ),
-        //                 ];
-        //               })
-        //             : Container();
-        //       }),
-        // ],
-      ),
+          //                                         // Navigator.pop(context);
+          //                                         // DeleteSnackBar.showSnackBar(
+          //                                         //     context);
+          //                                       },
+          //                                       text: '削除する',
+          //                                     ),
+          //                                     const SizedBox(
+          //                                       width: 15,
+          //                                     ),
+          //                                     FollowApproveButton(
+          //                                       onPressed: () {
+          //                                         Navigator.pop(context);
+          //                                       },
+          //                                       text: 'キャンセル',
+          //                                     ),
+          //                                   ],
+          //                                 ),
+          //                               ],
+          //                             );
+          //                           },
+          //                         );
+          //                       },
+          //                       child: const Text('削除'),
+          //                     ),
+          //                   ),
+          //                 ];
+          //               })
+          //             : Container();
+          //       }),
+          // ],
+          ),
       body: DefaultTabController(
         length: tabPageMaps.length,
         child: Padding(

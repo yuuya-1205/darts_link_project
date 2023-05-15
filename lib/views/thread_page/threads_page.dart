@@ -53,17 +53,6 @@ class _ThreadsPageState extends State<ThreadsPage> {
             itemBuilder: (context, index) {
               final thread = threads[index];
 
-              final bool isDirectMessage = thread.id.contains(user.id);
-
-              String chatId;
-              String oponentUid;
-
-              if (isDirectMessage) {
-                chatId = thread.uids
-                    .singleWhere((loopingUid) => loopingUid != user.id);
-              } else {
-                chatId = thread.id;
-              }
               return GestureDetector(
                 onTap: () async {
                   await ThreadRepository.updateBadge(

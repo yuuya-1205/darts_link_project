@@ -101,7 +101,6 @@ class _PasswordForgetPageState extends State<PasswordForgetPage> {
                         final email = _emailController.text;
                         await AuthRepository.resetPassword(email: email);
                       } on FirebaseException catch (e) {
-                        print(e.code);
                         if (e.toString() ==
                             '[firebase_auth/missing-email] An email address must be provided.') {
                           errorMessage = 'ユーザーが登録されていません';

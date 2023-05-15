@@ -4,6 +4,7 @@ import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/person_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:darts_link_project/views/my_page/edit_my_info_page.dart';
 import 'package:darts_link_project/views/my_page/my_info_page.dart';
 import 'package:darts_link_project/views/my_page/my_post_image_list.dart';
@@ -38,31 +39,7 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
+      appBar: OriginalAppBer(
         actions: [
           PopupMenuButton<String>(
               onSelected: (value) => value,
@@ -72,8 +49,7 @@ class _MyPageState extends State<MyPage> {
                     value: "edit",
                     child: GestureDetector(
                       onTap: () async {
-                        final person =
-                            await PersonRepository.fetchPerson(user!.id);
+                        await PersonRepository.fetchPerson(user!.id);
                         // ignore: use_build_context_synchronously
                         await Navigator.push(
                           context,

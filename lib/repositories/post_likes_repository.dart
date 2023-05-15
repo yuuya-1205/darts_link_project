@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/models/post_like.dart';
 import 'package:darts_link_project/repositories/post_repository.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 class PostLikesRepository {
   static final fireStore = FirebaseFirestore.instance;

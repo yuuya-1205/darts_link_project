@@ -12,6 +12,7 @@ import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,6 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
   String _houseTournamentHeaderImageUrl = '';
 
   List<String> _selectedFeatures = [];
-  List<DartsModelTagType> _selectedDartsModels = [];
 
   bool isApproved = false;
   bool isFinalTournament = false;
@@ -105,40 +105,7 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        title: const Text(
-          'ハウストーナメント麺集',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar: const OriginalAppBer(title: 'ハウストーナメント麺集'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -163,11 +130,9 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
                             maxImages: 1,
                             enableCamera: true,
                           );
-                          if (headerfiles != null) {
-                            setState(() {
-                              _selectedHeaderImage = headerfiles.first;
-                            });
-                          }
+                          setState(() {
+                            _selectedHeaderImage = headerfiles.first;
+                          });
                         },
                       ),
                     ),
@@ -582,7 +547,6 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
                                 title: const Text('開始時刻を選択してください'),
                                 onConfirm: (Picker picker, List value) {
                                   setState(() {
-                                    print(value);
                                     _selectedStartTime = DateTime(
                                         dateTime.year,
                                         dateTime.month,
@@ -737,8 +701,6 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
                       );
                       await HouseTournamentRepository.updateHouseTournament(
                           houseTournament);
-
-                      // ignore: use_build_context_synchronously
                       Navigator.pop(context);
                     },
                   ),
@@ -772,7 +734,6 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
     _finishTimeController.text =
         timeFormat.format(widget.houseTournament.finishTime.toDate());
     _selectedFeatures = widget.houseTournament.features.toList();
-    _selectedDartsModels = widget.houseTournament.dartsModels.toList();
 
     setState(() {});
   }

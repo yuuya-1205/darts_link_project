@@ -128,10 +128,7 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
   }
 
   Future<BattleRoomMemberType> getMemberType() async {
-    String? myUid = AuthRepository.currentUser!.id;
-    if (myUid == null) {
-      return BattleRoomMemberType.joinable;
-    }
+    final myUid = AuthRepository.currentUser!.id;
     if (myUid == widget.battleRoom.ownerId) {
       return BattleRoomMemberType.owner;
     }
@@ -196,123 +193,121 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
               future: getMemberType(),
               builder: (builder, snapshot) {
                 return snapshot.data == BattleRoomMemberType.owner
-                    ? PopupMenuButton(onSelected: (value) {
-                        if (value == '') {
-                          final uid = AuthRepository.currentUser!.id;
-                        }
-                      }, itemBuilder: (context) {
-                        return [
-                          PopupMenuItem(
-                            value: 'edit',
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: ((context) => EditBattleRoomPage(
-                                        battleRoom: widget.battleRoom)),
-                                  ),
-                                );
-                              },
-                              child: const Text('編集'),
-                            ),
-                          ),
-                          PopupMenuItem(
-                            value: 'memberList',
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: ((context) =>
-                                        BattleRoomMemberListPage(
-                                          battleRoom: widget.battleRoom,
-                                        )),
-                                  ),
-                                );
-                              },
-                              child: const Text('メンバーリスト'),
-                            ),
-                          ),
-                          if (widget.battleRoom.isApproved == true)
+                    ? PopupMenuButton(
+                        onSelected: (value) {},
+                        itemBuilder: (context) {
+                          return [
                             PopupMenuItem(
-                              value: 'approvedList',
+                              value: 'edit',
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: ((context) => EditBattleRoomPage(
+                                          battleRoom: widget.battleRoom)),
+                                    ),
+                                  );
+                                },
+                                child: const Text('編集'),
+                              ),
+                            ),
+                            PopupMenuItem(
+                              value: 'memberList',
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: ((context) =>
-                                          BattleRoomMemberApprovedListPage(
+                                          BattleRoomMemberListPage(
                                             battleRoom: widget.battleRoom,
                                           )),
                                     ),
                                   );
                                 },
-                                child: const Text('申請リスト'),
+                                child: const Text('メンバーリスト'),
                               ),
                             ),
-                          PopupMenuItem(
-                            value: 'delete',
-                            child: GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (_) {
-                                    return AlertDialog(
-                                      title: Row(
-                                        children: const [
-                                          Icon(
-                                            FeatherIcons.alertTriangle,
-                                            color: Colors.yellow,
-                                          ),
-                                          Text(
-                                            'このイベントを本当に削除しますか？',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ],
+                            if (widget.battleRoom.isApproved == true)
+                              PopupMenuItem(
+                                value: 'approvedList',
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: ((context) =>
+                                            BattleRoomMemberApprovedListPage(
+                                              battleRoom: widget.battleRoom,
+                                            )),
                                       ),
-                                      actions: [
-                                        // ボタン領域
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            FollowApproveButton(
-                                              onPressed: () {
-                                                BattleRoomRepository
-                                                    .deleteBattleRoom(
-                                                        widget.battleRoom);
-                                                Navigator.pop(context);
-                                                DeleteSnackBar.showSnackBar(
-                                                    context);
-                                              },
-                                              text: '削除する',
+                                    );
+                                  },
+                                  child: const Text('申請リスト'),
+                                ),
+                              ),
+                            PopupMenuItem(
+                              value: 'delete',
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) {
+                                      return AlertDialog(
+                                        title: Row(
+                                          children: const [
+                                            Icon(
+                                              FeatherIcons.alertTriangle,
+                                              color: Colors.yellow,
                                             ),
-                                            const SizedBox(
-                                              width: 15,
-                                            ),
-                                            FollowApproveButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              text: 'キャンセル',
+                                            Text(
+                                              'このイベントを本当に削除しますか？',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              child: const Text('削除'),
+                                        actions: [
+                                          // ボタン領域
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              FollowApproveButton(
+                                                onPressed: () {
+                                                  BattleRoomRepository
+                                                      .deleteBattleRoom(
+                                                          widget.battleRoom);
+                                                  Navigator.pop(context);
+                                                  DeleteSnackBar.showSnackBar(
+                                                      context);
+                                                },
+                                                text: '削除する',
+                                              ),
+                                              const SizedBox(
+                                                width: 15,
+                                              ),
+                                              FollowApproveButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                text: 'キャンセル',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: const Text('削除'),
+                              ),
                             ),
-                          ),
-                        ];
-                      })
+                          ];
+                        })
                     : Container();
               }),
         ],

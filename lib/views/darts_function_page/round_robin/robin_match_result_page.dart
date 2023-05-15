@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/components/robin_text.dart';
 import 'package:darts_link_project/models/round_robin.dart';
 import 'package:darts_link_project/models/team.dart';
 import 'package:darts_link_project/repositories/team_repository.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class RobinMatchResultPage extends StatefulWidget {
@@ -52,40 +52,7 @@ class _RobinMatchResultPageState extends State<RobinMatchResultPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        title: const Text(
-          '対戦結果',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar: const OriginalAppBer(title: '対戦結果'),
       body: Column(
         children: [
           const SizedBox(
@@ -254,6 +221,7 @@ class _RobinMatchResultPageState extends State<RobinMatchResultPage> {
             primary: const Color.fromRGBO(255, 129, 189, 1),
             text: '保存する',
             onPressed: () async {
+              final navigator = Navigator.of(context);
               await TeamRepository.updateMatchResult(
                 roundRobinId: widget.roundRobin.id,
                 teamId: firstTeam.id,
@@ -269,8 +237,7 @@ class _RobinMatchResultPageState extends State<RobinMatchResultPage> {
                 isWin: !selectedFirstTeamIsWin,
                 winReg: selectedWinRegs[secondTeam.id]!,
               );
-
-              Navigator.pop(context);
+              navigator.pop();
             },
           )
         ],

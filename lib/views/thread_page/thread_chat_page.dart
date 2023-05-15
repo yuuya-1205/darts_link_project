@@ -5,6 +5,7 @@ import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/repositories/thread_chat_repository.dart';
 import 'package:darts_link_project/repositories/thread_repository.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:darts_link_project/views/image_detail_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,53 +29,13 @@ class ThreadChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = AuthRepository.currentUser;
+    if (user == null) {
+      throw Exception('ログインしていません');
+    }
 
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        title: Row(
-          children: [
-            UserImage(
-              size: 40,
-              imageUrl:
-                  thread.getMemberDetail(user!.id, isPartner: true)['imageUrl'],
-            ),
-            const SizedBox(
-              width: 12,
-            ),
-            Text(
-              thread.getMemberDetail(user.id, isPartner: true)['name'],
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
+      appBar: OriginalAppBer(
+        title: thread.getMemberDetail(user.id, isPartner: true)['name'],
       ),
       body: Column(
         children: [
@@ -91,15 +52,6 @@ class ThreadChatPage extends StatelessWidget {
                 }
 
                 final chats = snapshot.data;
-                String lastchatCount() {
-                  int count = 0;
-                  for (final chat in chats!) {
-                    if (chat.isReading == false) {
-                      count++;
-                    }
-                  }
-                  return count.toString();
-                }
 
                 return ListView.builder(
                   reverse: true,
@@ -146,7 +98,9 @@ class _ChatCell extends StatelessWidget {
               isMyChat ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Material(
-              color: isMyChat ? Colors.white : Theme.of(context).accentColor,
+              color: isMyChat
+                  ? Colors.white
+                  : Theme.of(context).colorScheme.secondary,
               elevation: 10,
               borderRadius: BorderRadius.circular(8),
               child: Padding(
@@ -479,6 +433,6 @@ class __ChatBarState extends State<_ChatBar> {
     final randomString = const Uuid().v4();
     final path = 'posts/$uid/$randomString.jpeg';
 
-    return StorageRepository().saveimage(asset: asset, path: path);
+    return StorageRepository().saveImage(asset: asset, path: path);
   }
 }

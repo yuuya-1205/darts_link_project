@@ -145,7 +145,6 @@ class _LikedListPageState extends State<LikedListPage> {
                                         userImage: postLike.userImage,
                                         userName: postLike.userName),
                                     uid: user!.id);
-                                print(postLike.uid);
                               },
                               text: 'フォローする',
                             );

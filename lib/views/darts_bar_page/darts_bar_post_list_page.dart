@@ -1,6 +1,5 @@
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/post.dart';
-import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/post_repository.dart';
 import 'package:darts_link_project/views/time_line_page/time_line_card.dart';
 import 'package:flutter/material.dart';

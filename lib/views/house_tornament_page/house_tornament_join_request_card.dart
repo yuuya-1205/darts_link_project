@@ -93,6 +93,5 @@ class _HouseTornamentJoinRequestCardState
         ),
       ),
     );
-    ;
   }
 }

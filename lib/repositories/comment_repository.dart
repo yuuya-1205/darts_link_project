@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/models/comment.dart';
 import 'package:darts_link_project/repositories/post_repository.dart';
-import 'package:flutter/material.dart';
 
-class CommntRepository {
+class CommentRepository {
   static final firestore = FirebaseFirestore.instance;
   static CollectionReference getCommentCollection(String postId) =>
       PostRepository.postCollection.doc(postId).collection('comments');
@@ -29,7 +28,7 @@ class CommntRepository {
     required commentId,
     required postId,
   }) async {
-    CommntRepository.getCommentCollection(postId).doc(commentId).delete();
+    CommentRepository.getCommentCollection(postId).doc(commentId).delete();
   }
 
   static Stream<List<Comment>> streamComment(String postId) {
