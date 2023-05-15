@@ -6,17 +6,31 @@ class ListItemView extends StatelessWidget {
     Key? key,
     required this.imageUrl,
     required this.name,
+    this.trailing,
   }) : super(key: key);
   final String imageUrl;
   final String name;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: UserImage(
-        imageUrl: imageUrl,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
       ),
-      title: Text(name),
+      height: 80,
+      child: Row(
+        children: [
+          UserImage(imageUrl: imageUrl),
+          const SizedBox(width: 8),
+          Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
+          if (trailing != null) ...[
+            const Spacer(),
+            trailing!,
+          ],
+        ],
+      ),
     );
   }
 }

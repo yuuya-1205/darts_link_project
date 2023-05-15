@@ -485,7 +485,6 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
                       }
                       final appUser = await AppUserRepository.fetchAppUser(
                           widget.battleRoom.ownerId);
-                      // ignore: use_build_context_synchronously
                       Navigator.push(
                         context,
                         MaterialPageRoute(
