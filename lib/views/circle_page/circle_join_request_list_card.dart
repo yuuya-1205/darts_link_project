@@ -27,11 +27,7 @@ class CircleJoinRequestListCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  UserImage(
-                      height: 50,
-                      width: 50,
-                      imageUrl: circleJoinRequest.userImage,
-                      uid: circleJoinRequest.uid),
+                  UserImage(imageUrl: circleJoinRequest.userImage),
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Column(

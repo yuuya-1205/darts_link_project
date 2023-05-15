@@ -62,10 +62,7 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                 ),
               );
             },
-            width: 50,
-            height: 50,
             imageUrl: widget.circlePost.userImage,
-            uid: widget.circlePost.createrId,
           ),
           const SizedBox(
             width: 12,

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/user_image.dart';
-import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/follow.dart';
 import 'package:darts_link_project/models/post_like.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
@@ -36,12 +35,12 @@ class _LikedListPageState extends State<LikedListPage> {
           onTap: () {
             Navigator.pop(context);
           },
-          child: Row(children: [
-            Container(
+          child: Row(children: const [
+            SizedBox(
               width: 30,
-              child: const BackButton(),
+              child: BackButton(),
             ),
-            const Text(
+            Text(
               '戻る',
               style: TextStyle(
                 color: Color.fromRGBO(247, 63, 150, 1),
@@ -89,12 +88,7 @@ class _LikedListPageState extends State<LikedListPage> {
                   children: [
                     Row(
                       children: [
-                        UserImage(
-                          height: 50,
-                          width: 50,
-                          imageUrl: postLike.userImage,
-                          uid: postLike.uid,
-                        ),
+                        UserImage(imageUrl: postLike.userImage),
                         const SizedBox(
                           width: 8,
                         ),

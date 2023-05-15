@@ -29,12 +29,7 @@ class DrawerView extends StatelessWidget {
                       //   ),
                       // );
                     },
-                    child: UserImage(
-                      width: 50,
-                      height: 50,
-                      imageUrl: currentUser.userImage,
-                      uid: currentUser.id,
-                    ),
+                    child: UserImage(imageUrl: currentUser.userImage),
                   ),
                   const SizedBox(
                     width: 8,

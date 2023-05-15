@@ -115,11 +115,7 @@ class _StoreOwnerPageState extends State<StoreOwnerPage> {
                   color: Colors.white.withOpacity(0.5),
                   child: Row(
                     children: [
-                      UserImage(
-                          height: 50,
-                          width: 50,
-                          imageUrl: user!.userImage,
-                          uid: user!.id),
+                      UserImage(imageUrl: user!.userImage),
                       Expanded(
                         child: Column(
                           children: [

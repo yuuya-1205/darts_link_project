@@ -1,7 +1,6 @@
 import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/app_user.dart';
-import 'package:darts_link_project/models/post.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/person_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
@@ -9,9 +8,7 @@ import 'package:darts_link_project/views/my_page/edit_my_info_page.dart';
 import 'package:darts_link_project/views/my_page/my_info_page.dart';
 import 'package:darts_link_project/views/my_page/my_post_image_list.dart';
 import 'package:darts_link_project/views/my_page/my_post_list_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class MyPage extends StatefulWidget {
@@ -111,11 +108,7 @@ class _MyPageState extends State<MyPage> {
                   color: Colors.white.withOpacity(0.5),
                   child: Row(
                     children: [
-                      UserImage(
-                          height: 50,
-                          width: 50,
-                          imageUrl: user!.userImage,
-                          uid: user!.id),
+                      UserImage(imageUrl: user!.userImage),
                       Expanded(
                         child: Column(
                           children: [

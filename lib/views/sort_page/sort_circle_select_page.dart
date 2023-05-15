@@ -3,7 +3,7 @@ import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
 import 'package:darts_link_project/models/sort_state.dart';
 import 'package:darts_link_project/models/tag_type.dart';
-import 'package:darts_link_project/views/components/app_bar_back_view.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:darts_link_project/views/sort_page/components/feature_selector_view.dart';
 import 'package:flutter/material.dart';
 
@@ -66,11 +66,7 @@ class _SortCircleSelectPageState extends State<SortCircleSelectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leadingWidth: 76,
-        title: const Text('サークルの絞り込み'),
-        leading: const AppBarBackView(),
-      ),
+      appBar: const OriginalAppBer(title: 'サークルの絞り込み'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

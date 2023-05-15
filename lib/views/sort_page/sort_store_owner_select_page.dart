@@ -2,7 +2,7 @@ import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
 import 'package:darts_link_project/models/sort_state.dart';
-import 'package:darts_link_project/views/components/app_bar_back_view.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'components/area_selector_view.dart';
@@ -38,11 +38,7 @@ class _SortStoreOwnerSelectPageState extends State<SortStoreOwnerSelectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leadingWidth: 76,
-        title: const Text('ダーツバーの絞り込み'),
-        leading: const AppBarBackView(),
-      ),
+      appBar: const OriginalAppBer(title: 'ダーツバーの絞り込み'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

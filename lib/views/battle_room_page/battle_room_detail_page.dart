@@ -473,32 +473,30 @@ class _BattleRoomDetailPageState extends State<BattleRoomDetailPage> {
               Row(
                 children: [
                   UserImage(
-                      onTap: () async {
-                        if (widget.battleRoom.ownerId == user!.id) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: ((context) => const MyPage()),
-                            ),
-                          );
-                          return;
-                        }
-                        final appUser = await AppUserRepository.fetchAppUser(
-                            widget.battleRoom.ownerId);
-                        // ignore: use_build_context_synchronously
+                    onTap: () async {
+                      if (widget.battleRoom.ownerId == user!.id) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: ((context) => UserPage(
-                                  appUser: appUser!,
-                                )),
+                            builder: ((context) => const MyPage()),
                           ),
                         );
-                      },
-                      height: 50,
-                      width: 50,
-                      imageUrl: widget.battleRoom.createrImage,
-                      uid: widget.battleRoom.userId),
+                        return;
+                      }
+                      final appUser = await AppUserRepository.fetchAppUser(
+                          widget.battleRoom.ownerId);
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => UserPage(
+                                appUser: appUser!,
+                              )),
+                        ),
+                      );
+                    },
+                    imageUrl: widget.battleRoom.createrImage,
+                  ),
                   const SizedBox(
                     width: 15,
                   ),

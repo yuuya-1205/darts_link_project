@@ -258,11 +258,7 @@ class _CircleDetailPageState extends State<CircleDetailPage> {
                     color: Colors.white.withOpacity(0.5),
                     child: Row(
                       children: [
-                        UserImage(
-                            height: 50,
-                            width: 50,
-                            imageUrl: widget.circle.createrImage,
-                            uid: widget.circle.ownerId),
+                        UserImage(imageUrl: widget.circle.createrImage),
                         Expanded(
                           child: Column(
                             children: [

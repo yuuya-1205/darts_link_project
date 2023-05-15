@@ -1,5 +1,3 @@
-import 'package:darts_link_project/components/delele_snack_bar.dart';
-import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/app_user.dart';
@@ -207,11 +205,7 @@ class _DartsBarDetailPageState extends State<DartsBarDetailPage> {
                   color: Colors.white.withOpacity(0.5),
                   child: Row(
                     children: [
-                      UserImage(
-                          height: 50,
-                          width: 50,
-                          imageUrl: widget.storeOwner.userImage,
-                          uid: widget.storeOwner.userId),
+                      UserImage(imageUrl: widget.storeOwner.userImage),
                       Expanded(
                         child: Column(
                           children: [

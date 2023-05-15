@@ -26,11 +26,7 @@ class _FollowCardState extends State<FollowCard> {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            UserImage(
-                height: 40,
-                width: 40,
-                imageUrl: widget.follow.userImage,
-                uid: widget.follow.followingRef.id),
+            UserImage(size: 40, imageUrl: widget.follow.userImage),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(

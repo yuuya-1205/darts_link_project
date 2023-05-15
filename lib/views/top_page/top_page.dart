@@ -50,7 +50,6 @@ class _TopPageState extends State<TopPage> {
               _scaffoldKey.currentState!.openDrawer();
             },
             imageUrl: user!.userImage,
-            uid: user.id,
           ),
         ),
         title: SizedBox(

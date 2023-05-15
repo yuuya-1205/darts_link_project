@@ -41,7 +41,7 @@ class _UserPageState extends State<UserPage> {
       '投稿': UserPostListPage(
         appUser: widget.appUser,
       ),
-      '画像': UserImagePostPage(),
+      '画像': const UserImagePostPage(),
     };
     // TODO: implement initState
     super.initState();
@@ -97,11 +97,7 @@ class _UserPageState extends State<UserPage> {
                   color: Colors.white.withOpacity(0.5),
                   child: Row(
                     children: [
-                      UserImage(
-                          height: 50,
-                          width: 50,
-                          imageUrl: widget.appUser.userImage,
-                          uid: widget.appUser.id),
+                      UserImage(imageUrl: widget.appUser.userImage),
                       Expanded(
                         child: Column(
                           children: [
@@ -113,7 +109,7 @@ class _UserPageState extends State<UserPage> {
                                 ),
                                 const Spacer(),
                                 IconButton(
-                                  icon: Icon(FeatherIcons.mail),
+                                  icon: const Icon(FeatherIcons.mail),
                                   onPressed: () async {
                                     final uids = [user!.id, widget.appUser.id];
                                     uids.sort();

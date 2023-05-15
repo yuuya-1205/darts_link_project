@@ -9,15 +9,13 @@ import 'package:darts_link_project/views/image_detail_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-
 import 'package:uuid/uuid.dart';
 
 import '../../models/chat.dart';
-
 import '../../models/thread.dart';
 
 class ThreadChatPage extends StatelessWidget {
-  static final name = 'ChatPage';
+  static const name = 'ChatPage';
   final Thread thread;
   final bool isReading;
 
@@ -60,11 +58,10 @@ class ThreadChatPage extends StatelessWidget {
         title: Row(
           children: [
             UserImage(
-                height: 40,
-                width: 40,
-                imageUrl: thread.getMemberDetail(user!.id,
-                    isPartner: true)['imageUrl'],
-                uid: thread.partnerUid(user.id)),
+              size: 40,
+              imageUrl:
+                  thread.getMemberDetail(user!.id, isPartner: true)['imageUrl'],
+            ),
             const SizedBox(
               width: 12,
             ),
@@ -139,11 +136,7 @@ class _ChatCell extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMyChat = chat.uid == FirebaseAuth.instance.currentUser!.uid;
     List<Widget> chatWidgets = [
-      if (!isMyChat)
-        UserImage(
-          uid: chat.uid,
-          imageUrl: '',
-        ),
+      if (!isMyChat) const UserImage(imageUrl: ''),
       const SizedBox(
         width: 12,
       ),
@@ -153,13 +146,13 @@ class _ChatCell extends StatelessWidget {
               isMyChat ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Material(
+              color: isMyChat ? Colors.white : Theme.of(context).accentColor,
+              elevation: 10,
+              borderRadius: BorderRadius.circular(8),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(chat.text),
               ),
-              color: isMyChat ? Colors.white : Theme.of(context).accentColor,
-              elevation: 10,
-              borderRadius: BorderRadius.circular(8),
             ),
             if (chat.imageUrls.isNotEmpty)
               const SizedBox(
@@ -394,11 +387,9 @@ class __ChatBarState extends State<_ChatBar> {
                       maxImages: 6,
                       enableCamera: true,
                     );
-                    if (imagefiles != null) {
-                      setState(() {
-                        _selectedimages = imagefiles;
-                      });
-                    }
+                    setState(() {
+                      _selectedimages = imagefiles;
+                    });
                   },
                 ),
                 Expanded(
@@ -412,7 +403,6 @@ class __ChatBarState extends State<_ChatBar> {
                   ),
                 ),
                 TextButton(
-                  child: const Text('送信'),
                   onPressed: _isSending
                       ? null
                       : () async {
@@ -454,12 +444,12 @@ class __ChatBarState extends State<_ChatBar> {
                             }
                           }
 
-                          final _thread = widget.thread.copyWith(
+                          final thread = widget.thread.copyWith(
                               lastChat: text,
                               updatedAt: Timestamp.now(),
                               unReadCount: unReadCount);
 
-                          await ThreadRepository.updateThread(_thread);
+                          await ThreadRepository.updateThread(thread);
 
                           _messageController.clear();
                           setState(() {
@@ -467,6 +457,7 @@ class __ChatBarState extends State<_ChatBar> {
                             _selectedimages.clear();
                           });
                         },
+                  child: const Text('送信'),
                 ),
               ],
             ),

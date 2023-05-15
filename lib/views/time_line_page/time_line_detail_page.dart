@@ -40,12 +40,12 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
           onTap: () {
             Navigator.pop(context);
           },
-          child: Row(children: [
-            Container(
+          child: Row(children: const [
+            SizedBox(
               width: 30,
-              child: const BackButton(),
+              child: BackButton(),
             ),
-            const Text(
+            Text(
               '戻る',
               style: TextStyle(
                 color: Color.fromRGBO(247, 63, 150, 1),
@@ -69,12 +69,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  UserImage(
-                    width: 50,
-                    height: 50,
-                    imageUrl: widget.post.userImage,
-                    uid: widget.post.createrId,
-                  ),
+                  UserImage(imageUrl: widget.post.userImage),
                   const SizedBox(
                     width: 12,
                   ),
@@ -213,7 +208,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                               builder: (context, snapshot) {
                                 final postLikes = snapshot.data;
                                 if (postLikes == null) {
-                                  return SizedBox();
+                                  return const SizedBox();
                                 }
                                 if (postLikes
                                     .where((element) => element.uid == user!.id)
@@ -354,12 +349,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    UserImage(
-                                      width: 50,
-                                      height: 50,
-                                      imageUrl: comment.userImage,
-                                      uid: comment.uid,
-                                    ),
+                                    UserImage(imageUrl: comment.userImage),
                                     const SizedBox(
                                       width: 12,
                                     ),
@@ -543,7 +533,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                                   final postLikes =
                                                       snapshot.data;
                                                   if (postLikes == null) {
-                                                    return SizedBox();
+                                                    return const SizedBox();
                                                   }
                                                   if (postLikes
                                                       .where((element) =>
