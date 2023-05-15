@@ -1,8 +1,9 @@
 import 'package:darts_link_project/theme_data.dart';
-import 'package:darts_link_project/views/time_line_page/create_time_line_page.dart';
-import 'package:darts_link_project/views/time_line_page/follow_time_line_page.dart';
-import 'package:darts_link_project/views/time_line_page/whole_time_line_page.dart';
 import 'package:flutter/material.dart';
+
+import 'create_time_line_page.dart';
+import 'follow_time_line_page.dart';
+import 'whole_time_line_page.dart';
 
 class TimeLinePage extends StatefulWidget {
   const TimeLinePage({Key? key}) : super(key: key);

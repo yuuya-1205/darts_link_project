@@ -8,9 +8,10 @@ import 'package:darts_link_project/views/darts_bar_page/darts_bar_info_page.dart
 import 'package:darts_link_project/views/store_owner_page/edit_store_owner_page.dart';
 import 'package:darts_link_project/views/store_owner_page/store_owner_post_image_page.dart';
 import 'package:darts_link_project/views/store_owner_page/store_owner_post_list_page.dart';
-import 'package:darts_link_project/views/time_line_page/create_time_line_page.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+
+import '../time_line/create_time_line_page.dart';
 
 class StoreOwnerPage extends StatefulWidget {
   const StoreOwnerPage({

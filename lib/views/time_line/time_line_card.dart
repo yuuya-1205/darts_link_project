@@ -9,12 +9,13 @@ import 'package:darts_link_project/repositories/post_likes_repository.dart';
 import 'package:darts_link_project/repositories/post_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/my_page/my_page.dart';
-import 'package:darts_link_project/views/time_line_page/liked_list_page.dart';
-import 'package:darts_link_project/views/time_line_page/time_line_detail_page.dart';
 import 'package:darts_link_project/views/user_page/user_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
+import 'liked_list_page.dart';
+import 'time_line_detail_page.dart';
 
 class TimeLineCard extends StatefulWidget {
   const TimeLineCard({

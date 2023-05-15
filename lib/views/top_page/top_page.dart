@@ -5,10 +5,11 @@ import 'package:darts_link_project/views/darts_function_page/darts_function_page
 import 'package:darts_link_project/views/home_page/home_page.dart';
 import 'package:darts_link_project/views/search_page/search_page.dart';
 import 'package:darts_link_project/views/thread_page/threads_page.dart';
-import 'package:darts_link_project/views/time_line_page/time_line_page.dart';
 import 'package:darts_link_project/views/top_page/components/drawer_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
+import '../time_line/time_line_page.dart';
 
 class TopPage extends StatefulWidget {
   const TopPage({

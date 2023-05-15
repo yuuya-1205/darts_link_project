@@ -10,10 +10,11 @@ import 'package:darts_link_project/repositories/post_likes_repository.dart';
 import 'package:darts_link_project/repositories/post_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/comment_page.dart/create_comment_page.dart';
-import 'package:darts_link_project/views/time_line_page/liked_list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
+import 'liked_list_page.dart';
 
 class TimeLineDetailPage extends StatefulWidget {
   const TimeLineDetailPage({
