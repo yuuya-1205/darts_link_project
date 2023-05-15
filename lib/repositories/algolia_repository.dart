@@ -17,7 +17,7 @@ class AlgoliaRepository {
   Future<List<BattleRoom>> searchBattleRooms(String searchQuery) async {
     final result = await algolia.instance
         .index('battleRooms')
-        .search(searchQuery)
+        .query(searchQuery)
         .getObjects();
     return result.hits.map(BattleRoom.fromAlgolia).toList();
   }

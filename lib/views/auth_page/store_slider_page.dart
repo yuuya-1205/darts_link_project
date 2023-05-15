@@ -42,7 +42,7 @@ class _StoreSliderPageState extends State<StoreSliderPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: ((context) => const RegistStoreOwnerPage()),
+                      builder: ((context) => const RegisterStoreOwnerPage()),
                     ),
                   );
                   return;

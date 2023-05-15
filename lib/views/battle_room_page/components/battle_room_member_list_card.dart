@@ -36,32 +36,30 @@ class BattleRoomMemberListCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   UserImage(
-                      onTap: () async {
-                        if (member.uid == user!.id) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: ((context) => const MyPage()),
-                            ),
-                          );
-                          return;
-                        }
-                        final appUser =
-                            await AppUserRepository.fetchAppUser(member.uid);
-                        // ignore: use_build_context_synchronously
+                    onTap: () async {
+                      if (member.uid == user!.id) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: ((context) => UserPage(
-                                  appUser: appUser!,
-                                )),
+                            builder: ((context) => const MyPage()),
                           ),
                         );
-                      },
-                      height: 50,
-                      width: 50,
-                      imageUrl: member.userImage,
-                      uid: member.uid),
+                        return;
+                      }
+                      final appUser =
+                          await AppUserRepository.fetchAppUser(member.uid);
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => UserPage(
+                                appUser: appUser!,
+                              )),
+                        ),
+                      );
+                    },
+                    imageUrl: member.userImage,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Column(

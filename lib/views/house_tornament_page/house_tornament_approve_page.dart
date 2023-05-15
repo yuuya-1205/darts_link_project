@@ -1,6 +1,7 @@
 import 'package:darts_link_project/models/house_tornament/house_tornament_join_request.dart';
 import 'package:darts_link_project/models/house_tornament/house_tournament.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_join_request.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:darts_link_project/views/house_tornament_page/house_tornament_join_request_card.dart';
 import 'package:flutter/material.dart';
 
@@ -18,40 +19,7 @@ class _HouseTornamentApprovePageState extends State<HouseTornamentApprovePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        title: const Text(
-          '申請リスト',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar: const OriginalAppBer(title: '申請リスト'),
       body: StreamBuilder<List<HouseTornamentJoinRequest>>(
           stream: HouseTornamentJoinRequestRepository
               .houseTornamentJoinRequestListStream(
@@ -82,6 +50,5 @@ class _HouseTornamentApprovePageState extends State<HouseTornamentApprovePage> {
                 });
           }),
     );
-    ;
   }
 }

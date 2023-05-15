@@ -133,7 +133,7 @@ class _DartsBarInfoPageState extends State<DartsBarInfoPage> {
                           if (entry.key == 0) {
                             return null;
                           }
-                          return Container(
+                          return SizedBox(
                               width: 120,
                               height: 50,
                               child: Image.network(entry.value));
@@ -183,7 +183,7 @@ class _DartsBarInfoPageState extends State<DartsBarInfoPage> {
           const SizedBox(height: 32),
           Center(
             child: StreamBuilder<DocumentSnapshot>(
-              stream: FavoriteStoreOwnerRepository.favoriteStream(
+              stream: FavoriteStoreOwnerRepository.favoriteStoreOwnerDocStream(
                   myUid: user!.id, storeOwnerId: widget.storeOwner.id),
               builder: (context, snapshots) {
                 if (snapshots.hasData && snapshots.data!.exists) {

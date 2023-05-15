@@ -2,7 +2,6 @@ import 'package:darts_link_project/components/constants.dart';
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/thread_repository.dart';
-import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/thread_page/thread_chat_page.dart';
 import 'package:flutter/material.dart';
 
@@ -54,17 +53,6 @@ class _ThreadsPageState extends State<ThreadsPage> {
             itemBuilder: (context, index) {
               final thread = threads[index];
 
-              final bool isDirectMessage = thread.id.contains(user.id);
-
-              String chatId;
-              String oponentUid;
-
-              if (isDirectMessage) {
-                chatId = thread.uids
-                    .singleWhere((loopingUid) => loopingUid != user.id);
-              } else {
-                chatId = thread.id;
-              }
               return GestureDetector(
                 onTap: () async {
                   await ThreadRepository.updateBadge(
@@ -95,11 +83,9 @@ class _ThreadsPageState extends State<ThreadsPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             UserImage(
-                                height: 50,
-                                width: 50,
-                                imageUrl: thread.getMemberDetail(user.id,
-                                    isPartner: true)['imageUrl'],
-                                uid: thread.partnerUid(user.id)),
+                              imageUrl: thread.getMemberDetail(user.id,
+                                  isPartner: true)['imageUrl'],
+                            ),
                             const SizedBox(
                               width: 8,
                             ),

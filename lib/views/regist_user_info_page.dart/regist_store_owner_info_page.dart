@@ -10,6 +10,7 @@ import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/store_owner_repository.dart';
 import 'package:darts_link_project/views/auth_page/store_register_application_review_page.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,42 +45,7 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(
-            children: [
-              Container(
-                width: 30,
-                child: const BackButton(),
-              ),
-              const Text(
-                '戻る',
-                style: TextStyle(
-                  color: Color.fromRGBO(247, 63, 150, 1),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-        ),
-        title: const Text(
-          '店舗登録申請',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: Colors.white,
-      ),
+      appBar: const OriginalAppBer(title: '店舗登録申請'),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: SingleChildScrollView(
@@ -479,7 +445,6 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
                   await StoreOwnerRepository.updateStoreOwner(storeOwner);
 
                   AuthRepository.currentUser = storeOwner;
-                  // ignore: use_build_context_synchronously
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -497,18 +462,5 @@ class _RegistStoreOwnerInfoPageState extends State<RegistStoreOwnerInfoPage> {
         )),
       ),
     );
-  }
-
-  @override
-  Future<void> _getCurrentUser() async {
-    final currentUser = AuthRepository.currentUser;
-
-    if (currentUser == null) {
-      return;
-    }
-
-    _userIdController.text = currentUser.id.substring(2, 8);
-
-    setState(() {});
   }
 }

@@ -53,7 +53,5 @@ class AreaRepository {
           .toList();
       cityMap[pref.code] = cities;
     });
-
-    print(cityMap.length);
   }
 }

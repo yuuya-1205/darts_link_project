@@ -3,7 +3,6 @@ import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/post_repository.dart';
 import 'package:darts_link_project/views/time_line_page/time_line_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class MyPostListPage extends StatefulWidget {
   const MyPostListPage({Key? key}) : super(key: key);

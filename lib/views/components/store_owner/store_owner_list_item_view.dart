@@ -35,11 +35,7 @@ class StoreOwnerListItemView extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(14, 23, 0, 23),
-                child: UserImage(
-                    height: 64,
-                    width: 64,
-                    imageUrl: storeOwner.userImage,
-                    uid: storeOwner.userId),
+                child: UserImage(size: 64, imageUrl: storeOwner.userImage),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(6, 14, 0, 14),

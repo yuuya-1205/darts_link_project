@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/models/follower.dart';
 import 'package:darts_link_project/repositories/person_repository.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 class FollowRepository {
   static final fireStore = FirebaseFirestore.instance;

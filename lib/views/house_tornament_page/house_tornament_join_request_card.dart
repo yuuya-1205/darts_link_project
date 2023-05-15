@@ -34,10 +34,7 @@ class _HouseTornamentJoinRequestCardState
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   UserImage(
-                      height: 50,
-                      width: 50,
-                      imageUrl: widget.houseTornamentJoinRequest.userImage,
-                      uid: widget.houseTornamentJoinRequest.uid),
+                      imageUrl: widget.houseTornamentJoinRequest.userImage),
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Column(
@@ -96,6 +93,5 @@ class _HouseTornamentJoinRequestCardState
         ),
       ),
     );
-    ;
   }
 }

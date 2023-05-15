@@ -1,7 +1,8 @@
+import 'package:darts_link_project/constant/color.dart' as constant;
 import 'package:flutter/material.dart';
 
 class OriginalButton extends StatelessWidget {
-  final String? text;
+  final String text;
   final VoidCallback? onPressed;
   final Color? primary;
   final Color? onPrimary;
@@ -20,25 +21,16 @@ class OriginalButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: primary,
-        onPrimary: onPrimary,
+        backgroundColor: primary ?? constant.primary,
+        foregroundColor: onPrimary,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(100),
-            topRight: Radius.circular(100),
-            bottomLeft: Radius.circular(100),
-            bottomRight: Radius.circular(100),
-          ),
+          borderRadius: BorderRadius.all(Radius.circular(100)),
         ),
       ),
       onPressed: onPressed,
-      child: Center(
-        child: Text(
-          text!,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      child: Text(
+        text,
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }

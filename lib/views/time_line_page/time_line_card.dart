@@ -61,10 +61,7 @@ class _TimeLineCardState extends State<TimeLineCard> {
                 ),
               );
             },
-            width: 50,
-            height: 50,
             imageUrl: widget.post.userImage,
-            uid: widget.post.createrId,
           ),
           const SizedBox(
             width: 12,
@@ -211,7 +208,7 @@ class _TimeLineCardState extends State<TimeLineCard> {
                           builder: (context, snapshot) {
                             final postLikes = snapshot.data;
                             if (postLikes == null) {
-                              return SizedBox();
+                              return const SizedBox();
                             }
                             if (postLikes
                                 .where((element) => element.uid == user!.id)

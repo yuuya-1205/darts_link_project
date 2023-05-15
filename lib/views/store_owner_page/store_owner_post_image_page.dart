@@ -1,6 +1,4 @@
 import 'package:darts_link_project/models/post.dart';
-import 'package:darts_link_project/repositories/circle/circle_repository.dart';
-import 'package:darts_link_project/repositories/post_repository.dart';
 import 'package:flutter/material.dart';
 
 class StoreOwnerImagePage extends StatefulWidget {

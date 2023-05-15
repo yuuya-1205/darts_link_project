@@ -33,9 +33,9 @@ class EmailSendCheck extends StatefulWidget {
 class EmailSendCheckState extends State<EmailSendCheck> {
   final _auth = FirebaseAuth.instance;
   UserCredential? _result;
-  String? _nocheckText;
+  String? _noCheckText;
   String? _sentEmailText;
-  int _btn_click_num = 0;
+  int _btnClickNum = 0;
 
   @override
   void initState() {
@@ -48,8 +48,6 @@ class EmailSendCheckState extends State<EmailSendCheck> {
       await AuthRepository.currentFirebaseUser?.reload();
       final emailVerified =
           AuthRepository.currentFirebaseUser?.emailVerified ?? false;
-      print(emailVerified);
-      print(AuthRepository.currentFirebaseUser);
       if (!emailVerified) {
         return;
       }
@@ -69,13 +67,13 @@ class EmailSendCheckState extends State<EmailSendCheck> {
   @override
   Widget build(BuildContext context) {
     // 前画面から遷移後の初期表示内容
-    if (_btn_click_num == 0) {
+    if (_btnClickNum == 0) {
       if (widget.from == 1) {
         // アカウント作成画面から遷移した時
-        _nocheckText = '';
+        _noCheckText = '';
         _sentEmailText = '${widget.email}\nに確認メールを送信しました。';
       } else {
-        _nocheckText = 'まだメール確認が完了していません。\n確認メール内のリンクをクリックしてください。';
+        _noCheckText = 'まだメール確認が完了していません。\n確認メール内のリンクをクリックしてください。';
         _sentEmailText = '';
       }
     }
@@ -93,7 +91,7 @@ class EmailSendCheckState extends State<EmailSendCheck> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
                   child: Text(
-                    _nocheckText!,
+                    _noCheckText!,
                     style: const TextStyle(color: Colors.red),
                   ),
                 ),
@@ -120,7 +118,7 @@ class EmailSendCheckState extends State<EmailSendCheck> {
 
                         _result?.user!.sendEmailVerification();
                         setState(() {
-                          _btn_click_num++;
+                          _btnClickNum++;
                           _sentEmailText = '${widget.email}\nに確認メールを送信しました。';
                         });
                       },

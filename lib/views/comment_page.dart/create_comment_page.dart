@@ -2,13 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/models/comment.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/comment_repository.dart';
-import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/views/app_bar_action_button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:uuid/uuid.dart';
 
 class CreateCommentPage extends StatefulWidget {
   const CreateCommentPage({
@@ -28,51 +26,15 @@ class _CreateCommentPageState extends State<CreateCommentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        title: const Text(
-          'コメント作成',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      appBar: OriginalAppBer(
+        title: 'コメント作成',
         actions: [
           AppbarActionButton(
             onPressed: () async {
               if (!_formKey.currentState!.validate()) {
                 return;
               }
-              final imageFutures = _selectedimages
-                  .map(
-                    (selectedimage) => _saveimage(selectedimage),
-                  )
-                  .toList();
-              final imageUrls = await Future.wait(imageFutures);
+              final navigator = Navigator.of(context);
 
               final user = AuthRepository.currentUser;
               final text = _commentController.text;
@@ -86,9 +48,9 @@ class _CreateCommentPageState extends State<CreateCommentPage> {
                 commentImage: [],
                 createdAt: Timestamp.now(),
               );
-              CommntRepository.addComment(
+              CommentRepository.addComment(
                   postId: widget.postId, comment: comment);
-              Navigator.of(context).pop();
+              navigator.pop();
             },
             label: '投稿',
             isActive: _commentController.text.isNotEmpty,
@@ -143,7 +105,7 @@ class _CreateCommentPageState extends State<CreateCommentPage> {
                                 right: -4,
                                 child: IconButton(
                                   color: Colors.white,
-                                  icon: Icon(Icons.close),
+                                  icon: const Icon(Icons.close),
                                   onPressed: () {
                                     setState(() {
                                       _selectedimages.removeAt(index);
@@ -163,11 +125,9 @@ class _CreateCommentPageState extends State<CreateCommentPage> {
                       maxImages: 6,
                       enableCamera: true,
                     );
-                    if (imagefiles != null) {
-                      setState(() {
-                        _selectedimages = imagefiles;
-                      });
-                    }
+                    setState(() {
+                      _selectedimages = imagefiles;
+                    });
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -188,14 +148,5 @@ class _CreateCommentPageState extends State<CreateCommentPage> {
             ),
           )),
     );
-  }
-
-  Future<String> _saveimage(Asset asset) async {
-    final uid = FirebaseAuth.instance.currentUser!.uid;
-
-    final randomString = const Uuid().v4();
-    final path = 'posts/$uid/$randomString.jpeg';
-
-    return StorageRepository().saveimage(asset: asset, path: path);
   }
 }

@@ -14,6 +14,7 @@ import 'package:darts_link_project/repositories/battle_room/battle_room_reposito
 import 'package:darts_link_project/repositories/post_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/repositories/store_owner_repository.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:darts_link_project/views/store_owner_page/store_owner_page.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,7 +35,6 @@ class _EditStoreOwnerPageState extends State<EditStoreOwnerPage> {
   final _userNameController = TextEditingController();
   final _userIdController = TextEditingController();
   final _userSelfIntroductionController = TextEditingController();
-  final _genderController = TextEditingController();
   final _prefController = TextEditingController();
   final _cityController = TextEditingController();
 
@@ -52,87 +52,18 @@ class _EditStoreOwnerPageState extends State<EditStoreOwnerPage> {
 
   List<Pref> prefs = [];
 
-  int _dartsLiveRating = 1;
-  int _phoenixRating = 1;
-
   List<Asset> _selectedHeaderImages = [];
   Asset? _selectedUserImage;
 
   List<String> _currentHeaderImageUrls = [];
   String _currentUserImageUrl = '';
-  String _selectedGender = '未設定';
 
   List<String> _selectedTags = [];
-
-  void _incrementCounter() {
-    if (_dartsLiveRating < 18) {
-      setState(() {
-        _dartsLiveRating++;
-      });
-    }
-  }
-
-  void _decrementCounter() {
-    if (_dartsLiveRating > 1) {
-      setState(() {
-        _dartsLiveRating--;
-      });
-    }
-  }
-
-  void _phoenixIncrementCounter() {
-    if (_dartsLiveRating < 30) {
-      setState(() {
-        _phoenixRating++;
-      });
-    }
-  }
-
-  void _phoenixDecrementCounter() {
-    if (_phoenixRating > 1) {
-      setState(() {
-        _phoenixRating--;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        title: const Text(
-          '店舗情報編集',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar: const OriginalAppBer(title: '店舗情報編集'),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: SingleChildScrollView(
@@ -166,11 +97,9 @@ class _EditStoreOwnerPageState extends State<EditStoreOwnerPage> {
                             maxImages: 6,
                             enableCamera: true,
                           );
-                          if (headerfiles != null) {
-                            setState(() {
-                              _selectedHeaderImages = headerfiles;
-                            });
-                          }
+                          setState(() {
+                            _selectedHeaderImages = headerfiles;
+                          });
                         },
                       ),
                     ),
@@ -600,11 +529,10 @@ class _EditStoreOwnerPageState extends State<EditStoreOwnerPage> {
                   // }
 
                   // プロフィール画像アップロード
-                  String? imageUrl;
                   if (_selectedUserImage != null) {
                     final path = 'users/${user.uid}/user.jpeg';
                     _currentUserImageUrl = await StorageRepository()
-                        .saveimage(asset: _selectedUserImage!, path: path);
+                        .saveImage(asset: _selectedUserImage!, path: path);
                   }
                   final storeOwner = StoreOwner(
                     id: uid,
@@ -627,18 +555,15 @@ class _EditStoreOwnerPageState extends State<EditStoreOwnerPage> {
                   await BattleRoomRepository.updateProfile(appUser: storeOwner);
 
                   AuthRepository.currentUser = storeOwner;
-                  // ignore: use_build_context_synchronously
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: ((context) => StoreOwnerPage()),
+                      builder: ((context) => const StoreOwnerPage()),
                     ),
                   );
                 },
               ),
-              const SizedBox(
-                height: 30,
-              ),
+              const SizedBox(height: 30),
             ],
           ),
         )),
@@ -694,6 +619,6 @@ class _EditStoreOwnerPageState extends State<EditStoreOwnerPage> {
     final randomString = const Uuid().v4();
     final path = 'posts/$uid/$randomString.jpeg';
 
-    return StorageRepository().saveimage(asset: asset, path: path);
+    return StorageRepository().saveImage(asset: asset, path: path);
   }
 }

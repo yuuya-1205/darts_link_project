@@ -2,8 +2,8 @@ import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
-import 'package:darts_link_project/repositories/store_owner_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:darts_link_project/views/darts_bar_page/darts_bar_info_page.dart';
 import 'package:darts_link_project/views/store_owner_page/edit_store_owner_page.dart';
 import 'package:darts_link_project/views/store_owner_page/store_owner_post_image_page.dart';
@@ -43,31 +43,7 @@ class _StoreOwnerPageState extends State<StoreOwnerPage> {
       throw Exception('ログインしていません');
     }
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
+      appBar: OriginalAppBer(
         actions: [
           PopupMenuButton<String>(
               onSelected: (value) => value,
@@ -77,10 +53,6 @@ class _StoreOwnerPageState extends State<StoreOwnerPage> {
                     value: "edit",
                     child: GestureDetector(
                       onTap: () async {
-                        final storeOwner =
-                            await StoreOwnerRepository.fetchStoreOwner(
-                                user!.id);
-                        // ignore: use_build_context_synchronously
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -115,11 +87,7 @@ class _StoreOwnerPageState extends State<StoreOwnerPage> {
                   color: Colors.white.withOpacity(0.5),
                   child: Row(
                     children: [
-                      UserImage(
-                          height: 50,
-                          width: 50,
-                          imageUrl: user!.userImage,
-                          uid: user!.id),
+                      UserImage(imageUrl: user!.userImage),
                       Expanded(
                         child: Column(
                           children: [

@@ -62,10 +62,7 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                 ),
               );
             },
-            width: 50,
-            height: 50,
             imageUrl: widget.circlePost.userImage,
-            uid: widget.circlePost.createrId,
           ),
           const SizedBox(
             width: 12,
@@ -212,7 +209,7 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                           builder: (context, snapshot) {
                             final postLikes = snapshot.data;
                             if (postLikes == null) {
-                              return SizedBox();
+                              return const SizedBox();
                             }
                             if (postLikes
                                 .where((element) => element.uid == user!.id)
