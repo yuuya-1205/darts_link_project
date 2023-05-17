@@ -49,6 +49,7 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
 
   int _dartsLiveRating = 1;
   int _phoenixRating = 1;
+  int _capacity = 1;
 
   Asset? _selectedHeaderImage;
   Asset? _selectedUserImage;
@@ -418,6 +419,84 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
               ),
               const SizedBox(
                 height: 12,
+              ),
+              Row(
+                children: [
+                  const Text(
+                    'ダーツライブ',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  IconButton(
+                    onPressed: _capacity <= 0
+                        ? null
+                        : () {
+                            _decrementCounter();
+                          },
+                    icon: const Icon(
+                      Icons.remove_circle_outline,
+                      size: 40,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  Text(
+                    '$_capacity',
+                    style: const TextStyle(fontSize: 32),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      _incrementCounter();
+                    },
+                    icon: const Icon(Icons.add_circle_outline,
+                        size: 40, color: Color.fromRGBO(247, 63, 150, 1)),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  const Text(
+                    'フェニックス',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  IconButton(
+                    onPressed: _capacity <= 0
+                        ? null
+                        : () {
+                            _phoenixDecrementCounter();
+                          },
+                    icon: const Icon(
+                      Icons.remove_circle_outline,
+                      size: 40,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  Text(
+                    '$_capacity',
+                    style: const TextStyle(fontSize: 32),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      _phoenixIncrementCounter();
+                    },
+                    icon: const Icon(Icons.add_circle_outline,
+                        size: 40, color: Color.fromRGBO(247, 63, 150, 1)),
+                  ),
+                ],
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
