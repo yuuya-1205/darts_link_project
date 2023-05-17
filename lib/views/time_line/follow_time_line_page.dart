@@ -2,7 +2,7 @@ import 'package:darts_link_project/models/follow.dart';
 import 'package:darts_link_project/models/post.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/follow_repository.dart';
-import 'package:darts_link_project/repositories/post_repository.dart';
+import 'package:darts_link_project/repositories/post/post_repository.dart';
 import 'package:flutter/material.dart';
 
 import 'time_line_card.dart';

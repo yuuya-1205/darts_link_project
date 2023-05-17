@@ -5,8 +5,8 @@ import 'package:darts_link_project/models/post.dart';
 import 'package:darts_link_project/models/post_like.dart';
 import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
-import 'package:darts_link_project/repositories/post_likes_repository.dart';
-import 'package:darts_link_project/repositories/post_repository.dart';
+import 'package:darts_link_project/repositories/post/post_like_repository.dart';
+import 'package:darts_link_project/repositories/post/post_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/my_page/my_page.dart';
 import 'package:darts_link_project/views/user_page/user_page.dart';
@@ -205,7 +205,7 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                         },
                       ),
                       StreamBuilder<List<PostLike>>(
-                          stream: PostLikesRepository.streamPostLike(
+                          stream: PostLikeRepository.streamPostLike(
                               widget.circlePost.id),
                           builder: (context, snapshot) {
                             final postLikes = snapshot.data;
@@ -213,17 +213,18 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                               return const SizedBox();
                             }
                             if (postLikes
-                                .where((element) => element.uid == user!.id)
+                                .where((element) =>
+                                    element.likerReference == user!.reference)
                                 .isEmpty) {
                               return ActionButton(
                                 icondata: Icons.favorite_outline,
                                 iconColor: OriginalTheme.themeData.primaryColor,
                                 onPressed: () async {
-                                  await PostLikesRepository.setLikes(
+                                  await PostLikeRepository.setLike(
                                     postId: widget.circlePost.id,
                                     postLike: PostLike(
                                       userName: user!.userName,
-                                      uid: user.id,
+                                      likerReference: user.reference,
                                       userId: user.userId,
                                       userImage: user.userImage,
                                       reference: user.reference,
@@ -261,7 +262,7 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                               label:
                                   '${postLikes.isEmpty ? 'いいね' : postLikes.length}',
                               onPressed: () async {
-                                await PostLikesRepository.deleteLikes(
+                                await PostLikeRepository.deleteLike(
                                     user!.id, widget.circlePost.id);
                               },
                             );

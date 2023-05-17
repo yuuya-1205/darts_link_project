@@ -6,8 +6,8 @@ import 'package:darts_link_project/models/post.dart';
 import 'package:darts_link_project/models/post_like.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/comment_repository.dart';
-import 'package:darts_link_project/repositories/post_likes_repository.dart';
-import 'package:darts_link_project/repositories/post_repository.dart';
+import 'package:darts_link_project/repositories/post/post_like_repository.dart';
+import 'package:darts_link_project/repositories/post/post_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/comment_page.dart/create_comment_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -204,7 +204,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                               },
                             ),
                             StreamBuilder<List<PostLike>>(
-                              stream: PostLikesRepository.streamPostLike(
+                              stream: PostLikeRepository.streamPostLike(
                                   widget.post.id),
                               builder: (context, snapshot) {
                                 final postLikes = snapshot.data;
@@ -212,19 +212,20 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                   return const SizedBox();
                                 }
                                 if (postLikes
-                                    .where((element) => element.uid == user!.id)
+                                    .where((element) =>
+                                        element.reference == user!.reference)
                                     .isEmpty) {
                                   return ActionButton(
                                     icondata: Icons.favorite_outline,
                                     iconColor:
                                         OriginalTheme.themeData.primaryColor,
                                     onPressed: () async {
-                                      await PostLikesRepository.setLikes(
+                                      await PostLikeRepository.setLike(
                                         postId: widget.post.id,
                                         postLike: PostLike(
                                           userName: user!.userName,
                                           reference: user!.reference,
-                                          uid: user!.id,
+                                          likerReference: user!.reference,
                                           userId: user!.userId,
                                           userImage: user!.userImage,
                                           createdAt: Timestamp.now(),
@@ -262,7 +263,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                   label:
                                       '${postLikes.isEmpty ? 'いいね' : postLikes.length}',
                                   onPressed: () async {
-                                    await PostLikesRepository.deleteLikes(
+                                    await PostLikeRepository.deleteLike(
                                         user!.id, widget.post.id);
                                   },
                                 );
@@ -527,7 +528,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
 
                                               ///TODO　commentLikeを作成すること
                                               StreamBuilder<List<PostLike>>(
-                                                stream: PostLikesRepository
+                                                stream: PostLikeRepository
                                                     .streamPostLike(
                                                         widget.post.id),
                                                 builder: (context, snapshot) {
@@ -538,8 +539,9 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                                   }
                                                   if (postLikes
                                                       .where((element) =>
-                                                          element.uid ==
-                                                          user!.id)
+                                                          element
+                                                              .likerReference ==
+                                                          user!.reference)
                                                       .isEmpty) {
                                                     return ActionButton(
                                                       icondata: Icons
@@ -548,14 +550,15 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                                           .themeData
                                                           .primaryColor,
                                                       onPressed: () async {
-                                                        await PostLikesRepository
-                                                            .setLikes(
+                                                        await PostLikeRepository
+                                                            .setLike(
                                                           postId:
                                                               widget.post.id,
                                                           postLike: PostLike(
                                                             userName:
                                                                 user!.userName,
-                                                            uid: user!.id,
+                                                            likerReference:
+                                                                user!.reference,
                                                             userId:
                                                                 user!.userId,
                                                             userImage:
@@ -600,8 +603,8 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                                     label:
                                                         '${postLikes.isEmpty ? 'いいね' : postLikes.length}',
                                                     onPressed: () async {
-                                                      await PostLikesRepository
-                                                          .deleteLikes(user!.id,
+                                                      await PostLikeRepository
+                                                          .deleteLike(user!.id,
                                                               widget.post.id);
                                                     },
                                                   );
