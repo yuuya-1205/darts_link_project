@@ -21,7 +21,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Post {
   String get id => throw _privateConstructorUsedError;
-  String get createrId => throw _privateConstructorUsedError;
+  String get creatorId => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
@@ -48,7 +48,7 @@ abstract class $PostCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String createrId,
+      String creatorId,
       String userName,
       String userId,
       String text,
@@ -73,7 +73,7 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
   @override
   $Res call({
     Object? id = null,
-    Object? createrId = null,
+    Object? creatorId = null,
     Object? userName = null,
     Object? userId = null,
     Object? text = null,
@@ -88,9 +88,9 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      createrId: null == createrId
-          ? _value.createrId
-          : createrId // ignore: cast_nullable_to_non_nullable
+      creatorId: null == creatorId
+          ? _value.creatorId
+          : creatorId // ignore: cast_nullable_to_non_nullable
               as String,
       userName: null == userName
           ? _value.userName
@@ -136,7 +136,7 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String createrId,
+      String creatorId,
       String userName,
       String userId,
       String text,
@@ -157,7 +157,7 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
   @override
   $Res call({
     Object? id = null,
-    Object? createrId = null,
+    Object? creatorId = null,
     Object? userName = null,
     Object? userId = null,
     Object? text = null,
@@ -172,9 +172,9 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      createrId: null == createrId
-          ? _value.createrId
-          : createrId // ignore: cast_nullable_to_non_nullable
+      creatorId: null == creatorId
+          ? _value.creatorId
+          : creatorId // ignore: cast_nullable_to_non_nullable
               as String,
       userName: null == userName
           ? _value.userName
@@ -217,7 +217,7 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
 class _$_Post implements _Post {
   const _$_Post(
       {required this.id,
-      required this.createrId,
+      required this.creatorId,
       required this.userName,
       required this.userId,
       required this.text,
@@ -234,7 +234,7 @@ class _$_Post implements _Post {
   @override
   final String id;
   @override
-  final String createrId;
+  final String creatorId;
   @override
   final String userName;
   @override
@@ -273,7 +273,7 @@ class _$_Post implements _Post {
 
   @override
   String toString() {
-    return 'Post(id: $id, createrId: $createrId, userName: $userName, userId: $userId, text: $text, posterRef: $posterRef, userImage: $userImage, postImage: $postImage, liked: $liked, createdAt: $createdAt)';
+    return 'Post(id: $id, creatorId: $creatorId, userName: $userName, userId: $userId, text: $text, posterRef: $posterRef, userImage: $userImage, postImage: $postImage, liked: $liked, createdAt: $createdAt)';
   }
 
   @override
@@ -282,8 +282,8 @@ class _$_Post implements _Post {
         (other.runtimeType == runtimeType &&
             other is _$_Post &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.createrId, createrId) ||
-                other.createrId == createrId) &&
+            (identical(other.creatorId, creatorId) ||
+                other.creatorId == creatorId) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
             (identical(other.userId, userId) || other.userId == userId) &&
@@ -304,7 +304,7 @@ class _$_Post implements _Post {
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      createrId,
+      creatorId,
       userName,
       userId,
       text,
@@ -331,7 +331,7 @@ class _$_Post implements _Post {
 abstract class _Post implements Post {
   const factory _Post(
       {required final String id,
-      required final String createrId,
+      required final String creatorId,
       required final String userName,
       required final String userId,
       required final String text,
@@ -350,7 +350,7 @@ abstract class _Post implements Post {
   @override
   String get id;
   @override
-  String get createrId;
+  String get creatorId;
   @override
   String get userName;
   @override

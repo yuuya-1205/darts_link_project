@@ -35,7 +35,7 @@ class PostRepository {
   static Stream<List<Post>> streamFollowPost(List<String> followingUid) {
     return postCollection
         .orderBy('createdAt', descending: true)
-        .where('createrId', whereIn: followingUid)
+        .where('creatorId', whereIn: followingUid)
         .snapshots()
         .map((snap) =>
             snap.docs.map((doc) => doc.data()).whereType<Post>().toList());
@@ -44,7 +44,7 @@ class PostRepository {
   static Stream<List<Post>> myPostStream(String myUid) {
     return postCollection
         .orderBy('createdAt', descending: true)
-        .where('createrId', isEqualTo: myUid)
+        .where('creatorId', isEqualTo: myUid)
         .snapshots()
         .map((snap) =>
             snap.docs.map((doc) => doc.data()).whereType<Post>().toList());
@@ -53,7 +53,7 @@ class PostRepository {
   static Stream<List<Post>> myPostImageStream(String myUid) {
     return postCollection
         .orderBy('createdAt', descending: true)
-        .where('createrId', isEqualTo: myUid)
+        .where('creatorId', isEqualTo: myUid)
         .snapshots()
         .map((snap) =>
             snap.docs.map((doc) => doc.data()).whereType<Post>().toList());
@@ -62,7 +62,7 @@ class PostRepository {
   static Stream<List<Post>> userPostStream(String uid) {
     return postCollection
         .orderBy('createdAt', descending: true)
-        .where('createrId', isEqualTo: uid)
+        .where('creatorId', isEqualTo: uid)
         .snapshots()
         .map((snap) =>
             snap.docs.map((doc) => doc.data()).whereType<Post>().toList());
@@ -113,7 +113,7 @@ class PostRepository {
     required AppUser appUser,
   }) async {
     final snapshot =
-        await postCollection.where('createrId', isEqualTo: appUser.id).get();
+        await postCollection.where('creatorId', isEqualTo: appUser.id).get();
     await Future.forEach(snapshot.docs, (QueryDocumentSnapshot element) async {
       await element.reference.set({
         'userName': appUser.userName,

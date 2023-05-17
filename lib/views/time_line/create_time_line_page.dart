@@ -52,7 +52,7 @@ class _CreateTimeLinePageState extends State<CreateTimeLinePage> {
               final post = Post(
                   userName: user.userName,
                   text: text,
-                  createrId: user.id,
+                  creatorId: user.id,
                   userId: user.userId,
                   createdAt: Timestamp.now(),
                   id: '',
