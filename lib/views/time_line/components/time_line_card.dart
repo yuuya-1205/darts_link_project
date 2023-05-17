@@ -8,7 +8,7 @@ import 'package:darts_link_project/views/time_line/components/poster_name_view.d
 import 'package:darts_link_project/views/user_page/user_page.dart';
 import 'package:flutter/material.dart';
 
-import 'time_line_detail_page.dart';
+import '../time_line_detail_page.dart';
 
 class TimeLineCard extends StatefulWidget {
   const TimeLineCard({Key? key, required this.post}) : super(key: key);

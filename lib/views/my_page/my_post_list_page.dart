@@ -3,7 +3,7 @@ import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/post/post_repository.dart';
 import 'package:flutter/material.dart';
 
-import '../time_line/time_line_card.dart';
+import '../time_line/components/time_line_card.dart';
 
 class MyPostListPage extends StatefulWidget {
   const MyPostListPage({Key? key}) : super(key: key);
