@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/action_button.dart';
 import 'package:darts_link_project/components/user_image.dart';
+import 'package:darts_link_project/constant/color.dart';
 import 'package:darts_link_project/models/post.dart';
 import 'package:darts_link_project/models/post_like.dart';
 import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
-import 'package:darts_link_project/repositories/post_likes_repository.dart';
-import 'package:darts_link_project/repositories/post_repository.dart';
-import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/repositories/post/post_like_repository.dart';
+import 'package:darts_link_project/repositories/post/post_repository.dart';
 import 'package:darts_link_project/views/my_page/my_page.dart';
-import 'package:darts_link_project/views/time_line_page/liked_list_page.dart';
-import 'package:darts_link_project/views/time_line_page/time_line_detail_page.dart';
 import 'package:darts_link_project/views/user_page/user_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
+import '../time_line/time_line_detail_page.dart';
 
 class CircleTimeLineCard extends StatefulWidget {
   const CircleTimeLineCard({Key? key, required this.circlePost})
@@ -41,7 +41,7 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
         children: [
           UserImage(
             onTap: () async {
-              if (widget.circlePost.createrId == user!.id) {
+              if (widget.circlePost.creatorId == user!.id) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -51,7 +51,7 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                 return;
               }
               final appUser = await AppUserRepository.fetchAppUser(
-                  widget.circlePost.createrId);
+                  widget.circlePost.creatorId);
               // ignore: use_build_context_synchronously
               Navigator.push(
                 context,
@@ -113,7 +113,7 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                           } else if (value == 'hide') {
                           } else if (value == 'delete') {
                             final uid = FirebaseAuth.instance.currentUser!.uid;
-                            if (uid == widget.circlePost.createrId) {
+                            if (uid == widget.circlePost.creatorId) {
                               showDialog(
                                 context: context,
                                 builder: (context) {
@@ -156,7 +156,7 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                               value: 'hide',
                               child: Text('非表示'),
                             ),
-                            if (uid == widget.circlePost.createrId)
+                            if (uid == widget.circlePost.creatorId)
                               const PopupMenuItem(
                                 value: 'delete',
                                 child: Text('削除'),
@@ -188,9 +188,9 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                   Row(
                     children: [
                       ActionButton(
-                        icondata: FeatherIcons.messageSquare,
+                        iconData: FeatherIcons.messageSquare,
                         label: 'コメント',
-                        onPressed: () async {
+                        onTap: () async {
                           // final commented =
                           //     await Navigator.of(context).push(
                           //         CreateCommentPage.route(post));
@@ -204,7 +204,7 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                         },
                       ),
                       StreamBuilder<List<PostLike>>(
-                          stream: PostLikesRepository.streamPostLike(
+                          stream: PostLikeRepository.streamPostLike(
                               widget.circlePost.id),
                           builder: (context, snapshot) {
                             final postLikes = snapshot.data;
@@ -212,17 +212,18 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                               return const SizedBox();
                             }
                             if (postLikes
-                                .where((element) => element.uid == user!.id)
+                                .where((element) =>
+                                    element.likerReference == user!.reference)
                                 .isEmpty) {
                               return ActionButton(
-                                icondata: Icons.favorite_outline,
-                                iconColor: OriginalTheme.themeData.primaryColor,
-                                onPressed: () async {
-                                  await PostLikesRepository.setLikes(
+                                iconData: Icons.favorite_outline,
+                                color: primary,
+                                onTap: () async {
+                                  await PostLikeRepository.setLike(
                                     postId: widget.circlePost.id,
                                     postLike: PostLike(
                                       userName: user!.userName,
-                                      uid: user.id,
+                                      likerReference: user.reference,
                                       userId: user.userId,
                                       userImage: user.userImage,
                                       reference: user.reference,
@@ -232,35 +233,15 @@ class _CircleTimeLineCardState extends State<CircleTimeLineCard> {
                                 },
                                 label:
                                     '${postLikes.isEmpty ? 'いいね' : postLikes.length}',
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: ((context) => LikedListPage(
-                                            postId: widget.circlePost.id,
-                                          )),
-                                    ),
-                                  );
-                                },
                               );
                             }
                             return ActionButton(
-                              icondata: Icons.favorite,
-                              iconColor: OriginalTheme.themeData.primaryColor,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: ((context) => LikedListPage(
-                                          postId: widget.circlePost.id,
-                                        )),
-                                  ),
-                                );
-                              },
+                              iconData: Icons.favorite,
+                              color: primary,
                               label:
                                   '${postLikes.isEmpty ? 'いいね' : postLikes.length}',
-                              onPressed: () async {
-                                await PostLikesRepository.deleteLikes(
+                              onTap: () async {
+                                await PostLikeRepository.deleteLike(
                                     user!.id, widget.circlePost.id);
                               },
                             );

@@ -5,7 +5,7 @@ import 'package:darts_link_project/models/follow.dart';
 import 'package:darts_link_project/models/post_like.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/follow_repository.dart';
-import 'package:darts_link_project/repositories/post_likes_repository.dart';
+import 'package:darts_link_project/repositories/post/post_like_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +61,7 @@ class _LikedListPageState extends State<LikedListPage> {
         ),
       ),
       body: StreamBuilder<List<PostLike>>(
-          stream: PostLikesRepository.streamPostLike(widget.postId),
+          stream: PostLikeRepository.streamPostLike(widget.postId),
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.active) {
               return const Center(
@@ -125,7 +125,8 @@ class _LikedListPageState extends State<LikedListPage> {
                                   final user = AuthRepository.currentUser;
                                   await FollowRepository.unFollowing(
                                       uid: user!.id,
-                                      followingUid: postLike.uid);
+                                      followingUid:
+                                          postLike.likerReference?.id ?? '');
                                 },
                                 text: 'フォロー解除',
                               );

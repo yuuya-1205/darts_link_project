@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/models/post.dart';
 import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
-import 'package:darts_link_project/repositories/post_repository.dart';
+import 'package:darts_link_project/repositories/post/post_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/views/app_bar_action_button.dart';
 import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
@@ -52,7 +52,7 @@ class _CreateTimeLinePageState extends State<CreateTimeLinePage> {
               final post = Post(
                   userName: user.userName,
                   text: text,
-                  createrId: user.id,
+                  creatorId: user.id,
                   userId: user.userId,
                   createdAt: Timestamp.now(),
                   id: '',

@@ -12,7 +12,7 @@ import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/battle_room/battle_room_repository.dart';
 import 'package:darts_link_project/repositories/person_repository.dart';
-import 'package:darts_link_project/repositories/post_repository.dart';
+import 'package:darts_link_project/repositories/post/post_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:darts_link_project/views/my_page/my_page.dart';

@@ -3,7 +3,7 @@ import 'package:darts_link_project/models/circle/circle.dart';
 import 'package:darts_link_project/models/post.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
-import 'package:darts_link_project/repositories/post_repository.dart';
+import 'package:darts_link_project/repositories/post/post_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/views/app_bar_action_button.dart';
 import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
@@ -57,7 +57,7 @@ class _CreateCircleTimeLinePageState extends State<CreateCircleTimeLinePage> {
               final post = Post(
                   userName: user.userName,
                   text: text,
-                  createrId: user.id,
+                  creatorId: user.id,
                   userId: user.userId,
                   createdAt: Timestamp.now(),
                   id: '',
