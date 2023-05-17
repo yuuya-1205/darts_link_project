@@ -23,11 +23,13 @@ class _TimeLinePageState extends State<TimeLinePage> {
               indicatorColor: deepPrimary,
               labelColor: deepPrimary,
               unselectedLabelColor: unselectedColor,
+              labelStyle: const TextStyle(fontWeight: FontWeight.bold),
               tabs: TimeLineTabType.values
                   .map((e) => Tab(
                         text: e.label,
                       ))
                   .toList()),
+          const Divider(height: 0, thickness: 1),
           Expanded(
               child: TabBarView(
             children: TimeLineTabType.values.map((e) => e.page).toList(),

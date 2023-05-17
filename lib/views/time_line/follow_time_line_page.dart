@@ -5,7 +5,7 @@ import 'package:darts_link_project/repositories/follow_repository.dart';
 import 'package:darts_link_project/repositories/post/post_repository.dart';
 import 'package:flutter/material.dart';
 
-import 'time_line_card.dart';
+import 'components/time_line_list_view.dart';
 
 class FollowTimeLinePage extends StatefulWidget {
   const FollowTimeLinePage({Key? key}) : super(key: key);
@@ -19,59 +19,38 @@ class _FollowTimeLinePageState extends State<FollowTimeLinePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (user == null) {
+      throw Exception('ログインしていません');
+    }
     return StreamBuilder<List<Follow>>(
-        stream: FollowRepository.streamFollow(uid: user!.id),
-        builder: (context, snapshots) {
-          if (snapshots.connectionState != ConnectionState.active) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (!snapshots.hasData) {
-            return Container();
-          }
-          final follows = snapshots.data;
-          if (follows!.isEmpty) {
-            return const Center(
-              child: Text('誰かフォローしてみよう！！'),
-            );
-          }
-          final followingUids = follows
-              .map(
-                (e) => e.followingRef.id,
-              )
-              .toList();
+      stream: FollowRepository.streamFollow(uid: user!.id),
+      builder: (context, snapshots) {
+        if (snapshots.connectionState != ConnectionState.active) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        final follows = snapshots.data;
+        if (!snapshots.hasData || follows!.isEmpty) {
+          return const Center(child: Text('誰かフォローしてみよう！！'));
+        }
+        final followingUidList = follows.map((e) => e.followingRef.id).toList();
 
-          return StreamBuilder<List<Post>>(
-              stream: PostRepository.streamFollowPost(followingUids),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState != ConnectionState.active) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (!snapshot.hasData) {
-                  return Container();
-                }
-                final posts = snapshot.data;
-                if (posts!.isEmpty) {
-                  return const Center(
-                    child: Text('まだ、投稿がありません'),
-                  );
-                }
+        return StreamBuilder<List<Post>>(
+          stream: PostRepository.streamFollowPost(followingUidList),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.active) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            final posts = snapshot.data;
+            if (!snapshot.hasData || posts!.isEmpty) {
+              return const Center(
+                child: Text('まだ、投稿がありません'),
+              );
+            }
 
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView.builder(
-                      itemCount: posts.length,
-                      itemBuilder: (context, index) {
-                        final post = posts[index];
-                        return TimeLineCard(
-                          post: post,
-                        );
-                      }),
-                );
-              });
-        });
+            return TimeLineListView(posts: posts);
+          },
+        );
+      },
+    );
   }
 }

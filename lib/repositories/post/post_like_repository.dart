@@ -37,10 +37,8 @@ class PostLikeRepository {
 
   static Stream<List<PostLike>> streamPostLike(String postId) {
     return getPostLikeCollection(postId).snapshots().map(
-          (snap) => snap.docs
-              .map((doc) =>
-                  PostLike.fromJson(doc.data() as Map<String, dynamic>))
-              .toList(),
+          (snap) =>
+              snap.docs.map((doc) => doc.data()).whereType<PostLike>().toList(),
         );
   }
 }
