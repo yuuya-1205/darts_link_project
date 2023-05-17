@@ -8,26 +8,30 @@ part of 'post_like.dart';
 
 _$_PostLike _$$_PostLikeFromJson(Map<String, dynamic> json) => _$_PostLike(
       userName: json['userName'] as String,
-      uid: json['uid'] as String,
       userId: json['userId'] as String,
       userImage: json['userImage'] as String,
+      likerReference: _$JsonConverterFromJson<DocumentReference<Object?>,
+              DocumentReference<Object?>>(
+          json['likerReference'], const DocumentReferenceConverter().fromJson),
+      createdAt:
+          const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
       reference: _$JsonConverterFromJson<DocumentReference<Object?>,
               DocumentReference<Object?>>(
           json['reference'], const DocumentReferenceConverter().fromJson),
-      createdAt:
-          const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
     );
 
 Map<String, dynamic> _$$_PostLikeToJson(_$_PostLike instance) =>
     <String, dynamic>{
       'userName': instance.userName,
-      'uid': instance.uid,
       'userId': instance.userId,
       'userImage': instance.userImage,
+      'likerReference': _$JsonConverterToJson<DocumentReference<Object?>,
+              DocumentReference<Object?>>(
+          instance.likerReference, const DocumentReferenceConverter().toJson),
+      'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'reference': _$JsonConverterToJson<DocumentReference<Object?>,
               DocumentReference<Object?>>(
           instance.reference, const DocumentReferenceConverter().toJson),
-      'createdAt': const TimestampConverter().toJson(instance.createdAt),
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(
