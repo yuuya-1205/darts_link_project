@@ -35,7 +35,7 @@ class ThreadChatPage extends StatelessWidget {
 
     return Scaffold(
       appBar: OriginalAppBer(
-        title: thread.getMemberDetail(user.id, isPartner: true).userName,
+        title: thread.getMemberDetail(user.id).userName,
       ),
       body: Column(
         children: [

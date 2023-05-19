@@ -27,11 +27,7 @@ class _TopPageState extends State<TopPage> {
     const TimeLinePage(),
     const SearchPage(),
     const DartsFunctionPage(),
-    const ThreadsPage(
-      lastchatCount: '',
-      threadId: '',
-      uid: '',
-    ),
+    const ThreadsPage(),
   ];
   int _index = 0;
   @override

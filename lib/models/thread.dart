@@ -31,7 +31,7 @@ class Thread with _$Thread {
 
   MemberDetail getMemberDetail(
     String uid, {
-    bool isPartner = false,
+    bool isPartner = true,
   }) {
     if (isPartner) {
       final partnerUid = this.partnerUid(uid);
