@@ -48,9 +48,8 @@ class ThreadRepository {
 
   static Future<void> updateBadge({
     required String uid,
-    int count = 0,
     required String threadId,
   }) async {
-    await threadsCollection.doc(threadId).update({'unReadCount.$uid': count});
+    await threadsCollection.doc(threadId).update({'unreadCount.$uid': []});
   }
 }

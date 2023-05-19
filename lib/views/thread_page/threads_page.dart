@@ -49,10 +49,7 @@ class ThreadsPageState extends State<ThreadsPage> {
                       uid: user.id, threadId: thread.reference?.id ?? '');
                   navigator.push(
                     MaterialPageRoute(
-                      builder: ((context) => ThreadChatPage(
-                            isReading: false,
-                            thread: thread,
-                          )),
+                      builder: ((context) => ThreadChatPage(thread: thread)),
                     ),
                   );
                 },
@@ -72,7 +69,11 @@ class ThreadsPageState extends State<ThreadsPage> {
                         children: [
                           Text(thread.getMemberDetail(user.id).userName),
                           const SizedBox(height: 4),
-                          Text(thread.latestChat),
+                          Text(
+                            thread.latestChat,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ],
                       ),
                       const Spacer(),

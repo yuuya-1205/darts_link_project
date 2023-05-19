@@ -183,7 +183,6 @@ class _UserPageState extends State<UserPage> {
       navigator.pushReplacement(
         MaterialPageRoute(
           builder: ((context) => ThreadChatPage(
-                isReading: true,
                 thread: thread,
               )),
         ),
@@ -207,7 +206,6 @@ class _UserPageState extends State<UserPage> {
     navigator.pushReplacement(
       MaterialPageRoute(
         builder: ((context) => ThreadChatPage(
-              isReading: true,
               thread: newThread.copyWith(
                 reference: reference,
               ),

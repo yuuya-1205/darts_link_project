@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:darts_link_project/components/constants.dart';
-import 'package:darts_link_project/components/user_image.dart';
+import 'package:darts_link_project/constant/color.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/repositories/thread_chat_repository.dart';
 import 'package:darts_link_project/repositories/thread_repository.dart';
+import 'package:darts_link_project/views/chat/components/chat_item_view.dart';
+import 'package:darts_link_project/views/chat/components/chat_time_line_date_view.dart';
+import 'package:darts_link_project/views/components/loading_view.dart';
 import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:darts_link_project/views/image_detail_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,132 +18,79 @@ import '../../models/chat.dart';
 import '../../models/thread.dart';
 
 class ThreadChatPage extends StatelessWidget {
-  static const name = 'ChatPage';
+  const ThreadChatPage({Key? key, required this.thread}) : super(key: key);
   final Thread thread;
-  final bool isReading;
-
-  const ThreadChatPage({
-    Key? key,
-    required this.thread,
-    required this.isReading,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final user = AuthRepository.currentUser;
+
+    bool isShowSendDate({required int index, required List<Chat> chats}) {
+      if (index == chats.length - 1) {
+        return true;
+      }
+      if (chats[index].createdAt.toDate().day !=
+          chats[index + 1].createdAt.toDate().day) {
+        return true;
+      }
+      return false;
+    }
+
     if (user == null) {
       throw Exception('ログインしていません');
     }
 
     return Scaffold(
-      appBar: OriginalAppBer(
-        title: thread.getMemberDetail(user.id).userName,
-      ),
+      appBar: OriginalAppBer(title: thread.getMemberDetail(user.id).userName),
+      backgroundColor: chatPageBgColor,
       body: Column(
         children: [
           Expanded(
-            child: StreamBuilder<List<Chat>>(
-              stream:
-                  ThreadChatRepository.chatStream(thread.reference?.id ?? ''),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState != ConnectionState.active) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: StreamBuilder<List<Chat>>(
+                stream:
+                    ThreadChatRepository.chatStream(thread.reference?.id ?? ''),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.active) {
+                    return const LoadingView();
+                  }
 
-                if (!snapshot.hasData) {
-                  return Container();
-                }
+                  if (!snapshot.hasData) {
+                    return const SizedBox();
+                  }
 
-                final chats = snapshot.data;
+                  final chats = snapshot.data;
 
-                return ListView.builder(
-                  reverse: true,
-                  itemCount: chats!.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: _ChatCell(
-                        chat: chats[index],
-                      ),
-                    );
-                  },
-                );
-              },
+                  return ListView.builder(
+                    reverse: true,
+                    shrinkWrap: true,
+                    physics: const RangeMaintainingScrollPhysics(),
+                    itemCount: chats!.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          if (isShowSendDate(index: index, chats: chats))
+                            ChatTimeLineDateView(chats[index].createdAt),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: ChatItemView(
+                              chat: chats[index],
+                              memberDetails: thread.memberDetails,
+                              isSender: chats[index].uid == user.id,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
-          _ChatBar(
-            thread: thread,
-          ),
+          _ChatBar(thread: thread),
         ],
       ),
-    );
-  }
-}
-
-class _ChatCell extends StatelessWidget {
-  const _ChatCell({
-    Key? key,
-    required this.chat,
-  }) : super(key: key);
-  final Chat chat;
-
-  @override
-  Widget build(BuildContext context) {
-    final isMyChat = chat.uid == FirebaseAuth.instance.currentUser!.uid;
-    List<Widget> chatWidgets = [
-      if (!isMyChat) const UserImage(imageUrl: ''),
-      const SizedBox(
-        width: 12,
-      ),
-      Flexible(
-        child: Column(
-          crossAxisAlignment:
-              isMyChat ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-          children: [
-            Material(
-              color: isMyChat
-                  ? Colors.white
-                  : Theme.of(context).colorScheme.secondary,
-              elevation: 10,
-              borderRadius: BorderRadius.circular(8),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(chat.text),
-              ),
-            ),
-            if (chat.imageUrls.isNotEmpty)
-              const SizedBox(
-                height: 16,
-              ),
-            if (chat.imageUrls.isNotEmpty)
-              FractionallySizedBox(
-                widthFactor: 0.5,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: ChatCellImages(
-                      imageUrls: chat.imageUrls,
-                    ),
-                  ),
-                ),
-              )
-          ],
-        ),
-      ),
-      const SizedBox(
-        width: 12,
-      ),
-      Text(HowLongAgo.since(chat.createdAt)),
-    ];
-    if (isMyChat) {
-      chatWidgets = chatWidgets.reversed.toList();
-    }
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment:
-          isMyChat ? MainAxisAlignment.end : MainAxisAlignment.start,
-      children: chatWidgets,
     );
   }
 }
@@ -277,10 +226,7 @@ class ChatCellImages extends StatelessWidget {
 }
 
 class _ChatBar extends StatefulWidget {
-  const _ChatBar({
-    Key? key,
-    required this.thread,
-  }) : super(key: key);
+  const _ChatBar({Key? key, required this.thread}) : super(key: key);
   final Thread thread;
 
   @override
@@ -293,132 +239,140 @@ class __ChatBarState extends State<_ChatBar> {
   List<Asset> _selectedimages = [];
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            if (_selectedimages.isNotEmpty)
-              SizedBox(
-                height: 100,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _selectedimages.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Stack(
-                        children: [
-                          AssetThumb(
-                            asset: _selectedimages[index],
-                            width: 1080,
-                            height: 1080,
-                          ),
-                          Positioned(
-                            top: -4,
-                            right: -4,
-                            child: IconButton(
-                              color: Colors.white,
-                              icon: const Icon(Icons.close),
-                              onPressed: () {
-                                setState(() {
-                                  _selectedimages.removeAt(index);
-                                });
-                              },
+    return ColoredBox(
+      color: Colors.white,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              if (_selectedimages.isNotEmpty)
+                SizedBox(
+                  height: 100,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _selectedimages.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Stack(
+                          children: [
+                            AssetThumb(
+                              asset: _selectedimages[index],
+                              width: 1080,
+                              height: 1080,
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.picture_in_picture),
-                  onPressed: () async {
-                    final imagefiles = await MultiImagePicker.pickImages(
-                      maxImages: 6,
-                      enableCamera: true,
-                    );
-                    setState(() {
-                      _selectedimages = imagefiles;
-                    });
-                  },
-                ),
-                Expanded(
-                  child: TextFormField(
-                    maxLines: null,
-                    decoration: const InputDecoration(
-                      hintText: 'メッセージを入力してください。',
-                      border: InputBorder.none,
-                    ),
-                    controller: _messageController,
+                            Positioned(
+                              top: -4,
+                              right: -4,
+                              child: IconButton(
+                                color: Colors.white,
+                                icon: const Icon(Icons.close),
+                                onPressed: () {
+                                  setState(() {
+                                    _selectedimages.removeAt(index);
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ),
-                TextButton(
-                  onPressed: _isSending
-                      ? null
-                      : () async {
-                          if (_messageController.text.isEmpty) {
-                            return;
-                          }
-                          setState(() {
-                            _isSending = true;
-                          });
-                          final imageFutures = _selectedimages
-                              .map(
-                                (selectedimage) => _saveimage(selectedimage),
-                              )
-                              .toList();
-                          final imageUrls = await Future.wait(imageFutures);
-
-                          final uid = FirebaseAuth.instance.currentUser!.uid;
-                          final text = _messageController.text;
-                          final chat = Chat(
-                            // TODO 後々実装する
-                            isReading: {},
-                            imageUrls: imageUrls,
-                            uid: uid,
-                            text: text,
-                            threadId: widget.thread.reference?.id ?? '',
-                            createdAt: Timestamp.now(),
-                            reference: ThreadRepository.threadsCollection
-                                .doc(widget.thread.reference?.id ?? ''),
-                          );
-
-                          final chatId =
-                              await ThreadChatRepository.createChat(chat: chat);
-
-                          final Map<String, List<String>> unReadCount = {
-                            ...widget.thread.unreadCount
-                          };
-                          for (final uid in widget.thread.memberIds) {
-                            if (uid != FirebaseAuth.instance.currentUser!.uid) {
-                              unReadCount[uid] = [...unReadCount[uid]!, chatId];
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.picture_in_picture),
+                    onPressed: () async {
+                      final imagefiles = await MultiImagePicker.pickImages(
+                        maxImages: 6,
+                        enableCamera: true,
+                      );
+                      setState(() {
+                        _selectedimages = imagefiles;
+                      });
+                    },
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      maxLines: null,
+                      decoration: const InputDecoration(
+                        hintText: 'メッセージを入力してください。',
+                        border: InputBorder.none,
+                      ),
+                      controller: _messageController,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: _isSending
+                        ? null
+                        : () async {
+                            if (_messageController.text.isEmpty) {
+                              return;
                             }
-                          }
+                            setState(() {
+                              _isSending = true;
+                            });
+                            final imageFutures = _selectedimages
+                                .map(
+                                  (selectedimage) => _saveimage(selectedimage),
+                                )
+                                .toList();
+                            final imageUrls = await Future.wait(imageFutures);
 
-                          final thread = widget.thread.copyWith(
-                            latestChat: text,
-                            updatedAt: Timestamp.now(),
-                            unreadCount: unReadCount,
-                          );
+                            final uid = FirebaseAuth.instance.currentUser!.uid;
+                            final text = _messageController.text;
+                            final chat = Chat(
+                              // TODO 後々実装する
+                              isReading: {},
+                              imageUrls: imageUrls,
+                              uid: uid,
+                              text: text,
+                              threadId: widget.thread.reference?.id ?? '',
+                              createdAt: Timestamp.now(),
+                              reference: ThreadRepository.threadsCollection
+                                  .doc(widget.thread.reference?.id ?? ''),
+                            );
 
-                          await ThreadRepository.updateThread(thread);
+                            final chatId =
+                                await ThreadChatRepository.createChat(
+                                    chat: chat);
 
-                          _messageController.clear();
-                          setState(() {
-                            _isSending = false;
-                            _selectedimages.clear();
-                          });
-                        },
-                  child: const Text('送信'),
-                ),
-              ],
-            ),
-          ],
+                            final Map<String, List<String>> unReadCount = {
+                              ...widget.thread.unreadCount
+                            };
+                            for (final uid in widget.thread.memberIds) {
+                              if (uid !=
+                                  FirebaseAuth.instance.currentUser!.uid) {
+                                unReadCount[uid] = [
+                                  ...unReadCount[uid]!,
+                                  chatId
+                                ];
+                              }
+                            }
+
+                            final thread = widget.thread.copyWith(
+                              latestChat: text,
+                              updatedAt: Timestamp.now(),
+                              unreadCount: unReadCount,
+                            );
+
+                            await ThreadRepository.updateThread(thread);
+
+                            _messageController.clear();
+                            setState(() {
+                              _isSending = false;
+                              _selectedimages.clear();
+                            });
+                          },
+                    child: const Text('送信'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
