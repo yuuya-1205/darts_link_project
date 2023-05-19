@@ -35,13 +35,14 @@ class ThreadChatPage extends StatelessWidget {
 
     return Scaffold(
       appBar: OriginalAppBer(
-        title: thread.getMemberDetail(user.id, isPartner: true)['name'],
+        title: thread.getMemberDetail(user.id, isPartner: true).userName,
       ),
       body: Column(
         children: [
           Expanded(
             child: StreamBuilder<List<Chat>>(
-              stream: ThreadChatRepository.chatStream(thread.id),
+              stream:
+                  ThreadChatRepository.chatStream(thread.reference?.id ?? ''),
               builder: (context, snapshot) {
                 if (snapshot.connectionState != ConnectionState.active) {
                   return const Center(child: CircularProgressIndicator());
@@ -381,27 +382,29 @@ class __ChatBarState extends State<_ChatBar> {
                             imageUrls: imageUrls,
                             uid: uid,
                             text: text,
-                            threadId: widget.thread.id,
+                            threadId: widget.thread.reference?.id ?? '',
                             createdAt: Timestamp.now(),
                             reference: ThreadRepository.threadsCollection
-                                .doc(widget.thread.id),
+                                .doc(widget.thread.reference?.id ?? ''),
                           );
 
-                          await ThreadChatRepository.createChat(chat: chat);
+                          final chatId =
+                              await ThreadChatRepository.createChat(chat: chat);
 
-                          final Map<String, int> unReadCount = {
-                            ...widget.thread.unReadCount
+                          final Map<String, List<String>> unReadCount = {
+                            ...widget.thread.unreadCount
                           };
-                          for (final uid in widget.thread.uids) {
+                          for (final uid in widget.thread.memberIds) {
                             if (uid != FirebaseAuth.instance.currentUser!.uid) {
-                              unReadCount[uid] = unReadCount[uid]! + 1;
+                              unReadCount[uid] = [...unReadCount[uid]!, chatId];
                             }
                           }
 
                           final thread = widget.thread.copyWith(
-                              lastChat: text,
-                              updatedAt: Timestamp.now(),
-                              unReadCount: unReadCount);
+                            latestChat: text,
+                            updatedAt: Timestamp.now(),
+                            unreadCount: unReadCount,
+                          );
 
                           await ThreadRepository.updateThread(thread);
 

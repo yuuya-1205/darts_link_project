@@ -18,10 +18,10 @@ class ThreadChatRepository {
     return list;
   }
 
-  static Future<void> createChat({
+  static Future<String> createChat({
     required Chat chat,
   }) async {
-    await getChatCollectoion(chat.threadId).add(chat.toJson());
+    return (await getChatCollectoion(chat.threadId).add(chat.toJson())).id;
   }
 
   static Stream<List<Chat>> chatStream(String threadId) {

@@ -55,11 +55,10 @@ class _ThreadsPageState extends State<ThreadsPage> {
 
               return GestureDetector(
                 onTap: () async {
+                  final navigator = Navigator.of(context);
                   await ThreadRepository.updateBadge(
-                      uid: user.id, threadId: thread.id);
-                  // ignore: use_build_context_synchronously
-                  Navigator.push(
-                    context,
+                      uid: user.id, threadId: thread.reference?.id ?? '');
+                  navigator.push(
                     MaterialPageRoute(
                       builder: ((context) => ThreadChatPage(
                             isReading: false,
@@ -83,27 +82,30 @@ class _ThreadsPageState extends State<ThreadsPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             UserImage(
-                              imageUrl: thread.getMemberDetail(user.id,
-                                  isPartner: true)['imageUrl'],
+                              imageUrl: thread
+                                  .getMemberDetail(user.id, isPartner: true)
+                                  .userImage,
                             ),
                             const SizedBox(
                               width: 8,
                             ),
                             Column(
                               children: [
-                                Text(thread.getMemberDetail(user.id,
-                                    isPartner: true)['name']),
+                                Text(thread
+                                    .getMemberDetail(user.id, isPartner: true)
+                                    .userName),
                                 const SizedBox(
                                   height: 8,
                                 ),
-                                Text(thread.lastChat),
+                                Text(thread.latestChat),
                               ],
                             ),
                             const Spacer(),
-                            if (thread.unReadCount[user.id] != 0)
+                            if (thread.unreadCount[user.id]?.isNotEmpty ??
+                                false)
                               Badge(
                                 child: Text(
-                                  '${thread.unReadCount[user.id] ?? ""}',
+                                  '${thread.unreadCount[user.id]!.length}',
                                   style: const TextStyle(color: Colors.white),
                                 ),
                               ),
