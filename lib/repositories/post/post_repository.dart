@@ -6,16 +6,20 @@ class PostRepository {
   static final fireStore = FirebaseFirestore.instance;
   static final CollectionReference<Post?> postCollection =
       fireStore.collection('posts').withConverter(
-            fromFirestore: (snapshot, _) =>
-                Post.fromJson(snapshot.data() ?? {}).copyWith(
-              id: snapshot.id,
-            ),
-            toFirestore: (value, _) {
-              final data = value?.toJson();
-              data?.remove('id');
-              return data ?? {};
-            },
-          );
+    fromFirestore: (snapshot, _) {
+      final data = snapshot.data();
+      if (data == null) {
+        return null;
+      }
+
+      return Post.fromJson(data..addAll({'id': snapshot.id}));
+    },
+    toFirestore: (value, _) {
+      final data = value?.toJson();
+      data?.remove('id');
+      return data ?? {};
+    },
+  );
   static DocumentReference getDocumentRef(String postId) =>
       postCollection.doc(postId);
 
