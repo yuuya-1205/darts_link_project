@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/constant/color.dart';
+import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/repositories/thread_chat_repository.dart';
@@ -9,7 +10,6 @@ import 'package:darts_link_project/views/chat/components/chat_time_line_date_vie
 import 'package:darts_link_project/views/components/loading_view.dart';
 import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:darts_link_project/views/image_detail_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:uuid/uuid.dart';
@@ -17,8 +17,8 @@ import 'package:uuid/uuid.dart';
 import '../../models/chat.dart';
 import '../../models/thread.dart';
 
-class ThreadChatPage extends StatelessWidget {
-  const ThreadChatPage({Key? key, required this.thread}) : super(key: key);
+class ChatPage extends StatelessWidget {
+  const ChatPage({Key? key, required this.thread}) : super(key: key);
   final Thread thread;
 
   @override
@@ -77,7 +77,7 @@ class ThreadChatPage extends StatelessWidget {
                             child: ChatItemView(
                               chat: chats[index],
                               memberDetails: thread.memberDetails,
-                              isSender: chats[index].uid == user.id,
+                              isSender: chats[index].senderUid == user.id,
                             ),
                           ),
                         ],
@@ -88,7 +88,7 @@ class ThreadChatPage extends StatelessWidget {
               ),
             ),
           ),
-          _ChatBar(thread: thread),
+          _ChatBar(thread: thread, currentUser: user),
         ],
       ),
     );
@@ -226,8 +226,13 @@ class ChatCellImages extends StatelessWidget {
 }
 
 class _ChatBar extends StatefulWidget {
-  const _ChatBar({Key? key, required this.thread}) : super(key: key);
+  const _ChatBar({
+    Key? key,
+    required this.thread,
+    required this.currentUser,
+  }) : super(key: key);
   final Thread thread;
+  final AppUser currentUser;
 
   @override
   __ChatBarState createState() => __ChatBarState();
@@ -236,7 +241,11 @@ class _ChatBar extends StatefulWidget {
 class __ChatBarState extends State<_ChatBar> {
   bool _isSending = false;
   final _messageController = TextEditingController();
-  List<Asset> _selectedimages = [];
+  List<Asset> _selectedImages = [];
+  late final Map<String, List<String>> unReadCount = {
+    ...widget.thread.unreadCount
+  };
+
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
@@ -246,19 +255,19 @@ class __ChatBarState extends State<_ChatBar> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              if (_selectedimages.isNotEmpty)
+              if (_selectedImages.isNotEmpty)
                 SizedBox(
                   height: 100,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: _selectedimages.length,
+                    itemCount: _selectedImages.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Stack(
                           children: [
                             AssetThumb(
-                              asset: _selectedimages[index],
+                              asset: _selectedImages[index],
                               width: 1080,
                               height: 1080,
                             ),
@@ -270,7 +279,7 @@ class __ChatBarState extends State<_ChatBar> {
                                 icon: const Icon(Icons.close),
                                 onPressed: () {
                                   setState(() {
-                                    _selectedimages.removeAt(index);
+                                    _selectedImages.removeAt(index);
                                   });
                                 },
                               ),
@@ -286,12 +295,12 @@ class __ChatBarState extends State<_ChatBar> {
                   IconButton(
                     icon: const Icon(Icons.picture_in_picture),
                     onPressed: () async {
-                      final imagefiles = await MultiImagePicker.pickImages(
+                      final images = await MultiImagePicker.pickImages(
                         maxImages: 6,
                         enableCamera: true,
                       );
                       setState(() {
-                        _selectedimages = imagefiles;
+                        _selectedImages = images;
                       });
                     },
                   ),
@@ -315,42 +324,32 @@ class __ChatBarState extends State<_ChatBar> {
                             setState(() {
                               _isSending = true;
                             });
-                            final imageFutures = _selectedimages
+                            final imageFutures = _selectedImages
                                 .map(
-                                  (selectedimage) => _saveimage(selectedimage),
+                                  (image) => _saveImage(image),
                                 )
                                 .toList();
                             final imageUrls = await Future.wait(imageFutures);
 
-                            final uid = FirebaseAuth.instance.currentUser!.uid;
+                            final senderUid = widget.currentUser.id;
                             final text = _messageController.text;
                             final chat = Chat(
-                              // TODO 後々実装する
-                              isReading: {},
                               imageUrls: imageUrls,
-                              uid: uid,
+                              senderUid: senderUid,
                               text: text,
-                              threadId: widget.thread.reference?.id ?? '',
+                              threadReference: widget.thread.reference!,
                               createdAt: Timestamp.now(),
-                              reference: ThreadRepository.threadsCollection
-                                  .doc(widget.thread.reference?.id ?? ''),
                             );
 
                             final chatId =
                                 await ThreadChatRepository.createChat(
                                     chat: chat);
 
-                            final Map<String, List<String>> unReadCount = {
-                              ...widget.thread.unreadCount
-                            };
                             for (final uid in widget.thread.memberIds) {
-                              if (uid !=
-                                  FirebaseAuth.instance.currentUser!.uid) {
-                                unReadCount[uid] = [
-                                  ...unReadCount[uid]!,
-                                  chatId
-                                ];
+                              if (uid == senderUid) {
+                                continue;
                               }
+                              unReadCount[uid] = [...unReadCount[uid]!, chatId];
                             }
 
                             final thread = widget.thread.copyWith(
@@ -364,7 +363,7 @@ class __ChatBarState extends State<_ChatBar> {
                             _messageController.clear();
                             setState(() {
                               _isSending = false;
-                              _selectedimages.clear();
+                              _selectedImages.clear();
                             });
                           },
                     child: const Text('送信'),
@@ -384,11 +383,9 @@ class __ChatBarState extends State<_ChatBar> {
     super.dispose();
   }
 
-  Future<String> _saveimage(Asset asset) async {
-    final uid = FirebaseAuth.instance.currentUser!.uid;
-
+  Future<String> _saveImage(Asset asset) async {
     final randomString = const Uuid().v4();
-    final path = 'posts/$uid/$randomString.jpeg';
+    final path = 'posts/${widget.currentUser.id}/$randomString.jpeg';
 
     return StorageRepository().saveImage(asset: asset, path: path);
   }

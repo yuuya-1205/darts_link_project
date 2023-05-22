@@ -10,8 +10,8 @@ import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/follow_repository.dart';
 import 'package:darts_link_project/repositories/thread_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/chat/chat_page.dart';
 import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
-import 'package:darts_link_project/views/thread_page/thread_chat_page.dart';
 import 'package:darts_link_project/views/user_page/user_image_post_page.dart';
 import 'package:darts_link_project/views/user_page/user_info_page.dart';
 import 'package:darts_link_project/views/user_page/user_post_list_page.dart';
@@ -182,7 +182,7 @@ class _UserPageState extends State<UserPage> {
     if (thread != null) {
       navigator.pushReplacement(
         MaterialPageRoute(
-          builder: ((context) => ThreadChatPage(
+          builder: ((context) => ChatPage(
                 thread: thread,
               )),
         ),
@@ -205,7 +205,7 @@ class _UserPageState extends State<UserPage> {
 
     navigator.pushReplacement(
       MaterialPageRoute(
-        builder: ((context) => ThreadChatPage(
+        builder: ((context) => ChatPage(
               thread: newThread.copyWith(
                 reference: reference,
               ),

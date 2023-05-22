@@ -21,17 +21,19 @@ Chat _$ChatFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Chat {
   String get text => throw _privateConstructorUsedError;
-  String get uid => throw _privateConstructorUsedError;
-  String get threadId => throw _privateConstructorUsedError;
+  String get senderUid => throw _privateConstructorUsedError;
   @Freezed(fromJson: true)
   List<String> get imageUrls => throw _privateConstructorUsedError;
-  @Freezed(toJson: true)
-  Map<String, bool> get isReading => throw _privateConstructorUsedError;
   @DocumentReferenceConverter()
-  DocumentReference<Object?> get reference =>
+  DocumentReference<Object?> get threadReference =>
       throw _privateConstructorUsedError;
   @TimestampConverter()
   Timestamp get createdAt => throw _privateConstructorUsedError;
+
+  /// クライアントで使用するデータ
+  @DocumentReferenceConverter()
+  DocumentReference<Object?>? get reference =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,12 +47,11 @@ abstract class $ChatCopyWith<$Res> {
   @useResult
   $Res call(
       {String text,
-      String uid,
-      String threadId,
+      String senderUid,
       @Freezed(fromJson: true) List<String> imageUrls,
-      @Freezed(toJson: true) Map<String, bool> isReading,
-      @DocumentReferenceConverter() DocumentReference<Object?> reference,
-      @TimestampConverter() Timestamp createdAt});
+      @DocumentReferenceConverter() DocumentReference<Object?> threadReference,
+      @TimestampConverter() Timestamp createdAt,
+      @DocumentReferenceConverter() DocumentReference<Object?>? reference});
 }
 
 /// @nodoc
@@ -67,42 +68,37 @@ class _$ChatCopyWithImpl<$Res, $Val extends Chat>
   @override
   $Res call({
     Object? text = null,
-    Object? uid = null,
-    Object? threadId = null,
+    Object? senderUid = null,
     Object? imageUrls = null,
-    Object? isReading = null,
-    Object? reference = null,
+    Object? threadReference = null,
     Object? createdAt = null,
+    Object? reference = freezed,
   }) {
     return _then(_value.copyWith(
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
-      threadId: null == threadId
-          ? _value.threadId
-          : threadId // ignore: cast_nullable_to_non_nullable
+      senderUid: null == senderUid
+          ? _value.senderUid
+          : senderUid // ignore: cast_nullable_to_non_nullable
               as String,
       imageUrls: null == imageUrls
           ? _value.imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      isReading: null == isReading
-          ? _value.isReading
-          : isReading // ignore: cast_nullable_to_non_nullable
-              as Map<String, bool>,
-      reference: null == reference
-          ? _value.reference
-          : reference // ignore: cast_nullable_to_non_nullable
+      threadReference: null == threadReference
+          ? _value.threadReference
+          : threadReference // ignore: cast_nullable_to_non_nullable
               as DocumentReference<Object?>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as Timestamp,
+      reference: freezed == reference
+          ? _value.reference
+          : reference // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>?,
     ) as $Val);
   }
 }
@@ -115,12 +111,11 @@ abstract class _$$_ChatCopyWith<$Res> implements $ChatCopyWith<$Res> {
   @useResult
   $Res call(
       {String text,
-      String uid,
-      String threadId,
+      String senderUid,
       @Freezed(fromJson: true) List<String> imageUrls,
-      @Freezed(toJson: true) Map<String, bool> isReading,
-      @DocumentReferenceConverter() DocumentReference<Object?> reference,
-      @TimestampConverter() Timestamp createdAt});
+      @DocumentReferenceConverter() DocumentReference<Object?> threadReference,
+      @TimestampConverter() Timestamp createdAt,
+      @DocumentReferenceConverter() DocumentReference<Object?>? reference});
 }
 
 /// @nodoc
@@ -133,42 +128,37 @@ class __$$_ChatCopyWithImpl<$Res> extends _$ChatCopyWithImpl<$Res, _$_Chat>
   @override
   $Res call({
     Object? text = null,
-    Object? uid = null,
-    Object? threadId = null,
+    Object? senderUid = null,
     Object? imageUrls = null,
-    Object? isReading = null,
-    Object? reference = null,
+    Object? threadReference = null,
     Object? createdAt = null,
+    Object? reference = freezed,
   }) {
     return _then(_$_Chat(
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
-      threadId: null == threadId
-          ? _value.threadId
-          : threadId // ignore: cast_nullable_to_non_nullable
+      senderUid: null == senderUid
+          ? _value.senderUid
+          : senderUid // ignore: cast_nullable_to_non_nullable
               as String,
       imageUrls: null == imageUrls
           ? _value._imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      isReading: null == isReading
-          ? _value._isReading
-          : isReading // ignore: cast_nullable_to_non_nullable
-              as Map<String, bool>,
-      reference: null == reference
-          ? _value.reference
-          : reference // ignore: cast_nullable_to_non_nullable
+      threadReference: null == threadReference
+          ? _value.threadReference
+          : threadReference // ignore: cast_nullable_to_non_nullable
               as DocumentReference<Object?>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as Timestamp,
+      reference: freezed == reference
+          ? _value.reference
+          : reference // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>?,
     ));
   }
 }
@@ -178,23 +168,19 @@ class __$$_ChatCopyWithImpl<$Res> extends _$ChatCopyWithImpl<$Res, _$_Chat>
 class _$_Chat implements _Chat {
   const _$_Chat(
       {required this.text,
-      required this.uid,
-      required this.threadId,
+      required this.senderUid,
       @Freezed(fromJson: true) final List<String> imageUrls = const [],
-      @Freezed(toJson: true) final Map<String, bool> isReading = const {},
-      @DocumentReferenceConverter() required this.reference,
-      @TimestampConverter() required this.createdAt})
-      : _imageUrls = imageUrls,
-        _isReading = isReading;
+      @DocumentReferenceConverter() required this.threadReference,
+      @TimestampConverter() required this.createdAt,
+      @DocumentReferenceConverter() this.reference})
+      : _imageUrls = imageUrls;
 
   factory _$_Chat.fromJson(Map<String, dynamic> json) => _$$_ChatFromJson(json);
 
   @override
   final String text;
   @override
-  final String uid;
-  @override
-  final String threadId;
+  final String senderUid;
   final List<String> _imageUrls;
   @override
   @JsonKey()
@@ -205,26 +191,21 @@ class _$_Chat implements _Chat {
     return EqualUnmodifiableListView(_imageUrls);
   }
 
-  final Map<String, bool> _isReading;
-  @override
-  @JsonKey()
-  @Freezed(toJson: true)
-  Map<String, bool> get isReading {
-    if (_isReading is EqualUnmodifiableMapView) return _isReading;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_isReading);
-  }
-
   @override
   @DocumentReferenceConverter()
-  final DocumentReference<Object?> reference;
+  final DocumentReference<Object?> threadReference;
   @override
   @TimestampConverter()
   final Timestamp createdAt;
 
+  /// クライアントで使用するデータ
+  @override
+  @DocumentReferenceConverter()
+  final DocumentReference<Object?>? reference;
+
   @override
   String toString() {
-    return 'Chat(text: $text, uid: $uid, threadId: $threadId, imageUrls: $imageUrls, isReading: $isReading, reference: $reference, createdAt: $createdAt)';
+    return 'Chat(text: $text, senderUid: $senderUid, imageUrls: $imageUrls, threadReference: $threadReference, createdAt: $createdAt, reference: $reference)';
   }
 
   @override
@@ -233,17 +214,16 @@ class _$_Chat implements _Chat {
         (other.runtimeType == runtimeType &&
             other is _$_Chat &&
             (identical(other.text, text) || other.text == text) &&
-            (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.threadId, threadId) ||
-                other.threadId == threadId) &&
+            (identical(other.senderUid, senderUid) ||
+                other.senderUid == senderUid) &&
             const DeepCollectionEquality()
                 .equals(other._imageUrls, _imageUrls) &&
-            const DeepCollectionEquality()
-                .equals(other._isReading, _isReading) &&
-            (identical(other.reference, reference) ||
-                other.reference == reference) &&
+            (identical(other.threadReference, threadReference) ||
+                other.threadReference == threadReference) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.reference, reference) ||
+                other.reference == reference));
   }
 
   @JsonKey(ignore: true)
@@ -251,12 +231,11 @@ class _$_Chat implements _Chat {
   int get hashCode => Object.hash(
       runtimeType,
       text,
-      uid,
-      threadId,
+      senderUid,
       const DeepCollectionEquality().hash(_imageUrls),
-      const DeepCollectionEquality().hash(_isReading),
-      reference,
-      createdAt);
+      threadReference,
+      createdAt,
+      reference);
 
   @JsonKey(ignore: true)
   @override
@@ -275,37 +254,36 @@ class _$_Chat implements _Chat {
 abstract class _Chat implements Chat {
   const factory _Chat(
       {required final String text,
-      required final String uid,
-      required final String threadId,
+      required final String senderUid,
       @Freezed(fromJson: true)
           final List<String> imageUrls,
-      @Freezed(toJson: true)
-          final Map<String, bool> isReading,
       @DocumentReferenceConverter()
-          required final DocumentReference<Object?> reference,
+          required final DocumentReference<Object?> threadReference,
       @TimestampConverter()
-          required final Timestamp createdAt}) = _$_Chat;
+          required final Timestamp createdAt,
+      @DocumentReferenceConverter()
+          final DocumentReference<Object?>? reference}) = _$_Chat;
 
   factory _Chat.fromJson(Map<String, dynamic> json) = _$_Chat.fromJson;
 
   @override
   String get text;
   @override
-  String get uid;
-  @override
-  String get threadId;
+  String get senderUid;
   @override
   @Freezed(fromJson: true)
   List<String> get imageUrls;
   @override
-  @Freezed(toJson: true)
-  Map<String, bool> get isReading;
-  @override
   @DocumentReferenceConverter()
-  DocumentReference<Object?> get reference;
+  DocumentReference<Object?> get threadReference;
   @override
   @TimestampConverter()
   Timestamp get createdAt;
+  @override
+
+  /// クライアントで使用するデータ
+  @DocumentReferenceConverter()
+  DocumentReference<Object?>? get reference;
   @override
   @JsonKey(ignore: true)
   _$$_ChatCopyWith<_$_Chat> get copyWith => throw _privateConstructorUsedError;

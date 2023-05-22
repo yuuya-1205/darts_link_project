@@ -4,7 +4,7 @@ import 'package:darts_link_project/extensions/build_context_extension.dart';
 import 'package:darts_link_project/extensions/date_time_extension.dart';
 import 'package:darts_link_project/models/chat.dart';
 import 'package:darts_link_project/models/member_detail.dart';
-import 'package:darts_link_project/views/thread_page/thread_chat_page.dart';
+import 'package:darts_link_project/views/chat/chat_page.dart';
 import 'package:flutter/material.dart';
 
 class ChatItemView extends StatelessWidget {
@@ -33,7 +33,7 @@ class ChatItemView extends StatelessWidget {
               isSender
                   ? const SizedBox()
                   : UserImage(
-                      imageUrl: memberDetails[chat.uid]?.userImage,
+                      imageUrl: memberDetails[chat.senderUid]?.userImage,
                       size: 40,
                     ),
               const SizedBox(width: 8),

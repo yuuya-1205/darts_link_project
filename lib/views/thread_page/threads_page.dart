@@ -3,9 +3,9 @@ import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/constant/color.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/thread_repository.dart';
+import 'package:darts_link_project/views/chat/chat_page.dart';
 import 'package:darts_link_project/views/components/loading_view.dart';
 import 'package:darts_link_project/views/thread_page/components/unread_badge_view.dart';
-import 'package:darts_link_project/views/thread_page/thread_chat_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/thread.dart';
@@ -41,17 +41,26 @@ class ThreadsPageState extends State<ThreadsPage> {
             itemCount: threads.length,
             itemBuilder: (context, index) {
               final thread = threads[index];
-
               return GestureDetector(
                 onTap: () async {
                   final navigator = Navigator.of(context);
                   await ThreadRepository.updateBadge(
                       uid: user.id, threadId: thread.reference?.id ?? '');
-                  navigator.push(
+
+                  await navigator.push(
                     MaterialPageRoute(
-                      builder: ((context) => ThreadChatPage(thread: thread)),
-                    ),
+                        builder: ((context) => ChatPage(
+                              thread: thread.copyWith(unreadCount:
+                                  thread.unreadCount.map((key, value) {
+                                if (key == user.id) {
+                                  return MapEntry(key, []);
+                                }
+                                return MapEntry(key, value);
+                              })),
+                            ))),
                   );
+                  await ThreadRepository.updateBadge(
+                      uid: user.id, threadId: thread.reference?.id ?? '');
                 },
                 child: Container(
                   decoration: const BoxDecoration(
