@@ -3,50 +3,53 @@ import 'package:darts_link_project/models/thread.dart';
 
 class ThreadRepository {
   static final fireStore = FirebaseFirestore.instance;
-  static final threadsCollection = fireStore.collection('threads');
+  static final CollectionReference<Thread?> threadsCollection =
+      fireStore.collection('threads').withConverter(
+            fromFirestore: (snapshot, _) =>
+                Thread.fromJson(snapshot.data() ?? {})
+                    .copyWith(reference: snapshot.reference),
+            toFirestore: (value, _) {
+              final data = value?.toJson();
+              data?.remove('reference');
+              return data ?? {};
+            },
+          );
 
   static Future<List<Thread>> fetchThreads() async {
     final snap = await threadsCollection.get();
-    List<Thread> list = snap.docs.map((e) {
-      return Thread.fromJson(e.data());
-    }).toList();
-    return list;
+    return snap.docs.map((e) => e.data()).whereType<Thread>().toList();
   }
 
   static Stream<List<Thread>> threadStream({required String uid}) {
-    threadsCollection
-        .where('uids', arrayContains: uid)
-        .orderBy('updatedAt', descending: true)
-        .get();
     return threadsCollection
-        .where('uids', arrayContains: uid)
+        .where('memberIds', arrayContains: uid)
         .orderBy('updatedAt', descending: true)
         .snapshots()
         .map((snap) =>
-            snap.docs.map((doc) => Thread.fromJson(doc.data())).toList());
+            snap.docs.map((doc) => doc.data()).whereType<Thread>().toList());
   }
 
-  static Future<Thread?> fetchThreadByMemberIds(String threadId) async {
-    final doc = await threadsCollection.doc(threadId).get();
-    if (!doc.exists) {
-      return null;
-    }
-    return Thread.fromJson(doc.data() as Map<String, dynamic>);
+  static Future<Thread?> fetchThreadById(String threadId) async {
+    final snapshot = await threadsCollection.doc(threadId).get();
+    return snapshot.data();
   }
 
-  static Future<void> createThread(Thread thread) async {
-    await threadsCollection.doc(thread.id).set(thread.toJson());
+  static Future<DocumentReference> createThread(Thread thread) async {
+    final docId = '${thread.memberIds.first}-${thread.memberIds.last}';
+    await threadsCollection.doc(docId).set(thread);
+    return threadsCollection.doc(docId);
   }
 
   static Future<void> updateThread(Thread thread) async {
-    await threadsCollection.doc(thread.id).update(thread.toJson());
+    await threadsCollection
+        .doc(thread.reference?.id ?? '')
+        .update(thread.toJson());
   }
 
   static Future<void> updateBadge({
     required String uid,
-    int count = 0,
     required String threadId,
   }) async {
-    await threadsCollection.doc(threadId).update({'unReadCount.$uid': count});
+    await threadsCollection.doc(threadId).update({'unreadCount.$uid': []});
   }
 }

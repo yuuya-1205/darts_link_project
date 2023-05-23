@@ -20,19 +20,23 @@ Thread _$ThreadFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Thread {
-  String get id => throw _privateConstructorUsedError;
-  bool get isReading => throw _privateConstructorUsedError;
-  String get lastChat => throw _privateConstructorUsedError;
+  Map<String, List<String>> get unreadCount =>
+      throw _privateConstructorUsedError;
+  String get latestChat => throw _privateConstructorUsedError;
   @Freezed(fromJson: true)
-  List<String> get uids => throw _privateConstructorUsedError;
-  @Freezed(toJson: true)
-  Map<String, dynamic> get memberDetails => throw _privateConstructorUsedError;
-  @Freezed(toJson: true)
-  Map<String, int> get unReadCount => throw _privateConstructorUsedError;
+  List<String> get memberIds => throw _privateConstructorUsedError;
+  @MemberDetailConverter()
+  Map<String, MemberDetail> get memberDetails =>
+      throw _privateConstructorUsedError;
   @TimestampConverter()
   Timestamp get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   Timestamp get updatedAt => throw _privateConstructorUsedError;
+
+  /// クライアントのみで扱うデータ
+  @DocumentReferenceConverter()
+  DocumentReference<Object?>? get reference =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,14 +49,13 @@ abstract class $ThreadCopyWith<$Res> {
       _$ThreadCopyWithImpl<$Res, Thread>;
   @useResult
   $Res call(
-      {String id,
-      bool isReading,
-      String lastChat,
-      @Freezed(fromJson: true) List<String> uids,
-      @Freezed(toJson: true) Map<String, dynamic> memberDetails,
-      @Freezed(toJson: true) Map<String, int> unReadCount,
+      {Map<String, List<String>> unreadCount,
+      String latestChat,
+      @Freezed(fromJson: true) List<String> memberIds,
+      @MemberDetailConverter() Map<String, MemberDetail> memberDetails,
       @TimestampConverter() Timestamp createdAt,
-      @TimestampConverter() Timestamp updatedAt});
+      @TimestampConverter() Timestamp updatedAt,
+      @DocumentReferenceConverter() DocumentReference<Object?>? reference});
 }
 
 /// @nodoc
@@ -68,40 +71,31 @@ class _$ThreadCopyWithImpl<$Res, $Val extends Thread>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? isReading = null,
-    Object? lastChat = null,
-    Object? uids = null,
+    Object? unreadCount = null,
+    Object? latestChat = null,
+    Object? memberIds = null,
     Object? memberDetails = null,
-    Object? unReadCount = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? reference = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      unreadCount: null == unreadCount
+          ? _value.unreadCount
+          : unreadCount // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<String>>,
+      latestChat: null == latestChat
+          ? _value.latestChat
+          : latestChat // ignore: cast_nullable_to_non_nullable
               as String,
-      isReading: null == isReading
-          ? _value.isReading
-          : isReading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      lastChat: null == lastChat
-          ? _value.lastChat
-          : lastChat // ignore: cast_nullable_to_non_nullable
-              as String,
-      uids: null == uids
-          ? _value.uids
-          : uids // ignore: cast_nullable_to_non_nullable
+      memberIds: null == memberIds
+          ? _value.memberIds
+          : memberIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
       memberDetails: null == memberDetails
           ? _value.memberDetails
           : memberDetails // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
-      unReadCount: null == unReadCount
-          ? _value.unReadCount
-          : unReadCount // ignore: cast_nullable_to_non_nullable
-              as Map<String, int>,
+              as Map<String, MemberDetail>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -110,6 +104,10 @@ class _$ThreadCopyWithImpl<$Res, $Val extends Thread>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as Timestamp,
+      reference: freezed == reference
+          ? _value.reference
+          : reference // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>?,
     ) as $Val);
   }
 }
@@ -121,14 +119,13 @@ abstract class _$$_ThreadCopyWith<$Res> implements $ThreadCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
-      bool isReading,
-      String lastChat,
-      @Freezed(fromJson: true) List<String> uids,
-      @Freezed(toJson: true) Map<String, dynamic> memberDetails,
-      @Freezed(toJson: true) Map<String, int> unReadCount,
+      {Map<String, List<String>> unreadCount,
+      String latestChat,
+      @Freezed(fromJson: true) List<String> memberIds,
+      @MemberDetailConverter() Map<String, MemberDetail> memberDetails,
       @TimestampConverter() Timestamp createdAt,
-      @TimestampConverter() Timestamp updatedAt});
+      @TimestampConverter() Timestamp updatedAt,
+      @DocumentReferenceConverter() DocumentReference<Object?>? reference});
 }
 
 /// @nodoc
@@ -141,40 +138,31 @@ class __$$_ThreadCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? isReading = null,
-    Object? lastChat = null,
-    Object? uids = null,
+    Object? unreadCount = null,
+    Object? latestChat = null,
+    Object? memberIds = null,
     Object? memberDetails = null,
-    Object? unReadCount = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? reference = freezed,
   }) {
     return _then(_$_Thread(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      unreadCount: null == unreadCount
+          ? _value._unreadCount
+          : unreadCount // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<String>>,
+      latestChat: null == latestChat
+          ? _value.latestChat
+          : latestChat // ignore: cast_nullable_to_non_nullable
               as String,
-      isReading: null == isReading
-          ? _value.isReading
-          : isReading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      lastChat: null == lastChat
-          ? _value.lastChat
-          : lastChat // ignore: cast_nullable_to_non_nullable
-              as String,
-      uids: null == uids
-          ? _value._uids
-          : uids // ignore: cast_nullable_to_non_nullable
+      memberIds: null == memberIds
+          ? _value._memberIds
+          : memberIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
       memberDetails: null == memberDetails
           ? _value._memberDetails
           : memberDetails // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
-      unReadCount: null == unReadCount
-          ? _value._unReadCount
-          : unReadCount // ignore: cast_nullable_to_non_nullable
-              as Map<String, int>,
+              as Map<String, MemberDetail>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -183,6 +171,10 @@ class __$$_ThreadCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as Timestamp,
+      reference: freezed == reference
+          ? _value.reference
+          : reference // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>?,
     ));
   }
 }
@@ -191,62 +183,55 @@ class __$$_ThreadCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Thread extends _Thread {
   const _$_Thread(
-      {required this.id,
-      required this.isReading,
-      this.lastChat = '',
+      {final Map<String, List<String>> unreadCount = const {},
+      this.latestChat = '',
       @Freezed(fromJson: true)
-          final List<String> uids = const [],
-      @Freezed(toJson: true)
-          final Map<String, dynamic> memberDetails = const {},
-      @Freezed(toJson: true)
-          final Map<String, int> unReadCount = const {},
+          final List<String> memberIds = const [],
+      @MemberDetailConverter()
+          required final Map<String, MemberDetail> memberDetails,
       @TimestampConverter()
           required this.createdAt,
       @TimestampConverter()
-          required this.updatedAt})
-      : _uids = uids,
+          required this.updatedAt,
+      @DocumentReferenceConverter()
+          this.reference})
+      : _unreadCount = unreadCount,
+        _memberIds = memberIds,
         _memberDetails = memberDetails,
-        _unReadCount = unReadCount,
         super._();
 
   factory _$_Thread.fromJson(Map<String, dynamic> json) =>
       _$$_ThreadFromJson(json);
 
-  @override
-  final String id;
-  @override
-  final bool isReading;
+  final Map<String, List<String>> _unreadCount;
   @override
   @JsonKey()
-  final String lastChat;
-  final List<String> _uids;
+  Map<String, List<String>> get unreadCount {
+    if (_unreadCount is EqualUnmodifiableMapView) return _unreadCount;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_unreadCount);
+  }
+
+  @override
+  @JsonKey()
+  final String latestChat;
+  final List<String> _memberIds;
   @override
   @JsonKey()
   @Freezed(fromJson: true)
-  List<String> get uids {
-    if (_uids is EqualUnmodifiableListView) return _uids;
+  List<String> get memberIds {
+    if (_memberIds is EqualUnmodifiableListView) return _memberIds;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_uids);
+    return EqualUnmodifiableListView(_memberIds);
   }
 
-  final Map<String, dynamic> _memberDetails;
+  final Map<String, MemberDetail> _memberDetails;
   @override
-  @JsonKey()
-  @Freezed(toJson: true)
-  Map<String, dynamic> get memberDetails {
+  @MemberDetailConverter()
+  Map<String, MemberDetail> get memberDetails {
     if (_memberDetails is EqualUnmodifiableMapView) return _memberDetails;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_memberDetails);
-  }
-
-  final Map<String, int> _unReadCount;
-  @override
-  @JsonKey()
-  @Freezed(toJson: true)
-  Map<String, int> get unReadCount {
-    if (_unReadCount is EqualUnmodifiableMapView) return _unReadCount;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_unReadCount);
   }
 
   @override
@@ -256,9 +241,14 @@ class _$_Thread extends _Thread {
   @TimestampConverter()
   final Timestamp updatedAt;
 
+  /// クライアントのみで扱うデータ
+  @override
+  @DocumentReferenceConverter()
+  final DocumentReference<Object?>? reference;
+
   @override
   String toString() {
-    return 'Thread(id: $id, isReading: $isReading, lastChat: $lastChat, uids: $uids, memberDetails: $memberDetails, unReadCount: $unReadCount, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Thread(unreadCount: $unreadCount, latestChat: $latestChat, memberIds: $memberIds, memberDetails: $memberDetails, createdAt: $createdAt, updatedAt: $updatedAt, reference: $reference)';
   }
 
   @override
@@ -266,34 +256,33 @@ class _$_Thread extends _Thread {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Thread &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.isReading, isReading) ||
-                other.isReading == isReading) &&
-            (identical(other.lastChat, lastChat) ||
-                other.lastChat == lastChat) &&
-            const DeepCollectionEquality().equals(other._uids, _uids) &&
+            const DeepCollectionEquality()
+                .equals(other._unreadCount, _unreadCount) &&
+            (identical(other.latestChat, latestChat) ||
+                other.latestChat == latestChat) &&
+            const DeepCollectionEquality()
+                .equals(other._memberIds, _memberIds) &&
             const DeepCollectionEquality()
                 .equals(other._memberDetails, _memberDetails) &&
-            const DeepCollectionEquality()
-                .equals(other._unReadCount, _unReadCount) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.reference, reference) ||
+                other.reference == reference));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      id,
-      isReading,
-      lastChat,
-      const DeepCollectionEquality().hash(_uids),
+      const DeepCollectionEquality().hash(_unreadCount),
+      latestChat,
+      const DeepCollectionEquality().hash(_memberIds),
       const DeepCollectionEquality().hash(_memberDetails),
-      const DeepCollectionEquality().hash(_unReadCount),
       createdAt,
-      updatedAt);
+      updatedAt,
+      reference);
 
   @JsonKey(ignore: true)
   @override
@@ -311,39 +300,43 @@ class _$_Thread extends _Thread {
 
 abstract class _Thread extends Thread {
   const factory _Thread(
-      {required final String id,
-      required final bool isReading,
-      final String lastChat,
-      @Freezed(fromJson: true) final List<String> uids,
-      @Freezed(toJson: true) final Map<String, dynamic> memberDetails,
-      @Freezed(toJson: true) final Map<String, int> unReadCount,
-      @TimestampConverter() required final Timestamp createdAt,
-      @TimestampConverter() required final Timestamp updatedAt}) = _$_Thread;
+      {final Map<String, List<String>> unreadCount,
+      final String latestChat,
+      @Freezed(fromJson: true)
+          final List<String> memberIds,
+      @MemberDetailConverter()
+          required final Map<String, MemberDetail> memberDetails,
+      @TimestampConverter()
+          required final Timestamp createdAt,
+      @TimestampConverter()
+          required final Timestamp updatedAt,
+      @DocumentReferenceConverter()
+          final DocumentReference<Object?>? reference}) = _$_Thread;
   const _Thread._() : super._();
 
   factory _Thread.fromJson(Map<String, dynamic> json) = _$_Thread.fromJson;
 
   @override
-  String get id;
+  Map<String, List<String>> get unreadCount;
   @override
-  bool get isReading;
-  @override
-  String get lastChat;
+  String get latestChat;
   @override
   @Freezed(fromJson: true)
-  List<String> get uids;
+  List<String> get memberIds;
   @override
-  @Freezed(toJson: true)
-  Map<String, dynamic> get memberDetails;
-  @override
-  @Freezed(toJson: true)
-  Map<String, int> get unReadCount;
+  @MemberDetailConverter()
+  Map<String, MemberDetail> get memberDetails;
   @override
   @TimestampConverter()
   Timestamp get createdAt;
   @override
   @TimestampConverter()
   Timestamp get updatedAt;
+  @override
+
+  /// クライアントのみで扱うデータ
+  @DocumentReferenceConverter()
+  DocumentReference<Object?>? get reference;
   @override
   @JsonKey(ignore: true)
   _$$_ThreadCopyWith<_$_Thread> get copyWith =>

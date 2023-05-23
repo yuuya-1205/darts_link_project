@@ -5,7 +5,7 @@ class UserImage extends StatelessWidget {
   const UserImage({
     Key? key,
     this.size = 50,
-    required this.imageUrl,
+    this.imageUrl = '',
     this.onTap,
   }) : super(key: key);
   final String? imageUrl;

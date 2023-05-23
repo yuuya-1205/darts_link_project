@@ -50,4 +50,9 @@ extension DateTimeExtension on DateTime {
     final format = DateFormat('yyyy-MM-dd');
     return format.format(this);
   }
+
+  String get formatHhMm {
+    final format = DateFormat('HH:mm');
+    return format.format(this);
+  }
 }
