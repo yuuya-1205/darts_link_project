@@ -106,10 +106,17 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  InputField(
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      fillColor: Colors.white,
+                      filled: true,
+                      isDense: true,
+                      contentPadding: EdgeInsets.all(12),
+                      hintText: 'パスワード',
+                    ),
                     obscureText: true,
                     keyboardType: TextInputType.text,
-                    controller: _passwordController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'パスワードを入力してください';
@@ -121,7 +128,6 @@ class _LoginPageState extends State<LoginPage> {
                       }
                       return null;
                     },
-                    hintText: 'パスワード',
                   ),
                   const SizedBox(
                     height: 7,
