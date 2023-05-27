@@ -79,7 +79,6 @@ class _RegistPersonPageState extends State<RegistPersonPage> {
                     height: 10,
                   ),
                   TextFormField(
-                    controller: _passwordController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       fillColor: Colors.white,
@@ -90,6 +89,7 @@ class _RegistPersonPageState extends State<RegistPersonPage> {
                     ),
                     obscureText: true,
                     keyboardType: TextInputType.text,
+                    controller: _passwordController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'パスワードを入力してください';

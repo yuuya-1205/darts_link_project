@@ -37,6 +37,8 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
   final _userIdController = TextEditingController();
   final _userSelfIntroductionController = TextEditingController();
   final _genderController = TextEditingController();
+  final _prefController = TextEditingController();
+  final _cityController = TextEditingController();
 
   Pref? _selectedPref;
   Pref? _initalPrefectureArea;
@@ -47,6 +49,7 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
 
   int _dartsLiveRating = 1;
   int _phoenixRating = 1;
+  int _capacity = 1;
 
   Asset? _selectedHeaderImage;
   Asset? _selectedUserImage;
@@ -283,122 +286,215 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
                   const SizedBox(
                     width: 30,
                   ),
-                  CupertinoButton(
-                    child: Text(
-                      _initalPrefectureArea?.name ?? '選択',
-                    ),
-                    onPressed: () async {
-                      final prefs = AreaRepository.prefList;
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height / 2,
-                            child: Column(children: [
-                              Row(
-                                children: [
-                                  CupertinoButton(
-                                    child: const Text('もどる'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                  CupertinoButton(
-                                    child: const Text('決定'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
+                  Flexible(
+                    child: InputField(
+                      readOnly: true,
+                      controller: _prefController,
+                      hintText: '選択してください',
+                      onTap: () async {
+                        final prefs = AreaRepository.prefList;
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height / 2,
+                              child: Column(children: [
+                                Row(
+                                  children: [
+                                    CupertinoButton(
+                                      child: const Text('もどる'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    CupertinoButton(
+                                      child: const Text('決定'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        setState(() {
+                                          _initalPrefectureArea = _selectedPref;
+                                          _prefController.text =
+                                              _initalPrefectureArea?.name ??
+                                                  '未登録';
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  height:
+                                      MediaQuery.of(context).size.height / 3,
+                                  child: CupertinoPicker(
+                                    itemExtent: 40,
+                                    children:
+                                        prefs.map((e) => Text(e.name)).toList(),
+                                    onSelectedItemChanged: (int index) {
                                       setState(() {
-                                        _initalPrefectureArea = _selectedPref;
+                                        _selectedPref = prefs[index];
                                       });
                                     },
                                   ),
-                                ],
-                              ),
-                              SizedBox(
-                                width: double.infinity,
-                                height: MediaQuery.of(context).size.height / 3,
-                                child: CupertinoPicker(
-                                  itemExtent: 40,
-                                  children:
-                                      prefs.map((e) => Text(e.name)).toList(),
-                                  onSelectedItemChanged: (int index) {
-                                    setState(() {
-                                      _selectedPref = prefs[index];
-                                    });
-                                  },
-                                ),
-                              )
-                            ]),
-                          );
-                        },
-                      );
-                    },
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  const Text('エリア'),
-                  const SizedBox(
-                    width: 45,
-                  ),
-                  CupertinoButton(
-                    child: Text(
-                      _initalCityArea?.name ?? '選択',
+                                )
+                              ]),
+                            );
+                          },
+                        );
+                      },
                     ),
-                    onPressed: () async {
-                      if (_initalPrefectureArea == null) {
-                        return;
-                      }
-                      final cities =
-                          AreaRepository.cityMap[_initalPrefectureArea!.code]!;
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height / 2,
-                            child: Column(children: [
-                              Row(
-                                children: [
-                                  CupertinoButton(
-                                    child: const Text('もどる'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                  CupertinoButton(
-                                    child: const Text('決定'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      setState(() {
-                                        _initalCityArea = _selectedCity;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                width: double.infinity,
-                                height: MediaQuery.of(context).size.height / 3,
-                                child: CupertinoPicker(
-                                  itemExtent: 40,
-                                  children:
-                                      cities.map((e) => Text(e.name)).toList(),
-                                  onSelectedItemChanged: (int index) {
-                                    _selectedCity = cities[index];
-                                  },
-                                ),
-                              )
-                            ]),
-                          );
-                        },
-                      );
-                    },
                   )
                 ],
               ),
               const SizedBox(
                 height: 12,
+              ),
+              Row(
+                children: [
+                  const Text('エリア'),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  Flexible(
+                    child: InputField(
+                      controller: _cityController,
+                      hintText: '選択してください',
+                      readOnly: true,
+                      onTap: () async {
+                        if (_initalPrefectureArea == null) {
+                          return;
+                        }
+                        final cities = AreaRepository
+                            .cityMap[_initalPrefectureArea!.code]!;
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height / 2,
+                              child: Column(children: [
+                                Row(
+                                  children: [
+                                    CupertinoButton(
+                                      child: const Text('もどる'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    CupertinoButton(
+                                      child: const Text('決定'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        setState(() {
+                                          _initalCityArea = _selectedCity;
+                                          _cityController.text =
+                                              _initalCityArea?.name ?? '未登録';
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  height:
+                                      MediaQuery.of(context).size.height / 3,
+                                  child: CupertinoPicker(
+                                    itemExtent: 40,
+                                    children: cities
+                                        .map((e) => Text(e.name))
+                                        .toList(),
+                                    onSelectedItemChanged: (int index) {
+                                      _selectedCity = cities[index];
+                                    },
+                                  ),
+                                )
+                              ]),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                children: [
+                  const Text(
+                    'ダーツライブ',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  IconButton(
+                    onPressed: _capacity <= 0
+                        ? null
+                        : () {
+                            _decrementCounter();
+                          },
+                    icon: const Icon(
+                      Icons.remove_circle_outline,
+                      size: 40,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  Text(
+                    '$_capacity',
+                    style: const TextStyle(fontSize: 32),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      _incrementCounter();
+                    },
+                    icon: const Icon(Icons.add_circle_outline,
+                        size: 40, color: Color.fromRGBO(247, 63, 150, 1)),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  const Text(
+                    'フェニックス',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  IconButton(
+                    onPressed: _capacity <= 0
+                        ? null
+                        : () {
+                            _phoenixDecrementCounter();
+                          },
+                    icon: const Icon(
+                      Icons.remove_circle_outline,
+                      size: 40,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  Text(
+                    '$_capacity',
+                    style: const TextStyle(fontSize: 32),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      _phoenixIncrementCounter();
+                    },
+                    icon: const Icon(Icons.add_circle_outline,
+                        size: 40, color: Color.fromRGBO(247, 63, 150, 1)),
+                  ),
+                ],
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -237,26 +237,6 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                           },
                         ),
                       )
-                      // Flexible(
-                      //   child: InputField(
-                      //     readOnly: true,
-                      //     controller: _prefController,
-                      //     hintText: '選択してください',
-                      //     onTap: () => context.showAreaSelectorPicker(
-                      //       onSubmitted: () {
-                      //         Navigator.pop(context);
-                      //         setState(() {
-                      //           _initalPrefectureArea = _selectedPref;
-                      //           _prefController.text =
-                      //               _initalPrefectureArea?.name ?? '未登録';
-                      //         });
-                      //       },
-                      //       onSelectedItemChanged: (Pref pref) {
-                      //         setState(() => _selectedPref = pref);
-                      //       },
-                      //     ),
-                      //   ),
-                      // )
                     ],
                   ),
                   const SizedBox(

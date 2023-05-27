@@ -1,9 +1,12 @@
 import 'package:darts_link_project/firebase_options.dart';
 import 'package:darts_link_project/services/fcm_service.dart';
+import 'package:darts_link_project/views/battle_room_page/create_battle_room_page.dart';
 import 'package:darts_link_project/views/splash_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'views/regist_user_info_page.dart/regist_person_info_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +38,7 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
         ),
       ),
-      home: const SplashPage(),
+      home: const RegistPersonInfoPage(),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

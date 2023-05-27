@@ -180,6 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                         await fetchAppUser(uid);
                         await setFcmToken(uid);
 
+                        ///TODO　DialogのUIを綺麗にする。
                         // ignore: use_build_context_synchronously
                         await showDialog(
                           context: context,
