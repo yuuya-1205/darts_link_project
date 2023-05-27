@@ -12,8 +12,9 @@ import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/battle_room/battle_room_repository.dart';
 import 'package:darts_link_project/repositories/person_repository.dart';
-import 'package:darts_link_project/repositories/post_repository.dart';
+import 'package:darts_link_project/repositories/post/post_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:darts_link_project/views/my_page/my_page.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -98,40 +99,7 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        title: const Text(
-          'プロフィール編集',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar: const OriginalAppBer(title: 'プロフィール編集'),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: SingleChildScrollView(
@@ -161,11 +129,9 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                             maxImages: 1,
                             enableCamera: true,
                           );
-                          if (headerfiles != null) {
-                            setState(() {
-                              _selectedHeaderImage = headerfiles.first;
-                            });
-                          }
+                          setState(() {
+                            _selectedHeaderImage = headerfiles.first;
+                          });
                         },
                       ),
                     ),
@@ -619,23 +585,20 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                   final user = FirebaseAuth.instance.currentUser!;
                   final userName = _userNameController.text;
                   final userId = _userIdController.text;
-                  final gender = _genderController.text;
                   final userSelfIntroduction =
                       _userSelfIntroductionController.text;
 
-                  String? headerImageUrl;
                   if (_selectedHeaderImage != null) {
                     final path = 'headers/${user.uid}/header.jpeg';
                     _currentHeaderImageUrl = await StorageRepository()
-                        .saveimage(asset: _selectedHeaderImage!, path: path);
+                        .saveImage(asset: _selectedHeaderImage!, path: path);
                   }
 
                   // プロフィール画像アップロード
-                  String? imageUrl;
                   if (_selectedUserImage != null) {
                     final path = 'users/${user.uid}/user.jpeg';
                     _currentUserImageUrl = await StorageRepository()
-                        .saveimage(asset: _selectedUserImage!, path: path);
+                        .saveImage(asset: _selectedUserImage!, path: path);
                   }
                   final person = Person(
                     id: uid,
@@ -658,7 +621,6 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
                   await BattleRoomRepository.updateProfile(appUser: person);
 
                   AuthRepository.currentUser = person;
-                  // ignore: use_build_context_synchronously
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -696,7 +658,6 @@ class _EditMyInfoPageState extends State<EditMyInfoPage> {
     }
   }
 
-  @override
   Future<void> _getCurrentUser() async {
     if (AuthRepository.currentUser == null ||
         AuthRepository.currentUser is StoreOwner) {

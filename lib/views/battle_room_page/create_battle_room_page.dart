@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/input_field.dart';
 import 'package:darts_link_project/components/original_button.dart';
-import 'package:darts_link_project/extensions/build_context_extension.dart';
 import 'package:darts_link_project/models/battle_room.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
@@ -12,6 +11,7 @@ import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/battle_room/battle_room_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
@@ -25,7 +25,6 @@ class CreateBattleRoomPage extends StatefulWidget {
 }
 
 class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
-  final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _placeController = TextEditingController();
   final _prefController = TextEditingController();
@@ -36,9 +35,9 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
   final _detailController = TextEditingController();
 
   Pref? _selectedPref;
-  Pref? _initalPrefectureArea;
+  Pref? _initialPrefectureArea;
   City? _selectedCity;
-  City? _initalCityArea;
+  City? _initialCityArea;
   int _capacity = 1;
 
   List<Pref> prefs = [];
@@ -50,8 +49,8 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
   DateTime? _selectedStartTime;
   DateTime? _selectedFinishTime;
 
-  List<String> _selectedFeatures = [];
-  List<String> _selectedDartsModels = [];
+  final List<String> _selectedFeatures = [];
+  final List<String> _selectedDartsModels = [];
 
   bool isApproval = false;
 
@@ -93,39 +92,8 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        title: const Text(
-          '対戦者募集ページ作成',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      appBar: OriginalAppBer(
+        title: '対戦者募集ページ作成',
         actions: [
           Center(
             child: Padding(
@@ -234,10 +202,11 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                                           onPressed: () {
                                             Navigator.pop(context);
                                             setState(() {
-                                              _initalPrefectureArea =
+                                              _initialPrefectureArea =
                                                   _selectedPref;
                                               _prefController.text =
-                                                  _initalPrefectureArea?.name ??
+                                                  _initialPrefectureArea
+                                                          ?.name ??
                                                       '未登録';
                                             });
                                           },
@@ -285,11 +254,11 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                           hintText: '選択してください',
                           readOnly: true,
                           onTap: () async {
-                            if (_initalPrefectureArea == null) {
+                            if (_initialPrefectureArea == null) {
                               return;
                             }
                             final cities = AreaRepository
-                                .cityMap[_initalPrefectureArea!.code]!;
+                                .cityMap[_initialPrefectureArea!.code]!;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -310,9 +279,9 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                                           onPressed: () {
                                             Navigator.pop(context);
                                             setState(() {
-                                              _initalCityArea = _selectedCity;
+                                              _initialCityArea = _selectedCity;
                                               _cityController.text =
-                                                  _initalCityArea?.name ??
+                                                  _initialCityArea?.name ??
                                                       '未登録';
                                             });
                                           },
@@ -713,8 +682,8 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                           id: '',
                           place: place,
                           title: title,
-                          prefecture: _initalPrefectureArea,
-                          city: _initalCityArea,
+                          prefecture: _initialPrefectureArea,
+                          city: _initialCityArea,
                           dateTime: Timestamp.fromDate(_selectedDateAndTime!),
                           startTime: Timestamp.fromDate(_selectedStartTime!),
                           finishTime: Timestamp.fromDate(_selectedFinishTime!),
@@ -733,7 +702,6 @@ class _CreateBattleRoomPageState extends State<CreateBattleRoomPage> {
                           followingCount: user.followingCount,
                           capacity: _capacity);
                       await BattleRoomRepository.createBattleRoom(battleRoom);
-                      // ignore: use_build_context_synchronously
                       Navigator.pop(context);
                     },
                   ),

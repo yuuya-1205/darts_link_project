@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/back_ground_image.dart';
 import 'package:darts_link_project/components/input_field.dart';
 import 'package:darts_link_project/components/original_button.dart';
@@ -20,7 +19,7 @@ class _RegistPersonPageState extends State<RegistPersonPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final user = FirebaseAuth.instance.currentUser;
-  String errorMassege = '';
+  String errorMessage = '';
   bool _isChecked = false;
   int count = 0;
   @override
@@ -53,7 +52,7 @@ class _RegistPersonPageState extends State<RegistPersonPage> {
                     height: 54,
                   ),
                   Text(
-                    errorMassege,
+                    errorMessage,
                     style: const TextStyle(color: Colors.red),
                   ),
                   const SizedBox(
@@ -179,7 +178,7 @@ class _RegistPersonPageState extends State<RegistPersonPage> {
                         return;
                       }
                       if (_isChecked == false) {
-                        errorMassege = '利用規約に同意されていません';
+                        errorMessage = '利用規約に同意されていません';
                         //状態を変化させる
                         setState(() {});
                         return;

@@ -3,7 +3,6 @@ import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/follow_repository.dart';
 import 'package:darts_link_project/views/follow_page/follow_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class FollowListPage extends StatefulWidget {
   const FollowListPage({

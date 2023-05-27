@@ -12,6 +12,7 @@ import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 import 'package:darts_link_project/repositories/storage_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:darts_link_project/views/components/selector_container_view.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,7 +33,6 @@ class CreateCirclePage extends StatefulWidget {
 
 class _CreateCirclePageState extends State<CreateCirclePage> {
   final user = AuthRepository.currentUser;
-  final _formKey = GlobalKey<FormState>();
   final _circleNameController = TextEditingController();
   final _placeController = TextEditingController();
   final _prefController = TextEditingController();
@@ -40,9 +40,9 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
   final _circleDetailController = TextEditingController();
 
   Pref? _selectedPref;
-  Pref? _initalPrefectureArea;
+  Pref? _initialPrefectureArea;
   City? _selectedCity;
-  City? _initalCityArea;
+  City? _initialCityArea;
   int _capacity = 0;
 
   List<Pref> prefs = [];
@@ -51,7 +51,6 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
   DateFormat timeFormat = DateFormat("HH:mm");
 
   final List<FeatureTagType> _selectedFeatures = [];
-  String _currentHeaderImageUrl = '';
   Asset? _selectedHeaderImage;
   List<Asset> _selectedHeaderImages = [];
   final List<String> _currentHeaderImageUrls = [];
@@ -96,39 +95,8 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        title: const Text(
-          'サークル作成ページ',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      appBar: OriginalAppBer(
+        title: 'サークル作成ページ',
         actions: [
           Center(
             child: Padding(
@@ -175,11 +143,9 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                             maxImages: 6,
                             enableCamera: true,
                           );
-                          if (headerfiles != null) {
-                            setState(() {
-                              _selectedHeaderImages = headerfiles;
-                            });
-                          }
+                          setState(() {
+                            _selectedHeaderImages = headerfiles;
+                          });
                         },
                       ),
                     ),
@@ -268,10 +234,11 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                                           onPressed: () {
                                             Navigator.pop(context);
                                             setState(() {
-                                              _initalPrefectureArea =
+                                              _initialPrefectureArea =
                                                   _selectedPref;
                                               _prefController.text =
-                                                  _initalPrefectureArea?.name ??
+                                                  _initialPrefectureArea
+                                                          ?.name ??
                                                       '未登録';
                                             });
                                           },
@@ -319,11 +286,11 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                           hintText: '選択してください',
                           readOnly: true,
                           onTap: () async {
-                            if (_initalPrefectureArea == null) {
+                            if (_initialPrefectureArea == null) {
                               return;
                             }
                             final cities = AreaRepository
-                                .cityMap[_initalPrefectureArea!.code]!;
+                                .cityMap[_initialPrefectureArea!.code]!;
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
@@ -344,9 +311,9 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                                           onPressed: () {
                                             Navigator.pop(context);
                                             setState(() {
-                                              _initalCityArea = _selectedCity;
+                                              _initialCityArea = _selectedCity;
                                               _cityController.text =
-                                                  _initalCityArea?.name ??
+                                                  _initialCityArea?.name ??
                                                       '未登録';
                                             });
                                           },
@@ -522,17 +489,15 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                           .toList();
                       final imageUrls = await Future.wait(imageFutures);
 
-                      String? headerImageUrl;
                       if (_selectedHeaderImage != null) {
                         final path = 'headers/${user!.id}/header.jpeg';
-                        _currentHeaderImageUrl = await StorageRepository()
-                            .saveimage(
-                                asset: _selectedHeaderImage!, path: path);
+                        await StorageRepository().saveImage(
+                            asset: _selectedHeaderImage!, path: path);
                       }
 
                       final circle = Circle(
-                        prefecture: _initalPrefectureArea,
-                        city: _initalCityArea,
+                        prefecture: _initialPrefectureArea,
+                        city: _initialCityArea,
                         circleId: '',
                         imageUrls: imageUrls,
                         circleName: circleName,
@@ -552,8 +517,6 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
                         capacity: _capacity,
                       );
                       await CircleRepository.createCircle(circle);
-
-                      // ignore: use_build_context_synchronously
                       Navigator.pop(context);
                     },
                   ),
@@ -575,6 +538,6 @@ class _CreateCirclePageState extends State<CreateCirclePage> {
     final randomString = const Uuid().v4();
     final path = 'posts/$uid/$randomString.jpeg';
 
-    return StorageRepository().saveimage(asset: asset, path: path);
+    return StorageRepository().saveImage(asset: asset, path: path);
   }
 }

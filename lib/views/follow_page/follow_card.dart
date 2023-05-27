@@ -1,7 +1,6 @@
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/follow.dart';
-import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 
 class FollowCard extends StatefulWidget {
@@ -19,18 +18,13 @@ class FollowCard extends StatefulWidget {
 class _FollowCardState extends State<FollowCard> {
   @override
   Widget build(BuildContext context) {
-    final user = AuthRepository.currentUser;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            UserImage(
-                height: 40,
-                width: 40,
-                imageUrl: widget.follow.userImage,
-                uid: widget.follow.followingRef.id),
+            UserImage(size: 40, imageUrl: widget.follow.userImage),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(

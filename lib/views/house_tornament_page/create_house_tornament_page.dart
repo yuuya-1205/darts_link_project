@@ -12,6 +12,7 @@ import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/house_tornament/house_tornament_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -100,39 +101,8 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        title: const Text(
-          'ハウストーナメント作成',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      appBar: OriginalAppBer(
+        title: 'ハウストーナメント作成',
         actions: [
           Center(
             child: Padding(
@@ -713,7 +683,6 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                                 title: const Text('開始時刻を選択してください'),
                                 onConfirm: (Picker picker, List value) {
                                   setState(() {
-                                    print(value);
                                     _selectedStartTime = DateTime(
                                         dateTime.year,
                                         dateTime.month,

@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/follow_approve_button.dart';
 import 'package:darts_link_project/components/user_image.dart';
-import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/follow.dart';
 import 'package:darts_link_project/models/post_like.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/follow_repository.dart';
-import 'package:darts_link_project/repositories/post_likes_repository.dart';
+import 'package:darts_link_project/repositories/post/post_like_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:flutter/material.dart';
 
@@ -36,12 +35,12 @@ class _LikedListPageState extends State<LikedListPage> {
           onTap: () {
             Navigator.pop(context);
           },
-          child: Row(children: [
-            Container(
+          child: Row(children: const [
+            SizedBox(
               width: 30,
-              child: const BackButton(),
+              child: BackButton(),
             ),
-            const Text(
+            Text(
               '戻る',
               style: TextStyle(
                 color: Color.fromRGBO(247, 63, 150, 1),
@@ -62,7 +61,7 @@ class _LikedListPageState extends State<LikedListPage> {
         ),
       ),
       body: StreamBuilder<List<PostLike>>(
-          stream: PostLikesRepository.streamPostLike(widget.postId),
+          stream: PostLikeRepository.streamPostLike(widget.postId),
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.active) {
               return const Center(
@@ -89,12 +88,7 @@ class _LikedListPageState extends State<LikedListPage> {
                   children: [
                     Row(
                       children: [
-                        UserImage(
-                          height: 50,
-                          width: 50,
-                          imageUrl: postLike.userImage,
-                          uid: postLike.uid,
-                        ),
+                        UserImage(imageUrl: postLike.userImage),
                         const SizedBox(
                           width: 8,
                         ),
@@ -131,7 +125,8 @@ class _LikedListPageState extends State<LikedListPage> {
                                   final user = AuthRepository.currentUser;
                                   await FollowRepository.unFollowing(
                                       uid: user!.id,
-                                      followingUid: postLike.uid);
+                                      followingUid:
+                                          postLike.likerReference?.id ?? '');
                                 },
                                 text: 'フォロー解除',
                               );
@@ -151,7 +146,6 @@ class _LikedListPageState extends State<LikedListPage> {
                                         userImage: postLike.userImage,
                                         userName: postLike.userName),
                                     uid: user!.id);
-                                print(postLike.uid);
                               },
                               text: 'フォローする',
                             );

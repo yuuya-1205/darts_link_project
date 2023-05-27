@@ -4,16 +4,12 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 class UserImage extends StatelessWidget {
   const UserImage({
     Key? key,
-    this.width,
-    this.height,
-    required this.imageUrl,
-    required this.uid,
+    this.size = 50,
+    this.imageUrl = '',
     this.onTap,
   }) : super(key: key);
   final String? imageUrl;
-  final double? width;
-  final double? height;
-  final String uid;
+  final double? size;
   final GestureTapCallback? onTap;
 
   @override
@@ -21,8 +17,8 @@ class UserImage extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-          width: width,
-          height: height,
+          width: size,
+          height: size,
           child: ClipOval(
             child: imageUrl == ''
                 ? Container(

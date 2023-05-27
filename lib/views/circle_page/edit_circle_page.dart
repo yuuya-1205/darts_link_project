@@ -11,6 +11,7 @@ import 'package:darts_link_project/repositories/area_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -25,7 +26,6 @@ class EditCirclePage extends StatefulWidget {
 }
 
 class _EditCirclePageState extends State<EditCirclePage> {
-  final _formKey = GlobalKey<FormState>();
   final _circleNameController = TextEditingController();
   final _placeController = TextEditingController();
   final _prefController = TextEditingController();
@@ -43,10 +43,6 @@ class _EditCirclePageState extends State<EditCirclePage> {
   DateFormat dateFormat = DateFormat("yyyy年MM月dd日");
   DateFormat timeFormat = DateFormat("HH:mm");
 
-  DateTime? _selectedDateAndTime;
-  DateTime? _selectedStartTime;
-  DateTime? _selectedFinishTime;
-
   List<FeatureTagType> _selectedFeatures = [];
 
   bool isApproved = false;
@@ -57,20 +53,6 @@ class _EditCirclePageState extends State<EditCirclePage> {
     dateTime = DateTime.now();
 
     super.initState();
-  }
-
-  _datePicker(BuildContext context) async {
-    final DateTime? datePicked = await showDatePicker(
-        locale: const Locale("ja"),
-        context: context,
-        initialDate: dateTime,
-        firstDate: DateTime(2003),
-        lastDate: DateTime(2025));
-    if (datePicked != null && datePicked != dateTime) {
-      setState(() {
-        _selectedDateAndTime = datePicked;
-      });
-    }
   }
 
   void _incrementCounter() {
@@ -90,40 +72,7 @@ class _EditCirclePageState extends State<EditCirclePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-        title: const Text(
-          'サークル編集',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar: const OriginalAppBer(title: 'サークル編集'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -374,15 +323,13 @@ class _EditCirclePageState extends State<EditCirclePage> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8),
                                     decoration: BoxDecoration(
-                                        color:
-                                            _selectedFeatures.contains(e.label)
-                                                ? const Color.fromRGBO(
-                                                    242, 246, 217, 1)
-                                                : const Color.fromRGBO(
-                                                    251, 251, 251, 1),
+                                        color: _selectedFeatures.contains(e)
+                                            ? const Color.fromRGBO(
+                                                242, 246, 217, 1)
+                                            : const Color.fromRGBO(
+                                                251, 251, 251, 1),
                                         border: Border.all(
-                                          color: _selectedFeatures
-                                                  .contains(e.label)
+                                          color: _selectedFeatures.contains(e)
                                               ? const Color.fromRGBO(
                                                   189, 208, 66, 1)
                                               : const Color.fromRGBO(
@@ -394,8 +341,7 @@ class _EditCirclePageState extends State<EditCirclePage> {
                                       child: Text(
                                         e.label,
                                         style: TextStyle(
-                                          color: _selectedFeatures
-                                                  .contains(e.label)
+                                          color: _selectedFeatures.contains(e)
                                               ? const Color.fromRGBO(
                                                   189, 208, 66, 1)
                                               : const Color.fromRGBO(
@@ -512,8 +458,6 @@ class _EditCirclePageState extends State<EditCirclePage> {
                         capacity: _capacity,
                       );
                       await CircleRepository.updateCircle(circle);
-
-                      // ignore: use_build_context_synchronously
                       Navigator.pop(context);
                     },
                   ),

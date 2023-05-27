@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/back_ground_image.dart';
 import 'package:darts_link_project/components/input_field.dart';
 import 'package:darts_link_project/components/original_button.dart';
@@ -8,19 +7,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class RegistStoreOwnerPage extends StatefulWidget {
-  const RegistStoreOwnerPage({Key? key}) : super(key: key);
+class RegisterStoreOwnerPage extends StatefulWidget {
+  const RegisterStoreOwnerPage({Key? key}) : super(key: key);
 
   @override
-  State<RegistStoreOwnerPage> createState() => _RegistStoreOwnerPageState();
+  State<RegisterStoreOwnerPage> createState() => _RegisterStoreOwnerPageState();
 }
 
-class _RegistStoreOwnerPageState extends State<RegistStoreOwnerPage> {
+class _RegisterStoreOwnerPageState extends State<RegisterStoreOwnerPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final user = FirebaseAuth.instance.currentUser;
-  String errorMassege = '';
+  String errorMessage = '';
   bool _isChecked = false;
   int count = 0;
   @override
@@ -53,7 +52,7 @@ class _RegistStoreOwnerPageState extends State<RegistStoreOwnerPage> {
                     height: 54,
                   ),
                   Text(
-                    errorMassege,
+                    errorMessage,
                     style: const TextStyle(color: Colors.red),
                   ),
                   const SizedBox(
@@ -80,6 +79,7 @@ class _RegistStoreOwnerPageState extends State<RegistStoreOwnerPage> {
                     height: 10,
                   ),
                   TextFormField(
+                    controller: _passwordController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       fillColor: Colors.white,
@@ -90,7 +90,6 @@ class _RegistStoreOwnerPageState extends State<RegistStoreOwnerPage> {
                     ),
                     obscureText: true,
                     keyboardType: TextInputType.text,
-                    controller: _passwordController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'パスワードを入力してください';
@@ -179,7 +178,7 @@ class _RegistStoreOwnerPageState extends State<RegistStoreOwnerPage> {
                         return;
                       }
                       if (_isChecked == false) {
-                        errorMassege = '利用規約に同意されていません';
+                        errorMessage = '利用規約に同意されていません';
                         //状態を変化させる
                         setState(() {});
                         return;

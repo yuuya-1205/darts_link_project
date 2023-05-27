@@ -4,12 +4,14 @@ import 'package:darts_link_project/components/header_image_url.dart';
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/models/follow.dart';
+import 'package:darts_link_project/models/member_detail.dart';
 import 'package:darts_link_project/models/thread.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/follow_repository.dart';
 import 'package:darts_link_project/repositories/thread_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
-import 'package:darts_link_project/views/thread_page/thread_chat_page.dart';
+import 'package:darts_link_project/views/chat/chat_page.dart';
+import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
 import 'package:darts_link_project/views/user_page/user_image_post_page.dart';
 import 'package:darts_link_project/views/user_page/user_info_page.dart';
 import 'package:darts_link_project/views/user_page/user_post_list_page.dart';
@@ -29,9 +31,10 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  final user = AuthRepository.currentUser;
+  final currentUser = AuthRepository.currentUser;
   Asset? asset;
   Map<String, Widget> tabPageMaps = {};
+
   @override
   void initState() {
     tabPageMaps = {
@@ -41,41 +44,18 @@ class _UserPageState extends State<UserPage> {
       '投稿': UserPostListPage(
         appUser: widget.appUser,
       ),
-      '画像': UserImagePostPage(),
+      '画像': const UserImagePostPage(),
     };
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (currentUser == null) {
+      throw Exception('ログインしていません');
+    }
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromRGBO(247, 63, 150, 1),
-        ),
-        leadingWidth: 76,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(children: [
-            Container(
-              width: 30,
-              child: const BackButton(),
-            ),
-            const Text(
-              '戻る',
-              style: TextStyle(
-                color: Color.fromRGBO(247, 63, 150, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: Colors.white,
-      ),
+      appBar: const OriginalAppBer(),
       body: DefaultTabController(
         length: tabPageMaps.length,
         child: Padding(
@@ -97,11 +77,7 @@ class _UserPageState extends State<UserPage> {
                   color: Colors.white.withOpacity(0.5),
                   child: Row(
                     children: [
-                      UserImage(
-                          height: 50,
-                          width: 50,
-                          imageUrl: widget.appUser.userImage,
-                          uid: widget.appUser.id),
+                      UserImage(imageUrl: widget.appUser.userImage),
                       Expanded(
                         child: Column(
                           children: [
@@ -113,63 +89,14 @@ class _UserPageState extends State<UserPage> {
                                 ),
                                 const Spacer(),
                                 IconButton(
-                                  icon: Icon(FeatherIcons.mail),
-                                  onPressed: () async {
-                                    final uids = [user!.id, widget.appUser.id];
-                                    uids.sort();
-                                    final threadId =
-                                        '${uids.first}${uids.last}';
-                                    late final Thread thread;
-                                    final result = await ThreadRepository
-                                        .fetchThreadByMemberIds(threadId);
-
-                                    if (result == null) {
-                                      thread = Thread(
-                                        unReadCount: {
-                                          uids.first: 0,
-                                          uids.last: 0
-                                        },
-                                        id: threadId,
-                                        uids: uids,
-                                        createdAt: Timestamp.now(),
-                                        isReading: false,
-                                        updatedAt: Timestamp.now(),
-                                        memberDetails: {
-                                          user!.id: {
-                                            'name': user!.userName,
-                                            'imageUrl': user!.userImage,
-                                          },
-                                          widget.appUser.id: {
-                                            'name': widget.appUser.userName,
-                                            'imageUrl':
-                                                widget.appUser.userImage,
-                                          }
-                                        },
-                                      );
-                                      await ThreadRepository.createThread(
-                                          thread);
-                                    } else {
-                                      thread = result;
-                                    }
-                                    // ignore: use_build_context_synchronously
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: ((context) => ThreadChatPage(
-                                              isReading: true,
-                                              thread: thread,
-                                            )),
-                                      ),
-                                    );
-                                  },
+                                  icon: const Icon(FeatherIcons.mail),
+                                  onPressed: () => onTapChatIcon(),
                                 ),
-                                const SizedBox(
-                                  width: 12,
-                                ),
+                                const SizedBox(width: 12),
                                 StreamBuilder<QuerySnapshot>(
                                   stream: FollowRepository.followingStream(
                                       reference: widget.appUser.reference!,
-                                      uid: user!.id),
+                                      uid: currentUser!.id),
                                   builder: (context, snapshots) {
                                     if (snapshots.hasData &&
                                         snapshots.data!.docs.isNotEmpty) {
@@ -201,7 +128,7 @@ class _UserPageState extends State<UserPage> {
                                                     widget.appUser.userImage,
                                                 userName:
                                                     widget.appUser.userName),
-                                            uid: user!.id);
+                                            uid: currentUser!.id);
                                       },
                                       text: 'フォローする',
                                     );
@@ -242,6 +169,47 @@ class _UserPageState extends State<UserPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Future<void> onTapChatIcon() async {
+    final members = [currentUser!, widget.appUser];
+    final memberIds = members.map((e) => e.id).toList()..sort();
+    final navigator = Navigator.of(context);
+    final thread = await ThreadRepository.fetchThreadById(
+        '${memberIds.first}-${memberIds.last}');
+    if (thread != null) {
+      navigator.pushReplacement(
+        MaterialPageRoute(
+          builder: ((context) => ChatPage(
+                thread: thread,
+              )),
+        ),
+      );
+      return;
+    }
+
+    final newThread = Thread(
+      memberIds: memberIds,
+      createdAt: Timestamp.now(),
+      updatedAt: Timestamp.now(),
+      unreadCount: Map.fromIterables(memberIds, memberIds.map((e) => [])),
+      memberDetails: Map.fromIterables(
+        members.map((e) => e.id),
+        members.map((e) => MemberDetail.fromAppUser(e)),
+      ),
+    );
+
+    final reference = await ThreadRepository.createThread(newThread);
+
+    navigator.pushReplacement(
+      MaterialPageRoute(
+        builder: ((context) => ChatPage(
+              thread: newThread.copyWith(
+                reference: reference,
+              ),
+            )),
       ),
     );
   }

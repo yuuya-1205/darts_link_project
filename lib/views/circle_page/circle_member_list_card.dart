@@ -3,8 +3,6 @@ import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/circle/circle_member.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class CircleMemberListCard extends StatelessWidget {
   const CircleMemberListCard({Key? key, required this.circleMember})
@@ -29,11 +27,7 @@ class CircleMemberListCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  UserImage(
-                      height: 50,
-                      width: 50,
-                      imageUrl: circleMember.userImage,
-                      uid: circleMember.uid),
+                  UserImage(imageUrl: circleMember.userImage),
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Column(

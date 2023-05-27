@@ -32,12 +32,7 @@ class CircleListItemView extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(14, 23, 0, 23),
-                child: UserImage(
-                  height: 64,
-                  width: 64,
-                  imageUrl: circle.createrImage,
-                  uid: circle.ownerId,
-                ),
+                child: UserImage(size: 64, imageUrl: circle.createrImage),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(6, 14, 0, 14),

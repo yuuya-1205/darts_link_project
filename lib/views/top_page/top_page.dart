@@ -1,24 +1,15 @@
 import 'package:darts_link_project/components/user_image.dart';
-import 'package:darts_link_project/models/app_user.dart';
-import 'package:darts_link_project/models/post.dart';
-import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
-import 'package:darts_link_project/views/auth_page/store_owner_approve_page.dart';
-import 'package:darts_link_project/views/battle_room_page/create_battle_room_page.dart';
-import 'package:darts_link_project/views/circle_page/circle_list_page.dart';
 import 'package:darts_link_project/views/darts_function_page/darts_function_page.dart';
-import 'package:darts_link_project/views/favorite_store_list_page.dart';
-import 'package:darts_link_project/views/follow_page/follow_page.dart';
 import 'package:darts_link_project/views/home_page/home_page.dart';
-import 'package:darts_link_project/views/my_page/my_page.dart';
 import 'package:darts_link_project/views/search_page/search_page.dart';
-import 'package:darts_link_project/views/splash_page.dart';
-import 'package:darts_link_project/views/store_owner_page/store_owner_page.dart';
 import 'package:darts_link_project/views/thread_page/threads_page.dart';
-import 'package:darts_link_project/views/time_line_page/time_line_page.dart';
+import 'package:darts_link_project/views/top_page/components/drawer_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
+import '../time_line/time_line_page.dart';
 
 class TopPage extends StatefulWidget {
   const TopPage({
@@ -36,11 +27,7 @@ class _TopPageState extends State<TopPage> {
     const TimeLinePage(),
     const SearchPage(),
     const DartsFunctionPage(),
-    const ThreadsPage(
-      lastchatCount: '',
-      threadId: '',
-      uid: '',
-    ),
+    const ThreadsPage(),
   ];
   int _index = 0;
   @override
@@ -50,9 +37,7 @@ class _TopPageState extends State<TopPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        elevation: 0,
-        shadowColor: Colors.white10,
-        backgroundColor: Colors.white10,
+        elevation: 1,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: UserImage(
@@ -60,7 +45,6 @@ class _TopPageState extends State<TopPage> {
               _scaffoldKey.currentState!.openDrawer();
             },
             imageUrl: user!.userImage,
-            uid: user.id,
           ),
         ),
         title: SizedBox(
@@ -82,281 +66,7 @@ class _TopPageState extends State<TopPage> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: SafeArea(
-          child: ListView(padding: const EdgeInsets.all(18.0), children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: ((context) => const EditMyInfoPage()),
-                        //   ),
-                        // );
-                      },
-                      child: UserImage(
-                        width: 50,
-                        height: 50,
-                        imageUrl: user.userImage,
-                        uid: user.id,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          user.userName,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          user.userId,
-                          style: const TextStyle(
-                              fontSize: 12,
-                              color: Color.fromRGBO(176, 176, 176, 1)),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    GestureDetector(
-                        onTap: () {},
-                        child: const Icon(
-                          Icons.more_horiz,
-                        ))
-                  ],
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: ((context) => const FollowPage()),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    '${user.followingCount}',
-                    style: const TextStyle(
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: ((context) => const FollowPage()),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'フォロー',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromRGBO(176, 176, 176, 1),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: ((context) => const FollowPage()),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    '${user.followerCount}',
-                    style: const TextStyle(
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: ((context) => const FollowPage()),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'フォロワー',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color.fromRGBO(176, 176, 176, 1),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 46,
-            ),
-            if (user.isAdmin == true)
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: ((context) => const StoreOwnerApprovePage()),
-                    ),
-                  );
-                },
-                child: const Text(
-                  '店舗申請管理',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            const SizedBox(
-              height: 24,
-            ),
-            user is Person
-                ? GestureDetector(
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: ((context) => MyPage()),
-                        ),
-                      );
-                      setState(() {});
-                    },
-                    child: const Text(
-                      'プロフィール',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  )
-                : GestureDetector(
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: ((context) => const StoreOwnerPage()),
-                        ),
-                      );
-                      setState(() {});
-                    },
-                    child: const Text(
-                      '店舗ページ',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-            const SizedBox(
-              height: 24,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: ((context) => const CreateBattleRoomPage()),
-                  ),
-                );
-              },
-              child: const Text(
-                '対戦者募集',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: ((context) => const FavoriteStoreListPage()),
-                  ),
-                );
-              },
-              child: const Text(
-                'お気に入り店舗リスト',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: ((context) => const CircleListPage()),
-                  ),
-                );
-              },
-              child: const Text(
-                'サークル一覧',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            GestureDetector(
-                onTap: () async {
-                  await AuthRepository.signOut();
-                  // ignore: use_build_context_synchronously
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: ((context) => const SplashPage()),
-                      ));
-                },
-                child: const Text(
-                  'ログアウト',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ))
-          ]),
-        ),
-      ),
+      drawer: DrawerView(currentUser: user),
       body: pages[_index],
       bottomNavigationBar: BottomNavigationBar(
         fixedColor: OriginalTheme.themeData.primaryColor,

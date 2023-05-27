@@ -57,7 +57,7 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
   String _currentHeaderImageUrl = '';
   String _currentUserImageUrl = '';
 
-  List<String> _selectedTags = [];
+  final List<String> _selectedTags = [];
 
   void _incrementCounter() {
     if (_dartsLiveRating < 18) {
@@ -120,7 +120,7 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
                     dashPattern: const [6.0],
                     strokeWidth: 2.0,
                     color: const Color.fromRGBO(247, 63, 150, 1),
-                    child: Container(
+                    child: SizedBox(
                       height: 205,
                       width: double.infinity,
                       child: InkWell(
@@ -132,11 +132,9 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
                             maxImages: 1,
                             enableCamera: true,
                           );
-                          if (headerfiles != null) {
-                            setState(() {
-                              _selectedHeaderImage = headerfiles.first;
-                            });
-                          }
+                          setState(() {
+                            _selectedHeaderImage = headerfiles.first;
+                          });
                         },
                       ),
                     ),
@@ -639,14 +637,14 @@ class _RegistPersonInfoPageState extends State<RegistPersonInfoPage> {
                   if (_selectedHeaderImage != null) {
                     final path = 'headers/$uid/header.jpeg';
                     _currentHeaderImageUrl = await StorageRepository()
-                        .saveimage(asset: _selectedHeaderImage!, path: path);
+                        .saveImage(asset: _selectedHeaderImage!, path: path);
                   }
 
                   // プロフィール画像アップロード
                   if (_selectedUserImage != null) {
                     final path = 'users/$uid/user.jpeg';
                     _currentUserImageUrl = await StorageRepository()
-                        .saveimage(asset: _selectedUserImage!, path: path);
+                        .saveImage(asset: _selectedUserImage!, path: path);
                   }
                   final person = Person(
                     id: uid,

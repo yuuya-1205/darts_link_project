@@ -26,11 +26,7 @@ class BattleRoomMemberApproveListCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  UserImage(
-                      height: 50,
-                      width: 50,
-                      imageUrl: joinRequest.userImage,
-                      uid: joinRequest.uid),
+                  UserImage(imageUrl: joinRequest.userImage),
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Column(

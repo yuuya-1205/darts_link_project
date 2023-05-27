@@ -1,5 +1,4 @@
 import 'package:darts_link_project/models/app_user.dart';
-import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/person_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
@@ -13,11 +12,12 @@ class MyInfoPage extends StatefulWidget {
 }
 
 class _MyInfoPageState extends State<MyInfoPage> {
+  final user = AuthRepository.currentUser;
   @override
   Widget build(BuildContext context) {
-    final user = AuthRepository.currentUser;
-    final myPerson = PersonRepository.fetchPerson(user!.id);
-    final appUser = AppUserRepository.fetchAppUser(user.id);
+    if (user == null) {
+      throw Exception('ユーザーが存在しません');
+    }
 
     return SingleChildScrollView(
       child: Column(
@@ -48,7 +48,7 @@ class _MyInfoPageState extends State<MyInfoPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(user.selfIntroduction),
+                        Text(user!.selfIntroduction),
                       ],
                     ),
                   ],
@@ -64,7 +64,7 @@ class _MyInfoPageState extends State<MyInfoPage> {
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: FutureBuilder<Person?>(
-                  future: PersonRepository.fetchPerson(user.id),
+                  future: PersonRepository.fetchPerson(user!.id),
                   builder: (context, snapshot) {
                     if (snapshot.data == null) {
                       return Container();
@@ -111,7 +111,7 @@ class _MyInfoPageState extends State<MyInfoPage> {
                               height: 10,
                             ),
                             Wrap(
-                                children: user.tag
+                                children: user!.tag
                                     .map((e) => Container(
                                           margin: const EdgeInsets.fromLTRB(
                                               0, 0, 8, 0),

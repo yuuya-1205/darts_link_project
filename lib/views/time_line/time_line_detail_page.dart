@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/components/action_button.dart';
 import 'package:darts_link_project/components/user_image.dart';
+import 'package:darts_link_project/constant/color.dart';
 import 'package:darts_link_project/models/comment.dart';
 import 'package:darts_link_project/models/post.dart';
 import 'package:darts_link_project/models/post_like.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/comment_repository.dart';
-import 'package:darts_link_project/repositories/post_likes_repository.dart';
-import 'package:darts_link_project/repositories/post_repository.dart';
+import 'package:darts_link_project/repositories/post/post_like_repository.dart';
+import 'package:darts_link_project/repositories/post/post_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/comment_page.dart/create_comment_page.dart';
-import 'package:darts_link_project/views/time_line_page/liked_list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -40,12 +40,12 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
           onTap: () {
             Navigator.pop(context);
           },
-          child: Row(children: [
-            Container(
+          child: Row(children: const [
+            SizedBox(
               width: 30,
-              child: const BackButton(),
+              child: BackButton(),
             ),
-            const Text(
+            Text(
               '戻る',
               style: TextStyle(
                 color: Color.fromRGBO(247, 63, 150, 1),
@@ -69,12 +69,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  UserImage(
-                    width: 50,
-                    height: 50,
-                    imageUrl: widget.post.userImage,
-                    uid: widget.post.createrId,
-                  ),
+                  UserImage(imageUrl: widget.post.userImage),
                   const SizedBox(
                     width: 12,
                   ),
@@ -115,7 +110,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                 } else if (value == 'delete') {
                                   final uid =
                                       FirebaseAuth.instance.currentUser!.uid;
-                                  if (uid == widget.post.createrId) {
+                                  if (uid == widget.post.creatorId) {
                                     showDialog(
                                       context: context,
                                       builder: (context) {
@@ -159,7 +154,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                     value: 'hide',
                                     child: Text('非表示'),
                                   ),
-                                  if (uid == widget.post.createrId)
+                                  if (uid == widget.post.creatorId)
                                     const PopupMenuItem(
                                       value: 'delete',
                                       child: Text('削除'),
@@ -192,9 +187,9 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ActionButton(
-                              icondata: FeatherIcons.messageSquare,
+                              iconData: FeatherIcons.messageSquare,
                               label: 'コメント',
-                              onPressed: () async {
+                              onTap: () async {
                                 // final commented =
                                 //     await Navigator.of(context).push(
                                 //         CreateCommentPage.route(post));
@@ -208,27 +203,27 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                               },
                             ),
                             StreamBuilder<List<PostLike>>(
-                              stream: PostLikesRepository.streamPostLike(
+                              stream: PostLikeRepository.streamPostLike(
                                   widget.post.id),
                               builder: (context, snapshot) {
                                 final postLikes = snapshot.data;
                                 if (postLikes == null) {
-                                  return SizedBox();
+                                  return const SizedBox();
                                 }
                                 if (postLikes
-                                    .where((element) => element.uid == user!.id)
+                                    .where((element) =>
+                                        element.reference == user!.reference)
                                     .isEmpty) {
                                   return ActionButton(
-                                    icondata: Icons.favorite_outline,
-                                    iconColor:
-                                        OriginalTheme.themeData.primaryColor,
-                                    onPressed: () async {
-                                      await PostLikesRepository.setLikes(
+                                    iconData: Icons.favorite_outline,
+                                    color: primary,
+                                    onTap: () async {
+                                      await PostLikeRepository.setLike(
                                         postId: widget.post.id,
                                         postLike: PostLike(
                                           userName: user!.userName,
                                           reference: user!.reference,
-                                          uid: user!.id,
+                                          likerReference: user!.reference,
                                           userId: user!.userId,
                                           userImage: user!.userImage,
                                           createdAt: Timestamp.now(),
@@ -237,36 +232,15 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                     },
                                     label:
                                         '${postLikes.isEmpty ? 'いいね' : postLikes.length}',
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: ((context) => LikedListPage(
-                                                postId: widget.post.id,
-                                              )),
-                                        ),
-                                      );
-                                    },
                                   );
                                 }
                                 return ActionButton(
-                                  icondata: Icons.favorite,
-                                  iconColor:
-                                      OriginalTheme.themeData.primaryColor,
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: ((context) => LikedListPage(
-                                              postId: widget.post.id,
-                                            )),
-                                      ),
-                                    );
-                                  },
+                                  iconData: Icons.favorite,
+                                  color: primary,
                                   label:
                                       '${postLikes.isEmpty ? 'いいね' : postLikes.length}',
-                                  onPressed: () async {
-                                    await PostLikesRepository.deleteLikes(
+                                  onTap: () async {
+                                    await PostLikeRepository.deleteLike(
                                         user!.id, widget.post.id);
                                   },
                                 );
@@ -320,7 +294,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                 ),
               ),
               child: StreamBuilder<List<Comment>>(
-                  stream: CommntRepository.streamComment(widget.post.id),
+                  stream: CommentRepository.streamComment(widget.post.id),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState != ConnectionState.active) {
                       return const Center(
@@ -354,12 +328,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    UserImage(
-                                      width: 50,
-                                      height: 50,
-                                      imageUrl: comment.userImage,
-                                      uid: comment.uid,
-                                    ),
+                                    UserImage(imageUrl: comment.userImage),
                                     const SizedBox(
                                       width: 12,
                                     ),
@@ -410,7 +379,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                                         .currentUser!
                                                         .uid;
                                                     if (uid ==
-                                                        widget.post.createrId) {
+                                                        widget.post.creatorId) {
                                                       showDialog(
                                                         context: context,
                                                         builder: (context) {
@@ -467,7 +436,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                                       child: Text('非表示'),
                                                     ),
                                                     if (uid ==
-                                                        widget.post.createrId)
+                                                        widget.post.creatorId)
                                                       const PopupMenuItem(
                                                         value: 'delete',
                                                         child: Text('削除'),
@@ -517,10 +486,10 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               ActionButton(
-                                                icondata:
+                                                iconData:
                                                     FeatherIcons.messageSquare,
                                                 label: 'コメント',
-                                                onPressed: () async {
+                                                onTap: () async {
                                                   // final commented =
                                                   //     await Navigator.of(context).push(
                                                   //         CreateCommentPage.route(post));
@@ -536,35 +505,35 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
 
                                               ///TODO　commentLikeを作成すること
                                               StreamBuilder<List<PostLike>>(
-                                                stream: PostLikesRepository
+                                                stream: PostLikeRepository
                                                     .streamPostLike(
                                                         widget.post.id),
                                                 builder: (context, snapshot) {
                                                   final postLikes =
                                                       snapshot.data;
                                                   if (postLikes == null) {
-                                                    return SizedBox();
+                                                    return const SizedBox();
                                                   }
                                                   if (postLikes
                                                       .where((element) =>
-                                                          element.uid ==
-                                                          user!.id)
+                                                          element
+                                                              .likerReference ==
+                                                          user!.reference)
                                                       .isEmpty) {
                                                     return ActionButton(
-                                                      icondata: Icons
+                                                      iconData: Icons
                                                           .favorite_outline,
-                                                      iconColor: OriginalTheme
-                                                          .themeData
-                                                          .primaryColor,
-                                                      onPressed: () async {
-                                                        await PostLikesRepository
-                                                            .setLikes(
+                                                      color: primary,
+                                                      onTap: () async {
+                                                        await PostLikeRepository
+                                                            .setLike(
                                                           postId:
                                                               widget.post.id,
                                                           postLike: PostLike(
                                                             userName:
                                                                 user!.userName,
-                                                            uid: user!.id,
+                                                            likerReference:
+                                                                user!.reference,
                                                             userId:
                                                                 user!.userId,
                                                             userImage:
@@ -576,41 +545,16 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
                                                       },
                                                       label:
                                                           '${postLikes.isEmpty ? 'いいね' : postLikes.length}',
-                                                      onTap: () {
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: ((context) =>
-                                                                LikedListPage(
-                                                                  postId: widget
-                                                                      .post.id,
-                                                                )),
-                                                          ),
-                                                        );
-                                                      },
                                                     );
                                                   }
                                                   return ActionButton(
-                                                    icondata: Icons.favorite,
-                                                    iconColor: OriginalTheme
-                                                        .themeData.primaryColor,
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: ((context) =>
-                                                              LikedListPage(
-                                                                postId: widget
-                                                                    .post.id,
-                                                              )),
-                                                        ),
-                                                      );
-                                                    },
+                                                    iconData: Icons.favorite,
+                                                    color: primary,
                                                     label:
                                                         '${postLikes.isEmpty ? 'いいね' : postLikes.length}',
-                                                    onPressed: () async {
-                                                      await PostLikesRepository
-                                                          .deleteLikes(user!.id,
+                                                    onTap: () async {
+                                                      await PostLikeRepository
+                                                          .deleteLike(user!.id,
                                                               widget.post.id);
                                                     },
                                                   );
@@ -675,7 +619,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
 //                             } else if (value == 'delete') {
 //                               final uid =
 //                                   FirebaseAuth.instance.currentUser!.uid;
-//                               if (uid == widget.post.createrId) {
+//                               if (uid == widget.post.creatorId) {
 //                                 showDialog(
 //                                   context: context,
 //                                   builder: (context) {
@@ -718,7 +662,7 @@ class _TimeLineDetailPageState extends State<TimeLineDetailPage> {
 //                                 value: 'hide',
 //                                 child: Text('非表示'),
 //                               ),
-//                               if (uid == widget.post.createrId)
+//                               if (uid == widget.post.creatorId)
 //                                 const PopupMenuItem(
 //                                   value: 'delete',
 //                                   child: Text('削除'),

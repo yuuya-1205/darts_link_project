@@ -41,13 +41,18 @@ extension DateTimeExtension on DateTime {
     return DateTime(year, month);
   }
 
-  String toYMDHmSSString() {
-    final format = DateFormat('yyyy-MM-dd-HH:mm:ss');
+  String toYMDHmString() {
+    final format = DateFormat('yyyy/MM/dd H:mm');
     return format.format(this);
   }
 
   String get formatYMDKey {
     final format = DateFormat('yyyy-MM-dd');
+    return format.format(this);
+  }
+
+  String get formatHhMm {
+    final format = DateFormat('HH:mm');
     return format.format(this);
   }
 }

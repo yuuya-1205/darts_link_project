@@ -1,7 +1,7 @@
 import 'package:darts_link_project/models/circle/circle.dart';
 import 'package:darts_link_project/models/post.dart';
 import 'package:darts_link_project/repositories/circle/circle_repository.dart';
-import 'package:darts_link_project/repositories/post_repository.dart';
+import 'package:darts_link_project/repositories/post/post_repository.dart';
 import 'package:darts_link_project/views/circle_page/circle_time_line_card.dart';
 import 'package:flutter/material.dart';
 

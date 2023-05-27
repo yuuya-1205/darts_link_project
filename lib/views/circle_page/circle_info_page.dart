@@ -109,10 +109,8 @@ class _CircleInfoPageState extends State<CircleInfoPage> {
   }
 
   Future<CircleMemberType> getMemberType() async {
-    String? myUid = AuthRepository.currentUser!.id;
-    if (myUid == null) {
-      return CircleMemberType.joinable;
-    }
+    final myUid = AuthRepository.currentUser!.id;
+
     if (myUid == widget.circle.ownerId) {
       return CircleMemberType.owner;
     }
@@ -208,7 +206,7 @@ class _CircleInfoPageState extends State<CircleInfoPage> {
                           if (entry.key == 0) {
                             return null;
                           }
-                          return Container(
+                          return SizedBox(
                               width: 120,
                               height: 50,
                               child: Image.network(entry.value));

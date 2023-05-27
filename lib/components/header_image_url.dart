@@ -3,7 +3,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class HeaderImageUrl extends StatelessWidget {
-  HeaderImageUrl({
+  const HeaderImageUrl({
     Key? key,
     required this.asset,
     required this.headerImageUrl,

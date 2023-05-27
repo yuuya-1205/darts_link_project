@@ -3,40 +3,28 @@ import 'package:flutter/material.dart';
 class ActionButton extends StatelessWidget {
   const ActionButton({
     Key? key,
-    required this.icondata,
+    required this.iconData,
     required this.label,
-    required this.onPressed,
-    this.iconColor = Colors.black,
+    this.color = Colors.black,
     this.onTap,
   }) : super(key: key);
 
-  final IconData icondata;
+  final IconData iconData;
   final String label;
-  final void Function() onPressed;
-  final Color iconColor;
+  final Color color;
   final GestureTapCallback? onTap;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: InkWell(
-        onTap: onPressed,
-        child: Row(
-          children: [
-            const SizedBox(
-              width: 4,
-            ),
-            Icon(icondata, color: iconColor),
-            const SizedBox(
-              width: 4,
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: onTap,
-                child: Text(label),
-              ),
-            ),
-          ],
-        ),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(iconData, color: color),
+          const SizedBox(width: 4),
+          Text(label, style: TextStyle(color: color)),
+        ],
       ),
     );
   }

@@ -5,7 +5,6 @@ import 'package:darts_link_project/components/original_button.dart';
 import 'package:darts_link_project/repositories/app_user_repository.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/repositories/fcm_token_repository.dart';
-import 'package:darts_link_project/repositories/person_repository.dart';
 import 'package:darts_link_project/services/fcm_service.dart';
 import 'package:darts_link_project/views/auth_page/password_forget_page.dart';
 import 'package:darts_link_project/views/auth_page/register_slider_page.dart';
@@ -27,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   final user = FirebaseAuth.instance.currentUser;
 
-  String errorMassege = '';
+  String errorMessage = '';
 
   Future<void> authLogin() async {
     await AuthRepository.signIn(
@@ -84,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 54,
                   ),
                   Text(
-                    errorMassege,
+                    errorMessage,
                     style: const TextStyle(color: Colors.red),
                   ),
                   InputField(
@@ -108,6 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 10,
                   ),
                   TextFormField(
+                    controller: _passwordController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       fillColor: Colors.white,
@@ -118,7 +118,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     obscureText: true,
                     keyboardType: TextInputType.text,
-                    controller: _passwordController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'パスワードを入力してください';
@@ -207,16 +206,16 @@ class _LoginPageState extends State<LoginPage> {
                       } on FirebaseAuthException catch (e) {
                         switch (e.code) {
                           case 'wrong-password':
-                            errorMassege = 'パスワードが間違っています';
+                            errorMessage = 'パスワードが間違っています';
                             break;
                           case 'user-not-found':
-                            errorMassege = 'ユーザーが登録されていません';
+                            errorMessage = 'ユーザーが登録されていません';
                             break;
                           case 'invalid-email':
-                            errorMassege = 'メールアドレスを入力してください';
+                            errorMessage = 'メールアドレスを入力してください';
                             break;
                           case 'too-many-requests':
-                            errorMassege = 'パスワードを再設定してください';
+                            errorMessage = 'パスワードを再設定してください';
                             break;
                         }
                         setState(() {});

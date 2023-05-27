@@ -44,9 +44,6 @@ class _RoundRobinRankListPageState extends State<RoundRobinRankListPage> {
             ),
           ],
         ),
-        Row(
-          children: [],
-        ),
         StreamBuilder<List<Team>>(
           stream: TeamRepository.teamStream(roundRobinId: widget.roundRobin.id),
           builder: (context, snapshot) {
@@ -64,7 +61,6 @@ class _RoundRobinRankListPageState extends State<RoundRobinRankListPage> {
                 child: Text('まだ、投稿がありません'),
               );
             }
-            teams.forEach((element) {});
 
             teams.sort(
               (a, b) => b.totalWinCount.compareTo(a.totalWinCount),
