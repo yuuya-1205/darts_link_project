@@ -78,11 +78,18 @@ class _RegisterStoreOwnerPageState extends State<RegisterStoreOwnerPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  InputField(
+                  TextFormField(
                     controller: _passwordController,
-                    hintText: 'パスワード',
-                    keyboardType: TextInputType.text,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      fillColor: Colors.white,
+                      filled: true,
+                      isDense: true,
+                      contentPadding: EdgeInsets.all(12),
+                      hintText: 'パスワード',
+                    ),
                     obscureText: true,
+                    keyboardType: TextInputType.text,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'パスワードを入力してください';
@@ -98,10 +105,17 @@ class _RegisterStoreOwnerPageState extends State<RegisterStoreOwnerPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  InputField(
-                    hintText: 'パスワード',
-                    keyboardType: TextInputType.text,
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      fillColor: Colors.white,
+                      filled: true,
+                      isDense: true,
+                      contentPadding: EdgeInsets.all(12),
+                      hintText: 'パスワード',
+                    ),
                     obscureText: true,
+                    keyboardType: TextInputType.text,
                     validator: (value) {
                       if (value != _passwordController.text) {
                         return 'パスワードが一致していません';
