@@ -23,7 +23,7 @@ class _FollowTimeLinePageState extends State<FollowTimeLinePage> {
       throw Exception('ログインしていません');
     }
     return StreamBuilder<List<Follow>>(
-      stream: FollowRepository.streamFollow(uid: user!.id),
+      stream: FollowRepository.followListStream(uid: user!.id),
       builder: (context, snapshots) {
         if (snapshots.connectionState != ConnectionState.active) {
           return const Center(child: CircularProgressIndicator());

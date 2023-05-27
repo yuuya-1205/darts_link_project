@@ -41,7 +41,8 @@ _$_HouseTournament _$$_HouseTournamentFromJson(Map<String, dynamic> json) =>
       detail: json['detail'] as String? ?? '',
       isApproved: json['isApproved'] as bool? ?? false,
       isFinalTournament: json['isFinalTournament'] as bool? ?? false,
-      ownerId: json['ownerId'] as String,
+      ownerReference: const DocumentReferenceConverter()
+          .fromJson(json['ownerReference'] as DocumentReference<Object?>),
       creatorName: json['creatorName'] as String,
       creatorImage: json['creatorImage'] as String,
       userId: json['userId'] as String,
@@ -75,7 +76,8 @@ Map<String, dynamic> _$$_HouseTournamentToJson(_$_HouseTournament instance) =>
       'detail': instance.detail,
       'isApproved': instance.isApproved,
       'isFinalTournament': instance.isFinalTournament,
-      'ownerId': instance.ownerId,
+      'ownerReference':
+          const DocumentReferenceConverter().toJson(instance.ownerReference),
       'creatorName': instance.creatorName,
       'creatorImage': instance.creatorImage,
       'userId': instance.userId,

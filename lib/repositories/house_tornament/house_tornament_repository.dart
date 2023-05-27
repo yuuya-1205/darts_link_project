@@ -90,4 +90,17 @@ class HouseTournamentRepository {
             .copyWith(houseTournamentId: e.id))
         .toList();
   }
+
+  static Future<List<HouseTournament>> fetchHouseTournamentsByOwner(
+      DocumentReference ownerRef) async {
+    final snapshot = await houseTournamentsCollection
+        .where('ownerReference', isEqualTo: ownerRef)
+        .orderBy('createdAt')
+        .get();
+
+    return snapshot.docs
+        .map((e) => HouseTournament.fromJson(e.data())
+            .copyWith(houseTournamentId: e.id))
+        .toList();
+  }
 }

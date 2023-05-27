@@ -47,7 +47,9 @@ mixin _$HouseTournament {
   String get detail => throw _privateConstructorUsedError;
   bool get isApproved => throw _privateConstructorUsedError;
   bool get isFinalTournament => throw _privateConstructorUsedError;
-  String get ownerId => throw _privateConstructorUsedError;
+  @DocumentReferenceConverter()
+  DocumentReference<Object?> get ownerReference =>
+      throw _privateConstructorUsedError;
   String get creatorName => throw _privateConstructorUsedError;
   String get creatorImage => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
@@ -98,7 +100,8 @@ abstract class $HouseTournamentCopyWith<$Res> {
       String detail,
       bool isApproved,
       bool isFinalTournament,
-      String ownerId,
+      @DocumentReferenceConverter()
+          DocumentReference<Object?> ownerReference,
       String creatorName,
       String creatorImage,
       String userId,
@@ -144,7 +147,7 @@ class _$HouseTournamentCopyWithImpl<$Res, $Val extends HouseTournament>
     Object? detail = null,
     Object? isApproved = null,
     Object? isFinalTournament = null,
-    Object? ownerId = null,
+    Object? ownerReference = null,
     Object? creatorName = null,
     Object? creatorImage = null,
     Object? userId = null,
@@ -226,10 +229,10 @@ class _$HouseTournamentCopyWithImpl<$Res, $Val extends HouseTournament>
           ? _value.isFinalTournament
           : isFinalTournament // ignore: cast_nullable_to_non_nullable
               as bool,
-      ownerId: null == ownerId
-          ? _value.ownerId
-          : ownerId // ignore: cast_nullable_to_non_nullable
-              as String,
+      ownerReference: null == ownerReference
+          ? _value.ownerReference
+          : ownerReference // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>,
       creatorName: null == creatorName
           ? _value.creatorName
           : creatorName // ignore: cast_nullable_to_non_nullable
@@ -322,7 +325,8 @@ abstract class _$$_HouseTournamentCopyWith<$Res>
       String detail,
       bool isApproved,
       bool isFinalTournament,
-      String ownerId,
+      @DocumentReferenceConverter()
+          DocumentReference<Object?> ownerReference,
       String creatorName,
       String creatorImage,
       String userId,
@@ -368,7 +372,7 @@ class __$$_HouseTournamentCopyWithImpl<$Res>
     Object? detail = null,
     Object? isApproved = null,
     Object? isFinalTournament = null,
-    Object? ownerId = null,
+    Object? ownerReference = null,
     Object? creatorName = null,
     Object? creatorImage = null,
     Object? userId = null,
@@ -450,10 +454,10 @@ class __$$_HouseTournamentCopyWithImpl<$Res>
           ? _value.isFinalTournament
           : isFinalTournament // ignore: cast_nullable_to_non_nullable
               as bool,
-      ownerId: null == ownerId
-          ? _value.ownerId
-          : ownerId // ignore: cast_nullable_to_non_nullable
-              as String,
+      ownerReference: null == ownerReference
+          ? _value.ownerReference
+          : ownerReference // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>,
       creatorName: null == creatorName
           ? _value.creatorName
           : creatorName // ignore: cast_nullable_to_non_nullable
@@ -517,7 +521,8 @@ class _$_HouseTournament implements _HouseTournament {
       this.detail = '',
       this.isApproved = false,
       this.isFinalTournament = false,
-      required this.ownerId,
+      @DocumentReferenceConverter()
+          required this.ownerReference,
       required this.creatorName,
       required this.creatorImage,
       required this.userId,
@@ -608,7 +613,8 @@ class _$_HouseTournament implements _HouseTournament {
   @JsonKey()
   final bool isFinalTournament;
   @override
-  final String ownerId;
+  @DocumentReferenceConverter()
+  final DocumentReference<Object?> ownerReference;
   @override
   final String creatorName;
   @override
@@ -630,7 +636,7 @@ class _$_HouseTournament implements _HouseTournament {
 
   @override
   String toString() {
-    return 'HouseTournament(houseTournamentId: $houseTournamentId, title: $title, uid: $uid, headerImage: $headerImage, place: $place, prefecture: $prefecture, city: $city, features: $features, capacity: $capacity, numberOfParticipants: $numberOfParticipants, dartsModels: $dartsModels, formats: $formats, dateTime: $dateTime, startTime: $startTime, finishTime: $finishTime, detail: $detail, isApproved: $isApproved, isFinalTournament: $isFinalTournament, ownerId: $ownerId, creatorName: $creatorName, creatorImage: $creatorImage, userId: $userId, followingCount: $followingCount, followerCount: $followerCount, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'HouseTournament(houseTournamentId: $houseTournamentId, title: $title, uid: $uid, headerImage: $headerImage, place: $place, prefecture: $prefecture, city: $city, features: $features, capacity: $capacity, numberOfParticipants: $numberOfParticipants, dartsModels: $dartsModels, formats: $formats, dateTime: $dateTime, startTime: $startTime, finishTime: $finishTime, detail: $detail, isApproved: $isApproved, isFinalTournament: $isFinalTournament, ownerReference: $ownerReference, creatorName: $creatorName, creatorImage: $creatorImage, userId: $userId, followingCount: $followingCount, followerCount: $followerCount, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -667,7 +673,8 @@ class _$_HouseTournament implements _HouseTournament {
                 other.isApproved == isApproved) &&
             (identical(other.isFinalTournament, isFinalTournament) ||
                 other.isFinalTournament == isFinalTournament) &&
-            (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
+            (identical(other.ownerReference, ownerReference) ||
+                other.ownerReference == ownerReference) &&
             (identical(other.creatorName, creatorName) ||
                 other.creatorName == creatorName) &&
             (identical(other.creatorImage, creatorImage) ||
@@ -705,7 +712,7 @@ class _$_HouseTournament implements _HouseTournament {
         detail,
         isApproved,
         isFinalTournament,
-        ownerId,
+        ownerReference,
         creatorName,
         creatorImage,
         userId,
@@ -758,7 +765,8 @@ abstract class _HouseTournament implements HouseTournament {
       final String detail,
       final bool isApproved,
       final bool isFinalTournament,
-      required final String ownerId,
+      @DocumentReferenceConverter()
+          required final DocumentReference<Object?> ownerReference,
       required final String creatorName,
       required final String creatorImage,
       required final String userId,
@@ -818,7 +826,8 @@ abstract class _HouseTournament implements HouseTournament {
   @override
   bool get isFinalTournament;
   @override
-  String get ownerId;
+  @DocumentReferenceConverter()
+  DocumentReference<Object?> get ownerReference;
   @override
   String get creatorName;
   @override

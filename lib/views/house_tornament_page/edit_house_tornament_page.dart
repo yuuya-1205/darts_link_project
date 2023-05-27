@@ -682,7 +682,7 @@ class _EditHouseTournamentPageState extends State<EditHouseTournamentPage> {
                         place: place,
                         prefecture: _initialPrefectureArea,
                         city: _initialCityArea,
-                        ownerId: user!.id,
+                        ownerReference: user!.reference!,
                         creatorName: user.userName,
                         creatorImage: user.userImage,
                         createdAt: Timestamp.now(),

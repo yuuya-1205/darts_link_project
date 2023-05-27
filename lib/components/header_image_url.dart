@@ -22,7 +22,7 @@ class HeaderImageUrl extends StatelessWidget {
         height: 500,
       );
     } else if (headerImageUrl.isNotEmpty) {
-      return Image.network(headerImageUrl);
+      return Image.network(headerImageUrl, fit: BoxFit.cover);
     } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,

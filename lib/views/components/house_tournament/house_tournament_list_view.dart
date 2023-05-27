@@ -9,13 +9,13 @@ class HouseTournamentListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
       shrinkWrap: true,
+      padding: EdgeInsets.zero,
       itemCount: houseTournaments.length,
-      itemBuilder: (context, index) {
-        final houseTournament = houseTournaments[index];
-        return HouseTournamentListItemView(houseTournament: houseTournament);
-      },
+      separatorBuilder: (_, __) => const Divider(height: 0, thickness: 1),
+      itemBuilder: (context, index) =>
+          HouseTournamentListItemView(houseTournament: houseTournaments[index]),
     );
   }
 }

@@ -136,7 +136,7 @@ class _HouseTournamentDetailPageState extends State<HouseTournamentDetailPage> {
 
   Future<HouseTornamentMemberType> getMemberType() async {
     final myUid = AuthRepository.currentUser!.id;
-    if (myUid == widget.houseTournament.ownerId) {
+    if (myUid == widget.houseTournament.ownerReference.id) {
       return HouseTornamentMemberType.owner;
     }
     if (widget.houseTournament.isApproved == true) {

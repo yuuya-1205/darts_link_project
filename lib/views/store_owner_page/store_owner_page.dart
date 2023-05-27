@@ -4,13 +4,13 @@ import 'package:darts_link_project/models/app_user.dart';
 import 'package:darts_link_project/repositories/auth_repository.dart';
 import 'package:darts_link_project/theme_data.dart';
 import 'package:darts_link_project/views/components/original_app_bar/original_app_bar.dart';
-import 'package:darts_link_project/views/darts_bar_page/darts_bar_info_page.dart';
 import 'package:darts_link_project/views/store_owner_page/edit_store_owner_page.dart';
 import 'package:darts_link_project/views/store_owner_page/store_owner_post_image_page.dart';
 import 'package:darts_link_project/views/store_owner_page/store_owner_post_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
+import '../darts_bar/detail/darts_bar_info_page.dart';
 import '../time_line/create_time_line_page.dart';
 
 class StoreOwnerPage extends StatefulWidget {

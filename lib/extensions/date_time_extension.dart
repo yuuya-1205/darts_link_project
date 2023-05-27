@@ -1,3 +1,4 @@
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 extension DateTimeExtension on DateTime {
@@ -53,6 +54,12 @@ extension DateTimeExtension on DateTime {
 
   String get formatHhMm {
     final format = DateFormat('HH:mm');
+    return format.format(this);
+  }
+
+  String get formatStartDate {
+    initializeDateFormatting('ja');
+    final format = DateFormat('M/d(E)', 'ja');
     return format.format(this);
   }
 }

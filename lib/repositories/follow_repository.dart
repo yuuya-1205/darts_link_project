@@ -32,12 +32,14 @@ class FollowRepository {
         .snapshots();
   }
 
-  static Stream<List<Follow>> streamFollow({
+  static Stream<Follow> streamFollow({
     required String uid,
+    required String followingUid,
   }) {
-    return getFollowCollection(uid).snapshots().map((snap) => snap.docs
-        .map((doc) => Follow.fromJson(doc.data() as Map<String, dynamic>))
-        .toList());
+    return getFollowCollection(uid)
+        .doc(followingUid)
+        .snapshots()
+        .map((snap) => Follow.fromJson(snap.data() as Map<String, dynamic>));
   }
 
   static Future<List<Follow>> fetchFollows(String uid) async {
@@ -55,18 +57,11 @@ class FollowRepository {
     return list;
   }
 
-  static Future<List<String>> fetchFollowingUids(String uid) async {
-    final follows = await fetchFollows(uid);
-    final followingUids = follows.map((e) => e.followingRef.id).toList();
-    return followingUids;
-  }
-
   static Stream<List<Follow>> followListStream({
     required String uid,
   }) {
-    return getFollowCollection(uid).where('followingUid').snapshots().map(
-        (snap) => snap.docs
-            .map((doc) => Follow.fromJson(doc.data() as Map<String, dynamic>))
-            .toList());
+    return getFollowCollection(uid).snapshots().map((snap) => snap.docs
+        .map((doc) => Follow.fromJson(doc.data() as Map<String, dynamic>))
+        .toList());
   }
 }

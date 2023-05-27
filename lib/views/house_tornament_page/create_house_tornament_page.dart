@@ -822,7 +822,7 @@ class _CreateHouseTournamentPageState extends State<CreateHouseTournamentPage> {
                         houseTournamentId: '',
                         title: houseTournamentTitle,
                         place: place,
-                        ownerId: user!.id,
+                        ownerReference: user!.reference!,
                         prefecture: _initialPrefectureArea,
                         city: _initalCityArea,
                         creatorName: user.userName,

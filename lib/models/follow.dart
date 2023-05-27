@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/converters/document_reference_converter.dart';
 import 'package:darts_link_project/converters/timestamp_converter.dart';
+import 'package:darts_link_project/models/app_user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'follow.freezed.dart';
@@ -17,4 +18,11 @@ class Follow with _$Follow {
   }) = _Follow;
 
   factory Follow.fromJson(Map<String, dynamic> json) => _$FollowFromJson(json);
+  factory Follow.fromAppUser(AppUser user) => Follow(
+        userImage: user.userImage,
+        userId: user.userId,
+        userName: user.userName,
+        followingRef: user.reference!,
+        createdAt: Timestamp.now(),
+      );
 }

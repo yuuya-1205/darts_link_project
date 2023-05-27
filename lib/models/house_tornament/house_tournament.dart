@@ -1,6 +1,7 @@
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darts_link_project/converters/city_converter.dart';
+import 'package:darts_link_project/converters/document_reference_converter.dart';
 import 'package:darts_link_project/converters/timestamp_converter.dart';
 import 'package:darts_link_project/models/city.dart';
 import 'package:darts_link_project/models/pref.dart';
@@ -37,7 +38,7 @@ class HouseTournament with _$HouseTournament {
     @Default('') String detail,
     @Default(false) bool isApproved,
     @Default(false) bool isFinalTournament,
-    required String ownerId,
+    @DocumentReferenceConverter() required DocumentReference ownerReference,
     required String creatorName,
     required String creatorImage,
     required String userId,
@@ -59,7 +60,7 @@ class HouseTournament with _$HouseTournament {
       dateTime: snap.data['dateTime'],
       finishTime: snap.data['finishTime'],
       houseTournamentId: snap.data['houseTournamentId'],
-      ownerId: snap.data['ownerId'],
+      ownerReference: snap.data['ownerReference'],
       startTime: snap.data['startTime'],
       title: snap.data['title'],
       updatedAt: snap.data['updatedAt'],

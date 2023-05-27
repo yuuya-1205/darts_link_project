@@ -1,6 +1,6 @@
 import 'package:darts_link_project/components/user_image.dart';
 import 'package:darts_link_project/models/app_user.dart';
-import 'package:darts_link_project/views/darts_bar_page/darts_bar_detail_page.dart';
+import 'package:darts_link_project/views/darts_bar/detail/darts_bar_detail_page.dart';
 import 'package:flutter/material.dart';
 
 class StoreOwnerListItemView extends StatelessWidget {
