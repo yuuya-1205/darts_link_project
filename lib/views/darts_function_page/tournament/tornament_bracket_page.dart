@@ -4,7 +4,6 @@ import 'package:darts_link_project/repositories/team_repository.dart';
 import 'package:darts_link_project/utils/const.dart';
 import 'package:darts_link_project/views/components/app_bar_back_view.dart';
 import 'package:flutter/material.dart';
-import 'package:tournament_bracket/tournament_bracket.dart';
 
 class TournamentBracketPage extends StatefulWidget {
   const TournamentBracketPage({Key? key, required this.tournament})
@@ -70,116 +69,120 @@ class _TournamentBracketPageState extends State<TournamentBracketPage> {
         leading: const AppBarBackView(),
         title: const Text('トーナメント表'),
       ),
-      body: Bracket.TournamentBracket<Team?>(
-        hadderBuilder: (context, index, count) {
-          print(count);
-          if (tournaments.length < count) {
-            tournaments.add([]);
-          }
-          print(tournaments);
-          return Text("第${index + 1}試合");
-        },
-        containt: tournaments.map((e) => e.whereType<Team>().toList()).toList(),
-        onSameTeam: (team1, team2) => team1 == team2,
-        teamNameBuilder: (Team? t) {
-          return BracketText(
-            text: t?.teamName ?? 'null',
-            textStyle: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.bold),
-          );
-        },
-        winnerConnectorColor: Colors.red,
-        teamContainerDecoration: BracketBoxDecroction(color: Colors.grey),
-        onLineIconPress: ((team1, team2, tapDownDetails) async {
-          print(tapDownDetails.globalPosition);
-          print(tapDownDetails.localPosition);
-          if (team1 == null || team2 == null) {
-            return;
-          }
-          await showDialog(
-              context: context,
-              builder: (context) {
-                final teams = [team1, team2];
-                final Map<String, int> selectedWinRegs = {
-                  team1.id: 0,
-                  team2.id: 0,
-                };
-                String winnerId = team1.id;
-                return StatefulBuilder(builder: (context, rebuild) {
-                  return SimpleDialog(
-                    title: const Text('対戦結果登録'),
-                    contentPadding: const EdgeInsets.all(24),
-                    children: [
-                      const Text(
-                        '勝ちReg数',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      _WinRegSelector(
-                        teams: teams,
-                        selectedWinRegs: selectedWinRegs,
-                        onChanged: (id, value) {
-                          rebuild(() {
-                            selectedWinRegs[id] = value;
-                            winnerId = selectedWinRegs[team1.id]! >
-                                    selectedWinRegs[team2.id]!
-                                ? team1.id
-                                : team2.id;
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 12),
-                      const Text(
-                        '勝敗結果',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      _WinLoseSelector(
-                        teams: teams,
-                        winnerId: winnerId,
-                        onChanged: (id, isWin) {
-                          rebuild(() {
-                            if (isWin) {
-                              winnerId = id;
-                            } else {
-                              winnerId = team1.id == id ? team2.id : team1.id;
-                            }
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 24),
-                      ElevatedButton(
-                        onPressed: () async {
-                          final navigator = Navigator.of(context);
-                          await Future.wait(
-                            teams
-                                .map(
-                                  (team) => TeamRepository.updateMatchResult(
-                                    tournamentId:
-                                        widget.tournament.reference?.id,
-                                    teamId: team.id,
-                                    opponentTeamId: teams
-                                        .firstWhere(
-                                            (element) => element.id != team.id)
-                                        .id,
-                                    isWin: team.id == winnerId,
-                                    winReg: selectedWinRegs[team.id] ?? 0,
-                                  ),
-                                )
-                                .toList(),
-                          );
-                          setResult(teams
-                              .firstWhere((element) => element.id == winnerId));
-                          navigator.pop();
-                          // await fetchTeams();
-                        },
-                        child: const Text('登録'),
-                      )
-                    ],
-                  );
-                });
-              });
-        }),
-        context: context,
-      ),
+      // body: Bracket.TournamentBracket<Team?>(
+      //   hadderBuilder: (context, index, count) {
+      //     print(count);
+      //     if (tournaments.length < count) {
+      //       tournaments.add([]);
+      //     }
+      //     print(tournaments);
+      //     return Text("第${index + 1}試合");
+      //   },
+      //   containt: tournaments.map((e) => e.whereType<Team>().toList()).toList(),
+      //   onSameTeam: (team1, team2) => team1 == team2,
+      //   teamNameBuilder: (Team? t) {
+      //     return Container();
+
+      //     //  BracketText(
+      //     //   text: t?.teamName ?? 'null',
+      //     //   textStyle: const TextStyle(
+      //     //       color: Colors.black, fontWeight: FontWeight.bold),
+      //     // );
+      //   },
+      //   winnerConnectorColor: Colors.red,
+      //   teamContainerDecoration:
+
+      //   BracketBoxDecroction(color: Colors.grey),
+      //   onLineIconPress: ((team1, team2, tapDownDetails) async {
+      //     print(tapDownDetails.globalPosition);
+      //     print(tapDownDetails.localPosition);
+      //     if (team1 == null || team2 == null) {
+      //       return;
+      //     }
+      //     await showDialog(
+      //         context: context,
+      //         builder: (context) {
+      //           final teams = [team1, team2];
+      //           final Map<String, int> selectedWinRegs = {
+      //             team1.id: 0,
+      //             team2.id: 0,
+      //           };
+      //           String winnerId = team1.id;
+      //           return StatefulBuilder(builder: (context, rebuild) {
+      //             return SimpleDialog(
+      //               title: const Text('対戦結果登録'),
+      //               contentPadding: const EdgeInsets.all(24),
+      //               children: [
+      //                 const Text(
+      //                   '勝ちReg数',
+      //                   style: TextStyle(fontWeight: FontWeight.bold),
+      //                 ),
+      //                 _WinRegSelector(
+      //                   teams: teams,
+      //                   selectedWinRegs: selectedWinRegs,
+      //                   onChanged: (id, value) {
+      //                     rebuild(() {
+      //                       selectedWinRegs[id] = value;
+      //                       winnerId = selectedWinRegs[team1.id]! >
+      //                               selectedWinRegs[team2.id]!
+      //                           ? team1.id
+      //                           : team2.id;
+      //                     });
+      //                   },
+      //                 ),
+      //                 const SizedBox(height: 12),
+      //                 const Text(
+      //                   '勝敗結果',
+      //                   style: TextStyle(fontWeight: FontWeight.bold),
+      //                 ),
+      //                 _WinLoseSelector(
+      //                   teams: teams,
+      //                   winnerId: winnerId,
+      //                   onChanged: (id, isWin) {
+      //                     rebuild(() {
+      //                       if (isWin) {
+      //                         winnerId = id;
+      //                       } else {
+      //                         winnerId = team1.id == id ? team2.id : team1.id;
+      //                       }
+      //                     });
+      //                   },
+      //                 ),
+      //                 const SizedBox(height: 24),
+      //                 ElevatedButton(
+      //                   onPressed: () async {
+      //                     final navigator = Navigator.of(context);
+      //                     await Future.wait(
+      //                       teams
+      //                           .map(
+      //                             (team) => TeamRepository.updateMatchResult(
+      //                               tournamentId:
+      //                                   widget.tournament.reference?.id,
+      //                               teamId: team.id,
+      //                               opponentTeamId: teams
+      //                                   .firstWhere(
+      //                                       (element) => element.id != team.id)
+      //                                   .id,
+      //                               isWin: team.id == winnerId,
+      //                               winReg: selectedWinRegs[team.id] ?? 0,
+      //                             ),
+      //                           )
+      //                           .toList(),
+      //                     );
+      //                     setResult(teams
+      //                         .firstWhere((element) => element.id == winnerId));
+      //                     navigator.pop();
+      //                     // await fetchTeams();
+      //                   },
+      //                   child: const Text('登録'),
+      //                 )
+      //               ],
+      //             );
+      //           });
+      //         });
+      //   }),
+      //   context: context,
+      // ),
     );
   }
 }
